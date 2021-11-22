@@ -20,26 +20,28 @@
     </div>
     <div>
       <div class="img1">
+        <span>{{'Clock mark position of quadrant 2' | translate}}</span>
         <div>
-          <span>Clock mark position of quadrant 2</span>
+          <img [src]="'assets/images/products/atlantis/img1.png'">
+          <div>
             <ng-select [items]="paramsAtlantisImages.right.clock.values" [required]="true" id="select-right-clock"
               [(ngModel)]="paramsAtlantisImages.right.clock.selected" bindLabel="item" bindValue="item"
               placeholder="{{ ' ' | translate }}">
               {{item}}
             </ng-select>
+          </div>
         </div>
-        <img [src]="'assets/images/products/atlantis/img1.png'">
       </div>
 
       <div class="img2">
         <div>
-          <span> (-) FLATTEN</span>
-          <span> (+) STEEPEN</span>
-          <span> 1 STEP = 25µ</span>
+          <span>{{'(-) FLATTEN' | translate}}</span>
+          <span> {{'(+) STEEPEN' | translate}}</span>
+          <span> {{'1 STEP = 25µ' | translate}}</span>
         </div>
         <div>
           <div *ngFor="let parameter of getAtlantisParams('right')">
-            <!--Quadrant 1-->
+            <!--Quadrants-->
             <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
               <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
               <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
@@ -55,8 +57,8 @@
     </div>
   </div>
 
-  <app-comment [product]="product" [attribute]="'observationsRight'" [enableField]="enable.right"></app-comment>
-  <app-upload-file #uploadFile [product]="product" [enableField]="enable.right" [listFiles]="listFileRightEye"></app-upload-file>
+  <app-comment [product]="product" [attribute]="'observationsRight'" [enableField]="enable.right" [eye]="'Right'"></app-comment>
+  <app-upload-file #uploadFile [product]="product" [enableField]="enable.right" [listFiles]="listFileRightEye" [eye]="'OD'"></app-upload-file>
 
 
   <!-- EYE LEFT -->
@@ -68,15 +70,17 @@
     </div>
     <div>
       <div class="img1">
+        <span>Clock mark position of quadrant 2</span>
         <div>
-          <span>Clock mark position of quadrant 2</span>
+          <img [src]="'assets/images/products/atlantis/img1.png'">
+          <div>
             <ng-select [items]="paramsAtlantisImages.left.clock.values" [required]="true" id="select-left-clock"
-              [(ngModel)]="paramsAtlantisImages.left.clock.selected" bindLabel="item" bindValue="item"
-              placeholder="{{ ' ' | translate }}">
-              {{item}}
-            </ng-select>
+            [(ngModel)]="paramsAtlantisImages.left.clock.selected" bindLabel="item" bindValue="item"
+            placeholder="{{ ' ' | translate }}">
+            {{item}}
+          </ng-select>
+          </div>
         </div>
-        <img [src]="'assets/images/products/atlantis/img1.png'">
       </div>
 
       <div class="img2">
@@ -103,8 +107,9 @@
     </div>
   </div>
 
-  <app-upload-file #uploadFile [product]="product" [enableField]="enable.left" [listFiles]="listFileLeftEye"></app-upload-file>
-  <app-comment [product]="product" [attribute]="'observationsLeft'" [enableField]="enable.left"></app-comment>
+  <app-comment [product]="product" [attribute]="'observationsLeft'" [enableField]="enable.left" [eye]="'Left'"></app-comment>
+  <app-upload-file #uploadFile [product]="product" [enableField]="enable.left" [listFiles]="listFileLeftEye" [eye]="'OS'"></app-upload-file>
+
 
   <app-footer-buttons (buttonAction)="buttonAction($event)" [buttons]="buttons"  [disableBuyButton]="checkDisabled()"></app-footer-buttons>
 </app-card-product>

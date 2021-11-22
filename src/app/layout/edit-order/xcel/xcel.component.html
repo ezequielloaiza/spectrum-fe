@@ -116,12 +116,19 @@
                   <!--param values-->
                   <!-- SELECTED OF ALL -->
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
-                    <ng-select (change)="changeParams(parameter, $event)" [items]="parameter.values"
+                   <!--  <ng-select (change)="changeParams(parameter, $event)" [items]="parameter.values"
                       placement="top" id="select-{{eye}}-{{parameter.name}}"
                       [disabled]="parameter.values.length === 1" [required]="!parameter.noRequired" [(ngModel)]="parameter.selected"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
                       {{item}}
+                    </ng-select>-->
+                    <ng-select (change)="changeParams(parameter, $event)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
+                      [disabled]="parameter.values.length === 1" id="select-{{eye}}-{{parameter.name}}">
+                      <ng-option [value]="item" *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
                     </ng-select>
+
+
                   </div>
 
 
@@ -155,33 +162,45 @@
         </div>
 <!-- -------------------------------------------IMG-------------------------------------------------------- -->
 <div class="img-atlantis" *ngIf="designPR === 'Atlantis 2.0'">
-  <div class="img1">
-    <div>
-      <span>{{'Quadrant Specifications'|translate}}</span>
-      <span>{{'Clock mark position of quadrant 2'|translate}}</span>
-        <ng-select [items]="clockParam.values" [required]="true" id="select-clock" [clearable]="No"
-          [(ngModel)]="clockParam.selected" bindLabel="item" bindValue="item"
-          placeholder="{{ ' ' | translate }}">
-          {{item}}
-        </ng-select>
-    </div>
-    <img [src]="'assets/images/products/atlantis/img1.png'">
+  <div class="col-md-12 title">
+    <label> {{ 'Quadrant Specifications' | translate }}</label>
   </div>
-
-  <div class="img2">
-    <div>
-      <div *ngFor="let parameter of getAtlantisParams()">
-        <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
-          <!-- <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span> -->
-          <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
-            [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-            [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+  <div>
+    <div class="img1">
+      <span>{{'Clock mark position of quadrant 2'|translate}}</span>
+      <div>
+        <img [src]="'assets/images/products/atlantis/img1.png'">
+        <div>
+          <ng-select [items]="clockParam.values" [required]="true" id="select-clock" [clearable]="No"
+            [(ngModel)]="clockParam.selected" bindLabel="item" bindValue="item"
+            placeholder="{{ ' ' | translate }}">
             {{item}}
           </ng-select>
         </div>
       </div>
     </div>
-    <img [src]="'assets/images/products/atlantis/img2.png'">
+
+    <div class="img2">
+      <div>
+        <span>{{'(-) FLATTEN' | translate}}</span>
+        <span> {{'(+) STEEPEN' | translate}}</span>
+        <span> {{'1 STEP = 25µ' | translate}}</span>
+      </div>
+      <div>
+        <div *ngFor="let parameter of getAtlantisParams()">
+          <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+            <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
+            <!-- <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span> -->
+            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
+              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+              [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+              {{item}}
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <img [src]="'assets/images/products/atlantis/img2.png'">
+    </div>
   </div>
 </div>
 <!-- -------------------------------------------IMG-------------------------------------------------------- -->

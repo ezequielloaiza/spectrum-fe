@@ -10,6 +10,7 @@ export class CommentComponent implements OnInit {
   @Input() product: any;
   @Input() attribute: any;
   @Input() enableField: boolean;
+  @Input() eye: any;
 
   constructor() { }
 

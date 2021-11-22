@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="">
-          <dt class="title">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>
+          <dt class="title">{{ eye + ' Documents | Attach Consultation Form' | translate }}</dt>
           <div class="custom-file">
             <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderFile"
               [disabled]="!enableField || uploaderFile.queue.length > 4" multiple />

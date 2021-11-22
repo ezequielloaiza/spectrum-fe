@@ -21,10 +21,16 @@
         </div>
         <div class="row" [ngSwitch]="parameter.type">
           <div *ngSwitchCase="'selected'" class="col-sm-12 pl-0">
-            <ng-select [items]="parameter.values" [disabled]="!enableParams" [required]="!parameter.noRequired" id="select-{{eye}}-{{parameter.name}}"
+            <!-- <ng-select [items]="item" [disabled]="!enableParams" [required]="!parameter.noRequired" id="select-{{eye}}-{{parameter.name}}"
               [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" (change)="changeParamsAndPriceValue(parameter)"
               [clearable]="parameter.noRequired" placeholder="{{ 'Select value' | translate }}">
-              {{item}}
+              {{ item | translate }}
+            </ng-select> -->
+
+            <ng-select (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
+                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
+                    [disabled]="!enableParams">
+              <ng-option [value]="item" *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
             </ng-select>
           </div>
 

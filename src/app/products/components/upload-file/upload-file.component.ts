@@ -18,6 +18,8 @@ export class UploadFileComponent implements OnInit {
   @Input() product: any;
   @Input() enableField: boolean;
   @Input() listFiles: any;
+  @Input() eye: any;
+
   @ViewChild('selectedFiles') selectedFiles: any;
 
   queueLimit = 5;

@@ -155,9 +155,21 @@
     align-items: center;
     margin-bottom: 50px;
 
-    > div:nth-child(1) {
+    > span:nth-child(1) {
+      margin-bottom: 10px;
+    }
+
+    > div:nth-child(2) {
       display: flex;
-      flex-direction: column;
+
+      > div:nth-child(2) {
+        align-self: center;
+      }
+    }
+
+    ng-select {
+      width: 75px;
+      margin: 0 10px;
     }
 
     img {
@@ -169,15 +181,30 @@
   .img2 {
     position: relative;
 
-    > div:nth-child(1) {
+    >div:nth-child(1){
+      position: absolute;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    top: -10px;
+    }
+
+    > div:nth-child(2) {
       position: absolute;
       height: 380px;
       width: 535px;
       z-index: 999;
 
       .quadrant {
+        display: flex;
+        align-items: center;
         position: absolute;
         width: 130px;
+
+        ng-select {
+          width: 75px;
+          margin: 0 10px;
+        }
 
         &.Q1 {
           right: 0;
