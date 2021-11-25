@@ -1,5 +1,5 @@
-<div class="header" *ngIf="insertor" >
-  <div class="col-lg-2 margin-col padding-col pb-3" *ngFor="let parameter of header">
+<div class="header" *ngIf="header" >
+  <div class="col-lg-3 margin-col padding-col pb-3" *ngFor="let parameter of header">
     <div class="row">
       <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
     </div>
@@ -16,10 +16,9 @@
         </div>
       </div>
     </div>
-    <div class="warnings" *ngIf="checkDmvSelection()">
-      <br>
-      <span  translate>{{'Warning: Includes' | translate}}</span>&nbsp;
-      <span >{{'Inserts' | translate}}:{{ inserts | currency : " USD $" }}</span>
-    </div>
+  </div>
+  <div class="warnings" *ngIf="dmv?.price">
+    <span  translate>{{'Warning: Includes' | translate}}</span>&nbsp;
+    <span >{{'Inserts' | translate}}:{{ dmv.price | currency : " USD $" }}</span>
   </div>
 </div>

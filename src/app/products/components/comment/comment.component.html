@@ -1,12 +1,5 @@
-<div class="col-md-12">
-  <div class="comments">
-    <div class="row header">
-      <div class="col-md-12">
-        <div class="title">{{ eye + ' Eye Comments' | translate }}</div>
-        <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product[attribute]"
-          [disabled]="!enableField" placeholder="{{ 'Enter ' + eye + ' Eye Observations' | translate }}"></textarea>
-      </div>
-    </div>
-    <br>
-  </div>
+<div>
+  <div class="title">{{ eye + ' Eye Comments' | translate }}</div>
+  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product[attribute]"
+    [disabled]="!enableField" placeholder="{{ 'Enter ' + eye + ' Eye Observations' | translate }}"></textarea>
 </div>

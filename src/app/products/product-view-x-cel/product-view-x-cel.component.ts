@@ -12,7 +12,7 @@ import { Product } from '../../shared/models/product';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { UserService } from '../../shared/services';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
-import { add } from 'lodash';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-product-view-x-cel',
@@ -25,15 +25,10 @@ export class ProductViewXCelComponent implements OnInit {
   membership: any;
   product: any;
   buttons: any;
-  insertor: any;
+  haveInsertor: any;
   client: any;
-  dmv = 5.15;
-  hydrapeg = 25.00;
   showImg = { right: false, left: false };
   finalDesign: any;
-  hydrapegSelected = { right: false, left: false };
-  hydrapegSelection: any;
-  hydrapegValues: any;
   originalParameters = { right: [], left: [] };
   enable = {
     right: false,
@@ -57,11 +52,17 @@ export class ProductViewXCelComponent implements OnInit {
 
   @ViewChildren('uploadFile') uploadFilesComponents: QueryList<UploadFileComponent>;
 
+  // Additional products
+  productsAdditional: any;
+  priceHydrapeg: any;
+  priceDMV: any;
+
   constructor(private route: ActivatedRoute,
     private modalService: NgbModal,
     private userStorageService: UserStorageService,
     private userService: UserService,
-    private productService: ProductService) { }
+    private productService: ProductService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.id = +this.route.snapshot.paramMap.get('id');
@@ -71,43 +72,110 @@ export class ProductViewXCelComponent implements OnInit {
   }
 
   getProduct() {
+    this.spinner.show();
     this.productService.findById$(this.id).subscribe(res => {
       this.product = res.data[0];
       this.product.typeOrder = 'new';
+      this.haveInsertor = this.product.name.includes('Atlantis');
+
+      if (this.haveInsertor) {
+        this.getOtherProducts();
+      }
 
       this.originalParameters.right =JSON.parse(this.product.types)[0].parameters;
       this.originalParameters.left = JSON.parse(this.product.types)[0].parameters;
 
       this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
       this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+
       this.product.header = JSON.parse(this.product.types)[0].header;
 
       this.initFooterButtons();
       this.initialViewParams();
-      this.insertorButton();
-      this.setMembership();
+
+      this.spinner.hide();
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  getOtherProducts() {
+    this.productService.findBySupplierAndInViewAndCategory$(13, false, 10).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.setInfoAdditionalPrices(res.data);
+        this.setMembership();
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  setInfoAdditionalPrices(data) {
+    let self = this;
+    this.productsAdditional = data;
+    this.product.infoAdditionalPrices = {
+      "name": "prices", "values":
+        { "hydrapeg": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "dmv insertion and removal set": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          }
+        }
+    }
+
+    _.each(this.productsAdditional, function(product) {
+      const name = product.name.toLowerCase();
+
+      self.product.infoAdditionalPrices.values[name] = {
+        "gold": product.price1,
+        "diamond": product.price2,
+        "preferred": product.price3
+      };
     });
   }
 
   setMembership() {
-
     if (this.user.role.idRole === 3) {
       this.membership = this.user.userResponse.membership.idMembership;
+
+      if (this.product.name.includes('Atlantis')) {
+        this.definePrice(this.membership);
+      }
     }
-     /* else if ( this.user.role.idRole === 1 || this.user.role.idRole === 2) {
-      this.userService.allCustomersAvailableBuy$(this.product.supplier.idSupplier).subscribe(res => {
-        if (res.code === CodeHttp.ok) {
-          this.listCustomersAux = res.data;
-          this.listCustomers = this.listCustomersAux;
-          this.listCustomers.map((i) => {
-            let accSpct = !!i.accSpct ?  i.accSpct + ' - ' : '';
-            i.fullName = accSpct + i.name + ' | ' + i.country.name;
-            return i;
-          });
-        }
-      });
-    } */
   }
+
+  definePrice(membership) {
+    switch (membership) {
+      case 1:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
+        break;
+      case 2:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
+        break;
+      case 3:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+        break;
+    }
+  }
+
+  priceSaleTotal() {
+    this.setPrice();
+    return (this.price['right'].priceUnit || 0) + (this.price['left'].priceUnit || 0);
+  }
+
 
   initFooterButtons() {
     this.buttons = [
@@ -126,13 +194,12 @@ export class ProductViewXCelComponent implements OnInit {
     });
   }
 
-  insertorButton() {
-    this.insertor = this.product.name.includes('Atlantis') /*? true : false*/;
-  }
-
   getClient(client) {
     this.client = client.idUser;
     this.membership = client.membership.idMembership;
+    if (this.product.name.includes('Atlantis')) {
+      this.definePrice(this.membership);
+    }
   }
 
   setEyeSelected() {
@@ -185,7 +252,6 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct['typeOrder'] = this.product.typeOrder;
     this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json
     this.selectedProduct['totalPrice'] = this.setTotalPrice(); //sum both eyes, hydra, dmv
-    //this.spinner.hide();
     const modalRef = this.modalService.open( PurchaseConfirmationComponent,
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.selectedProduct = this.selectedProduct;
@@ -195,10 +261,8 @@ export class ProductViewXCelComponent implements OnInit {
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.typeOrder = this.product.typeOrder;
     modalRef.componentInstance.role = this.user.role.idRole
-    /*modalRef.componentInstance.product = this.product;
-    modalRef.componentInstance.typeBuy = type;
-    modalRef.componentInstance.role = this.user.role.idRole;
-     */
+    modalRef.componentInstance.additionalDMV = this.getAdditionalPrices(false).dmv;
+    modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
@@ -225,39 +289,34 @@ export class ProductViewXCelComponent implements OnInit {
 
     _.each(productsSelected, function (p, index) {
       let eye = p.eye.toLowerCase();
-      p['patient'] = self.product.patient;
-      p['name'] = self.product.name;
-      p['id'] = self.product.idProduct;
-      p['codeSpectrum'] = self.price[eye].spCode;
-      p['price'] = self.price[eye].priceUnit;
-      p['quantity'] = self.quantity[eye];
+      p.patient = self.product.patient;
+      p.name = self.product.name;
+      p.id = self.product.idProduct;
+      p.codeSpectrum = self.price[eye].spCode;
+      p.price = self.price[eye].priceUnit;
+      p.quantity = self.quantity[eye];
+      //TODO: check header structure
       p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
+      p.dmv = _.find(self.product.header, {name: "DMV"});
       p.parameters = self.selectedProduct.params[index].params;
-
-    /*   _.each(p.header, function (parameter) {
-        if (parameter.name === 'Design' && parameter.selected === 'Atlantis 2.0') {
-          self.paramsAtlantisImages[eye].parameters = self.paramsAtlantisImages[eye].parameters.filter(p => p.name !== 'Atlantis 2.0 C.S.A' && p.name !== 'Clock Mark');
-          p.parameters = _.concat(p.parameters, self.paramsAtlantisImages[eye].clock, self.paramsAtlantisImages[eye].parameters);
-        }
-      }); */
-
-      /* else {
-        p['insertor'] = ['selected: No'];
-        p['hydrapeg'] = ['selected: No'];
-      } */
+      p.hydrapeg = _.find(p.parameters, {name: "Hydrapeg"});
       p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
 
       if (self.product.name.includes('Atlantis')) {
-        p['insertor'] = self.product.header[0];
-        p['insertor']['price'] = self.dmv;
-        p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters, insertor: p.insertor, hydrapeg: { hydrapeg: self.hydrapegSelected, price: self.hydrapeg, values: self.hydrapegValues, selected: self.hydrapegSelection } };
-
+        p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters, dmv: p.dmv, hydrapeg: p.hydrapeg, productsAdditional: self.getProductsAdditional(p, 'detail') };
       } else {
         p.detail = { name: self.product.name, eye: p.eye, codeSpectrum: self.price[eye].spCode, header: p.header, parameters: p.parameters};
 
       }
     });
-    return productsSelected;
+    let requestedProducts = JSON.parse(JSON.stringify(productsSelected));
+    _.each(productsSelected, function(p) {
+      _.each(self.getProductsAdditional(p, 'basket'), function(additional) {
+        requestedProducts.push(additional);
+      });
+    });
+
+    return requestedProducts;
 
   }
 
@@ -277,12 +336,6 @@ export class ProductViewXCelComponent implements OnInit {
               self.finalDesign = param.selected;
             }
           } else {
-            if (param.name === 'Hydrapeg') {
-              param['price'] = self.hydrapeg;
-              self.hydrapegSelection = param.selected;
-              self.hydrapegValues = param.values;
-              self.hydrapegSelected[parameters.eye.toLowerCase()] = true;
-            }
             parameters.params = _.concat(parameters.params, param);
           }
         }
@@ -296,6 +349,94 @@ export class ProductViewXCelComponent implements OnInit {
     })
 
   }
+
+  getAdditionalPrices(isIndividualPrice) {
+    let priceDmv = 0;
+    let priceHydrapegRight = 0;
+    let priceHydrapegLeft = 0;
+
+    if (!this.product.name.includes('Atlantis')) {
+      return { "dmv": 0, "hydrapeg":0};
+    }
+
+    // Finding DMV
+    let dmv:any = _.find(this.product.header, { name: "DMV"});
+    if (dmv.selected === 'Yes') {
+      dmv.price = this.priceDMV;
+      priceDmv = this.priceDMV;
+    } else {
+      dmv.price = 0;
+    }
+
+    // Finding Hydrapeg Right
+    const hydrapegRight:any = _.find(this.product.parametersRight, { name: "Hydrapeg"});
+    if (hydrapegRight.selected === "Yes") {
+      priceHydrapegRight =  this.priceHydrapeg;
+    }
+
+    // Finding Hydrapeg Left
+    const hydrapegLeft:any = _.find(this.product.parametersRight, { name: "Hydrapeg"});
+    if (hydrapegLeft.selected === "Yes") {
+      priceHydrapegLeft = this.priceHydrapeg;
+    }
+
+    if (isIndividualPrice) {
+      return { "dmv": (priceDmv || 0), "hydrapegRight": priceHydrapegRight, "hydrapegLeft": priceHydrapegLeft };
+    } else {
+      return { "dmv": (priceDmv || 0),
+              "hydrapeg": (priceHydrapegRight * (this.quantity['right'] || 0)) + (priceHydrapegLeft * (this.quantity['left'] || 0))};
+    }
+  }
+
+  getProductsAdditional(productSelected: any, type: any) {
+    const additionals = [];
+
+    // Type is basket (detail) and when is detail (productSelecte)
+    const eye = productSelected.eye || productSelected.detail.eye;
+
+    const keyDMV = 'dmv';
+    const keyHydrapeg = eye === 'Right' ? "hydrapegRight" : "hydrapegLeft";
+
+    const productDMV: any = _.find(this.productsAdditional, {name:"DMV Insertion and Removal Set"});
+    const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+
+    if (this.getAdditionalPrices(true)[keyDMV]) {
+      let dmv = {
+        id: productDMV.idProduct,
+        name: productDMV.name,
+        price: this.getAdditionalPrices(true)[keyDMV],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productDMV.codeSpectrum,
+        detail: {}
+      }
+
+      if (type === 'basket') {
+        dmv.detail = productSelected.detail;
+      }
+      additionals.push(dmv);
+    }
+
+    if (this.getAdditionalPrices(true)[keyHydrapeg]) {
+      const hydrapeg = {
+        id: productHydrapeg.idProduct,
+        name: productHydrapeg.name,
+        price: this.getAdditionalPrices(true)[keyHydrapeg],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productHydrapeg.codeSpectrum,
+        detail: {}
+      }
+
+      if (type === 'basket') {
+        hydrapeg.detail = productSelected.detail;
+      }
+      additionals.push(hydrapeg)
+    }
+
+    return additionals;
+  }
+
 
   addToCart() {
     console.log('addToCart');
@@ -916,20 +1057,6 @@ export class ProductViewXCelComponent implements OnInit {
                     break;
                 }
               break;
-/*               case '3 Pack': //This presentation is not being offered
-                this.price[eye].spCode = '103C (3PK)';
-                switch (this.membership) {
-                  case 1://Gold
-                    this.price[eye].priceUnit = 110.00;
-                    break;
-                  case 2://Diamond
-                    this.price[eye].priceUnit = 110.00;
-                    break;
-                  case 3://Preffered
-                    this.price[eye].priceUnit = 110.00;
-                    break;
-                }
-              break; */
             }
             break;
             case 'Flexlens PRS':
@@ -1218,32 +1345,13 @@ export class ProductViewXCelComponent implements OnInit {
   }
 
   setTotalPrice() {
-    let total = 0;
-    let insertorUsed = false;
-    let hydraTotal = 0;
-    const dmvSelected = this.product.header && this.product.header[0].selected;
+    let totalEyes = this.price.right.priceUnit * this.quantity.right;
+    totalEyes += this.price.left.priceUnit * this.quantity.left;
 
-    if (this.enable.right) {
-      total += this.price.right.priceUnit * this.quantity.right;
-      total = (dmvSelected === 'Yes' && !insertorUsed) ? total + this.dmv : total;
-      insertorUsed = true;
-      _.each(this.product.parametersRight, function(param) {
-        if (param.name === 'Hydrapeg' && param.selected === 'Yes') {
-          hydraTotal++;
-        }
-      })
-    }
-    if (this.enable.left) {
-      total += this.price.left.priceUnit * this.quantity.left;
-      total = (dmvSelected === 'Yes' && !insertorUsed) ? total + this.dmv : total;
-      insertorUsed = true;
-      _.each(this.product.parametersLeft, function(param) {
-        if (param.name === 'Hydrapeg' && param.selected === 'Yes') {
-          hydraTotal++;
-        }
-      })
-    }
-    return total + (hydraTotal * this.hydrapeg);//+ hydra, + dmv
+    const priceDmv = this.getAdditionalPrices(true).dmv;
+    const priceHydrapeg = this.getAdditionalPrices(false).hydrapeg;
+
+    return totalEyes + priceDmv + priceHydrapeg;
   }
 
   setRequiredParams({ param, eye }) {

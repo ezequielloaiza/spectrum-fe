@@ -5,28 +5,13 @@
       <input id="{{eye}}" type="checkbox" name="checkboxGroupAll" (click)="selectEye(); cleanEye()" class="custom-control-input">
       <label class="custom-control-label" for="{{eye}}">{{ getLabelEye() }}</label>
     </div>
-    <!-- Parameters (Header or Body) -->
-<!--     <div class="row">
-      <div class="col-md-12">
-        <h5 class="padding-price" >
-          <span>{{ 0 | currency : "USD $" }}</span>
-          <span>{{ 'THE PRICE IS SUBJECT TO VARIATIONS ACCORDING TO THE DESIGN RECOMMENDED BY THE LABORATORY' | translate }}</span>
-        </h5>
-      </div>
-    </div> -->
-    <div class="row  p-3">
+    <div class="row">
       <div class="col-lg-2 margin-col padding-col pb-3" *ngFor="let parameter of getParams()">
         <div class="row">
           <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
         </div>
         <div class="row" [ngSwitch]="parameter.type">
           <div *ngSwitchCase="'selected'" class="col-sm-12 pl-0">
-            <!-- <ng-select [items]="item" [disabled]="!enableParams" [required]="!parameter.noRequired" id="select-{{eye}}-{{parameter.name}}"
-              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" (change)="changeParamsAndPriceValue(parameter)"
-              [clearable]="parameter.noRequired" placeholder="{{ 'Select value' | translate }}">
-              {{ item | translate }}
-            </ng-select> -->
-
             <ng-select (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
                     bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
                     [disabled]="!enableParams">

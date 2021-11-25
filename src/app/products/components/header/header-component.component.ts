@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import * as _ from 'lodash';
 @Component({
   selector: 'app-header-component',
@@ -7,34 +7,16 @@ import * as _ from 'lodash';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() insertor: any;
   @Input() header: any;
-
-  inserts = 5; //pass it from product-view-xcel
+  dmv: any;
 
   constructor() {}
 
   ngOnInit(): void {
-
+    this.dmv =  _.find(this.header, {name: "DMV"});
   }
-//Warning: Includes   Inserts (DMV): USD $5.00
+
   setHeaderValue(parameter, value) {
-
-    _.each(this.header, function (param) {
-      if (param.name === parameter.name) {
-        param.selected = value;
-      }
-    });
-
+    parameter.selected = value;
   }
-
-  checkDmvSelection() {
-    let selection;
-    _.each(this.header, function (param) {
-      selection = (param.name === 'DMV' && param.selected === 'Yes');
-    });
-
-    return selection;
-  }
-
 }

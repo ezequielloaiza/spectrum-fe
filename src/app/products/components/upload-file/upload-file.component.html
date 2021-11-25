@@ -1,51 +1,45 @@
-<div class="col-md-12">
-  <div class="comments">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="">
-          <dt class="title">{{ eye + ' Documents | Attach Consultation Form' | translate }}</dt>
-          <div class="custom-file">
-            <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderFile"
-              [disabled]="!enableField || uploaderFile.queue.length > 4" multiple />
-            <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
-            <div class="invalid-feedback">Example invalid custom file feedback</div>
-            <div class="message-error-file">
-              <span translate>{{'Max files size:' | translate}} 25MB</span>
-              <span> / </span>
-              <span translate>{{'Maximum files number:' | translate }} 5</span>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div class="" style="margin-bottom: 40px" *ngIf="uploaderFile.queue.length > 0">
-          <div class="row justify-content-end" *ngIf="uploaderFile.queue.length > 1">
-            <button type="button" class="btn btn-danger btn-s" (click)="uploaderFile.clearQueue()" [disabled]="!uploaderFile.queue.length">
-              <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
-            </button>
-          </div>
-          <br>
-          <table class="table">
-            <thead>
-              <tr>
-                <th width="50%">{{ 'Name' | translate }}</th>
-                <th>{{ 'Size' | translate }}</th>
-                <th>{{ 'Actions' | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of uploaderFile.queue">
-                <td><strong>{{ item?.file?.name }}</strong></td>
-                <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                <td nowrap>
-                  <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
-                    <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<div>
+  <div class="">
+    <dt class="title">{{ eye + ' Documents | Attach Consultation Form' | translate }}</dt>
+    <div class="custom-file">
+      <input #selectedFiles type="file" class="custom-file-input" ng2FileSelect [uploader]="uploaderFile"
+        [disabled]="!enableField || uploaderFile.queue.length > 4" multiple />
+      <label class="custom-file-label" for="FS">{{ 'Choose file' | translate }}...</label>
+      <div class="invalid-feedback">Example invalid custom file feedback</div>
+      <div class="message-error-file">
+        <span translate>{{'Max files size:' | translate}} 25MB</span>
+        <span> / </span>
+        <span translate>{{'Maximum files number:' | translate }} 5</span>
       </div>
     </div>
+  </div>
+  <br>
+  <div class="" style="margin-bottom: 40px" *ngIf="uploaderFile.queue.length > 0">
+    <div class="row justify-content-end" *ngIf="uploaderFile.queue.length > 1">
+      <button type="button" class="btn btn-danger btn-s" (click)="uploaderFile.clearQueue()" [disabled]="!uploaderFile.queue.length">
+        <span class="fa fa-trash-o"></span> {{ 'Remove all' | translate }}
+      </button>
+    </div>
+    <br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="50%">{{ 'Name' | translate }}</th>
+          <th>{{ 'Size' | translate }}</th>
+          <th>{{ 'Actions' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of uploaderFile.queue">
+          <td><strong>{{ item?.file?.name }}</strong></td>
+          <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+          <td nowrap>
+            <button type="button" class="btn btn-danger btn-xs" (click)="removeFile(item)">
+              <span class="fa fa-trash-o"></span> {{ 'Remove' | translate }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

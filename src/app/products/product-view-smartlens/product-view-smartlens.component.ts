@@ -69,6 +69,7 @@ export class ProductViewSmartlensComponent implements OnInit {
   designRight: any;
   materialsRight: any;
   materialsLeft: any;
+  //TODO: check to delete hydrapegRight and hydrapegLeft
   hydrapegRight: any;
   hydrapegLeft: any;
 

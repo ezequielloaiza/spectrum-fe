@@ -179,9 +179,10 @@ export class DetailsBasketClientComponent implements OnInit {
         }
       }
 
-      // SMARTLENS
-      if (supplierId === 14) {
+      // SMARTLENS or XCEL
+      if (supplierId === 14 || supplierId === 13) {
         // price insertors
+        debugger
         const insertSelected = basket.productRequested.detail[0].dmv.selected === "Yes";
         if (insertSelected) {
           priceInsertor = self.getPriceInsertor(basket.basket.user.membership.idMembership, productDMV);

@@ -31,12 +31,14 @@
         <div class="col-lg-12">
           <dl>
             <dt>{{ selectedProduct.totalPrice | currency: "USD $" }}</dt>
-            <p class="eye-info" *ngIf="selectedProduct.insertor?.selected === 'Yes' || getHydrapegSelection()">
+            <p class="eye-info" *ngIf="additionalDMV || additionalHydrapeg || additionalNotch">
               (
-              <span>{{ 'Includes' | translate }}</span>&nbsp;
-               <span *ngIf="getHydrapegSelection()">{{ hydrapegMsg(0) | translate}}:{{ hydrapegMsg(1) | currency : " USD $" }}</span>
-               <span>&nbsp;&nbsp;</span>
-              <span *ngIf="selectedProduct.insertor.selected === 'Yes'">{{ dmvMsg() | translate}}:{{ dmvPrice | currency : " USD $" }}</span>
+                <span>{{ 'Includes' | translate }}</span>&nbsp;
+                <span *ngIf="additionalDMV">{{'Inserts (DMV)' | translate}}:{{ additionalDMV | currency : " USD $" }}</span>
+                <span  *ngIf="additionalHydrapeg">&nbsp;|&nbsp;</span>
+                <span *ngIf="additionalHydrapeg">{{'Hydrapeg' | translate}}:{{ additionalHydrapeg | currency : " USD $" }}</span>
+                <span  *ngIf="additionalNotch">&nbsp;|&nbsp;</span>
+                <span *ngIf="additionalNotch">{{'Notch (mm)' | translate}}:{{ additionalNotch | currency : " USD $" }}</span>
               )
             </p>
           </dl>

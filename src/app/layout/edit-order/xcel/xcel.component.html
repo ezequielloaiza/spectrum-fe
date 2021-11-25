@@ -39,7 +39,7 @@
                 <div class="custom-control custom-radio">
                   <input type="radio" id="radio-dmv-{{i}}" name="radioDMV" [value]="value"
                          class="custom-control-input" (change)="changeDMV(value)"
-                         [checked]="detail.insertor.selected === value">
+                         [checked]="detail.dmv.selected === value">
                   <label class="custom-control-label" for="radio-dmv-{{i}}">{{ value | translate }}</label>
                 </div>
               </div>
@@ -47,7 +47,7 @@
             <div class="row additional col-lg-12">
               <p *ngIf="productHeader[0].selected === 'Yes'">
                 <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
-                <span>{{'Inserts (DMV)' | translate}}:{{ detail.insertor.price | currency : " USD $" }}</span>&nbsp;
+                <span>{{'Inserts (DMV)' | translate}}:{{ detail.dmv.price | currency : " USD $" }}</span>&nbsp;
               </p>
             </div>
           </div>

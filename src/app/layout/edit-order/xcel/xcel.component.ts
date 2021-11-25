@@ -52,11 +52,6 @@ export class XcelComponent implements OnInit {
   paramsToShow: any;
   paramsToSave = [];
 
-  /* Notch */
-  @ViewChild('notchTime') notchTime;
-  selectedNotch: any;
-  axisSelected: any;
-
   // Values of product
   typeLens: any;
   design: any;
@@ -64,10 +59,8 @@ export class XcelComponent implements OnInit {
   hydrapeg: any;
 
   // Products prices additionals
-  priceNotch: any;
   priceHydrapeg: any;
   priceDMV: any;
-  productRequestedNotch: any;
   productRequestedHydrapeg: any;
   productRequestedDMV: any;
 
@@ -125,8 +118,8 @@ export class XcelComponent implements OnInit {
     let self = this;
 
     if (this.showDmv) {
-      this.productHeader[0].selected = this.detail.insertor.selected;
-      this.productHeader[0].price = this.detail.insertor.price
+      this.productHeader[0].selected = this.detail.dmv.selected;
+      this.productHeader[0].price = this.detail.dmv.price
     }
 
     _.each(this.productParams, function (parameter, i) {
@@ -201,24 +194,17 @@ export class XcelComponent implements OnInit {
     const eye = JSON.parse(JSON.stringify(this.productRequested.detail))[0].eye;
 
     if (res.code === CodeHttp.ok) {
-      let prNotch;
       let prHydrapeg;
       let prDMV;
       _.each(res.data, function (basket) {
         const productId = basket.productRequested.product.idProduct;
         switch (productId) {
-          case 305:
+          case 310:
             if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
               prHydrapeg = basket.productRequested;
             }
             break;
-
-          case 306:
-            if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
-              prNotch = basket.productRequested;
-            }
-            break;
-          case 307:
+          case 311:
             if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
               prDMV = basket.productRequested;
             }
@@ -226,7 +212,6 @@ export class XcelComponent implements OnInit {
         }
       });
       this.productRequestedDMV = prDMV;
-      this.productRequestedNotch = prNotch;
       this.productRequestedHydrapeg = prHydrapeg;
     }
   }
@@ -245,7 +230,7 @@ export class XcelComponent implements OnInit {
     // Finding DMV
     if (this.showDmv) {
       if (this.productHeader[0].selected === 'Yes') {
-        dmv = this.detail.insertor.price;
+        dmv = this.detail.dmv.price;
       }
     }
     if (this.showHydrapeg) {
@@ -1083,7 +1068,6 @@ export class XcelComponent implements OnInit {
   changeSelect(parameter, value, value2) {
 
     parameter.selected = value;
-    let check = false;
     const self = this;
 
 
@@ -1102,49 +1086,7 @@ export class XcelComponent implements OnInit {
     }
   }
 
-  renameSphere(params, newName) {
-    let self = this;
-    _.each(params, function(param, index) {
-      if (self.isSphere(param)) {
-        params[index].name = newName;
-      }
-    });
-  }
 
-  renameAddition(params, newName) {
-    _.each(params, function(param, index) {
-      if (param.name === "Addition" || param.name === "Addition (MF Sph)" || param.name === "Addition (MF Bitoric)") {
-        params[index].name = newName;
-      }
-    });
-  }
-
-  changeDesign(value) {
-    this.design.selected = value;
-
-    if (value === 'Sph') {
-      const cylinder: any = _.find(this.product.parameters, { name: 'Cylinder (D)' });
-      if (cylinder) {
-        cylinder.selected = null;
-      }
-
-      const axisCylinder: any = _.find(this.product.parameters, { name: 'Axis Cylinder(º)' });
-      if (axisCylinder) {
-        axisCylinder.selected = null;
-      }
-
-      const axisRotationMarkers: any = _.find(this.product.parameters, { name: 'Position of axis rotation markers' });
-      if (axisRotationMarkers) {
-        axisRotationMarkers.selected = null;
-      }
-
-      this.renameAddition(this.product.parameters, 'Addition (MF Sph)');
-    }
-
-    if (value === 'Bitoric') {
-      this.renameAddition(this.product.parameters, 'Addition (MF Bitoric)');
-    }
-  }
 
   changeMaterials(value) {
     this.product.materials.selected = value;
@@ -1154,63 +1096,6 @@ export class XcelComponent implements OnInit {
     }
   }
 
-  // Params notch and axis
-  changeNotchTime(value, parameter) {
-    //validating change in notch time
-    var changedNotch = this.selectedNotch !== value;
-
-    this.selectedNotch = value;
-
-    this.notchTime.itemsList._items[0].label = value;
-    this.notchTime.itemsList._items[0].value = value;
-
-     // restart axis after change
-     if (changedNotch) {
-      this.axisSelected = _.find(this.product.parameters, { name: 'Axis (º)' });
-      this.axisSelected.selected = null
-    }
-
-    //set null in values notch
-    if (parameter.values[0].selected === 0)
-      parameter.values[0].selected = null;
-
-    if (parameter.values[1].selected === 0)
-      parameter.values[1].selected = null;
-
-    this.setFullPrice();
-  }
-
-  validateSelectedNotch(parameter) {
-    if (this.selectedNotch === null) {
-      parameter.selected = null;
-      parameter.values[0].selected = 0;
-      parameter.values[1].selected = 0;
-      this.axisSelected.selected = null
-    }
-
-    this.setFullPrice();
-  }
-
-  axisValues() {
-    this.axisSelected = _.find(this.product.parameters, { name: 'Axis (º)' });
-    if (this.selectedNotch === null) { this.axisSelected.selected = null };
-    switch (this.selectedNotch) {
-      case 'Upper Temporal':
-        return _.range(90, 181).toString().split(",")
-      case 'Lower Temporal':
-        return _.range(180, 271).toString().split(",");
-      case 'Upper Nasal':
-        return _.range(0, 91).toString().split(",");
-      case 'Lower Nasal':
-        return _.range(270, 361).toString().split(",");
-      default:
-        return [];
-    }
-  }
-
-  isSphere(param) {
-    return param.name === "Sphere (D)" || param.name === "Sphere (D) (final power)" || param.name === "Sphere (D) (add over-refraction)";
-  }
 
   formIsValid() {
     let self = this;
@@ -1436,7 +1321,7 @@ export class XcelComponent implements OnInit {
 
     if (self.product.name.includes('Atlantis')) {
       this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
-                                  header: paramsHeader, hydrapeg: self.hydrapegV, insertor: this.productHeader[0], parameters: self.paramsToSave}) + ']';
+                                  header: paramsHeader, hydrapeg: self.hydrapegV, dmv: this.productHeader[0], parameters: self.paramsToSave}) + ']';
 
     } else {
       this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,

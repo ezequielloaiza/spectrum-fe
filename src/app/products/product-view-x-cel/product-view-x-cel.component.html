@@ -3,7 +3,16 @@
 <app-card-product *ngIf="product && validation()" [productName]="product.name">
   <app-order-type [product]="product"></app-order-type>
   <app-info-client [product]="product" (getClient)="getClient($event)"></app-info-client>
-  <app-header-component [insertor]="insertor" [header]="product.header"></app-header-component>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="padding-price" *ngIf="priceSaleTotal()">
+        <span>{{ priceSaleTotal() | currency : "USD $" }}</span>
+      </h5>
+    </div>
+  </div>
+
+  <app-header-component [header]="product.header"></app-header-component>
   <div class="row product-info">
     <div class="col-md-12 title">
       <label> {{ 'Please specify your product' | translate }}</label>
@@ -57,11 +66,20 @@
     </div>
   </div>
 
+  <!--prices additional right-->
+  <div class="row additional col-lg-12 warnings" *ngIf="getAdditionalPrices(true).hydrapegRight">
+    <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+    <span>{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : " USD $" }}</span>&nbsp;
+  </div>
+
   <app-comment [product]="product" [attribute]="'observationsRight'" [enableField]="enable.right" [eye]="'Right'"></app-comment>
+
+  <br>
   <app-upload-file #uploadFile [product]="product" [enableField]="enable.right" [listFiles]="listFileRightEye" [eye]="'OD'"></app-upload-file>
 
 
   <!-- EYE LEFT -->
+  <br><br>
   <app-info-params [eye]="'left'" [typeParams]="'header'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
   <app-info-params [eye]="'left'" [typeParams]="'body'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
   <div class="img-atlantis" *ngIf="!!showImg.left && !!enable.left">
@@ -107,7 +125,15 @@
     </div>
   </div>
 
+  <!--prices additional left-->
+  <div class="row additional col-lg-12 warnings" *ngIf="getAdditionalPrices(true).hydrapegLeft">
+    <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+    <span>{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : " USD $" }}</span>&nbsp;
+  </div>
+
   <app-comment [product]="product" [attribute]="'observationsLeft'" [enableField]="enable.left" [eye]="'Left'"></app-comment>
+
+  <br>
   <app-upload-file #uploadFile [product]="product" [enableField]="enable.left" [listFiles]="listFileLeftEye" [eye]="'OS'"></app-upload-file>
 
 
