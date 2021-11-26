@@ -20,8 +20,8 @@
   </div>
 
   <!-- EYE RIGHT -->
-  <app-info-params [eye]="'right'" [typeParams]="'header'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
-  <app-info-params [eye]="'right'" [typeParams]="'body'" [enableParams]="enableParams.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
+  <app-info-params [eye]="'right'" [typeParams]="'header'" [enableParams]="enable.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight" [quantityDisabled]="product.name.includes('Atlantis')"></app-info-params>
+  <app-info-params [eye]="'right'" [typeParams]="'body'" [enableParams]="enable.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
 
   <div class="img-atlantis" *ngIf="!!showImg.right && !!enable.right">
     <div class="col-md-12 title">
@@ -80,8 +80,8 @@
 
   <!-- EYE LEFT -->
   <br><br>
-  <app-info-params [eye]="'left'" [typeParams]="'header'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
-  <app-info-params [eye]="'left'" [typeParams]="'body'" [enableParams]="enableParams.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
+  <app-info-params [eye]="'left'" [typeParams]="'header'" [enableParams]="enable.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft" [quantityDisabled]="product.name.includes('Atlantis')"></app-info-params>
+  <app-info-params [eye]="'left'" [typeParams]="'body'" [enableParams]="enable.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
   <div class="img-atlantis" *ngIf="!!showImg.left && !!enable.left">
     <div class="col-md-12 title">
       <label> {{ 'Quadrant Specifications' | translate }}</label>

@@ -11,6 +11,7 @@ export class InfoParamsComponent implements OnInit {
   @Input() parameters: any;
   @Input() typeParams: any;
   @Input() enableParams: any;
+  @Input() quantityDisabled: any;
 
   @Output() select: EventEmitter<any> = new EventEmitter();
   @Output("changeParamsAndPrice") changeParamsAndPrice: EventEmitter<any> = new EventEmitter();
@@ -26,10 +27,6 @@ export class InfoParamsComponent implements OnInit {
   ngOnInit(): void {
     this.paramsByDefault = JSON.parse(JSON.stringify(this.parameters));
   }
-
-  /* quantity() {
-    return this.eye === 'right' ? 'quantityRight' : 'quantityLeft';
-  } */
 
   getLabelEye() {
     return this.eye === 'right' ? 'OD' : 'OS'
@@ -80,5 +77,9 @@ export class InfoParamsComponent implements OnInit {
         });
       });
     }
+  }
+
+  qtyDisabled(param) {
+    return this.quantityDisabled && param.name === 'Quantity'
   }
 }

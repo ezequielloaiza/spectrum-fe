@@ -69,9 +69,6 @@ export class ProductViewSmartlensComponent implements OnInit {
   designRight: any;
   materialsRight: any;
   materialsLeft: any;
-  //TODO: check to delete hydrapegRight and hydrapegLeft
-  hydrapegRight: any;
-  hydrapegLeft: any;
 
 
   /* Notch */
@@ -326,6 +323,14 @@ export class ProductViewSmartlensComponent implements OnInit {
           this.product.codeLeft = '200B';
           this.product.priceSaleLeft = this.pricePersonalizedByMembership(diameter);
         }
+      } else {
+        if (eye === 'right') {
+          this.product.codeRight = null;
+          this.product.priceSaleRight = 0;
+        } else {
+          this.product.codeLeft = null;
+          this.product.priceSaleLeft = 0;
+        }
       }
     }
   }
@@ -499,8 +504,8 @@ export class ProductViewSmartlensComponent implements OnInit {
       return { "dmv": (dmv || 0), "notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
     } else {
       return { "dmv": (dmv || 0),
-              "notch": (notchRight * (this.product.quantityRight || 0)) + (notchLeft * (this.product.quantityLeft || 0)),
-              "hydrapeg": (hydrapegRight * (this.product.quantityRight || 0)) + (hydrapegLeft * (this.product.quantityLeft || 0))};
+              "notch": ((notchRight * this.product.quantityRight) || 0) + ((notchLeft * this.product.quantityLeft || 0)),
+              "hydrapeg": ((hydrapegRight * this.product.quantityRight) || 0) + ((hydrapegLeft * this.product.quantityLeft) || 0)};
     }
   }
 
@@ -522,7 +527,6 @@ export class ProductViewSmartlensComponent implements OnInit {
     let parameters;
     if (eye === 'right') {
       parameters = this.product.parametersRight;
-      this.product.quantityRight = '';
       this.product.observationsRight = '';
       this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
       this.designRight = JSON.parse(this.product.types)[0].design;
@@ -530,7 +534,6 @@ export class ProductViewSmartlensComponent implements OnInit {
       this.changeMaterials("Contamac-Extra", 'right');
     } else {
       parameters = this.product.parametersLeft;
-      this.product.quantityLeft = '';
       this.product.observationsLeft = '';
       this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
       this.designLeft = JSON.parse(this.product.types)[0].design;

@@ -25,7 +25,6 @@ export class ProductViewXCelComponent implements OnInit {
   membership: any;
   product: any;
   buttons: any;
-  haveInsertor: any;
   client: any;
   showImg = { right: false, left: false };
   finalDesign: any;
@@ -44,7 +43,6 @@ export class ProductViewXCelComponent implements OnInit {
   basketRequestModal: BasketRequest = new BasketRequest();
 
 
-  enableParams = { right: false, left: false };
   paramsAtlantisImages = { right: { clock: {}, parameters: []}, left: { clock: {}, parameters: [] }};
 
   listFileRightEye: Array<FileProductRequested> = new Array;
@@ -76,9 +74,8 @@ export class ProductViewXCelComponent implements OnInit {
     this.productService.findById$(this.id).subscribe(res => {
       this.product = res.data[0];
       this.product.typeOrder = 'new';
-      this.haveInsertor = this.product.name.includes('Atlantis');
 
-      if (this.haveInsertor) {
+      if (this.product.name.includes('Atlantis')) {
         this.getOtherProducts();
       }
 
@@ -176,6 +173,22 @@ export class ProductViewXCelComponent implements OnInit {
     return (this.price['right'].priceUnit || 0) + (this.price['left'].priceUnit || 0);
   }
 
+  setPrice() {
+    const self = this;
+    _.each(this.selectedProduct.params, function (parameter) {
+      if (self.enable[(parameter.eye.toLowerCase())]) {
+        _.each(self.product[self.parametersByEye(parameter.eye)], function (p) {
+          if (p.name === 'Design' && !!p.selected) {
+            self.setPriceByDesign(parameter.eye.toLowerCase(), p.selected)
+          }
+        });
+      } else {
+        self.price[parameter.eye.toLowerCase()].priceUnit = 0;
+      }
+    });
+    return this.price;
+  }
+
 
   initFooterButtons() {
     this.buttons = [
@@ -267,18 +280,6 @@ export class ProductViewXCelComponent implements OnInit {
       this.ngOnInit();
     } , (reason) => {
     });
-  }
-
-  setPrice() {
-    const self = this;
-    _.each(this.selectedProduct.params, function (parameter) {
-      _.each(self.product[self.parametersByEye(parameter.eye)], function (p) {
-        if (p.name === 'Design' && !!p.selected) {
-          self.setPriceByDesign(parameter.eye.toLowerCase(), p.selected)
-        }
-      });
-    });
-    return this.price;
   }
 
   buildProductSelected() {
@@ -384,7 +385,7 @@ export class ProductViewXCelComponent implements OnInit {
       return { "dmv": (priceDmv || 0), "hydrapegRight": priceHydrapegRight, "hydrapegLeft": priceHydrapegLeft };
     } else {
       return { "dmv": (priceDmv || 0),
-              "hydrapeg": (priceHydrapegRight * (this.quantity['right'] || 0)) + (priceHydrapegLeft * (this.quantity['left'] || 0))};
+              "hydrapeg": ((priceHydrapegRight * this.quantity['right']) || 0) + ((priceHydrapegLeft * this.quantity['left']) || 0)};
     }
   }
 
@@ -450,7 +451,6 @@ export class ProductViewXCelComponent implements OnInit {
 
   selectEye(object) {
     this.enable[object.name] = object.value;
-    this.enableParams[object.name] = object.value;
   }
 
   parametersByEye(eye) {
