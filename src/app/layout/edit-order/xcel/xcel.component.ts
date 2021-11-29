@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CodeHttp } from '../../../shared/enum/code-http.enum';
 import * as _ from 'lodash';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,7 +11,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ProductService } from '../../../shared/services/products/product.service';
 import { Product } from '../../../shared/models/product';
 import { BasketproductrequestedService } from '../../../shared/services/basketproductrequested/basketproductrequested.service';
-import { DetailBlueLightComponent } from '../../basket/modals/detail-product/detail-blue-light/detail-blue-light.component';
 
 @Component({
   selector: 'app-xcel',
@@ -42,8 +41,6 @@ export class XcelComponent implements OnInit {
   parameters: any;
   designPR: any;
   membership: any;
-  showHydrapeg = false;
-  showDmv = false;
   productHeader: any;
   productParams: any;
   hydrapegV: any;
@@ -76,50 +73,43 @@ export class XcelComponent implements OnInit {
                 this.user = JSON.parse(userService.getCurrentUser());
               }
 
+
+  close() {
+    this.modalReference.close();
+  }
+
   ngOnInit() {
     if (this.typeEdit === 1 ) { // Basket
       this.productRequested = this.basket.productRequested;
+      this.membership = this.basket.basket.user.membership.idMembership;
+
     } else { // order-detail
       this.productRequested = this.detailEdit;
+      this.membership = this.order.user.membership.idMembership;
     }
-    this.observations = this.productRequested.observations;
+
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
-    this.showHydrapeg = this.product.name.includes('Atlantis');
-    this.showDmv = this.product.name.includes('Atlantis');
 
 
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
 
-    if (this.typeEdit === 1 ) { // Basket
-      this.membership = this.basket.basket.user.membership.idMembership;
-    } else { // Order detail
-      this.membership = this.order.user.membership.idMembership;
-    }
-
     this.productHeader = JSON.parse(this.product.types)[0].header || [];
     this.productParams = JSON.parse(this.product.types)[0].parameters;
     this.getProductView();
-    this.setFullPrice();
   }
 
-  close() {
-    this.modalReference.close();
-  }
 
   getProductView() {
-
-    this.price = this.productRequested.price;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.patient = this.productRequested.patient;
     let self = this;
 
-    if (this.showDmv) {
+    if (this.product.name.includes('Atlantis')) {
       this.productHeader[0].selected = this.detail.dmv.selected;
-      this.productHeader[0].price = this.detail.dmv.price
     }
 
     _.each(this.productParams, function (parameter, i) {
@@ -155,23 +145,30 @@ export class XcelComponent implements OnInit {
         self.changeParams(param,self.designPR)
       }
     });
-  }
 
-  checkHydrapeg(parameter, flag) {
-    if (flag) {
-      this.hydrapegInserted = true;
-      this.hydrapegV = parameter;
-      this.hydrapegV['price'] = this.detail.hydrapeg.price;
-    } else if (!this.hydrapegInserted) {
-      this.hydrapegV = parameter;
-      this.hydrapegV['price'] = this.detail.hydrapeg.price;
-      this.detail.hydrapeg.selected = parameter.selected;
+    this.getOtherProducts();
+
+    if (this.typeEdit === 1) {
+      this.findBasketByGroupdId();
+    } else {
+      this.findOrderByGroupdId();
     }
   }
 
-  changeDMV(value) {
-    this.productHeader[0].selected = value;
-    this.setFullPrice();
+  getOtherProducts() {
+    this.productService.findBySupplierAndInViewAndCategory$(13, false, 10).subscribe(res => {
+      if (res.code === CodeHttp.ok) {
+        this.setInfoAdditionalPrices(res.data);
+        this.definePriceAdditionals();
+        this.setFullPrice();
+      } else {
+        console.log(res.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
   }
 
   findBasketByGroupdId() {
@@ -216,31 +213,81 @@ export class XcelComponent implements OnInit {
     }
   }
 
+  setInfoAdditionalPrices(data) {
+    let self = this;
+    this.productsAdditional = data;
+
+    this.product.infoAdditionalPrices = {
+      "name": "prices", "values":
+        { "hydrapeg": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          },
+          "dmv insertion and removal set": {
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0
+          }
+        }
+    }
+
+    _.each(this.productsAdditional, function(product) {
+      const name = product.name.toLowerCase();
+
+      self.product.infoAdditionalPrices.values[name] = {
+        "gold": product.price1,
+        "diamond": product.price2,
+        "preferred": product.price3
+      };
+    });
+  }
+
+  definePriceAdditionals() {
+    let membership = null;
+    if (this.typeEdit === 1 ) { // Basket
+      membership = this.basket.basket.user.membership.idMembership;
+    } else { // Order detail
+      membership = this.order.user.membership.idMembership;
+    }
+    switch (membership) {
+      case 1:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
+        break;
+      case 2:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
+        break;
+      case 3:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+        break;
+    }
+  }
+
   setFullPrice() {
-    this.priceSaleTotal(); //by design
-    this.price += this.getAdditionalPrices().dmv;
-    this.price += this.getAdditionalPrices().hydrapeg;
+    this.price = this.priceSaleTotal(); //by design
+    this.price += this.getAdditionalPrices()["dmv"];
+    this.price += this.getAdditionalPrices()["hydrapeg"];
   }
 
   getAdditionalPrices() {
     let dmv = 0;
-    let notchPrice = 0;
-    let hydrapegPrice = 0;
+    let hydrapeg = 0;
 
-    // Finding DMV
-    if (this.showDmv) {
+    if (this.product.name.includes('Atlantis')) {
+      // Finding DMV
       if (this.productHeader[0].selected === 'Yes') {
-        dmv = this.detail.dmv.price;
+        dmv = this.priceDMV
       }
-    }
-    if (this.showHydrapeg) {
+
       // Finding Hydrapeg
       if (this.hydrapegV.selected === 'Yes') {
-        hydrapegPrice = this.detail.hydrapeg.price;
+        hydrapeg = this.priceHydrapeg;
       }
     }
-
-    return { dmv, hydrapeg: hydrapegPrice };
+    return { dmv, hydrapeg };
   }
 
   priceSaleTotal() {
@@ -1022,47 +1069,23 @@ export class XcelComponent implements OnInit {
 
     }
 
-    this.price = price * this.quantity;
-    return price
+    this.product.priceSale = price;
+    return price;
   }
 
-  setInfoAdditionalPrices(data) {
-    let self = this;
-    this.productsAdditional = data;
-
-    this.product.infoAdditionalPrices = {
-      "name": "prices", "values":
-        { "hydrapeg": {
-            "gold": 0,
-            "diamond": 0,
-            "preferred": 0
-          },
-          "notch" : {
-            "gold": 0,
-            "diamond": 0,
-            "preferred": 0
-          },
-          "dmv insertion and removal set": {
-            "gold": 0,
-            "diamond": 0,
-            "preferred": 0
-          }
-        }
+  checkHydrapeg(parameter, flag) {
+    if (flag) {
+      this.hydrapegInserted = true;
+      this.hydrapegV = parameter;
+    } else if (!this.hydrapegInserted) {
+      this.hydrapegV = parameter;
+      this.detail.hydrapeg.selected = parameter.selected;
     }
-
-    _.each(this.productsAdditional, function(product) {
-      const name = product.name.toLowerCase();
-
-      self.product.infoAdditionalPrices.values[name] = {
-        "gold": product.price1,
-        "diamond": product.price2,
-        "preferred": product.price3
-      };
-    });
   }
 
-  getParams() {
-    return this.product.parameters;
+  changeDMV(value) {
+    this.productHeader[0].selected = value;
+    this.setFullPrice();
   }
 
   changeSelect(parameter, value, value2) {
@@ -1074,7 +1097,7 @@ export class XcelComponent implements OnInit {
     _.each(this.detail.parameters, function (param, index) {
       if (param.name === parameter.name) {
         self.detail.parameters[index].selected = value;
-        if (self.showHydrapeg) {
+        if (self.product.name.includes('Atlantis')) {
           self.hydrapegV.selected = param.name === 'Hydrapeg' ? value : self.hydrapegV.selected;
         }
       }
@@ -1094,6 +1117,74 @@ export class XcelComponent implements OnInit {
     if (value !== 'Boston-XO') {
       this.product.hydrapeg.selected = "No";
     }
+  }
+
+  getProductsAdditional(productSelected: any, type: any) {
+    let self = this;
+    const additionals = [];
+    const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+    const productDMV: any = _.find(this.productsAdditional, {name: "DMV Insertion and Removal Set"});
+
+    /////////////////////////////// DMV //////////////////////////////////
+    // if exist price dmv or productRequest will be deleted
+    if (this.getAdditionalPrices()["dmv"] || this.productRequestedDMV) {
+      const dmv: any = {
+        id: productDMV.idProduct,
+        idProductRequested: this.productRequestedDMV && this.productRequestedDMV.idProductRequested,
+        product: productDMV.idProduct,
+        name: productDMV.name,
+        price: self.getAdditionalPrices()["dmv"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productDMV.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !self.getAdditionalPrices()["dmv"]
+      }
+
+      if (self.typeEdit === 1) {
+        dmv.basketId = self.basket.basket.idBasket;
+      } else {
+        dmv.orderId = self.order.idOrder;
+      }
+
+      if (type === 'basket') {
+        dmv.detail = productSelected.detail;
+      }
+      additionals.push(dmv);
+    }
+
+    /////////////////////////////// HYDRAPEG //////////////////////////////////
+    // if exist price notch or productRequest will be deleted
+    if (this.getAdditionalPrices()["hydrapeg"] || this.productRequestedHydrapeg) {
+      const hydrapeg: any = {
+        id: productHydrapeg.idProduct,
+        idProductRequested: this.productRequestedHydrapeg && this.productRequestedHydrapeg.idProductRequested,
+        product: productHydrapeg.idProduct,
+        name: productHydrapeg.name,
+        price: this.getAdditionalPrices()["hydrapeg"],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productHydrapeg.codeSpectrum,
+        detail: {},
+        groupId: productSelected.groupId,
+        delete: !this.getAdditionalPrices()["hydrapeg"]
+      }
+
+      if (this.typeEdit === 1) {
+        hydrapeg.basketId = this.basket.basket.idBasket;
+      } else {
+        hydrapeg.orderId = this.order.idOrder;
+      }
+
+      if (type === 'basket') {
+        hydrapeg.detail = productSelected.detail;
+      }
+      additionals.push(hydrapeg)
+    }
+
+
+    return additionals;
   }
 
 
@@ -1150,7 +1241,7 @@ export class XcelComponent implements OnInit {
       if (parameter.name === 'Design') {
 
         this.designPR = value;
-        this.priceSaleTotal();
+        this.setFullPrice();
 
         this.paramsToShow = _.filter(this.productParams, function (param) {
           switch (self.designPR) {
@@ -1195,7 +1286,7 @@ export class XcelComponent implements OnInit {
 
         this.designPR = value;
         this.paramsToShow = this.productParams;
-        this.priceSaleTotal();
+        this.setFullPrice();
 
         this.paramsToShow = this.productParams.filter(p => p.name !== 'Quantity');
 
@@ -1205,13 +1296,13 @@ export class XcelComponent implements OnInit {
 
         if (parameter.name === 'Presentation') {
           this.presentation = parameter.selected;
-          this.priceSaleTotal();
+          this.setFullPrice();
         }
 
         if (parameter.name === 'Design') {
 
           this.designPR = value;
-          this.priceSaleTotal();
+          this.setFullPrice();
 
           this.paramsToShow = _.filter(this.productParams, function (param) {
             switch (self.designPR) {
@@ -1309,33 +1400,43 @@ export class XcelComponent implements OnInit {
         parameter.selected = self.quantity;
         //self.paramsToSave = _.concat(self.paramsToSave, parameter);
       } */
-      if (parameter.name === 'Hydrapeg' && self.showHydrapeg) {
+      if (parameter.name === 'Hydrapeg' && self.product.name.includes('Atlantis')) {
         self.paramsToSave = _.concat(self.paramsToSave, self.hydrapegV);
       }
     });
 
-    if (!this.showDmv) {
+    if (!self.product.name.includes('Atlantis')) {
       this.productHeader[0] = { selected: 'No'};
     }
     paramsHeader = paramsHeader.filter(p => p.name !== 'Quantity');
 
     if (self.product.name.includes('Atlantis')) {
       this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
-                                  header: paramsHeader, hydrapeg: self.hydrapegV, dmv: this.productHeader[0], parameters: self.paramsToSave}) + ']';
+                                  header: paramsHeader,
+                                  hydrapeg: self.hydrapegV,
+                                  dmv: this.productHeader[0],
+                                  parameters: self.paramsToSave,
+                                  productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
 
     } else {
       this.productRequested.detail = '[' + JSON.stringify({ name: '', codeSpectrum: this.detail.codeSpectrum, eye: this.detail.eye,
-                                  header: paramsHeader, parameters: self.paramsToSave}) + ']';
+                                  header: paramsHeader,
+                                  parameters: self.paramsToSave,
+                                  productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
     }
 
 
     this.productRequested.observations = this.observations;
-    this.productRequested.price = this.priceSaleTotal();
+    this.productRequested.price = this.product.priceSale;
     this.productRequested.quantity = this.quantity;
     this.productRequested.product = this.product.idProduct;
     this.productRequested.patient = this.patient;
 
     let requestedProducts = [JSON.parse(JSON.stringify(this.productRequested))];
+    _.each(self.getProductsAdditional(this.productRequested, 'basket'), function(additional) {
+      requestedProducts.push(additional);
+    });
+
     this.update(requestedProducts);
 
 
