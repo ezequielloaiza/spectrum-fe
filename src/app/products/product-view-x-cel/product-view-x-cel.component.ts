@@ -296,11 +296,10 @@ export class ProductViewXCelComponent implements OnInit {
       p.codeSpectrum = self.price[eye].spCode;
       p.price = self.price[eye].priceUnit;
       p.quantity = self.quantity[eye];
-      //TODO: check header structure
       p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
       p.dmv = _.find(self.product.header, {name: "DMV"});
       p.parameters = self.selectedProduct.params[index].params;
-      p.hydrapeg = _.find(p.parameters, {name: "Hydrapeg"});
+      p.hydrapeg = _.find(p.parameters, {name: "Hydrapeg"}) || _.find(self.originalParameters[eye], {name: "Hydrapeg"});
       p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
 
       if (self.product.name.includes('Atlantis')) {
@@ -522,12 +521,8 @@ export class ProductViewXCelComponent implements OnInit {
           }
         });
 
-        // TODO: check queda vacio.
-          //this.getClock(value.eye);
-
         this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
         this.setRequiredParams(value);
-        //call checkBUY method
       }
     } else if (this.product.name.includes('RGP')) { // RGP CASE
 
