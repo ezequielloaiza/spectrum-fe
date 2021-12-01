@@ -68,4 +68,8 @@ export class Product {
     }
   }
 
+  public xcelWithDmv(idProduct) {
+    return idProduct === 308; // Atlantis id
+  }
+
 }

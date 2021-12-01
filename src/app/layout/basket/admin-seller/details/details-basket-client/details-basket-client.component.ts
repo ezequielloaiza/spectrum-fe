@@ -180,7 +180,7 @@ export class DetailsBasketClientComponent implements OnInit {
       }
 
       // SMARTLENS or XCEL
-      if (supplierId === 14 || supplierId === 13) {
+      if (supplierId === 14 || self.productModel.xcelWithDmv(basket.productRequested.product.idProduct) ) {
         // price insertors
         const insertSelected = basket.productRequested.detail[0].dmv.selected === "Yes";
         if (insertSelected) {

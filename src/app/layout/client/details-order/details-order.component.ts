@@ -131,7 +131,7 @@ export class DetailsOrderComponent implements OnInit {
           }
 
           // SMARTLENS or XCEL
-          if (supplierId === 14 || supplierId === 13) {
+          if (supplierId === 14 || self.productModel.xcelWithDmv(detailsOrder.productRequested.product.idProduct)) {
             insertor = insertor || detailsOrder.productRequested.detail[0].dmv.selected === 'Yes';
           }
 

@@ -210,7 +210,7 @@ export class ProductViewXCelComponent implements OnInit {
   getClient(client) {
     this.client = client.idUser;
     this.membership = client.membership.idMembership;
-    if (this.product.name.includes('Atlantis')) {
+    if (this.product.name.includes('Atlantis') && this.product.infoAdditionalPrices) {
       this.definePrice(this.membership);
     }
   }
