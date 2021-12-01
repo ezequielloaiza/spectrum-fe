@@ -1416,4 +1416,10 @@ export class ProductViewXCelComponent implements OnInit {
       }
     });
   }
+
+  getProductSheet() {
+    const language = this.userStorageService.getLanguage();
+    const path = "https://storage.googleapis.com/spectrum-storage/products-sheets/xcel/";
+    return path + language + ".pdf";
+  }
 }

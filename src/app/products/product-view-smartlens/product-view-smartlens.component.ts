@@ -1204,6 +1204,12 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
+  getProductSheet() {
+    const language = this.userStorageService.getLanguage();
+    const path = "https://storage.googleapis.com/spectrum-storage/products-sheets/smartlens/";
+    return path + language + ".pdf";
+  }
+
   verifyOpenModal() {
     if (this.uploaderRightEye.queue.length === this.listFileRightEye.length
         && this.uploaderLeftEye.queue.length === this.listFileLeftEye.length) {

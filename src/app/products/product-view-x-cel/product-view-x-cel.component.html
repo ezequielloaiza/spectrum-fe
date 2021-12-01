@@ -2,6 +2,17 @@
 <app-breadcrumb-product [product]="product"></app-breadcrumb-product>
 <app-card-product *ngIf="product && validation()" [productName]="product.name">
   <app-order-type [product]="product"></app-order-type>
+
+  <!-- row (sheet) -->
+  <div class="row product-info">
+    <div class="col-md-2">
+      <dt>{{ 'Product Sheet' | translate }}</dt>
+      <dd>
+        <a href="{{ getProductSheet() }}" target="_blank">{{ 'Download' | translate }}</a>
+      </dd>
+    </div>
+  </div>
+
   <app-info-client [product]="product" (getClient)="getClient($event)"></app-info-client>
 
   <div class="row">
