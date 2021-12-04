@@ -21,7 +21,7 @@
         <div class="col-lg-12 title label-title patient-info">
           <span>{{ 'Patient' | translate }}</span>
           <div class="col-lg-12 main-info">
-            <input class="form-control main-info" type="text" maxlength="30" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient" required>
+            <input class="form-control main-info" type="text" maxlength="50" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient" required>
           </div>
         </div>
         <div class="col-lg-12 title eye-info">
@@ -74,7 +74,8 @@
               </dt>
               <dl>
                 <div>
-                  <input class="form-control" (change)="setFullPrice()" type="number" step=1 [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
+                  <input class="form-control" (change)="setFullPrice()" type="number" step=1 min=1
+                  [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
                 </div>
               </dl>
             </dl>
@@ -147,7 +148,8 @@
                   <!-- INPUT TYPE NUMBER-->
                   <div *ngIf="parameter.type === 'input-number' && parameter.name !== 'Quantity'" class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
-                       [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}">
+                       [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}"
+                       max="1000" oninput="validity.valid||(value='');">
                   </div>
                 </dt>
               </dl>
@@ -209,7 +211,7 @@
               </dt>
               <dl>
                 <div>
-                  <textarea style="overflow-x: hidden;" class="form-control col-md-12 comment" type="text" [(ngModel)]="observations" maxlength="50"
+                  <textarea style="overflow-x: hidden;" class="form-control col-md-12 comment" type="text" [(ngModel)]="observations" maxlength="250"
                   placeholder="{{ 'Introduces observations' | translate }}"></textarea>
                 </div>
               </dl>

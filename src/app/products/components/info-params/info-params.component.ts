@@ -82,4 +82,8 @@ export class InfoParamsComponent implements OnInit {
   qtyDisabled(param) {
     return this.quantityDisabled && param.name === 'Quantity'
   }
+
+  setMinimum(param) {
+    return (param.name === 'Quantity') ? 1 : null
+  }
 }

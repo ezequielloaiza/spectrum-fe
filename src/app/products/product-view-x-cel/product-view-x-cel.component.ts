@@ -1399,7 +1399,7 @@ export class ProductViewXCelComponent implements OnInit {
 
     return !this.product.client || !this.product.patient || nothingSelected || _.some(eyes, function (eye, index) {
       return eyesEnabled[index] && _.some(self.product[self.parametersByEye(eye)], function (parameter) {
-        return !parameter.noRequired && !parameter.selected;
+        return !parameter.noRequired && !parameter.selected || (parameter.name === 'Quantity' && parameter.selected < 1);
       });
     });
   }
