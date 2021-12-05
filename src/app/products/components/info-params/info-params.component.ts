@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 @Component({
   selector: 'app-info-params',
@@ -22,7 +23,7 @@ export class InfoParamsComponent implements OnInit {
   eyeSelected: any;
   paramsByDefault: any;
 
-  constructor() {}
+  constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.paramsByDefault = JSON.parse(JSON.stringify(this.parameters));
