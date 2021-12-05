@@ -57,7 +57,8 @@
               <dt>{{ header.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ header.selected }}</dt>
+                <dt *ngIf="header.name !== 'Quantity'" class="items">{{ header.selected | translate }}</dt>
+                <dt *ngIf="header.name === 'Quantity'" class="items">{{ header.selected }}</dt>
               </dl>
             </dl>
           </div>
@@ -70,7 +71,7 @@
               <dt>{{ param.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ param.selected }}</dt>
+                <dt class="items">{{ param.selected | translate }}</dt>
               </dl>
             </dl>
           </div>
