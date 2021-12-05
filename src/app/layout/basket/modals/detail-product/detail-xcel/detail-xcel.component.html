@@ -38,7 +38,7 @@
               <dt>{{ header.name | translate }}</dt>
               <hr class="separators" />
               <dl>
-                <dt class="items">{{ header.selected }}</dt>
+                <dt class="items">{{ header.selected.toString() | translate }}</dt>
               </dl>
             </dl>
           </div>
@@ -92,7 +92,7 @@
                   <dt>{{ parameter.name | translate }}</dt>
                   <hr class="separators" />
                   <dl>
-                    <dt class="items" *ngIf="parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined">{{ parameter.selected }}</dt>
+                    <dt class="items" *ngIf="parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined">{{ parameter.selected.toString() | translate }}</dt>
                     <dt class="items" *ngIf="parameter.selected === null || parameter.selected === '' || parameter.selected === undefined">{{ 'Unassigned' | translate}}</dt>
                   </dl>
                 </dl>
