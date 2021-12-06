@@ -40,6 +40,8 @@ import { MoldedLensesComponent } from '../../../../edit-order/molded-lenses/mold
 import { SmartlensComponent } from '../../../../edit-order/smartlens/smartlens.component';
 import { DetailSmartlensComponent } from '../../../modals/detail-product/detail-smartlens/detail-smartlens.component';
 import { Product } from '../../../../../shared/models/product';
+import { DetailXcelComponent } from '../../../modals/detail-product/detail-xcel/detail-xcel.component';
+import { XcelComponent } from '../../../../edit-order/xcel/xcel.component';
 
 
 @Component({
@@ -177,8 +179,8 @@ export class DetailsBasketClientComponent implements OnInit {
         }
       }
 
-      // SMARTLENS
-      if (supplierId === 14) {
+      // SMARTLENS or XCEL
+      if (supplierId === 14 || self.productModel.xcelWithDmv(basket.productRequested.product.idProduct) ) {
         // price insertors
         const insertSelected = basket.productRequested.detail[0].dmv.selected === "Yes";
         if (insertSelected) {
@@ -546,6 +548,15 @@ export class DetailsBasketClientComponent implements OnInit {
           } , (reason) => {
           });
         break;
+        case 13: // Xcel
+        const modalRefXcel = this.modalService.open(DetailXcelComponent,
+        { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
+        modalRefXcel.componentInstance.basket = basket;
+        modalRefXcel.result.then((result) => {
+          this.ngOnInit();
+        } , (reason) => {
+        });
+        break;
       case 14: // Smartlens
         const modalRefSmartlens = this.modalService.open(DetailSmartlensComponent,
         { size: 'lg', windowClass: 'modal-content-border' , backdrop : 'static', keyboard : false });
@@ -659,7 +670,17 @@ export class DetailsBasketClientComponent implements OnInit {
             this.ngOnInit();
           } , (reason) => {
           });
-          break;
+        break;
+      case 13: // Xcel
+      const modalRefXcel = this.modalService.open( XcelComponent,
+        { size: 'lg', windowClass: 'modal-content-border modal-edit-Xcel' , backdrop : 'static', keyboard : false});
+      modalRefXcel.componentInstance.basket = basket;
+      modalRefXcel.componentInstance.typeEdit = 1;
+      modalRefXcel.result.then((result) => {
+        this.ngOnInit();
+      } , (reason) => {
+      });
+      break;
       case 14: // Smartlens
           const modalRefSmartlens = this.modalService.open( SmartlensComponent,
             { size: 'lg', windowClass: 'modal-content-border modal-edit-smartlens' , backdrop : 'static', keyboard : false});
