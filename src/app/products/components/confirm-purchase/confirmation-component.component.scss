@@ -1,0 +1,132 @@
+
+@import "../../../../styles/spectrum/spectrum";
+
+.body{
+  overflow-y: auto;
+}
+
+.list-basket {
+  max-height: 630px;
+  padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .main-info {
+    text-align: center;
+  }
+
+  .test-set {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .img-product {
+    width: 40%;
+    border-radius: 12px;
+    margin-top: 1em;
+  }
+
+  .display-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .display-price {
+    justify-content: center;
+  }
+
+  .padding-params {
+    padding:2em 2em 1em;
+
+    .parameters{
+      color: $secondary-info;
+      margin-left: 1.8rem;
+      margin-bottom: 0.1rem;
+      font-weight: 600;
+      padding-top: 1rem;
+    }
+    .justify-steps{
+      justify-content: center;
+
+      > div:nth-child(2) {
+        padding-left: 0;
+      }
+    }
+
+    .name-parameters{
+      padding-left: 1rem;
+      color: $secondary-info;
+      padding-top: 0.5rem;
+    }
+
+    .comment{
+      color: $secondary-info;
+      padding: 0 1.5em;
+    }
+  }
+
+  .params {
+    padding-top: 1em;
+
+    .separator {
+      margin-bottom: 1em;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .steps {
+    text-align: left;
+    margin: 3rem 0 0 3rem;
+    display: flex;
+
+    > dt:nth-child(1) {
+      margin-right: 15px;
+    }
+  }
+
+  .label-title {
+    padding-top: 1.5em;
+  }
+
+  .patient-info {
+    display: flex;
+    padding-bottom: 1.5em;
+  }
+
+  .eye-info {
+    color: $secondary-info;
+    padding-bottom: 2em;
+    text-align: center;
+  }
+
+  .align-item{
+    text-align: center;
+  }
+
+  .items{
+     color: $secondary-info;
+   }
+
+   .comments{
+    padding: 0 2.5em;
+  }
+
+  .separators {
+    border-top: 1.5px solid $info-separator;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .param{
+    color: #f8ac59;
+  }
+
+  .separator-set {
+    display: flex;
+    margin-top: 20px;
+    width: 100%;
+  }
+}

@@ -154,8 +154,8 @@ export class DetailsOrderClientComponent implements OnInit {
             insertor = insertor || detailsOrder.productRequested.detail[0].header[2].selected === true;
           }
 
-          // Smartlens
-          if (supplierId === 14) {
+          // SMARTLENS or XCEL
+          if (supplierId === 14 || self.productModel.xcelWithDmv(detailsOrder.productRequested.product.idProduct)) {
             insertor = insertor || detailsOrder.productRequested.detail[0].dmv.selected === 'Yes';
           }
 

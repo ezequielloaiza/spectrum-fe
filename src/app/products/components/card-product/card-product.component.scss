@@ -1,0 +1,23 @@
+@import '../../../../styles/spectrum/spectrum';
+
+.title {
+  font-weight: 600;
+}
+
+.padding-detail {
+  padding: 10px 40px 10px 40px;
+
+  .card {
+    background:$bg-product-detail;
+    padding: 2em;
+    line-height: 1.5em;
+
+    .main-info {
+      text-align: center;
+
+      .img-color {
+        border-radius: 35px;
+      }
+    }
+  }
+}

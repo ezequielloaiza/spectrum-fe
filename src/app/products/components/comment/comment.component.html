@@ -1,0 +1,5 @@
+<div>
+  <div class="title">{{ eye + ' Eye Comments' | translate }}</div>
+  <textarea style="overflow-x: hidden;" class="form-control" type="text" [(ngModel)]="product[attribute]"
+    [disabled]="!enableField" placeholder="{{ 'Enter ' + eye + ' Eye Observations' | translate }}" maxlength="170"></textarea>
+</div>

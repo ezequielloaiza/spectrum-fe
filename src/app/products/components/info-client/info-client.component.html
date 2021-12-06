@@ -1,0 +1,34 @@
+<!-- row (pacient, client, shipping address) -->
+<div class="row product-info">
+  <!-- patient -->
+  <div class="col-lg-4">
+    <dt class="title">{{ 'Patient Full Name' | translate }}</dt>
+    <div class="row info-content">
+      <input class="form-control" type="text" maxlength="50" placeholder="{{ 'Enter name patient' | translate }}"
+        [(ngModel)]="product.patient" required>
+    </div>
+  </div>
+
+  <!-- client -->
+  <div class="col-lg-4">
+    <dt class="title">{{ 'Account Name' | translate }}</dt>
+    <div class="row info-content" [hidden]="user.role.idRole !== 3">
+      <input class="form-control" type="text" placeholder="{{ 'Enter customer patient' | translate }}"
+        [(ngModel)]="product.client" disabled>
+    </div>
+    <div class="row info-content" [hidden]="user.role.idRole === 3">
+      <ng-select [items]="listCustomers" class="w-100" (change)="onSelectedClient($event)" [(ngModel)]="this.product.client"
+        [virtualScroll]="true" bindLabel="fullName" bindValue="idUser" placeholder="{{ 'Select value' | translate }}"
+        required>
+      </ng-select>
+    </div>
+  </div>
+  <!--shipping address-->
+  <div class="col-lg-4">
+    <span class="title">{{ 'Shipping Address' | translate }}</span>
+    <div class="row info-content">
+      <input class="form-control readonly-input" type="text" [(ngModel)]="product.shippingAddress"
+        placeholder="{{ 'This field is filled when the client is selected.' | translate }}" readonly>
+    </div>
+  </div>
+</div>
