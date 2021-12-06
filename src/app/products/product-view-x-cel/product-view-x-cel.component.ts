@@ -325,7 +325,11 @@ export class ProductViewXCelComponent implements OnInit {
     _.each(this.selectedProduct.params, function (parameters) {
       _.each(self.product[self.parametersByEye(parameters.eye)], function (param) {
 
-        if (self.enable[(parameters.eye.toLowerCase())] && !!param.selected && param.selected !== 'No') { //filtra el dom eye o radio no
+        if (self.enable[(parameters.eye.toLowerCase())] &&
+            param.selected !== null &&
+            param.selected !== undefined &&
+            param.selected !== '' &&
+            param.selected !== 'No') { //filtra el dom eye o radio no
           if (param.header) {
             parameters.header = _.concat(parameters.header, param);
             if (param.name === 'Quantity') {
@@ -375,7 +379,7 @@ export class ProductViewXCelComponent implements OnInit {
     }
 
     // Finding Hydrapeg Left
-    const hydrapegLeft:any = _.find(this.product.parametersRight, { name: "Hydrapeg"});
+    const hydrapegLeft:any = _.find(this.product.parametersLeft, { name: "Hydrapeg"});
     if (hydrapegLeft.selected === "Yes") {
       priceHydrapegLeft = this.priceHydrapeg;
     }

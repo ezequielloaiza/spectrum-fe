@@ -1389,7 +1389,7 @@ export class XcelComponent implements OnInit {
     }
     //concat productparams con los de atlantisimg??? revisar que tiene el producparams si creo un scope nuevo o es el mismo y ve los cambios
     _.each(this.productParams, function (parameter, i) {
-      if (!!parameter.selected && parameter.selected !== 'No' && parameter.name !== 'Hydrapeg') {
+      if (parameter.selected !== undefined && parameter.selected !== null && parameter.selected !== '' && parameter.selected !== 'No' && parameter.name !== 'Hydrapeg') {
         if (!parameter.header) {
           self.paramsToSave = _.concat(self.paramsToSave, parameter);
         } else {
