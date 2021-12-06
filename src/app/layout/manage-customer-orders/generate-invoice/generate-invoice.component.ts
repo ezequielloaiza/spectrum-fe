@@ -361,6 +361,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.netAmount = pRequested.netAmount == null ? (pRequested.quantity * pRequested.price) : pRequested.netAmount;
       productR.description = pRequested.description == null ? pRequested.productRequested.product.name : pRequested.description;
       productR.codeSpectrum = pRequested.codeSpectrum == null ? pRequested.productRequested.product.codeSpectrum : pRequested.codeSpectrum;
+      productR.codeSpectrum =  productR.codeSpectrum || JSON.parse(productR.productRequested.detail)[0].codeSpectrum;
       productR.patient = pRequested.patient == null ? pRequested.productRequested.patient : pRequested.patient;
       productR.delete = false;
       productReq.push(productR);
@@ -396,6 +397,7 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.codeSpectrum = pRequested.productRequested.additionalInformation !== null
       ? pRequested.productRequested.additionalInformation.codeSpectrum
       : pRequested.productRequested.product.codeSpectrum;
+      productR.codeSpectrum =  productR.codeSpectrum || JSON.parse(JSON.stringify(productR.productRequested.detail))[0].codeSpectrum;
       productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
       productR.delete = false;
       productReq.push(productR);

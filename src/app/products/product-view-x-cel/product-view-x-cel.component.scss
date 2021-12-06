@@ -1,0 +1,145 @@
+@import '../../../styles/spectrum/spectrum';
+
+.product-info {
+  padding-top: 2em;
+
+  .item-properties {
+    img {
+      width: 30px;
+      cursor: pointer;
+    }
+  }
+}
+
+.title {
+  font-weight: 600;
+}
+
+
+.img-atlantis {
+  flex-direction: column;
+  display: flex;
+
+  > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+  }
+
+  .img1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > span:nth-child(1) {
+      margin-bottom: 10px;
+    }
+
+    > div:nth-child(2) {
+      display: flex;
+
+      > div:nth-child(2) {
+        align-self: center;
+      }
+
+    }
+    ng-select {
+      width: 75px;
+      margin: 0 10px;
+    }
+
+    img {
+      width: 140px;
+      height: 150px;
+    }
+  }
+
+  .img2 {
+    position: relative;
+
+    >div:nth-child(1){
+      position: absolute;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    top: -10px;
+    }
+    > div:nth-child(2) {
+      position: absolute;
+      height: 400px;
+      width: 535px;
+      z-index: 999;
+
+      .quadrant {
+        display: flex;
+        position: absolute;
+        width: 130px;
+        align-items: center;
+
+        ng-select {
+          width: 75px;
+          margin: 0 10px;
+        }
+
+        &.Q1 {
+          right: 0;
+          margin-bottom: 5px;
+
+          &.LZ {
+            top: 155px;
+          }
+
+          &.SZ {
+            top: 195px;
+          }
+        }
+
+        &.Q2 {
+          left: 210px;
+
+          &.LZ {
+            bottom: 40px;
+          }
+
+          &.SZ {
+            bottom: 0px;
+          }
+        }
+
+        &.Q3 {
+          left: 0;
+
+          &.LZ {
+            top: 155px;
+          }
+
+          &.SZ {
+            top: 195px;
+          }
+        }
+
+        &.Q4 {
+          left: 210px;
+
+          &.LZ {
+            top: -10px;
+          }
+          &.SZ {
+            top: 30px;
+          }
+        }
+      }
+    }
+
+    img {
+      width: 530px;
+    }
+  }
+}
+
+.warnings {
+  color: green;
+  margin-bottom: 10px;
+}
+
