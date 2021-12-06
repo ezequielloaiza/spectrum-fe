@@ -14,24 +14,24 @@ var map = {
 	],
 	"./dashboard/dashboard.module": [
 		"./src/app/layout/dashboard/dashboard.module.ts",
-		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~b28d9a05",
+		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~2b616dc7",
 		"common",
 		"dashboard-dashboard-module"
 	],
 	"./initial-sessions/initial-sessions.module": [
 		"./src/app/initial-sessions/initial-sessions.module.ts",
-		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~b28d9a05",
+		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~2b616dc7",
+		"default~initial-sessions-initial-sessions-module~layout-layout-module~product-view-x-cel-product-vie~55a99388",
 		"default~initial-sessions-initial-sessions-module~layout-layout-module~products-products-module~repor~5774177f",
-		"default~initial-sessions-initial-sessions-module~layout-layout-module~products-products-module",
 		"common",
 		"initial-sessions-initial-sessions-module"
 	],
 	"./layout/layout.module": [
 		"./src/app/layout/layout.module.ts",
-		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~b28d9a05",
+		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~2b616dc7",
+		"default~initial-sessions-initial-sessions-module~layout-layout-module~product-view-x-cel-product-vie~55a99388",
 		"default~initial-sessions-initial-sessions-module~layout-layout-module~products-products-module~repor~5774177f",
-		"default~initial-sessions-initial-sessions-module~layout-layout-module~products-products-module",
-		"default~layout-layout-module~products-products-module~reports-reports-module",
+		"default~layout-layout-module~product-view-x-cel-product-view-x-cel-module~products-products-module",
 		"default~layout-layout-module~products-products-module",
 		"common",
 		"layout-layout-module"
@@ -45,21 +45,29 @@ var map = {
 		"./src/app/not-found/not-found.module.ts",
 		"not-found-not-found-module"
 	],
+	"./product-view-x-cel/product-view-x-cel.module": [
+		"./src/app/products/product-view-x-cel/product-view-x-cel.module.ts",
+		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~2b616dc7",
+		"default~initial-sessions-initial-sessions-module~layout-layout-module~product-view-x-cel-product-vie~55a99388",
+		"default~layout-layout-module~product-view-x-cel-product-view-x-cel-module~products-products-module",
+		"default~product-view-x-cel-product-view-x-cel-module~products-products-module",
+		"common"
+	],
 	"./products/products.module": [
 		"./src/app/products/products.module.ts",
-		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~b28d9a05",
+		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~2b616dc7",
+		"default~initial-sessions-initial-sessions-module~layout-layout-module~product-view-x-cel-product-vie~55a99388",
 		"default~initial-sessions-initial-sessions-module~layout-layout-module~products-products-module~repor~5774177f",
-		"default~initial-sessions-initial-sessions-module~layout-layout-module~products-products-module",
-		"default~layout-layout-module~products-products-module~reports-reports-module",
+		"default~layout-layout-module~product-view-x-cel-product-view-x-cel-module~products-products-module",
+		"default~product-view-x-cel-product-view-x-cel-module~products-products-module",
 		"default~layout-layout-module~products-products-module",
 		"common",
 		"products-products-module"
 	],
 	"./reports/reports.module": [
 		"./src/app/reports/reports.module.ts",
-		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~b28d9a05",
+		"default~dashboard-dashboard-module~initial-sessions-initial-sessions-module~layout-layout-module~pro~2b616dc7",
 		"default~initial-sessions-initial-sessions-module~layout-layout-module~products-products-module~repor~5774177f",
-		"default~layout-layout-module~products-products-module~reports-reports-module",
 		"common",
 		"reports-reports-module"
 	],

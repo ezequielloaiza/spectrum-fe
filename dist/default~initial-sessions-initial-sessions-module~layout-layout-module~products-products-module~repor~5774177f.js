@@ -166,16 +166,16 @@ var HeaderModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/services/basket/basket.service.ts":
-/*!**********************************************************!*\
-  !*** ./src/app/shared/services/basket/basket.service.ts ***!
-  \**********************************************************/
-/*! exports provided: BasketService */
+/***/ "./src/app/shared/services/suppliers/supplier.service.ts":
+/*!***************************************************************!*\
+  !*** ./src/app/shared/services/suppliers/supplier.service.ts ***!
+  \***************************************************************/
+/*! exports provided: SupplierService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BasketService", function() { return BasketService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SupplierService", function() { return SupplierService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../environments/environment */ "./src/environments/environment.ts");
@@ -191,29 +191,49 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-var BasketService = /** @class */ (function () {
-    function BasketService(http) {
+var SupplierService = /** @class */ (function () {
+    function SupplierService(http) {
         this.http = http;
     }
-    BasketService.prototype.allBasketByUser$ = function (idUser) {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'basket/allBasketByUser/' + idUser);
+    SupplierService.prototype.save$ = function (supplier) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/save', supplier);
     };
-    BasketService.prototype.findBasketClientBySeller$ = function () {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'basket/findBasketClientBySeller');
+    SupplierService.prototype.update$ = function (supplier) {
+        return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/update', supplier);
     };
-    BasketService.prototype.allBasket$ = function () {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'basket/allBasket');
+    SupplierService.prototype.findAll$ = function () {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/findAll');
     };
-    BasketService.prototype.saveBasket$ = function (Basket) {
-        return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'basket/saveBasket', Basket);
+    SupplierService.prototype.removeById$ = function (id) {
+        return this.http.delete(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/removeById/' + id);
     };
-    BasketService = __decorate([
+    SupplierService.prototype.findByUser$ = function (id) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/findByUser/' + id);
+    };
+    SupplierService.prototype.findById$ = function (id) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/findById/' + id);
+    };
+    SupplierService.prototype.saveSupplierUser$ = function (supplier) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/saveSupplierUser', supplier);
+    };
+    SupplierService.prototype.removeSupplierUser$ = function (supplier) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/removeSupplierUser', supplier);
+    };
+    SupplierService.prototype.download$ = function () {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/download', {
+            responseType: 'blob'
+        });
+    };
+    SupplierService.prototype.checkSupplierUser$ = function (supplier) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'suppliers/checkSupplierUser', supplier);
+    };
+    SupplierService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
         }),
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
-    ], BasketService);
-    return BasketService;
+    ], SupplierService);
+    return SupplierService;
 }());
 
 
