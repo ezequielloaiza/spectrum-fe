@@ -29,19 +29,19 @@ export class Product {
   public haveAdditionalProduct(idSupplier) {
     return idSupplier === 2 ||  // Europa
            idSupplier === 14 || // Smartlens
-           idSupplier === 'id supplier Xcel';
+           idSupplier === 13;
   }
 
   public haveInsertsDMV(idSupplier) {
     return idSupplier === 2 ||  // Europa
            idSupplier === 14 || // Smartlens
-           idSupplier === 'id supplier Xcel';
+           idSupplier === 13;
   }
 
   public isInsertsDMV(idProduct) {
     return idProduct === 146 ||  // Europa
            idProduct === 307 || // Smartlens
-           idProduct === 'id product dmv Xcel';
+           idProduct === 311;
   }
 
   public isAdditionalProduct(idProduct) {
@@ -50,7 +50,9 @@ export class Product {
            idProduct === 147 || // Hydrapeg Europa
            idProduct === 305 || // Hydrapeg Smartlens
            idProduct === 306 || // Notch Smartlens
-           idProduct === 307;   // Dmv Inserts Smartlens
+           idProduct === 307 || // Dmv Inserts Smartlens
+           idProduct === 310 || // Hydrapeg Xcel
+           idProduct === 311; // Dmv Xcel
   }
 
   public getInsertsID(product, supplierId) {
@@ -59,11 +61,15 @@ export class Product {
         return 146;
       case 14: // Smartlens
         return 307;
-      case 'id supplier Xcel': // X-cel
-        return null;
+      case 13: // X-cel
+        return 311;
       default:
         null;
     }
+  }
+
+  public xcelWithDmv(idProduct) {
+    return idProduct === 308; // Atlantis id
   }
 
 }

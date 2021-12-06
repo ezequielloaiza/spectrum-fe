@@ -1,0 +1,63 @@
+<div class="row header-params">
+  <div class="col-lg-12 custom-control custom-checkbox">
+    <!--Eye-->
+    <div *ngIf="typeParams === 'header'">
+      <input id="{{eye}}" type="checkbox" name="checkboxGroupAll" (click)="selectEye(); cleanEye()" class="custom-control-input">
+      <label class="custom-control-label" for="{{eye}}">{{ getLabelEye() }}</label>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 margin-col padding-col pb-3" *ngFor="let parameter of getParams()">
+        <div class="row">
+          <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+        </div>
+        <div class="row" [ngSwitch]="parameter.type">
+          <div *ngSwitchCase="'selected'" class="col-sm-12 pl-0">
+            <!-- <ng-select (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
+                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
+                    [disabled]="!enableParams">
+              <ng-option [value]="item" *ngFor="let item of getValues(parameter)">{{ item | translate }}</ng-option>
+            </ng-select> -->
+
+            <ng-select [items]="parameter.values" (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
+              bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
+              [disabled]="!enableParams">
+                <ng-template ng-label-tmp let-item="item">
+                  <div>
+                    <span>{{ item | translate }}</span>
+                  </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <div>
+                    <h6 [ngOptionHighlight]="search">{{ item | translate }}</h6>
+                  </div>
+                </ng-template>
+              </ng-select>
+          </div>
+
+          <div *ngSwitchCase="'input-text'" class="col-sm-12 pl-0">
+            <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams" maxlength="25"
+              [required]="!parameter.noRequired" (change)="changeParamsAndPriceValue(parameter)" id="text-{{eye}}-{{parameter.name}}"/>
+          </div>
+
+          <div *ngSwitchCase="'input-number'" class="col-sm-12 pl-0">
+            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter)"
+              [required]="!parameter.noRequired" max="1000" oninput="validity.valid||(value='');" [min]="setMinimum(parameter)"
+              (change)="changeParamsAndPriceValue(parameter)" id="number-{{eye}}-{{parameter.name}}"/>
+          </div>
+
+          <div *ngSwitchCase="'radio'" class="radio-b">
+            <div *ngFor="let value of parameter.values; let i = index">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="radio-{{eye}}-{{parameter.name}}-{{i}}" name="radio-{{eye}}-{{parameter.name}}"
+                       [value]="value" [required]="!parameter.noRequired" [disabled]="!enableParams"
+                       (click)="setRadioButtonValue(parameter,eye,value)"
+                       class=" custom-control-input form-control" [checked]="parameter.selected === value">
+                <label class="custom-control-label" for="radio-{{eye}}-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,233 @@
+<div *ngIf="product">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ 'Edit Product' | translate }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="list-basket">
+    <div class="row">
+      <!--Image-->
+      <div class="col-lg-12 main-info">
+        <div>
+          <span class="title">{{ product.name }}</span>
+        </div>
+        <div *ngIf="typeEdit === 1">
+          <img class="img-product" src="{{ basket.urlImage }}">
+        </div>
+        <div *ngIf="typeEdit === 2">
+            <img class="img-product" src="{{ image }}">
+        </div>
+        <div class="col-lg-12 title label-title patient-info">
+          <span>{{ 'Patient' | translate }}</span>
+          <div class="col-lg-12 main-info">
+            <input class="form-control main-info" type="text" maxlength="50" placeholder="{{ 'Introduce name patient' | translate }}" [(ngModel)]="patient" required>
+          </div>
+        </div>
+        <div class="col-lg-12 title eye-info">
+          <span>{{ detail.eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
+        </div>
+      </div>
+      <!--PARAMETERS-->
+      <div class="col-lg-12 label-title">
+        <div class="row padding-params">
+
+          <div class="col-lg-12" *ngIf="product.name.includes('Atlantis')">
+            <div class="radio-custom">
+              <span class="title label-radio">{{ productHeader[0].name | translate }}:</span>
+              <div *ngFor="let value of productHeader[0].values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-dmv-{{i}}" name="radioDMV" [value]="value"
+                         class="custom-control-input" (change)="changeDMV(value)"
+                         [checked]="detail.dmv.selected === value">
+                  <label class="custom-control-label" for="radio-dmv-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row additional col-lg-12">
+              <p *ngIf="productHeader[0].selected === 'Yes'">
+                <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;
+                <span>{{'Inserts (DMV)' | translate}}:{{ getAdditionalPrices()["dmv"] | currency : " USD $" }}</span>&nbsp;
+              </p>
+            </div>
+          </div>
+
+          <div [hidden]="!editPrice" class="col-sm-4">
+            <dl>
+              <dt>{{'Price'| translate}}
+              </dt>
+              <dl>
+                <div class="form-group input-group">
+                    <div class="input-group-append">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}"
+                     [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}" name="price1" disabled="true">
+                </div>
+              </dl>
+            </dl>
+          </div>
+
+          <div class="col-sm-4">
+            <dl>
+              <dt>{{'Quantity'| translate}}
+              </dt>
+              <dl>
+                <div>
+                  <input class="form-control" (change)="setFullPrice()" type="number" step=1 min=1
+                  [(ngModel)]="quantity" oninput="validity.valid||(value='');" required>
+                </div>
+              </dl>
+            </dl>
+          </div>
+
+
+
+          <div class="row display-row col-sm-12" *ngIf="product.name.includes('Atlantis')">
+
+            <div class="params display-row col-sm-4 radio-custom">
+              <span class="title">{{ 'Hydrapeg' | translate }}:</span>
+              <div *ngFor="let value of hydrapegV.values; let i = index">
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="radio-hydrapeg-{{i}}" name="radioHydrapeg" [value]="value" (change)="changeSelect(hydrapegV,value)"
+                  class="custom-control-input" [checked]="detail.hydrapeg.selected === value">
+                  <label class="custom-control-label" for="radio-hydrapeg-{{i}}">{{ value | translate }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="additional col-lg-12">
+              <p *ngIf="hydrapegV.selected === 'Yes'">
+                <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+                <span>{{'Hydrapeg' | translate}}:{{ getAdditionalPrices()["hydrapeg"] | currency : " USD $" }}</span>&nbsp;
+              </p>
+            </div>
+          </div>
+
+          <br>
+     <!-- ----------------------------------------Parameters------------------------------------------------- -->
+          <div class="params col-sm-12 title">{{ 'Parameters' | translate }}</div>
+          <div class="col-sm-4" *ngFor="let parameter of paramsToShow">
+            <dl *ngIf="parameter.name !== 'Quantity' && parameter.name !== 'Hydrapeg'">
+              <div>
+                <dt>{{ parameter.name | translate }}</dt>
+              </div>
+
+              <dl>
+                <dt>
+                  <!--param values-->
+                  <!-- SELECTED OF ALL -->
+                  <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
+                    <ng-select (change)="changeParams(parameter, $event)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
+                      bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
+                      [disabled]="parameter.values.length === 1" id="select-{{eye}}-{{parameter.name}}">
+                      <ng-option [value]="item" *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
+                    </ng-select>
+
+
+                  </div>
+
+
+                  <!-- INPUT RADIO -->
+                  <div *ngIf="parameter.type === 'radio' && parameter.name !== 'Hydrapeg'" class="radio-custom">
+                    <div *ngFor="let value of parameter.values; let i = index">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="radio-{{parameter.name}}-{{i}}" name="radio-{{parameter.name}}-{{i}}" [value]="value"
+                               class="custom-control-input" [required]="!parameter.noRequired"
+                               (change)="changeSelect(parameter, value, 0)" [checked]="parameter.selected === value">
+                        <label class="custom-control-label" for="radio-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- INPUT TYPE TEXT-->
+                  <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
+                    <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
+                      [required]="!parameter.noRequired" maxlength="25" [(ngModel)]="parameter.selected" id="text-{{eye}}-{{parameter.name}}">
+                  </div>
+
+                  <!-- INPUT TYPE NUMBER-->
+                  <div *ngIf="parameter.type === 'input-number' && parameter.name !== 'Quantity'" class="select-values col-sm-12">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
+                       [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}"
+                       max="1000" oninput="validity.valid||(value='');">
+                  </div>
+                </dt>
+              </dl>
+            </dl>
+          </div>
+        </div>
+<!-- -------------------------------------------IMG-------------------------------------------------------- -->
+<div class="img-atlantis" *ngIf="designPR === 'Atlantis 2.0'">
+  <div class="col-md-12 title">
+    <label> {{ 'Quadrant Specifications' | translate }}</label>
+  </div>
+  <div>
+    <div class="img1">
+      <span>{{'Clock mark position of quadrant 2'|translate}}</span>
+      <div>
+        <img [src]="'assets/images/products/atlantis/img1.png'">
+        <div>
+          <ng-select [items]="clockParam.values" [required]="true" id="select-clock" [clearable]="No"
+            [(ngModel)]="clockParam.selected" bindLabel="item" bindValue="item"
+            placeholder="{{ ' ' | translate }}">
+            {{item}}
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="img2">
+      <div>
+        <span>{{'(-) FLATTEN' | translate}}</span>
+        <span> {{'(+) STEEPEN' | translate}}</span>
+        <span> {{'1 STEP = 25µ' | translate}}</span>
+      </div>
+      <div>
+        <div *ngFor="let parameter of getAtlantisParams()">
+          <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+            <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
+            <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
+              [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+              [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+              {{item}}
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <img [src]="'assets/images/products/atlantis/img2.png'">
+    </div>
+  </div>
+</div>
+<!-- -------------------------------------------IMG-------------------------------------------------------- -->
+      </div>
+
+
+      <!--Fin parameters-->
+      <div class="col-lg-12">
+        <div class="row padding-params">
+          <div class="col-sm-12">
+            <dl>
+              <dt>{{'Comments'| translate}}
+              </dt>
+              <dl>
+                <div>
+                  <textarea style="overflow-x: hidden;" class="form-control col-md-12 comment" type="text" [(ngModel)]="observations" maxlength="170"
+                  placeholder="{{ 'Introduces observations' | translate }}"></textarea>
+                </div>
+              </dl>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Cancel' | translate }}&nbsp;
+      <i class="fa fa-times"></i>
+    </button>
+    <button type="button" class="btn btn-main" (click)="save()" [disabled]="!formIsValid()">{{ 'Save' | translate }}&nbsp;
+      <i class="fa fa-save"></i>
+    </button>
+  </div>
+</div>

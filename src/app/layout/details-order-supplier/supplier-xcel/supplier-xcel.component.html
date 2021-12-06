@@ -1,0 +1,118 @@
+<div class="col-lg-12">
+  <div class="row padding-params display-edit" *ngIf="valueStatus === 0 && user.role.idRole !== 2 && valueClient !== 2">
+    <button type="button" (click)="openEdit()" class="edit btn btn-outline-primary" translate>
+      Edit
+    </button>
+  </div>
+  <ngb-tabset>
+    <ngb-tab title="{{'Technical specifications'| translate}}">
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div *ngFor="let specification of lista.detail">
+            <div class="d-flex flex-lg-wrap">
+
+              <div class="col-sm-3 last-param"  *ngIf="specification.materials === 'Boston-XO'">
+                <dl class="align-item">
+                  <dt>{{'Hydrapeg'| translate}}
+                  </dt>
+                  <hr class="separators">
+                  <dl>
+                    <dt>
+                      <span class="font-text">
+                        {{ specification.hydrapeg }}
+                      </span>
+                    </dt>
+                  </dl>
+                </dl>
+              </div>
+
+              <div class="col-sm-3" *ngFor="let param of specification.header">
+                <div class="container-supplier">
+                  <dl class="align-item">
+                    <dt>{{ param.name | translate }}</dt>
+                    <dt>
+                      <span class="font-text" *ngIf="param.selected !== null && param.selected !== '' && param.selected !== undefined"> {{ param.selected }}</span>
+                      <span class="font-text" *ngIf="param.selected === null || param.selected === '' || param.selected === undefined"> {{ 'Unassigned' | translate }}</span>
+                      <hr />
+                    </dt>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="row col-sm-12">
+                <div class="col-sm-3" *ngFor="let param of specification.parameters">
+                  <div class="container-supplier">
+                    <dl class="align-item">
+                      <dt>{{ param.name | translate }}</dt>
+                      <dt>
+                        <span class="font-text" *ngIf="param.selected !== null && param.selected !== '' && param.selected !== undefined"> {{ param.selected }}</span>
+                        <span class="font-text" *ngIf="param.selected === null || param.selected === '' || param.selected === undefined"> {{ 'Unassigned' | translate }}</span>
+                        <hr />
+                      </dt>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab *ngIf="lista.observations !== null" title="{{'Comments'| translate}}">
+      <ng-template ngbTabContent>
+        <div class="card-body table-responsive">
+          <div class="row justify-content-md-center div-parametros">
+            <div class="col-sm-12">
+              <dl class="font-text" *ngIf="lista.observations ==='' || lista.observations ===null">
+                <span translate>{{'No comments' | translate}}</span>
+              </dl>
+              <dl>
+                <dt *ngIf="lista.observations !==''">
+                  <span class="font-text">{{lista.observations}}</span>
+                </dt>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab *ngIf="files.length > 0" title="{{'Documents'| translate}}">
+      <ng-template ngbTabContent>
+        <!-- Documents -->
+        <div class="card-body table-responsive">
+          <br />
+          <div class="row justify-content-md-center div-parametros">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="50%">{{ "Name" | translate }}</th>
+                  <th>{{ "Size" | translate }}</th>
+                  <th>{{ "Actions" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of files">
+                  <td>
+                    <strong>{{ item?.name }}</strong>
+                  </td>
+                  <td nowrap>{{ item?.size / 1024 / 1024 | number: ".2" }} MB</td>
+                  <td nowrap>
+                    <button
+                      type="button"
+                      class="btn btn-success btn-xs"
+                      (click)="downloadFile(item)"
+                    >
+                      <span class="fa fa-download"></span
+                      >{{ "Download" | translate }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
