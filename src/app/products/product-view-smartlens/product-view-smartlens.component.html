@@ -56,7 +56,7 @@
         <div class="col-md-2">
           <dt>{{ 'Product Sheet' | translate }}</dt>
           <dd>
-            <a href="{{ product.url }}" target="_blank">{{ 'Download' | translate }}</a>
+            <a href="{{ getProductSheet() }}" target="_blank">{{ 'Download' | translate }}</a>
           </dd>
         </div>
       </div>
@@ -250,7 +250,7 @@
                   <!-- INPUT TYPE NUMBER-->
                   <div *ngIf="parameter.type === 'input-number'" class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                      [required]="product.eyeRight" [(ngModel)]="parameter.selected"
+                      [required]="product.eyeRight && !parameter.noRequired" [(ngModel)]="parameter.selected"
                       [disabled]="!product.eyeRight">
                   </div>
 
@@ -475,7 +475,7 @@
                   <!-- INPUT TYPE NUMBER-->
                   <div *ngIf="parameter.type === 'input-number'" class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder | translate }}"
-                      [required]="product.eyeLeft" [(ngModel)]="parameter.selected"
+                      [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.selected"
                       [disabled]="!product.eyeLeft">
                   </div>
 

@@ -1,0 +1,24 @@
+<div class="header" *ngIf="header" >
+  <div class="col-lg-3 margin-col padding-col pb-3" *ngFor="let parameter of header">
+    <div class="row">
+      <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
+    </div>
+    <div class="row" [ngSwitch]="parameter.type">
+      <div *ngSwitchCase="'radio'" class="radio-b">
+        <div *ngFor="let value of parameter.values; let i = index">
+          <div class="custom-control custom-radio">
+            <input type="radio" id="radio-{{parameter.name}}-{{i}}" name="radio-{{parameter.name}}"
+                    [value]="value" [required]="!parameter.noRequired"
+                    (click)="setHeaderValue(parameter,value)"
+                    class=" custom-control-input form-control" [checked]="parameter.selected === value">
+            <label class="custom-control-label" for="radio-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="warnings" *ngIf="dmv?.price">
+    <span  translate>{{'Warning: Includes' | translate}}</span>&nbsp;
+    <span >{{'Inserts' | translate}}:{{ dmv.price | currency : " USD $" }}</span>
+  </div>
+</div>

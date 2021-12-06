@@ -862,7 +862,7 @@ export class ProductViewEuropaComponent implements OnInit {
         _.each(product.headerRight, function (parameter, index) {
           product.headerRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
           if (parameter.name === 'Inserts (DMV)') {
-            product.headerLeft[index].selected = additionalInserts;
+            product.headerLeft[index].selected = additionalInserts; //HEADER LEFT??????????????????
           }
         });
 
