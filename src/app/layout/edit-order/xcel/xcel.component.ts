@@ -1199,8 +1199,15 @@ export class XcelComponent implements OnInit {
       if (!param.noRequired && !param.selected) {
         isValid = false;
       }
-
     });
+
+    if (this.designPR === 'Atlantis 2.0') {
+      _.each(this.paramsAtlantisImages, function (parameter) {
+        if (!parameter.selected && parameter.selected !== 0) {
+          isValid = false;
+        }
+      });
+    }
     return isValid;
   }
 
@@ -1250,17 +1257,20 @@ export class XcelComponent implements OnInit {
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
+              self.cleanAtlantisParam(param);
               return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis TPC':
             case 'Atlantis MF':
               if (param.name === 'LZ 3D Vault / 2.0') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
+              self.cleanAtlantisParam(param);
               return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 3D':
               if (param.name === 'TPC') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
+              self.cleanAtlantisParam(param);
               return param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 2.0':
               self.paramsAtlantisImages = _.filter(self.productParams, function (param) {
@@ -1272,8 +1282,10 @@ export class XcelComponent implements OnInit {
               }
               return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && param.name !== 'Quantity' && param.name !== 'Hydrapeg'&& !self.checkAtlantisParams(param, 1);
             case 'Atlantis LD':
+              self.cleanAtlantisParam(param);
               return  !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             default:
+              self.cleanAtlantisParam(param);
               return param && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
           }
 
@@ -1340,6 +1352,24 @@ export class XcelComponent implements OnInit {
     });
   }
 
+  cleanAtlantisParam(param) {
+    switch (param.name) {
+      case 'Atlantis 2.0 C.S.A':
+      case 'Clock Mark':
+      case 'Q1 LZ':
+      case 'Q1 SZ':
+      case 'Q2 LZ':
+      case 'Q2 SZ':
+      case 'Q3 LZ':
+      case 'Q3 SZ':
+      case 'Q4 LZ':
+      case 'Q4 SZ':
+        param.selected = null;
+        return true;
+      default:
+        break;
+    }
+  }
 
   checkAtlantisParams(param, remove) {
     switch (param.name) {
