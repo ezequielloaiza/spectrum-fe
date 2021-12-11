@@ -46,7 +46,7 @@
           <div>
             <ng-select [items]="paramsAtlantisImages.right.clock.values" [required]="true" id="select-right-clock"
               [(ngModel)]="paramsAtlantisImages.right.clock.selected" bindLabel="item" bindValue="item"
-              placeholder="{{ ' ' | translate }}">
+              [clearable]="false" placeholder="{{ ' ' | translate }}">
               {{item}}
             </ng-select>
           </div>
@@ -66,7 +66,7 @@
               <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
               <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
                 [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-                [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+                [clearable]="false" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
                 {{item}}
               </ng-select>
             </div>
@@ -99,13 +99,13 @@
     </div>
     <div>
       <div class="img1">
-        <span>Clock mark position of quadrant 2</span>
+        <span>{{'Clock mark position of quadrant 2'|translate}}</span>
         <div>
           <img [src]="'assets/images/products/atlantis/img1.png'">
           <div>
             <ng-select [items]="paramsAtlantisImages.left.clock.values" [required]="true" id="select-left-clock"
             [(ngModel)]="paramsAtlantisImages.left.clock.selected" bindLabel="item" bindValue="item"
-            placeholder="{{ ' ' | translate }}">
+            [clearable]="false" placeholder="{{ ' ' | translate }}">
             {{item}}
           </ng-select>
           </div>
@@ -114,9 +114,9 @@
 
       <div class="img2">
         <div>
-          <span> (-) FLATTEN</span>
-          <span> (+) STEEPEN</span>
-          <span> 1 STEP = 25µ</span>
+          <span>{{'(-) FLATTEN' | translate}}</span>
+          <span>{{'(+) STEEPEN' | translate}}</span>
+          <span>{{'1 STEP = 25µ' | translate}}</span>
         </div>
         <div>
           <div *ngFor="let parameter of getAtlantisParams('left')">
@@ -125,7 +125,7 @@
               <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
               <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
                 [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-                [clearable]="parameter.noRequired" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+                [clearable]="false" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
                 {{item}}
               </ng-select>
             </div>

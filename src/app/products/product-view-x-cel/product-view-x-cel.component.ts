@@ -454,7 +454,11 @@ export class ProductViewXCelComponent implements OnInit {
 
   selectEye(object) {
     this.enable[object.name] = object.value;
+    if (!this.enable[object.name]) {
+      this.showImg[object.name] = false;
+    }
   }
+
 
   parametersByEye(eye) {
     return eye.toLowerCase() === 'right' ? 'parametersRight' : 'parametersLeft';
@@ -1391,7 +1395,6 @@ export class ProductViewXCelComponent implements OnInit {
   }
 
   checkDisabled() {
-
     return this.missingParamsRequired();
   }
 
@@ -1400,12 +1403,18 @@ export class ProductViewXCelComponent implements OnInit {
     const eyesEnabled = [this.enable.right, this.enable.left];
     const nothingSelected = _.every(eyesEnabled, function (eye) { return !eye; });
     const self = this;
-
-    return !this.product.client || !this.product.patient || nothingSelected || _.some(eyes, function (eye, index) {
+    const paramsEmpty = _.some(eyes, function (eye, index) {
       return eyesEnabled[index] && _.some(self.product[self.parametersByEye(eye)], function (parameter) {
         return !parameter.noRequired && !parameter.selected || (parameter.name === 'Quantity' && parameter.selected < 1);
       });
     });
+    const paramsAtlantis = _.some(eyes, function (eye, index) {
+      const design = self.product[self.parametersByEye(eye)].find(p => p.name === 'Design')
+      return (design.selected !== 'Atlantis 2.0' && eyesEnabled[index]) ? !eyesEnabled[index] : eyesEnabled[index] && _.some(self.getAtlantisParams(eye), function (parameter) {
+        return !parameter.noRequired && !parameter.selected;
+      });
+    });
+    return !this.product.client || !this.product.patient || nothingSelected || paramsEmpty || paramsAtlantis;
   }
 
   getAtlantisParams(eye) {
