@@ -26,7 +26,7 @@
                 </dl>
               </div>
 
-              <div class="col-sm-3" *ngFor="let param of specification.header">
+              <div class="col-sm-3" *ngFor="let param of getHeader(specification.header)">
                 <div class="container-supplier">
                   <dl class="align-item">
                     <dt>{{ param.name | translate }}</dt>
@@ -40,7 +40,7 @@
               </div>
 
               <div class="row col-sm-12">
-                <div class="col-sm-3" *ngFor="let param of specification.parameters">
+                <div class="col-sm-3" *ngFor="let param of getParams(specification.parameters)">
                   <div class="container-supplier">
                     <dl class="align-item">
                       <dt>{{ param.name | translate }}</dt>
@@ -53,6 +53,43 @@
                   </div>
                 </div>
               </div>
+
+                <!-- -------------------------------------------IMG-------------------------------------------------------- -->
+              <div class="img-atlantis" *ngIf="showImgs()">
+                <div class="title">
+                  <label> {{ 'Quadrant Specifications' | translate }}</label>
+                </div>
+                <div>
+                  <div class="img1">
+                    <span>{{'Clock mark position of quadrant 2'|translate}}</span>
+                    <div>
+                      <img [src]="'assets/images/products/atlantis/img1.png'">
+                      <div>
+                        <span>{{ getClockParam(specification.parameters) }}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="img2">
+                    <div>
+                      <span>{{'(-) FLATTEN' | translate}}</span>
+                      <span> {{'(+) STEEPEN' | translate}}</span>
+                      <span> {{'1 STEP = 25µ' | translate}}</span>
+                    </div>
+                    <div>
+                      <div *ngFor="let parameter of getAtlantisParams(specification.parameters)">
+                        <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+                          <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
+                          <label> {{ parameter.selected }}</label>
+                        </div>
+                      </div>
+                    </div>
+                    <img [src]="'assets/images/products/atlantis/img2.png'">
+                  </div>
+                </div>
+              </div>
+<!-- -------------------------------------------IMG-------------------------------------------------------- -->
+
             </div>
           </div>
         </div>
