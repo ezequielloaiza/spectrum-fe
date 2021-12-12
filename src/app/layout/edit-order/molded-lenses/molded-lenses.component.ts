@@ -29,6 +29,9 @@ export class MoldedLensesComponent implements OnInit {
   editPrice = false;
   user: any;
   patient: any;
+
+  boxes: Array<any> = new Array;
+
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -59,45 +62,35 @@ export class MoldedLensesComponent implements OnInit {
 
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
-    this.product.parameters = JSON.parse(this.product.types)[0].parameters;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
-    let parameters = this.product.parameters;
-    _.each(this.detail.parameters, function(item) {
-      _.each(parameters, function(productSelected) {
-        if (productSelected.name === item.name) {
-          productSelected.selected = item.selected;
-        }
-     });
-    });
-    this.product.parameters = parameters;
-    this.initialPricesAndCodes();
-  }
-
-  initialPricesAndCodes() {
-    let self = this;
-    _.each(this.product.parameters, function(parameter) {
-      self.setCodeAndPrice(parameter);
-    });
+    this.product.parameters = this.detail.parameters;
+    this.boxes = this.detail.boxes;
   }
 
   savePricesAndCodes(type) {
     if (this.isProductPersonalized(this.product)) {
       if (type === 'basket') {
-        this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-          parameters: this.detail.parameters, codeSpectrum: this.productRequested.newCode}) + ']'; 
-        
+        this.productRequested.detail = '[' + JSON.stringify({ name: '',
+                                                              eye: this.detail.eye,
+                                                              parameters: this.detail.parameters,
+                                                              codeSpectrum: this.productRequested.newCode,
+                                                              boxes: this.boxes}) + ']';
+
         this.productRequested.price = this.productRequested.newPrice;
       } else if (type === 'order-detail') {
         this.productRequestedAux.newCode = this.productRequested.newCode;
         this.productRequestedAux.newPrice = this.productRequested.newPrice;
         this.productRequestedAux.price = this.productRequested.newPrice;
 
-        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-          parameters: this.detail.parameters, codeSpectrum: this.productRequestedAux.newCode}) + ']';
-      } 
+        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '',
+                                                                 eye: this.detail.eye,
+                                                                 parameters: this.detail.parameters,
+                                                                 codeSpectrum: this.productRequestedAux.newCode,
+                                                                 boxes: this.boxes}) + ']';
+      }
     }
   }
 
@@ -115,8 +108,10 @@ export class MoldedLensesComponent implements OnInit {
     });
     if (this.typeEdit === 1) { // Basket
         this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-        this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                      parameters: this.detail.parameters}) + ']';
+        this.productRequested.detail = '[' + JSON.stringify({ name: '',
+                                                              eye: this.detail.eye,
+                                                              parameters: this.detail.parameters,
+                                                              boxes: this.boxes}) + ']';
         this.productRequested.observations = this.observations;
         this.productRequested.price = this.price;
         this.productRequested.quantity = this.quantity;
@@ -126,8 +121,10 @@ export class MoldedLensesComponent implements OnInit {
         this.update(this.productRequested);
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                         parameters: this.detail.parameters}) + ']';
+        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '',
+                                                                 eye: this.detail.eye,
+                                                                 parameters: this.detail.parameters,
+                                                                 boxes: this.boxes}) + ']';
         this.productRequestedAux.observations = this.observations;
         this.productRequestedAux.price = this.price;
         this.productRequestedAux.quantity = this.quantity;
@@ -192,47 +189,48 @@ export class MoldedLensesComponent implements OnInit {
   }
 
   setCodeAndPriceByQuantity() {
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
+
     if (this.product.name === 'Claria SiHy Aspheric 6pk') {
-      if (this.quantity < 501) {
+      if (totalQuantity < 501) {
         this.productRequested.newCode = '216A';
         this.productRequested.newPrice = 14.0;
-      } else if (this.quantity < 2001) {
+      } else if (totalQuantity < 2001) {
         this.productRequested.newCode = '216B';
         this.productRequested.newPrice = 13.5;
-      } else if (this.quantity < 3501) {
+      } else if (totalQuantity < 3501) {
         this.productRequested.newCode = '216C';
         this.productRequested.newPrice = 13.2;
-      } else if (this.quantity < 5001) {
+      } else if (totalQuantity < 5001) {
         this.productRequested.newCode = '216D';
         this.productRequested.newPrice = 12.75;
       } else {
         this.productRequested.newCode = '216E';
         this.productRequested.newPrice = 12.5;
       }
-      this.price = this.productRequested.newPrice;
     } else if (this.product.name === 'Claria SiHy Toric 6pk') {
-      if (this.quantity < 501) {
+      if (totalQuantity < 501) {
         this.productRequested.newCode = '217A';
         this.productRequested.newPrice = 18.25;
-      } else if (this.quantity < 2001) {
+      } else if (totalQuantity < 2001) {
         this.productRequested.newCode = '217B';
         this.productRequested.newPrice = 18.0;
-      } else if (this.quantity < 3501) {
+      } else if (totalQuantity < 3501) {
         this.productRequested.newCode = '217C';
         this.productRequested.newPrice = 17.75;
-      } else if (this.quantity < 5001) {
+      } else if (totalQuantity < 5001) {
         this.productRequested.newCode = '217D';
         this.productRequested.newPrice = 17.5;
       } else {
         this.productRequested.newCode = '217E';
         this.productRequested.newPrice = 17.25;
       }
-      this.price = this.productRequested.newPrice;
     }
+    this.price = this.productRequested.newPrice;
   }
 
 
-  setCodeAndPrice(parameter) {
+  setCodeAndPrice(box, parameter) {
     switch (this.product.name) {
       case 'Xtensa Premium Toric 6pk':
         if (parameter.name === 'Cylinder (D)') {

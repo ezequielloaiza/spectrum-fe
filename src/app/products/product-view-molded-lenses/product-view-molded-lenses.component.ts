@@ -94,21 +94,21 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       return param.values.length > 1;
     });
 
-    this.boxes = [{quantity: 1, parameters: JSON.parse(JSON.stringify(this.product.parametersBox))}];
+    this.boxes = [{quantity: null, parameters: JSON.parse(JSON.stringify(this.product.parametersBox))}];
 
     this.product.properties = this.product.infoAditional ? JSON.parse(this.product.infoAditional)[0] : null;
     this.product.priceSale = '';
-    this.setCodesXtensaPremiumToric();
+    //this.setCodesXtensaPremiumToric();
     this.setClient();
     this.setPrice();
   }
 
-  setCodesXtensaPremiumToric() {
-    if (this.product.name === 'Xtensa Premium Toric 6pk') {
-      this.product.code = '214B';
-      this.product.code = '214B';
-    }
-  }
+  // setCodesXtensaPremiumToric() {
+  //   if (this.product.name === 'Xtensa Premium Toric 6pk') {
+  //     this.product.codeSpectrum = '214B';
+  //     this.product.priceSale = 14.5;
+  //   }
+  // }
 
   setClient() {
     if (this.user.role.idRole === 3) {
@@ -145,10 +145,10 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       case 'Xtensa Premium Toric 6pk':
         if (parameter.name === 'Cylinder (D)') {
           if (parameter.selected === '-2.75') {
-            box.code = '214C';
+            box.codeSpectrum = '214C';
             box.priceSale = 15.0;
           } else {
-            box.code = '214B';
+            box.codeSpectrum = '214B';
             box.priceSale = 14.5;
           }
         }
@@ -156,40 +156,42 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     }
   }
 
-  setCodeAndPriceByQuantity(box) {
+  setCodeAndPriceByQuantity() {
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
+
     if (this.product.name === 'Claria SiHy Aspheric 6pk') {
-      if (box.quantity < 501) {
-        box.code = '216A';
-        box.priceSale = 14.0;
-      } else if (box.quantity < 2001) {
-        box.code = '216B';
-        box.priceSale = 13.5;
-      } else if (box.quantity < 3501) {
-        box.code = '216C';
-        box.priceSale = 13.2;
-      } else if (box.quantity < 5001) {
-        box.code = '216D';
-        box.priceSale = 12.75;
+      if (totalQuantity < 501) {
+        this.product.codeSpectrum = '216A';
+        this.product.priceSale = 14.0;
+      } else if (totalQuantity < 2001) {
+        this.product.codeSpectrum = '216B';
+        this.product.priceSale = 13.5;
+      } else if (totalQuantity < 3501) {
+        this.product.codeSpectrum = '216C';
+        this.product.priceSale = 13.2;
+      } else if (totalQuantity < 5001) {
+        this.product.codeSpectrum = '216D';
+        this.product.priceSale = 12.75;
       } else {
-        box.code = '216E';
-        box.priceSale = 12.5;
+        this.product.codeSpectrum = '216E';
+        this.product.priceSale = 12.5;
       }
-    } else if (box.name === 'Claria SiHy Toric 6pk') {
-      if (box.quantity < 501) {
-        box.code = '217A';
-        box.priceSale = 18.25;
-      } else if (box.quantity < 2001) {
-        box.code = '217B';
-        box.priceSale = 18.0;
-      } else if (box.quantity < 3501) {
-        box.code = '217C';
-        box.priceSale = 17.75;
-      } else if (box.quantity < 5001) {
-        box.code = '217D';
-        box.priceSale = 17.5;
+    } else if (this.product.name === 'Claria SiHy Toric 6pk') {
+      if (totalQuantity < 501) {
+        this.product.codeSpectrum = '217A';
+        this.product.priceSale = 18.25;
+      } else if (totalQuantity < 2001) {
+        this.product.codeSpectrum = '217B';
+        this.product.priceSale = 18.0;
+      } else if (totalQuantity < 3501) {
+        this.product.codeSpectrum = '217C';
+        this.product.priceSale = 17.75;
+      } else if (totalQuantity < 5001) {
+        this.product.codeSpectrum = '217D';
+        this.product.priceSale = 17.5;
       } else {
-        box.code = '217E';
-        box.priceSale = 17.25;
+        this.product.codeSpectrum = '217E';
+        this.product.priceSale = 17.25;
       }
     }
   }
@@ -205,9 +207,16 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   }
 
   getPriceSale() {
-    return _.sumBy(this.boxes, function(box:any) {
-      return box.priceSale;
-    });
+    // return _.sumBy(this.boxes, function(box:any) {
+    //   return box.priceSale;
+    // });
+    if (this.product.name === 'Xtensa Premium Toric 6pk') {
+      return _.sumBy(this.boxes, function(box:any) {
+        return box.priceSale;
+      });
+    } else {
+      return this.product.priceSale;
+    }
   }
 
   onSelectedClient(clienteSelect) {
@@ -258,7 +267,7 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       id      : this.product.idProduct,
       quantity: _.sumBy(self.boxes, 'quantity'),
       price   : self.getPriceSale(),
-      detail  : { name: '', eye: '', parameters: this.product.parameters, boxes: this.boxes},
+      detail  : { name: '', eye: '', parameters: this.product.parameters, boxes: this.boxes, codeSpectrum: this.product.codeSpectrum },
       patient : this.product.patient,
       observations: this.product.observations
     };
@@ -287,7 +296,7 @@ export class ProductViewMoldedLensesComponent implements OnInit {
 
   openModal(type): void {
     const modalRef = this.modalService.open(ConfirmationMoldedLensesComponent,
-      { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+      { size: 'lg', windowClass: 'modal-content-border modal-custom', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.role = this.user.role.idRole;

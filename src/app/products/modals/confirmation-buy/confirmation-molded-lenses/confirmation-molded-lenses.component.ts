@@ -256,7 +256,11 @@ export class ConfirmationMoldedLensesComponent implements OnInit {
     });
   }
 
-  hasCodeByEye() {
-    return this.product.name === 'Xtensa Premium Toric 6pk' || this.product.name === 'Claria SiHy Aspheric 6pk' || this.product.name === 'Claria SiHy Toric 6pk';
+  // hasCodeByEye() {
+  //   return this.product.name === 'Xtensa Premium Toric 6pk' || this.product.name === 'Claria SiHy Aspheric 6pk' || this.product.name === 'Claria SiHy Toric 6pk';
+  // }
+
+  hasCodeByBox() {
+    return this.product.name === 'Xtensa Premium Toric 6pk';
   }
 }
