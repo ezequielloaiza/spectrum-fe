@@ -1,0 +1,260 @@
+
+@import "../../../../styles/spectrum/spectrum";
+
+.list-basket {
+  //max-height: 630px;
+  padding: 2em;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .main-info {
+    text-align: center;
+  }
+
+  .img-product {
+    width: 40%;
+    border-radius: 12px;
+    margin-top: 1em;
+  }
+
+  .display-row {
+    display: flex;
+  }
+
+  .display-price {
+    justify-content: center;
+  }
+
+  .padding-params {
+    padding: 0 1em 1em 0;
+  }
+
+  .params {
+    padding-top: 1em;
+
+    .separator {
+      margin-bottom: 1em;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .label-title {
+    padding-top: 1.5em;
+  }
+
+  .patient-info {
+    padding-bottom: 1.5em;
+  }
+
+  .eye-info {
+    color: $secondary-info;
+    padding: 0 2em;
+  }
+
+  .align-item{
+    text-align: center;
+  }
+
+  .align-radio {
+    min-width: 195px;
+  }
+
+  .label-radio {
+    min-width: 75px;
+  }
+
+  .radio-custom {
+    display: flex;
+    flex-direction: row;
+
+    > span:nth-child(1) {
+      margin-right: 10px;
+    }
+
+    label {
+      font-weight: 300;
+      font-size: 14px;
+    }
+    > div {
+      margin-right: 30px;
+    }
+  }
+
+  .select-values {
+    padding: 0 0 1em;
+  }
+
+
+  .param-flex {
+    display: flex;
+
+    .notch {
+      width: 25%;
+    }
+
+    .select-notch {
+      width: 50%;
+
+      img {
+        border-radius: 0;
+        height: 110px;
+        opacity: 0.7;
+        width: 110px;
+      }
+
+      img:hover {
+        border: 3px #007afe solid;
+        border-radius: 15px;
+        opacity: 1;
+      }
+    }
+  }
+
+  .selected-image {
+    border: 3px #8faab4 solid;
+    border-radius: 15px !important;
+    opacity: 1 !important;
+  }
+
+  .additional {
+    justify-content: flex-start;
+    margin-top: 10px;
+    > p:nth-child(1) {
+    font-size: 15px;
+    color: green;
+    }
+  }
+
+  .notch-lbl {
+    display: flex;
+
+    > dt:nth-child(1) {
+      width: 50%;
+    }
+
+    > dt:nth-child(2),
+    > dt:nth-child(3) {
+      margin-left: 5px;
+      width: 23%
+    }
+  }
+}
+
+.img-atlantis {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+
+  .img1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+
+    > span:nth-child(1) {
+      margin-bottom: 10px;
+    }
+
+    > div:nth-child(2) {
+      display: flex;
+
+      > div:nth-child(2) {
+        align-self: center;
+      }
+    }
+
+    ng-select {
+      width: 85px;
+      margin: 0 10px;
+    }
+
+    img {
+      width: 140px;
+      height: 150px;
+    }
+  }
+
+  .img2 {
+    position: relative;
+
+    >div:nth-child(1){
+      position: absolute;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    top: -10px;
+    }
+
+    > div:nth-child(2) {
+      position: absolute;
+      height: 380px;
+      width: 535px;
+      z-index: 999;
+
+      .quadrant {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        width: 130px;
+
+        ng-select {
+          width: 85px;
+          margin: 0 10px;
+        }
+
+        &.Q1 {
+          right: 0;
+          margin-bottom: 5px;
+
+          &.LZ {
+            top: 165px;
+          }
+
+          &.SZ {
+            top: 195px;
+          }
+        }
+
+        &.Q2 {
+          left: 210px;
+
+          &.LZ {
+            bottom: 30px;
+          }
+
+          &.SZ {
+            bottom: 0px;
+          }
+        }
+
+        &.Q3 {
+          left: 0;
+
+          &.LZ {
+            top: 165px;
+          }
+
+          &.SZ {
+            top: 195px;
+          }
+        }
+
+        &.Q4 {
+          left: 210px;
+
+          &.SZ {
+            top: 30px;
+          }
+        }
+      }
+    }
+
+    img {
+      width: 530px;
+    }
+  }
+}

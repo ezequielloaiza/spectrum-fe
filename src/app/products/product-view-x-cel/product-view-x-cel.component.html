@@ -1,0 +1,152 @@
+
+<app-breadcrumb-product [product]="product"></app-breadcrumb-product>
+<app-card-product *ngIf="product && validation()" [productName]="product.name">
+  <app-order-type [product]="product"></app-order-type>
+
+  <!-- row (sheet) -->
+  <div class="row product-info">
+    <div class="col-md-2">
+      <dt>{{ 'Product Sheet' | translate }}</dt>
+      <dd>
+        <a href="{{ getProductSheet() }}" target="_blank">{{ 'Download' | translate }}</a>
+      </dd>
+    </div>
+  </div>
+
+  <app-info-client [product]="product" (getClient)="getClient($event)"></app-info-client>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="padding-price" *ngIf="priceSaleTotal()">
+        <span>{{ priceSaleTotal() | currency : "USD $" }}</span>
+      </h5>
+    </div>
+  </div>
+
+  <app-header-component [header]="product.header"></app-header-component>
+  <div class="row product-info">
+    <div class="col-md-12 title">
+      <label> {{ 'Please specify your product' | translate }}</label>
+    </div>
+  </div>
+
+  <!-- EYE RIGHT -->
+  <app-info-params [eye]="'right'" [typeParams]="'header'" [enableParams]="enable.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight" [quantityDisabled]="product.name.includes('Atlantis')"></app-info-params>
+  <app-info-params [eye]="'right'" [typeParams]="'body'" [enableParams]="enable.right" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersRight"></app-info-params>
+
+  <div class="img-atlantis" *ngIf="!!showImg.right && !!enable.right">
+    <div class="col-md-12 title">
+      <label> {{ 'Quadrant Specifications' | translate }}</label>
+    </div>
+    <div>
+      <div class="img1">
+        <span>{{'Clock mark position of quadrant 2' | translate}}</span>
+        <div>
+          <img [src]="'assets/images/products/atlantis/img1.png'">
+          <div>
+            <ng-select [items]="paramsAtlantisImages.right.clock.values" [required]="true" id="select-right-clock"
+              [(ngModel)]="paramsAtlantisImages.right.clock.selected" bindLabel="item" bindValue="item"
+              [clearable]="false" placeholder="{{ ' ' | translate }}">
+              {{item}}
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="img2">
+        <div>
+          <span>{{'(-) FLATTEN' | translate}}</span>
+          <span> {{'(+) STEEPEN' | translate}}</span>
+          <span> {{'1 STEP = 25µ' | translate}}</span>
+        </div>
+        <div>
+          <div *ngFor="let parameter of getAtlantisParams('right')">
+            <!--Quadrants-->
+            <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+              <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
+              <ng-select [items]="parameter.values" [required]="true" id="select-right-{{parameter.name}}"
+                [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+                [clearable]="false" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+                {{item}}
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <img [src]="'assets/images/products/atlantis/img2.png'">
+      </div>
+    </div>
+  </div>
+
+  <!--prices additional right-->
+  <div class="row additional col-lg-12 warnings" *ngIf="getAdditionalPrices(true).hydrapegRight">
+    <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+    <span>{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : " USD $" }}</span>&nbsp;
+  </div>
+
+  <app-comment [product]="product" [attribute]="'observationsRight'" [enableField]="enable.right" [eye]="'Right'"></app-comment>
+
+  <br>
+  <app-upload-file #uploadFile [product]="product" [enableField]="enable.right" [listFiles]="listFileRightEye" [eye]="'OD'"></app-upload-file>
+
+
+  <!-- EYE LEFT -->
+  <br><br>
+  <app-info-params [eye]="'left'" [typeParams]="'header'" [enableParams]="enable.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft" [quantityDisabled]="product.name.includes('Atlantis')"></app-info-params>
+  <app-info-params [eye]="'left'" [typeParams]="'body'" [enableParams]="enable.left" (select)="selectEye($event)" (changeParamsAndPrice)="changeParamsAndPrice($event)" [parameters]="product.parametersLeft"></app-info-params>
+  <div class="img-atlantis" *ngIf="!!showImg.left && !!enable.left">
+    <div class="col-md-12 title">
+      <label> {{ 'Quadrant Specifications' | translate }}</label>
+    </div>
+    <div>
+      <div class="img1">
+        <span>{{'Clock mark position of quadrant 2'|translate}}</span>
+        <div>
+          <img [src]="'assets/images/products/atlantis/img1.png'">
+          <div>
+            <ng-select [items]="paramsAtlantisImages.left.clock.values" [required]="true" id="select-left-clock"
+            [(ngModel)]="paramsAtlantisImages.left.clock.selected" bindLabel="item" bindValue="item"
+            [clearable]="false" placeholder="{{ ' ' | translate }}">
+            {{item}}
+          </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="img2">
+        <div>
+          <span>{{'(-) FLATTEN' | translate}}</span>
+          <span>{{'(+) STEEPEN' | translate}}</span>
+          <span>{{'1 STEP = 25µ' | translate}}</span>
+        </div>
+        <div>
+          <div *ngFor="let parameter of getAtlantisParams('left')">
+            <!--Quadrant 1-->
+            <div  *ngIf="parameter.name !== 'Clock Mark' && parameter.name !== 'Atlantis 2.0 C.S.A'" class="quadrant {{parameter.name}}">
+              <span>{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') }}</span>
+              <ng-select [items]="parameter.values" [required]="true" id="select-left-{{parameter.name}}"
+                [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
+                [clearable]="false" placeholder="{{ (parameter.name.includes('LZ') ? 'LZ' : 'SZ') | translate }}">
+                {{item}}
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <img [src]="'assets/images/products/atlantis/img2.png'">
+      </div>
+    </div>
+  </div>
+
+  <!--prices additional left-->
+  <div class="row additional col-lg-12 warnings" *ngIf="getAdditionalPrices(true).hydrapegLeft">
+    <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
+    <span>{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : " USD $" }}</span>&nbsp;
+  </div>
+
+  <app-comment [product]="product" [attribute]="'observationsLeft'" [enableField]="enable.left" [eye]="'Left'"></app-comment>
+
+  <br>
+  <app-upload-file #uploadFile [product]="product" [enableField]="enable.left" [listFiles]="listFileLeftEye" [eye]="'OS'"></app-upload-file>
+
+
+  <app-footer-buttons (buttonAction)="buttonAction($event)" [buttons]="buttons"  [disableBuyButton]="checkDisabled()"></app-footer-buttons>
+</app-card-product>
