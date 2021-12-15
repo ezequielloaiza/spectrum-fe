@@ -17,7 +17,7 @@
           <img class="img-product" src="{{ product.mainImg }}">
         </div>
         <div class="row">
-            <div class="col-lg-4 title label-title patient-info" [hidden]="hasCodeByBox()">
+            <div class="col-lg-4 title label-title patient-info">
               <span>{{ 'Spectrum code' | translate }}</span>
               <dl>
                 <dt>{{ product.codeSpectrum }}</dt>
@@ -78,17 +78,6 @@
                 <dl>
                   <dt class="items">
                     {{ box.quantity }}
-                  </dt>
-                </dl>
-              </dl>
-
-              <dl class="col-sm-3 align-item" *ngIf="hasCodeByBox()">
-                <dt>{{ 'Code Spectrum' | translate }}
-                </dt>
-                <hr class="separators">
-                <dl>
-                  <dt class="items">
-                    {{ box.codeSpectrum }}
                   </dt>
                 </dl>
               </dl>

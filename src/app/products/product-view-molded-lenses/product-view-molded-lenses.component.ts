@@ -103,13 +103,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     this.setPrice();
   }
 
-  // setCodesXtensaPremiumToric() {
-  //   if (this.product.name === 'Xtensa Premium Toric 6pk') {
-  //     this.product.codeSpectrum = '214B';
-  //     this.product.priceSale = 14.5;
-  //   }
-  // }
-
   setClient() {
     if (this.user.role.idRole === 3) {
       this.client = this.currentUser.idUser;
@@ -139,22 +132,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   }
 
   //////////////////////// BY BOXES///////////////////////////
-
-  setCodeAndPrice(box, parameter) {
-    switch (this.product.name) {
-      case 'Xtensa Premium Toric 6pk':
-        if (parameter.name === 'Cylinder (D)') {
-          if (parameter.selected === '-2.75') {
-            box.codeSpectrum = '214C';
-            box.priceSale = 15.0;
-          } else {
-            box.codeSpectrum = '214B';
-            box.priceSale = 14.5;
-          }
-        }
-        break;
-    }
-  }
 
   setCodeAndPriceByQuantity() {
     var totalQuantity = _.sumBy(this.boxes, 'quantity');
@@ -206,19 +183,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     }
   }
 
-  getPriceSale() {
-    // return _.sumBy(this.boxes, function(box:any) {
-    //   return box.priceSale;
-    // });
-    if (this.product.name === 'Xtensa Premium Toric 6pk') {
-      return _.sumBy(this.boxes, function(box:any) {
-        return box.priceSale;
-      });
-    } else {
-      return this.product.priceSale;
-    }
-  }
-
   onSelectedClient(clienteSelect) {
     if (clienteSelect !== undefined) {
       this.client = clienteSelect.idUser;
@@ -266,8 +230,8 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     let productToSave = {
       id      : this.product.idProduct,
       quantity: _.sumBy(self.boxes, 'quantity'),
-      price   : self.getPriceSale(),
-      detail  : { name: '', eye: '', parameters: this.product.parameters, boxes: this.boxes, codeSpectrum: this.product.codeSpectrum },
+      price   : this.product.priceSale,
+      detail  : { name: this.product.name, eye: '', parameters: this.product.parameters, boxes: this.boxes, codeSpectrum: this.product.codeSpectrum },
       patient : this.product.patient,
       observations: this.product.observations
     };

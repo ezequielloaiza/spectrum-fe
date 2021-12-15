@@ -29,24 +29,6 @@
         </div>
       </div>
 
-      <div class="col-lg-12 label-title">
-        <div class="col-sm-3" [hidden]="!editPrice">
-          <dl>
-            <dt>{{'Price'| translate}}
-            </dt>
-            <dl>
-              <div class="form-group input-group">
-                  <div class="input-group-append">
-                    <span class="input-group-text">$</span>
-                  </div>
-                  <input class="form-control" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
-                      name="price1">
-              </div>
-            </dl>
-          </dl>
-        </div>
-      </div>
-
       <!-- row (general parameters) -->
       <div class="col-lg-12 specifications">
         <br><br>
@@ -100,8 +82,7 @@
               <!--param values-->
               <div class="select-values" *ngIf="parameter.type === 'selected'">
                 <ng-select [items]="parameter.values" [(ngModel)]="parameter.selected"
-                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
-                  (change)="setCodeAndPrice(box, parameter)" required>
+                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
                   {{item}}
                 </ng-select>
               </div>

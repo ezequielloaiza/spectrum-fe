@@ -164,7 +164,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 7 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 6">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.codeSpectrum && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 4 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 7 || list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier == 6">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
@@ -217,7 +217,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier.idSupplier !== 6 && list.productRequested.product.supplier.idSupplier !== 16 && list.productRequested.product.supplier.idSupplier !== 14">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.codeSpectrum && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier !== 4 && list.productRequested.product.supplier.idSupplier !== 7 && list.productRequested.product.supplier.idSupplier !== 6 && list.productRequested.product.supplier.idSupplier !== 16 && list.productRequested.product.supplier.idSupplier !== 14">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
@@ -225,7 +225,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && (list.productRequested.product.supplier.idSupplier === 16 || list.productRequested.product.supplier.idSupplier === 14)">
+                        <div class="col-sm-3" *ngIf="(list.productRequested.detail[0].codeSpectrum || list.productRequested.product.codeSpectrum) && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && (list.productRequested.product.supplier.idSupplier === 16 || list.productRequested.product.supplier.idSupplier === 14)">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>
