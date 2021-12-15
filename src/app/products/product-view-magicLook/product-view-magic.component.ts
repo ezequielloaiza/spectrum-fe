@@ -156,7 +156,6 @@ export class ProductViewMagicComponent implements OnInit {
 
     //adding first box in array boxes
     let parametersBox = { parameters: JSON.parse(JSON.stringify(this.product.parametersBoxes)) };
-    debugger
     this.setParameterDefaultValue(parametersBox); //FUNCION AA
     this.boxes.push(parametersBox);
     this.setClient();
