@@ -185,6 +185,7 @@ export class ProductViewMagicComponent implements OnInit {
 
   addBox() {
     let parametersBox = { parameters: JSON.parse(JSON.stringify(this.product.parametersBoxes))};
+    this.setParameterDefaultValue(parametersBox);
     this.boxes.push(parametersBox);
   }
 

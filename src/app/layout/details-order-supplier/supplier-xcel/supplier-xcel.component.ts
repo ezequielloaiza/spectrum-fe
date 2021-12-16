@@ -29,6 +29,8 @@ export class SupplierXcelComponent implements OnInit {
   valueClient: any;
   user: any;
   paramStatus = '';
+  design: any;
+  clock: any;
 
   constructor(private fileProductRequestedService: FileProductRequestedService,
     private modalService: NgbModal,
@@ -55,6 +57,58 @@ export class SupplierXcelComponent implements OnInit {
     this.valueClient = this.order.user.status;
     this.paramStatus = this.route.snapshot.queryParams.status;
     this.sendReply();
+  }
+
+  getHeader(list) {
+    this.design = list.find(p => p.name === 'Design');
+    return list
+  }
+
+  getParams(list) {
+    return _.filter(list, function (parameter) {
+      switch (parameter.name) {
+        case 'Clock Mark':
+        case 'Q1 LZ':
+        case 'Q1 SZ':
+        case 'Q2 LZ':
+        case 'Q2 SZ':
+        case 'Q3 LZ':
+        case 'Q3 SZ':
+        case 'Q4 LZ':
+        case 'Q4 SZ':
+          break;
+        default:
+          return parameter;
+      }
+    });
+  }
+
+  getClockParam(list) {
+    this.clock = list.find(p => p.name === 'Clock Mark');
+    return this.clock.selected;
+  }
+
+  getAtlantisParams(list) {
+    return _.filter(list, function (parameter) {
+      switch (parameter.name) {
+        case 'Clock Mark':
+        case 'Q1 LZ':
+        case 'Q1 SZ':
+        case 'Q2 LZ':
+        case 'Q2 SZ':
+        case 'Q3 LZ':
+        case 'Q3 SZ':
+        case 'Q4 LZ':
+        case 'Q4 SZ':
+          return parameter;
+        default:
+          break;
+      }
+    });
+  }
+
+  showImgs() {
+    return this.design.selected === 'Atlantis 2.0'
   }
 
   downloadFile(item) {
