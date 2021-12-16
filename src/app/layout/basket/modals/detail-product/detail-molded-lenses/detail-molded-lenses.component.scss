@@ -81,4 +81,9 @@
     color: $secondary-info;
     padding: 0 1.5em;
   }
+
+  .box-info {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }

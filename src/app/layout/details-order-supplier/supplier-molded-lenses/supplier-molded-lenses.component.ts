@@ -87,5 +87,4 @@ export class SupplierMoldedLensesComponent implements OnInit {
     this.emitEventSynergeyes.emit(fResponse);
     return fResponse;
   }
-
 }
