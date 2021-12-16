@@ -40,6 +40,8 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   CustomersSelected: any;
   typeOrder = 'new';
 
+  boxes: any;
+
   constructor(private productService: ProductService,
     private route: ActivatedRoute,
     private userStorageService: UserStorageService,
@@ -81,163 +83,24 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     this.product.eyeRight = false;
     this.product.eyeLeft = false;
     this.product.type = JSON.parse(this.product.types)[0].name;
-    this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
-    this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
+
+    // General parameters
+    this.product.parameters = _.filter(JSON.parse(this.product.types)[0].parameters, function (param: any) {
+      return param.values.length === 1;
+    });
+
+    // Parameters
+    this.product.parametersBox = _.filter(JSON.parse(this.product.types)[0].parameters, function (param: any) {
+      return param.values.length > 1;
+    });
+
+    this.boxes = [{quantity: null, parameters: JSON.parse(JSON.stringify(this.product.parametersBox))}];
+
     this.product.properties = this.product.infoAditional ? JSON.parse(this.product.infoAditional)[0] : null;
     this.product.priceSale = '';
-    this.setCodesXtensaPremiumToric();
+    //this.setCodesXtensaPremiumToric();
     this.setClient();
     this.setPrice();
-  }
-
-  setCodesXtensaPremiumToric() {
-    if (this.product.name === 'Xtensa Premium Toric 6pk') {
-      this.product.codeRight = '214B';
-      this.product.codeLeft = '214B';
-    }
-  }
-
-  setCodeAndPrice(parameter, eye) {
-    switch (this.product.name) {
-      case 'Xtensa Premium Toric 6pk':
-        if (parameter.name === 'Cylinder (D)') {
-          if (parameter.selected === '-2.75') {
-            if (eye === 'right') {
-              this.product.codeRight = '214C';
-              this.product.priceSaleRight = 15.0;
-            } else {  
-              this.product.codeLeft = '214C';
-              this.product.priceSaleLeft = 15.0;
-            }
-          } else {
-            if (eye === 'right') {
-              this.product.codeRight = '214B';
-              this.product.priceSaleRight = 14.5;
-            } else {  
-              this.product.codeLeft = '214B';
-              this.product.priceSaleLeft = 14.5;
-            }
-          }
-        }
-        break;
-    }
-  }
-
-  isProductClaria(product) {
-    return product.name === 'Claria SiHy Aspheric 6pk' || product.name === 'Claria SiHy Toric 6pk';
-  }
-
-  isProductPersonalized(product) {
-    return product.name === 'Xtensa Premium Toric 6pk' || this.isProductClaria(product);
-  }
-
-  minToBuy() {
-    if (this.isProductClaria(this.product)) {
-      return 50;
-    } else {
-      return 1;
-    }
-  }
-
-  setCodeAndPriceByQuantity(eye) {
-    if (this.product.name === 'Claria SiHy Aspheric 6pk') {
-      if (eye === 'right') {
-        if (this.product.quantityRight < 501) {
-          this.product.codeRight = '216A';
-          this.product.priceSaleRight = 14.0;
-        } else if (this.product.quantityRight < 2001) {
-          this.product.codeRight = '216B';
-          this.product.priceSaleRight = 13.5;
-        } else if (this.product.quantityRight < 3501) {
-          this.product.codeRight = '216C';
-          this.product.priceSaleRight = 13.2;
-        } else if (this.product.quantityRight < 5001) {
-          this.product.codeRight = '216D';
-          this.product.priceSaleRight = 12.75;
-        } else {
-          this.product.codeRight = '216E';
-          this.product.priceSaleRight = 12.5;
-        }
-      } else {
-        if (this.product.quantityLeft < 501) {
-          this.product.codeLeft = '216A';
-          this.product.priceSaleLeft = 14.0;
-        } else if (this.product.quantityLeft < 2001) {
-          this.product.codeLeft = '216B';
-          this.product.priceSaleLeft = 13.5;
-        } else if (this.product.quantityLeft < 3501) {
-          this.product.codeLeft = '216C';
-          this.product.priceSaleLeft = 13.2;
-        } else if (this.product.quantityLeft < 5001) {
-          this.product.codeLeft = '216D';
-          this.product.priceSaleLeft = 12.75;
-        } else {
-          this.product.codeLeft = '216E';
-          this.product.priceSaleLeft = 12.5;
-        }
-      }
-    } else if (this.product.name === 'Claria SiHy Toric 6pk') {
-      if (eye === 'right') {
-        if (this.product.quantityRight < 501) {
-          this.product.codeRight = '217A';
-          this.product.priceSaleRight = 18.25;
-        } else if (this.product.quantityRight < 2001) {
-          this.product.codeRight = '217B';
-          this.product.priceSaleRight = 18.0;
-        } else if (this.product.quantityRight < 3501) {
-          this.product.codeRight = '217C';
-          this.product.priceSaleRight = 17.75;
-        } else if (this.product.quantityRight < 5001) {
-          this.product.codeRight = '217D';
-          this.product.priceSaleRight = 17.5;
-        } else {
-          this.product.codeRight = '217E';
-          this.product.priceSaleRight = 17.25;
-        }
-      } else {
-        if (this.product.quantityLeft < 501) {
-          this.product.codeLeft = '217A';
-          this.product.priceSaleLeft = 18.25;
-        } else if (this.product.quantityLeft < 2001) {
-          this.product.codeLeft = '217B';
-          this.product.priceSaleLeft = 18.0;
-        } else if (this.product.quantityLeft < 3501) {
-          this.product.codeLeft = '217C';
-          this.product.priceSaleLeft = 17.75;
-        } else if (this.product.quantityLeft < 5001) {
-          this.product.codeLeft = '217D';
-          this.product.priceSaleLeft = 17.5;
-        } else {
-          this.product.codeLeft = '217E';
-          this.product.priceSaleLeft = 17.25;
-        }
-      }
-    }
-  }
-
-  setValueEye(eye) {
-    if (eye === 'right') {
-      this.product.eyeRight = !this.product.eyeRight;
-      if (!this.product.eyeRight) {
-        this.clean('right');
-      }
-    } else {
-      this.product.eyeLeft = !this.product.eyeLeft;
-      if (!this.product.eyeLeft) {
-        this.clean('left');
-      }
-    }
-  }
-
-  setEyeSelected() {
-    this.productsSelected = [];
-
-    if (this.product.eyeRight) {
-      this.productsSelected.push({ eye: 'Right' });
-    }
-    if (this.product.eyeLeft) {
-      this.productsSelected.push({ eye: 'Left' });
-    }
   }
 
   setClient() {
@@ -258,6 +121,65 @@ export class ProductViewMoldedLensesComponent implements OnInit {
           });
         }
       });
+    }
+  }
+
+  setPrice() {
+    if (this.user.role.idRole === 3) {
+      const membership = this.currentUser.membership.idMembership;
+      this.definePrice(membership);
+    }
+  }
+
+  //////////////////////// BY BOXES///////////////////////////
+
+  setCodeAndPriceByQuantity() {
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
+
+    if (this.product.name === 'Claria SiHy Aspheric 6pk') {
+      if (totalQuantity < 501) {
+        this.product.codeSpectrum = '216A';
+        this.product.priceSale = 14.0;
+      } else if (totalQuantity < 2001) {
+        this.product.codeSpectrum = '216B';
+        this.product.priceSale = 13.5;
+      } else if (totalQuantity < 3501) {
+        this.product.codeSpectrum = '216C';
+        this.product.priceSale = 13.2;
+      } else if (totalQuantity < 5001) {
+        this.product.codeSpectrum = '216D';
+        this.product.priceSale = 12.75;
+      } else {
+        this.product.codeSpectrum = '216E';
+        this.product.priceSale = 12.5;
+      }
+    } else if (this.product.name === 'Claria SiHy Toric 6pk') {
+      if (totalQuantity < 501) {
+        this.product.codeSpectrum = '217A';
+        this.product.priceSale = 18.25;
+      } else if (totalQuantity < 2001) {
+        this.product.codeSpectrum = '217B';
+        this.product.priceSale = 18.0;
+      } else if (totalQuantity < 3501) {
+        this.product.codeSpectrum = '217C';
+        this.product.priceSale = 17.75;
+      } else if (totalQuantity < 5001) {
+        this.product.codeSpectrum = '217D';
+        this.product.priceSale = 17.5;
+      } else {
+        this.product.codeSpectrum = '217E';
+        this.product.priceSale = 17.25;
+      }
+    }
+  }
+
+  addBox() {
+    this.boxes.push({ quantity: 1, parameters: JSON.parse(JSON.stringify(this.product.parametersBox)) });
+  }
+
+  removeBox(index) {
+    if (this.boxes.length > 1) {
+      this.boxes.splice(index, 1);
     }
   }
 
@@ -289,13 +211,6 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     });
   }
 
-  setPrice() {
-    if (this.user.role.idRole === 3) {
-      const membership = this.currentUser.membership.idMembership;
-      this.definePrice(membership);
-    }
-  }
-
   definePrice(membership) {
     switch (membership) {
       case 1:
@@ -310,57 +225,20 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     }
   }
 
-  setPricesAndCodes(product, productSelected) {
-    if (this.isProductPersonalized(product)) {
-      if (productSelected.eye === 'Right') {
-        productSelected.price = product.priceSaleRight;
-        productSelected.detail.codeSpectrum = product.codeRight;
-      } else {
-        productSelected.price = product.priceSaleLeft;
-        productSelected.detail.codeSpectrum = product.codeLeft;
-      }
-    }
-  }
-
   buildProductsSelected() {
-    this.setEyeSelected();
     let self = this;
-    let product = this.productCopy;
-    let productsSelected = this.productsSelected;
-
-    _.each(productsSelected, function (productSelected, index) {
-
-      productSelected.id = product.idProduct;
-      productSelected.patient = product.patient;
-      productSelected.price = product.priceSale;
-
-      if (productSelected.eye === "Right") {
-        productSelected.quantity = product.quantityRight;
-        productSelected.observations = product.observationsRight;
-        _.each(product.parametersRight, function (parameter, index) {
-          product.parametersRight[index] = _.omit(parameter, ['type', 'values', 'sel']);
-        });
-        productSelected.parameters = product.parametersRight;
-      }
-
-      if (productSelected.eye === "Left") {
-        productSelected.quantity = product.quantityLeft;
-        productSelected.observations = product.observationsLeft;
-        _.each(product.parametersLeft, function (parameter, index) {
-          product.parametersLeft[index] = _.omit(parameter, ['type', 'values', 'sel']);
-        });
-        productSelected.parameters = product.parametersLeft;
-      }
-
-      productSelected.detail = { name: product.type, eye: productSelected.eye, parameters: productSelected.parameters};
-      self.setPricesAndCodes(product, productSelected);
-      productsSelected[index] = _.omit(productSelected, ['parameters', 'eye']);
-    });
-    return productsSelected;
+    let productToSave = {
+      id      : this.product.idProduct,
+      quantity: _.sumBy(self.boxes, 'quantity'),
+      price   : this.product.priceSale,
+      detail  : { name: this.product.name, eye: '', parameters: this.product.parameters, boxes: this.boxes, codeSpectrum: this.product.codeSpectrum },
+      patient : this.product.patient,
+      observations: this.product.observations
+    };
+    return [productToSave];
   }
 
   addToCart(type) {
-    this.productCopy = JSON.parse(JSON.stringify(this.product));
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
     _.each(productsSelected, function (product) {
@@ -382,7 +260,7 @@ export class ProductViewMoldedLensesComponent implements OnInit {
 
   openModal(type): void {
     const modalRef = this.modalService.open(ConfirmationMoldedLensesComponent,
-      { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
+      { size: 'lg', windowClass: 'modal-content-border modal-custom', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;
     modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.role = this.user.role.idRole;
@@ -396,68 +274,26 @@ export class ProductViewMoldedLensesComponent implements OnInit {
 
   formIsValid() {
     let isValid = true;
-    if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
+    if ( totalQuantity < 50 ) {
       return false;
     }
-    if (this.product.eyeRight) {
-      if (this.product.quantityRight === undefined) {
-        return false;
-      }
 
-      if (this.isProductClaria(this.product)) {
-        return this.product.quantityRight > 49;
-      }
+    if (!this.product.patient || !this.client) {
+      return false;
+    }
 
-      _.each(this.product.parametersRight, function (param) {
+    _.each(this.boxes, function(product) {
+      _.each(product.parameters, function(param){
         if (param.selected === null || param.selected === undefined) {
           isValid = false;
         }
-      });
-      if (!this.product.quantityRight) {
-        isValid = false;
-      }
-    }
-
-    if (this.product.eyeLeft) {
-      if (this.product.quantityLeft === undefined) {
-        return false;
-      }
-      if (this.isProductClaria(this.product)) {
-        return this.product.quantityLeft > 49;
-      }
-      _.each(this.product.parametersLeft, function (param) {
-        if (param.selected === null || param.selected === undefined) {
+        if (!product.quantity) {
           isValid = false;
         }
       });
-      if (!this.product.quantityLeft) {
-        isValid = false;
-      }
-    }
-    return isValid;
-  }
-
-  clean(eye) {
-    let parameters;
-    if (eye === 'right') {
-      parameters = this.product.parametersRight;
-      this.product.quantityRight = '';
-      this.product.observationsRight = '';
-    } else {
-      parameters = this.product.parametersLeft;
-      this.product.quantityLeft = '';
-      this.product.observationsLeft = '';
-    }
-    // parameter
-    _.each(parameters, function (param) {
-      if (param.values.length > 1) {
-        param.selected = null;
-      }
     });
-    if (eye === 'right') {
-      this.product.parametersRight = parameters;
-    } else {
-      this.product.parametersLeft = parameters;
-    }
+    return isValid;
   }
 }

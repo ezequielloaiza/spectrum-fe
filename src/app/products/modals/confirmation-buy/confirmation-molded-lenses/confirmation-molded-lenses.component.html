@@ -5,7 +5,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="list-basket body">
+  <div class="confirmation-molded-lenses body">
     <div class="row">
       <!--Image-->
       <div class="col-lg-12 main-info">
@@ -17,7 +17,7 @@
           <img class="img-product" src="{{ product.mainImg }}">
         </div>
         <div class="row">
-            <div class="col-lg-4 title label-title patient-info" [hidden]="hasCodeByEye()">
+            <div class="col-lg-4 title label-title patient-info">
               <span>{{ 'Spectrum code' | translate }}</span>
               <dl>
                 <dt>{{ product.codeSpectrum }}</dt>
@@ -44,21 +44,9 @@
           <div class="col-lg-12 title eye-info">
             <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;
           </div>
-          <div *ngIf="hasCodeByEye()" class="col-sm-3">
-            <dl class="align-item">
-              <dt>{{'Code Spectrum'| translate}}
-              </dt>
-              <hr class="separators">
-              <dl>
-                <dt class="items">
-                  {{ list.detail[0].codeSpectrum }}
-                </dt>
-              </dl>
-            </dl>
-          </div>
           <div class="col-sm-3">
             <dl class="align-item">
-              <dt>{{'Quantity'| translate}}
+              <dt>{{'Total Quantity'| translate}}
               </dt>
               <hr class="separators">
               <dl>
@@ -79,6 +67,32 @@
                 </dt>
               </dl>
             </dl>
+          </div>
+          <div class="col-lg-12" *ngFor="let box of list.detail[0].boxes; let index = index">
+            <span class="title">{{ 'Box' | translate }} {{ index + 1 }}</span>
+            <div class="box-info col-lg-12">
+              <dl class="col-sm-3 align-item">
+                <dt>{{ 'Quantity' | translate }}
+                </dt>
+                <hr class="separators">
+                <dl>
+                  <dt class="items">
+                    {{ box.quantity }}
+                  </dt>
+                </dl>
+              </dl>
+
+              <dl class="col-sm-3 align-item" *ngFor="let paramBox of box.parameters">
+                <dt>{{ paramBox.name | translate }}
+                </dt>
+                <hr class="separators">
+                <dl>
+                  <dt class="items">
+                    {{ paramBox.selected }}
+                  </dt>
+                </dl>
+              </dl>
+            </div>
           </div>
           <!--Comments-->
           <div class="col-lg-12">
