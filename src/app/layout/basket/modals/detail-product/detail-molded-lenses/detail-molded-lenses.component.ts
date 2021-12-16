@@ -15,6 +15,7 @@ export class DetailMoldedLensesComponent implements OnInit {
   product: any;
   detail: any;
   subtotal: any;
+  boxes: any;
 
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
@@ -26,6 +27,7 @@ export class DetailMoldedLensesComponent implements OnInit {
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.subtotal = this.productRequested.price * this.productRequested.quantity;
+    this.boxes = this.detail.boxes;
   }
 
   close() {

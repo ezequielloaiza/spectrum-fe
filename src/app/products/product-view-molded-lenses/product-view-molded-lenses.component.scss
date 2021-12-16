@@ -295,3 +295,26 @@ img {
   font-size: 1rem;
   font-weight: 600;
 }
+
+.specifications {
+  padding-top: 2em;
+  align-items: center;
+
+  .generals {
+    display: flex;
+  }
+
+  .error-quantity {
+    color:$error-quantity;
+  }
+
+  &.btn-box {
+    justify-content: flex-start;
+  }
+}
+
+.hand-over {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-evenly;
+}
