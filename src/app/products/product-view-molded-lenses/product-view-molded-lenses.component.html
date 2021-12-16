@@ -190,7 +190,7 @@
 
         </div>
         <div class="col-md-1 hand-over">
-          <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete Box' | translate}}" (click)="removeBox(index)"></span>
+          <span class="fa fa-trash" [hidden]="boxes.length === 1" placement="top" ngbTooltip="{{'Delete Box' | translate}}" (click)="removeBox(index)"></span>
           <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add Box' | translate}}" (click)="addBox()"></span>
         </div>
       </div>

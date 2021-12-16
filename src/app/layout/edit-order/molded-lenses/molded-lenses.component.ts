@@ -62,7 +62,10 @@ export class MoldedLensesComponent implements OnInit {
     this.patient = this.productRequested.patient;
     this.product.parameters = this.detail.parameters;
     this.product.priceSale = this.productRequested.price;
-    this.boxes = this.detail.boxes;
+    this.boxes = JSON.parse(JSON.stringify(this.detail.boxes));
+    this.product.parametersBox = _.filter(JSON.parse(this.product.types)[0].parameters, function (param: any) {
+      return param.values.length > 1;
+    });
   }
 
   save() {
@@ -181,6 +184,16 @@ export class MoldedLensesComponent implements OnInit {
         this.product.codeSpectrum = '217E';
         this.product.priceSale = 17.25;
       }
+    }
+  }
+
+  addBox() {
+    this.boxes.push({ quantity: 1, parameters: JSON.parse(JSON.stringify(this.product.parametersBox)) });
+  }
+
+  removeBox(index) {
+    if (this.boxes.length > 1) {
+      this.boxes.splice(index, 1);
     }
   }
 }

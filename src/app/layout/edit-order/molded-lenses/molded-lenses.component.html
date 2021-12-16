@@ -57,7 +57,7 @@
             <label class="form-check-label">{{ 'Box' | translate }}{{ ' ' + (index+1) }}</label>
           </div>
           <div class="col-lg-1 hand-over">
-            <span class="fa fa-trash" placement="top" ngbTooltip="{{'Delete Box' | translate}}" (click)="removeBox(index)"></span>
+            <span [hidden]="boxes.length === 1" class="fa fa-trash" placement="top" ngbTooltip="{{'Delete Box' | translate}}" (click)="removeBox(index)"></span>
             <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add Box' | translate}}" (click)="addBox()"></span>
           </div>
         </div>
