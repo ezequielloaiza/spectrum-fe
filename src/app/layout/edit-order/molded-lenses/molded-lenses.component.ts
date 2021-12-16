@@ -25,10 +25,11 @@ export class MoldedLensesComponent implements OnInit {
   tones: Array<any> = new Array;
   quantity: any;
   observations: any;
-  price: any;
-  editPrice = false;
   user: any;
   patient: any;
+
+  boxes: Array<any> = new Array;
+
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -47,9 +48,6 @@ export class MoldedLensesComponent implements OnInit {
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.getProductView();
-    if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
-      this.editPrice = true;
-    }
 
   }
 
@@ -59,46 +57,15 @@ export class MoldedLensesComponent implements OnInit {
 
   getProductView() {
     this.product.type = JSON.parse(this.product.types)[0].name;
-    this.product.parameters = JSON.parse(this.product.types)[0].parameters;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
-    this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
-    let parameters = this.product.parameters;
-    _.each(this.detail.parameters, function(item) {
-      _.each(parameters, function(productSelected) {
-        if (productSelected.name === item.name) {
-          productSelected.selected = item.selected;
-        }
-     });
+    this.product.parameters = this.detail.parameters;
+    this.product.priceSale = this.productRequested.price;
+    this.boxes = JSON.parse(JSON.stringify(this.detail.boxes));
+    this.product.parametersBox = _.filter(JSON.parse(this.product.types)[0].parameters, function (param: any) {
+      return param.values.length > 1;
     });
-    this.product.parameters = parameters;
-    this.initialPricesAndCodes();
-  }
-
-  initialPricesAndCodes() {
-    let self = this;
-    _.each(this.product.parameters, function(parameter) {
-      self.setCodeAndPrice(parameter);
-    });
-  }
-
-  savePricesAndCodes(type) {
-    if (this.isProductPersonalized(this.product)) {
-      if (type === 'basket') {
-        this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-          parameters: this.detail.parameters, codeSpectrum: this.productRequested.newCode}) + ']'; 
-        
-        this.productRequested.price = this.productRequested.newPrice;
-      } else if (type === 'order-detail') {
-        this.productRequestedAux.newCode = this.productRequested.newCode;
-        this.productRequestedAux.newPrice = this.productRequested.newPrice;
-        this.productRequestedAux.price = this.productRequested.newPrice;
-
-        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-          parameters: this.detail.parameters, codeSpectrum: this.productRequestedAux.newCode}) + ']';
-      } 
-    }
   }
 
   save() {
@@ -115,25 +82,29 @@ export class MoldedLensesComponent implements OnInit {
     });
     if (this.typeEdit === 1) { // Basket
         this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
-        this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                      parameters: this.detail.parameters}) + ']';
+        this.productRequested.detail = '[' + JSON.stringify({ name: this.product.name,
+                                                              eye: this.detail.eye,
+                                                              parameters: this.detail.parameters,
+                                                              boxes: this.boxes,
+                                                              codeSpectrum: this.product.codeSpectrum}) + ']';
         this.productRequested.observations = this.observations;
-        this.productRequested.price = this.price;
-        this.productRequested.quantity = this.quantity;
+        this.productRequested.price = this.product.priceSale;
+        this.productRequested.quantity = _.sumBy(this.boxes, 'quantity');
         this.productRequested.product = this.product.idProduct;
         this.productRequested.patient = this.patient;
-        this.savePricesAndCodes('basket');
         this.update(this.productRequested);
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
-        this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
-                                         parameters: this.detail.parameters}) + ']';
+        this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.product.name,
+                                                                 eye: this.detail.eye,
+                                                                 parameters: this.detail.parameters,
+                                                                 boxes: this.boxes,
+                                                                 codeSpectrum: this.product.codeSpectrum}) + ']';
         this.productRequestedAux.observations = this.observations;
-        this.productRequestedAux.price = this.price;
-        this.productRequestedAux.quantity = this.quantity;
+        this.productRequestedAux.price = this.product.priceSale;
+        this.productRequestedAux.quantity = _.sumBy(this.boxes, 'quantity');
         this.productRequestedAux.product = this.product.idProduct;
         this.productRequestedAux.patient = this.patient;
-        this.savePricesAndCodes('order-detail');
         this.update(this.productRequestedAux);
     }
   }
@@ -146,13 +117,14 @@ export class MoldedLensesComponent implements OnInit {
            valido = false;
           }
      });
-     if (this.quantity === null  || this.price === null || !this.patient) {
+     if (this.quantity === null || !this.patient) {
           valido = false;
      }
 
-     if (this.isProductClaria(this.product)) {
-      valido = this.quantity > 49;
-    }
+     var totalQuantity = _.sumBy(this.boxes, 'quantity');
+     if ( totalQuantity < 50 ) {
+       valido = false;
+     }
 
      return valido;
   }
@@ -175,78 +147,53 @@ export class MoldedLensesComponent implements OnInit {
     });
   }
 
-  minToBuy() {
-    if (this.isProductClaria(this.product)) {
-      return 50;
-    } else {
-      return 1;
-    }
-  }
-
-  isProductPersonalized(product) {
-    return product.name === 'Xtensa Premium Toric 6pk' || this.isProductClaria(product);
-  }
-
-  isProductClaria(product) {
-    return product.name === 'Claria SiHy Aspheric 6pk' || product.name === 'Claria SiHy Toric 6pk';
-  }
-
   setCodeAndPriceByQuantity() {
+    var totalQuantity = _.sumBy(this.boxes, 'quantity');
+
     if (this.product.name === 'Claria SiHy Aspheric 6pk') {
-      if (this.quantity < 501) {
-        this.productRequested.newCode = '216A';
-        this.productRequested.newPrice = 14.0;
-      } else if (this.quantity < 2001) {
-        this.productRequested.newCode = '216B';
-        this.productRequested.newPrice = 13.5;
-      } else if (this.quantity < 3501) {
-        this.productRequested.newCode = '216C';
-        this.productRequested.newPrice = 13.2;
-      } else if (this.quantity < 5001) {
-        this.productRequested.newCode = '216D';
-        this.productRequested.newPrice = 12.75;
+      if (totalQuantity < 501) {
+        this.product.codeSpectrum = '216A';
+        this.product.priceSale = 14.0;
+      } else if (totalQuantity < 2001) {
+        this.product.codeSpectrum = '216B';
+        this.product.priceSale = 13.5;
+      } else if (totalQuantity < 3501) {
+        this.product.codeSpectrum = '216C';
+        this.product.priceSale = 13.2;
+      } else if (totalQuantity < 5001) {
+        this.product.codeSpectrum = '216D';
+        this.product.priceSale = 12.75;
       } else {
-        this.productRequested.newCode = '216E';
-        this.productRequested.newPrice = 12.5;
+        this.product.codeSpectrum = '216E';
+        this.product.priceSale = 12.5;
       }
-      this.price = this.productRequested.newPrice;
     } else if (this.product.name === 'Claria SiHy Toric 6pk') {
-      if (this.quantity < 501) {
-        this.productRequested.newCode = '217A';
-        this.productRequested.newPrice = 18.25;
-      } else if (this.quantity < 2001) {
-        this.productRequested.newCode = '217B';
-        this.productRequested.newPrice = 18.0;
-      } else if (this.quantity < 3501) {
-        this.productRequested.newCode = '217C';
-        this.productRequested.newPrice = 17.75;
-      } else if (this.quantity < 5001) {
-        this.productRequested.newCode = '217D';
-        this.productRequested.newPrice = 17.5;
+      if (totalQuantity < 501) {
+        this.product.codeSpectrum = '217A';
+        this.product.priceSale = 18.25;
+      } else if (totalQuantity < 2001) {
+        this.product.codeSpectrum = '217B';
+        this.product.priceSale = 18.0;
+      } else if (totalQuantity < 3501) {
+        this.product.codeSpectrum = '217C';
+        this.product.priceSale = 17.75;
+      } else if (totalQuantity < 5001) {
+        this.product.codeSpectrum = '217D';
+        this.product.priceSale = 17.5;
       } else {
-        this.productRequested.newCode = '217E';
-        this.productRequested.newPrice = 17.25;
+        this.product.codeSpectrum = '217E';
+        this.product.priceSale = 17.25;
       }
-      this.price = this.productRequested.newPrice;
     }
   }
 
+  addBox() {
+    this.boxes.push({ quantity: 1, parameters: JSON.parse(JSON.stringify(this.product.parametersBox)) });
+  }
 
-  setCodeAndPrice(parameter) {
-    switch (this.product.name) {
-      case 'Xtensa Premium Toric 6pk':
-        if (parameter.name === 'Cylinder (D)') {
-          if (parameter.selected === '-2.75') {
-            this.productRequested.newCode = '214C';
-            this.productRequested.newPrice = 15.0;
-            this.price = 15.0;
-          } else {
-            this.productRequested.newCode = '214B';
-            this.productRequested.newPrice = 14.5;
-            this.price = 14.5;
-          }
-        }
-        break;
+  removeBox(index) {
+    if (this.boxes.length > 1) {
+      this.boxes.splice(index, 1);
     }
   }
 }
