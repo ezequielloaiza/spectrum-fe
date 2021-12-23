@@ -147,10 +147,15 @@
                   </div>
 
                   <!-- INPUT TYPE NUMBER-->
-                  <div *ngIf="parameter.type === 'input-number' && parameter.name !== 'Quantity'" class="select-values col-sm-12">
+                  <div *ngIf="parameter.type === 'input-number' && !getNamesForMin(parameter)" class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
                        [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}"
-                       max="100" oninput="validity.valid||(value='');" [min]="setMinimum(parameter)" step="0.01">
+                       max="100" oninput="validity.valid||(value='');"  step="0.01">
+                  </div>
+                  <div *ngIf="parameter.type === 'input-number' && getNamesForMin(parameter)" class="select-values col-sm-12">
+                    <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
+                       [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}"
+                       max="100" oninput="validity.valid||(value='');" min="0"  step="0.01">
                   </div>
                 </dt>
               </dl>
