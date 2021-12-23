@@ -1197,7 +1197,7 @@ export class XcelComponent implements OnInit {
     }
     _.each(this.paramsToShow, function (param) {
       if (!param.noRequired && !param.selected) {
-        isValid = false;
+        isValid = param.selected === 0? !param.noRequired && !param.selected : !param.noRequired && param.selected;
       }
     });
 
@@ -1207,6 +1207,13 @@ export class XcelComponent implements OnInit {
           isValid = false;
         }
       });
+    }
+
+    if (['Apex', 'Pinnacle', 'Titan'].some(x => this.designPR.includes(x))) {
+      const edge = this.paramsToShow.find(p => p.name === 'Edge');
+      if (edge.selected !== 0 && !edge.selected) {
+        isValid = false;
+      }
     }
     return isValid;
   }
@@ -1404,6 +1411,26 @@ export class XcelComponent implements OnInit {
 
   getAtlantisParams() {
     return this.paramsAtlantisImages.filter(p => p !== 'Clock Mark');
+  }
+
+  setMinimum(param) {
+    if (param.name === 'Quantity') {
+      return 1
+    } else if (['BC', 'Base Curve', 'Diameter'].some(x => param.name.includes(x))) {
+      return 0
+    } else {
+      return null
+    }
+  }
+
+  changeRequired(parameter) {
+    if (parameter === 'Edge') {
+      let design = this.paramsToShow.find(p => p.name === 'Design').selected;
+      if (!!design && ['Apex', 'Pinnacle', 'Titan'].some(x => design.includes(x))) {
+        return true;
+      }
+      return false;
+    }
   }
 
   save() {

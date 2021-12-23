@@ -18,9 +18,9 @@
               <ng-option [value]="item" *ngFor="let item of getValues(parameter)">{{ item | translate }}</ng-option>
             </ng-select> -->
 
-            <ng-select [items]="parameter.values" (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
-              bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
-              [disabled]="!enableParams">
+            <ng-select [items]="parameter.values" (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected"
+            [required]="!parameter.noRequired || changeRequired(parameter.name)" bindValue="item" placeholder="{{ 'Select value' | translate }}"
+            [clearable]="parameter.noRequired" [disabled]="!enableParams">
                 <ng-template ng-label-tmp let-item="item">
                   <div>
                     <span>{{ item | translate }}</span>
@@ -41,8 +41,8 @@
 
           <div *ngSwitchCase="'input-number'" class="col-sm-12 pl-0">
             <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter)"
-              [required]="!parameter.noRequired" max="1000" oninput="validity.valid||(value='');" [min]="setMinimum(parameter)"
-              (change)="changeParamsAndPriceValue(parameter)" id="number-{{eye}}-{{parameter.name}}"/>
+              [required]="!parameter.noRequired" max="100" oninput="validity.valid||(value='');" [min]="setMinimum(parameter)"
+              (change)="changeParamsAndPriceValue(parameter)" id="number-{{eye}}-{{parameter.name}}" step="0.01"/>
           </div>
 
           <div *ngSwitchCase="'radio'" class="radio-b">

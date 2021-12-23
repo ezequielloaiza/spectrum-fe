@@ -117,7 +117,8 @@
                   <!--param values-->
                   <!-- SELECTED OF ALL -->
                   <div *ngIf="parameter.type === 'selected'" class="select-values col-sm-12">
-                    <ng-select (change)="changeParams(parameter, $event)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
+                    <ng-select (change)="changeParams(parameter, $event)" [(ngModel)]="parameter.selected"
+                      [required]="!parameter.noRequired || changeRequired(parameter.name)"
                       bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
                       [disabled]="parameter.values.length === 1" id="select-{{eye}}-{{parameter.name}}">
                       <ng-option [value]="item" *ngFor="let item of parameter.values">{{ item | translate }}</ng-option>
@@ -149,7 +150,7 @@
                   <div *ngIf="parameter.type === 'input-number' && parameter.name !== 'Quantity'" class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
                        [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}"
-                       max="1000" oninput="validity.valid||(value='');">
+                       max="100" oninput="validity.valid||(value='');" [min]="setMinimum(parameter)" step="0.01">
                   </div>
                 </dt>
               </dl>

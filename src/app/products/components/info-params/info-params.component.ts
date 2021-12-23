@@ -85,6 +85,23 @@ export class InfoParamsComponent implements OnInit {
   }
 
   setMinimum(param) {
-    return (param.name === 'Quantity') ? 1 : null
+
+    if (param.name === 'Quantity') {
+      return 1
+    } else if (['BC', 'Base Curve', 'Diameter'].some(x => param.name.includes(x))) {
+      return 0
+    } else {
+      return null
+    }
+  }
+
+  changeRequired(parameter) {
+    if (parameter === 'Edge') {
+      let design = this.parameters.find(p => p.name === 'Design').selected;
+      if (!!design && ['Apex', 'Pinnacle', 'Titan'].some(x => design.includes(x))) {
+        return true;
+      }
+      return false;
+    }
   }
 }
