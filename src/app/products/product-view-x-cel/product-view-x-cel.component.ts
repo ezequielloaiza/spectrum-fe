@@ -1405,16 +1405,26 @@ export class ProductViewXCelComponent implements OnInit {
     const self = this;
     const paramsEmpty = _.some(eyes, function (eye, index) {
       return eyesEnabled[index] && _.some(self.product[self.parametersByEye(eye)], function (parameter) {
-        return !parameter.noRequired && !parameter.selected || (parameter.name === 'Quantity' && parameter.selected < 1);
+        return parameter.selected === 0? !parameter.noRequired && parameter.selected : !parameter.noRequired && !parameter.selected;
       });
     });
     const paramsAtlantis = _.some(eyes, function (eye, index) {
-      const design = self.product[self.parametersByEye(eye)].find(p => p.name === 'Design')
+      const design = self.product[self.parametersByEye(eye)].find(p => p.name === 'Design');
       return (design.selected !== 'Atlantis 2.0' && eyesEnabled[index]) ? !eyesEnabled[index] : eyesEnabled[index] && _.some(self.getAtlantisParams(eye), function (parameter) {
         return !parameter.noRequired && !parameter.selected;
       });
     });
-    return !this.product.client || !this.product.patient || nothingSelected || paramsEmpty || paramsAtlantis;
+
+    const edgeSelected = _.some(eyes, function (eye, index) {
+      const design = self.product[self.parametersByEye(eye)].find(p => p.name === 'Design');
+      const edge = self.product[self.parametersByEye(eye)].find(p => p.name === 'Edge');
+      if (!!design.selected && ['Apex', 'Pinnacle', 'Titan'].some(x => design['selected'].includes(x))) {
+        return !edge.selected && eyesEnabled[index];
+      } /* else {
+        return eyesEnabled[index] ? !eyesEnabled[index] : eyesEnabled[index];
+      } */
+    });
+    return !this.product.client || !this.product.patient || nothingSelected || paramsEmpty || paramsAtlantis || edgeSelected;
   }
 
   getAtlantisParams(eye) {
