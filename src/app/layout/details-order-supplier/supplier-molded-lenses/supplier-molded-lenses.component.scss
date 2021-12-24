@@ -24,10 +24,13 @@
   margin-bottom: 160px;
 }
 
+.title {
+  font-weight: 600;
+}
+
 
 @media only screen and (max-width: 575px) {
   .edit {
     margin: -400px -52px 555px 0px;
   }
-
 }

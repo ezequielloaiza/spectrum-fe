@@ -122,9 +122,31 @@
           </div>
         </div>
         <div class="col-lg-1">
-          <h5 class="padding-price" [hidden]="product.priceSale==='' || isProductPersonalized(product)">
+          <h5 class="padding-price" *ngIf="product.priceSale">
             <span>{{ product.priceSale | currency : "USD $" }}</span>
           </h5>
+        </div>
+      </div>
+
+      <br><br>
+
+      <!-- row (general parameters) -->
+      <div class="row specifications">
+        <div class="col-lg-12 title">
+          <label class="form-check-label">{{ 'General Parameters' | translate }}</label>
+        </div>
+        <!--PARAMS-->
+        <div class="col-lg-12 generals">
+          <div *ngFor="let parameter of product.parameters" class="col-lg-2">
+            <div *ngIf="parameter.values && parameter.values.length > 0">
+              <div class="title">
+                <label class="form-check-label">{{ parameter.name | translate }}</label>
+              </div>
+              <div class="row info-content">
+                <label class="form-check-label">{{ parameter.values }}</label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -132,107 +154,60 @@
         <div class="col-md-12 title">
           <label> {{ 'Please specify your product' | translate }}</label>
         </div>
-        <div class="col-md-12 message-quantity">
-          <span translate>{{'To make the order the minimum quantity is' | translate}} 50 {{ 'units' | translate}}</span>
+      </div>
+
+
+      <div class="row specifications col-lg-12" *ngFor="let box of boxes; let index = index">
+        <div class="col-lg-1 margin-col">
+          <div class="row title">
+            <label class="form-check-label">{{ 'Box' | translate }}{{ ' ' + (index+1) }}</label>
+          </div>
+        </div>
+        <!--QUANTITY-->
+        <div class="col-lg-2 margin-col">
+          <div class="row title">
+            <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+          </div>
+          <div class="row">
+            <input class="form-control" type="number" step="1" min="1" [(ngModel)]="box.quantity"
+                   (change)="setCodeAndPriceByQuantity(box)" required>
+          </div>
+        </div>
+        <!--PARAMS-->
+        <div *ngFor="let parameter of box.parameters" class="col-lg-2 params margin-col">
+          <div *ngIf="parameter.values && parameter.values.length > 0">
+            <div class="row title">
+              <label class="form-check-label">{{ parameter.name | translate }}</label>
+            </div>
+            <!--param values-->
+            <div class="row select-values" *ngIf="parameter.type === 'selected'">
+              <ng-select [items]="parameter.values" [(ngModel)]="parameter.selected"
+                 bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" required>
+                {{item}}
+              </ng-select>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-1 hand-over">
+          <span class="fa fa-trash" [hidden]="boxes.length === 1" placement="top" ngbTooltip="{{'Delete Box' | translate}}" (click)="removeBox(index)"></span>
+          <span class="fa fa-plus-circle" placement="top" ngbTooltip="{{'Add Box' | translate}}" (click)="addBox()"></span>
         </div>
       </div>
 
-      <!-- row (parameters) -->
-      <div class="row header-params">
-        <!-- row (parameters right) -->
-        <div class="col-lg-12 custom-control custom-checkbox">
-          <!--header-->
-          <input id="right" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('right')" [checked]="product.eyeRight"
-            class="custom-control-input">
-          <label class="custom-control-label" for="right">{{ 'OD' }}</label>
-          <div class="title">{{ 'Parameters' | translate }}</div>
-          <div class="row">
-            <!--quantity right-->
-            <div class="col-lg-2 margin-col padding-col">
-              <div class="row">
-                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
-              </div>
-              <div class="row">
-                <input class="form-control" type="number" step=1 min="{{ minToBuy() }}" [(ngModel)]="product.quantityRight" oninput="validity.valid||(value='');"
-                  (change)="setCodeAndPriceByQuantity('right')" [disabled]="!product.eyeRight" [required]="product.eyeRight">
-              </div>
-            </div>
-            <!--params right-->
-            <div *ngFor="let parameter of product.parametersRight" class="col-lg-2 padding-col margin-col">
-              <div *ngIf="parameter.values && parameter.values.length > 0">
-                <!--param name-->
-                <div class="row ">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
-                </div>
-                <!--param values-->
-                <div class="row select-values" *ngIf="parameter.type === 'selected'">
-                  <ng-select [items]="parameter.values" [disabled]="!product.eyeRight || parameter.values.length === 1"
-                    [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}"
-                    (change)="setCodeAndPrice(parameter, 'right')" [required]="product.eyeRight">
-                    {{item}}
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="title">{{ 'Comments Right Eye' | translate }}</div>
-              <textarea class="form-control" type="text" [(ngModel)]="product.observationsRight" [disabled]="!product.eyeRight" maxlength="50"
-                placeholder="{{ 'Enter right eye observations' | translate }}"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <!-- row (parameters left) -->
-        <div class="col-lg-12 custom-control custom-checkbox">
-          <!--header-->
-          <input id="left" type="checkbox" name="checkboxGroupAll" (click)="setValueEye('left')" [checked]="product.eyeLeft"
-            class="custom-control-input">
-          <label class="custom-control-label" for="left">{{ 'OS' }}</label>
-          <div class="title">{{ 'Parameters' | translate }}</div>
-          <div class="row">
-            <!--quantity left-->
-            <div class="col-lg-2  margin-col padding-col">
-              <div class="row">
-                <label class="form-check-label">{{ 'Quantity' | translate }}</label>
-              </div>
-              <div class="row">
-                <input class="form-control" type="number" step=1 min="{{ minToBuy() }}" [(ngModel)]="product.quantityLeft" oninput="validity.valid||(value='');"
-                (change)="setCodeAndPriceByQuantity('left')" [disabled]="!product.eyeLeft" [required]="product.eyeLeft">
-              </div>
-            </div>
-            <!--params left-->
-            <div class="col-lg-2 padding-col margin-col" *ngFor="let parameter of product.parametersLeft">
-              <div *ngIf="parameter.values && parameter.values.length > 0">
-                <!--param name-->
-                <div class="row">
-                  <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
-                </div>
-                <!--param values-->
-                <div class="row select-values">
-                  <ng-select [items]="parameter.values" [disabled]="!product.eyeLeft || parameter.values.length === 1"
-                    [required]="product.eyeLeft" [(ngModel)]="parameter.selected" bindLabel="item" bindValue="item"
-                    (change)="setCodeAndPrice(parameter, 'left')" placeholder="{{ 'Select value' | translate }}">
-                    {{item}}
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="title">{{ 'Comments Left Eye' | translate }}</div>
-              <textarea class="form-control" type="text" [(ngModel)]="product.observationsLeft" [disabled]="!product.eyeLeft" maxlength="50"
-                placeholder="{{ 'Enter left eye observations' | translate }}"></textarea>
-            </div>
-
-          </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="title">{{ 'Comments' | translate }}</div>
+          <textarea class="form-control" type="text" [(ngModel)]="product.observations" maxlength="50"
+            placeholder="{{ 'Enter observations' | translate }}"></textarea>
         </div>
       </div>
 
+      <br>
+      <div class="col-md-12 message-quantity">
+        <span translate>{{'To make the order the minimum quantity is' | translate}} 50 {{ 'units' | translate}}</span>
+      </div>
       <br>
       <div class="row">
         <div class="col-md-12 buy-btns">
