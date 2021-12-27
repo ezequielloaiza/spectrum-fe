@@ -481,7 +481,7 @@ export class ProductViewXCelComponent implements OnInit {
   changeParamsAndPrice(value) {
     const self = this;
     let paramsBody = [];
-    const paramsHeader = this.getParams('header', value.eye);
+    let paramsHeader = this.getParams('header', value.eye);
 
     //--------------------------------------------------------
 
@@ -551,12 +551,23 @@ export class ProductViewXCelComponent implements OnInit {
           const selectedDesign = value.param.selected;
           this.presentationAndDesign[value.eye.toLowerCase()].design = selectedDesign;
           this.setPriceByDesign(value.eye, selectedDesign);
+          let material = paramsHeader.find(p => p.name === 'Materials');
 
           paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
             switch (selectedDesign) {
               case 'X-Cel Multifocal': //addition, dom eye, distance zone
-                return !param.header;
+              return !param.header;
+              case 'Flexlens ARC':
+                material.values = [];
+                material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
+                material.selected = (material.selected === '49%' || material.selected === 'Definitive 74%') ? material.selected : null;
+                material.values = material.values.filter(p => p === '49%' || p === 'Definitive 74%');
+              return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye'
               case 'Flexlens Large Diameter':
+                material.values = [];
+                material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
+                material.values = material.values.filter(p => p === '55%');
+                material.selected = material.values[0];
                 if (param.name === 'Presentation') {
                   param.values = param.values.filter(p => p !== '3 Pack');
                   param.selected = (param.selected === '3 Pack') ? null : param.selected;
@@ -564,6 +575,10 @@ export class ProductViewXCelComponent implements OnInit {
                 }
               return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
               default:
+                if (material.values.length <= 2) {
+                  material.values = [];
+                  material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
+                }
                 if (!_.includes(param.values, '3 Pack') && param.name === 'Presentation') {
                   param.values = _.concat(param.values, '3 Pack');
                 }
