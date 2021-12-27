@@ -172,7 +172,7 @@
             <div class="card-body">
               <p class="card-text"> {{ product.descriptionShort }}</p>
               <div class="price-wrap h4" [hidden]="user.role.idRole!==3">
-                <span [hidden]="product.supplier.idSupplier === 2" class="price-new">{{ product.priceSale | currency : "USD $" }}</span>
+                <span [hidden]="product.supplier.idSupplier === 2 || !product.priceSale" class="price-new">{{ product.priceSale | currency : "USD $" }}</span>
               </div>
               <div class="product-btns">
                 <div class="btn-group">
