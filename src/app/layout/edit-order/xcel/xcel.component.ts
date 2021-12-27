@@ -1322,16 +1322,33 @@ export class XcelComponent implements OnInit {
 
           this.designPR = value;
           this.setFullPrice();
+          let material = this.productParams.find(p => p.name === 'Materials');
 
           this.paramsToShow = _.filter(this.productParams, function (param) {
             switch (self.designPR) {
+              case 'X-Cel Multifocal': //addition, dom eye, distance zone
+              return param.name !== 'Quantity';
+              case 'Flexlens ARC':
+                material.values = [];
+                material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
+                material.selected = (material.selected === '49%' || material.selected === 'Definitive 74%') ? material.selected : null;
+                material.values = material.values.filter(p => p === '49%' || p === 'Definitive 74%');
+              return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && param.name !== 'Quantity';
               case 'Flexlens Large Diameter':
+                material.values = [];
+                material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
+                material.values = material.values.filter(p => p === '55%');
+                material.selected = material.values[0];
                 if (param.name === 'Presentation') {
                   param.values = param.values.filter(p => p !== '3 Pack');
                   param.selected = (param.selected === '3 Pack') ? null : param.selected;
                 }
               return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && param.name !== 'Quantity';
               default:
+                if (material.values.length <= 2) {
+                  material.values = [];
+                  material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
+                }
                 if (!_.includes(param.values, '3 Pack') && param.name === 'Presentation') {
                   param.values = _.concat(param.values, '3 Pack');
                 }
