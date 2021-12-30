@@ -12,12 +12,6 @@
         </div>
         <div class="row" [ngSwitch]="parameter.type">
           <div *ngSwitchCase="'selected'" class="col-sm-12 pl-0">
-            <!-- <ng-select (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected" [required]="!parameter.noRequired"
-                    bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired"
-                    [disabled]="!enableParams">
-              <ng-option [value]="item" *ngFor="let item of getValues(parameter)">{{ item | translate }}</ng-option>
-            </ng-select> -->
-
             <ng-select [items]="parameter.values" (change)="changeParamsAndPriceValue(parameter)" [(ngModel)]="parameter.selected"
             [required]="!parameter.noRequired || changeRequired(parameter.name)" bindValue="item" placeholder="{{ 'Select value' | translate }}"
             [clearable]="parameter.noRequired" [disabled]="!enableParams || parameter.values.length === 1">
@@ -38,10 +32,16 @@
             <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams" maxlength="25"
               [required]="!parameter.noRequired" (change)="changeParamsAndPriceValue(parameter)" id="text-{{eye}}-{{parameter.name}}"/>
           </div>
-
-          <div *ngSwitchCase="'input-number'" class="col-sm-12 pl-0">
+          <!-- this input number is for only positive numbers -->
+          <div *ngIf="parameter.type === 'input-number' && checkParamName(parameter)" class="col-sm-12 pl-0">
             <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter)"
               [required]="!parameter.noRequired" max="100" oninput="validity.valid||(value='');" [min]="setMinimum(parameter)"
+              (change)="changeParamsAndPriceValue(parameter)" id="number-{{eye}}-{{parameter.name}}" step="0.01"/>
+          </div>
+          <!-- this input number is for negative numbers -->
+          <div *ngIf="parameter.type === 'input-number' && !checkParamName(parameter) && parameter.name !== 'Axis'" class="col-sm-12 pl-0">
+            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter)"
+              [required]="!parameter.noRequired" max="100" [min]="setMinimum(parameter)"
               (change)="changeParamsAndPriceValue(parameter)" id="number-{{eye}}-{{parameter.name}}" step="0.01"/>
           </div>
 
