@@ -86,13 +86,17 @@ export class InfoParamsComponent implements OnInit {
 
   setMinimum(param) {
 
-    if (param.name === 'Quantity') {
+    if (param.name === 'Quantity' || param.name === 'Axis') {
       return 1
-    } else if (['BC', 'Base Curve', 'Diameter'].some(x => param.name.includes(x))) {
+    } else if (['BC', 'Base Curve', 'Diameter', 'Addition'].some(x => param.name.includes(x))) {
       return 0
     } else {
       return null
     }
+  }
+
+  checkParamName(parameter) {
+    return (['BC', 'Base Curve', 'Diameter', 'Addition'].some(x => parameter.name.includes(x)));
   }
 
   changeRequired(parameter) {

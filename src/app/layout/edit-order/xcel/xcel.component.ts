@@ -1431,7 +1431,7 @@ export class XcelComponent implements OnInit {
   }
 
   getNamesForMin(param) {
-    return (['BC', 'Base Curve', 'Diameter'].some(x => param.name.includes(x)))
+    return (['BC', 'Base Curve', 'Diameter', 'Addition'].some(x => param.name.includes(x)))
   }
 
   changeRequired(parameter) {
