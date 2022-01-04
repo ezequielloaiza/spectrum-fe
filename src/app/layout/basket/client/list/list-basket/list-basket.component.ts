@@ -134,8 +134,13 @@ export class ListBasketComponent implements OnInit {
 
     _.each(auxList, function(basket) {
       priceAll = 0;
-      productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
-      existContraryEye = self.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+      if (!basket.productRequested.detail[0]) {
+        productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, !!basket.productRequested.detail[0] );
+        existContraryEye = false;
+      } else {
+        productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+        existContraryEye = self.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+      }
       const insertID = self.productModel.getInsertsID(basket.productRequested.product, null);
       const productDMV = insertID && _.find(productsAdditional, {idProduct: insertID});
 
@@ -269,12 +274,17 @@ export class ListBasketComponent implements OnInit {
   getProductsGrouped(groupId, eye) {
     const auxList = [];
 
-    _.each(this.listBasketAll, function(item) {
-      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
-        auxList.push(item);
+    _.each(this.listBasketAll, function (item) {
+      if (!eye) {
+        if (item.productRequested.groupId === groupId) {
+          auxList.push(item);
+        }
+      } else {
+        if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
+          auxList.push(item);
+        }
       }
     });
-
     return auxList;
   }
 
