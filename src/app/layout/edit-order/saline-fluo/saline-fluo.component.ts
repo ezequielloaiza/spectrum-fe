@@ -35,6 +35,7 @@ export class SalineFluoComponent implements OnInit {
   user: any;
   image: any;
   strips: any;
+  quantityValues: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -57,6 +58,8 @@ export class SalineFluoComponent implements OnInit {
     this.getProductsCode();
     if (_.includes(this.product.name, 'Saline')) {
       this.saline = true;
+      debugger
+      this.quantityValues = (JSON.parse(this.product.infoAditional).find(n => n.name === 'Quantity'));
     } else {
       this.fluo =  true;
     }

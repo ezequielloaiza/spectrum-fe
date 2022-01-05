@@ -119,9 +119,14 @@
           <div class="col-lg-12">
               <label class="form-check-label">{{ 'Box Quantity' | translate }}</label>
           </div>
-          <div class="col-lg-6">
-            <input class="form-control" type="number" step=1 min="250" max="2000" [(ngModel)]="product.quantity"  [ngClass]="{'error-quantity':  product.quantity && (product.quantity < 250 || product.quantity > 2000) }"
+         <!--  <div class="col-lg-6">
+            <input class="form-control" [(ngModel)]="product.quantity"  [ngClass]="{'error-quantity':  product.quantity && (product.quantity < 250 || product.quantity > 2000) }"
             (change)="product.quantity < 250 || product.quantity > 2000 ? product.quantity = '' : '';setPriceBoxes(product.quantity)" required>
+          </div> -->
+          <div class="col-lg-6">
+            <ng-select [items]="quantityValues.values" [ngClass]="{'error-quantity':  product.quantity && (product.quantity < 250 || product.quantity > 2000) }"
+                      [(ngModel)]="product.quantity" bindValue="item" (change)="product.quantity < 250 || product.quantity > 2000 ? product.quantity = '' : '';setPriceBoxes(product.quantity)" required>
+            </ng-select>
           </div>
         </div>
       </div>

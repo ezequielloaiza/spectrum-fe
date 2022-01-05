@@ -29,7 +29,7 @@
                       <span class="input-group-text">$</span>
                     </div>
                     <input class="form-control details" type="text" currencyMask  [options] = " {prefix: '', miles: ',', decimal: '.'}" [(ngModel)]="price" oninput="validity.valid||(value='');" placeholder="{{ 'Enter price' | translate }}"
-                      name="price1" required>
+                      name="price1" required disabled>
                   </div>
                 </dl>
               </dl>
@@ -44,8 +44,12 @@
                       [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 1000? quantity = '' : '';change(quantity)" required>
                   </div>
                   <div class="" *ngIf="saline">
-                    <input class="form-control" type="number" step="25" min="25" max="2000" [ngClass]="{'error-quantity':  quantity && (quantity%25 !== 0 || quantity > 2000) }"
-                      [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 2000? quantity = '' : '';change(quantity)" required>
+                   <!--  <input class="form-control" type="number" step="25" min="25" max="2000" [ngClass]="{'error-quantity':  quantity && (quantity%25 !== 0 || quantity > 2000) }"
+                      [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 2000? quantity = '' : '';change(quantity)" required> -->
+
+                      <ng-select [items]="quantityValues.values" [ngClass]="{'error-quantity':  quantity && (quantity%25 !== 0 || quantity > 2000) }" selected
+                        [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 2000? quantity = '' : '';change(quantity)" required>
+                      </ng-select>
                   </div>
                 </dl>
               </dl>
