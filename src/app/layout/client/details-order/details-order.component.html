@@ -220,7 +220,7 @@
                               </dt>
                             </dl>
                           </div>
-                          <div class="col-sm-3" *ngIf="(list.productRequested.detail[0].codeSpectrum || list.productRequested.product.codeSpectrum) && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && (list.productRequested.product.supplier.idSupplier === 16 || list.productRequested.product.supplier.idSupplier === 14 || list.productRequested.product.supplier.idSupplier === 13)">
+                          <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && (list.productRequested.product.supplier.idSupplier === 16 || list.productRequested.product.supplier.idSupplier === 14 || list.productRequested.product.supplier.idSupplier === 13) && (list.productRequested.detail[0].codeSpectrum || list.productRequested.product.codeSpectrum)">
                             <dl class="align-item">
                               <dt>{{ 'Spectrum code' | translate }}</dt>
                               <dt>
