@@ -145,8 +145,9 @@ export class XcelComponent implements OnInit {
         self.changeParams(param,self.designPR)
       }
     });
-    let power = this.productParams.find(p => p.name.includes('Power'));
-    power.selected = parseFloat(power.selected);
+
+    this.revertChangePowerPositive();
+
     this.getOtherProducts();
 
     if (this.typeEdit === 1) {
@@ -154,6 +155,11 @@ export class XcelComponent implements OnInit {
     } else {
       this.findOrderByGroupdId();
     }
+  }
+
+  revertChangePowerPositive() {
+    let power = this.productParams.find(p => p.name.includes('Power'));
+    power.selected = parseFloat(power.selected);
   }
 
   getOtherProducts() {
@@ -1445,6 +1451,11 @@ export class XcelComponent implements OnInit {
     }
   }
 
+  changePowerPositive() {
+    let power = this.paramsToSave.find(p => p.name.includes('Power'));
+    power.selected = power.selected > 0 ? "+" + power.selected : power.selected;
+  }
+
   save() {
     this.spinner.show();
     const self = this;
@@ -1473,6 +1484,8 @@ export class XcelComponent implements OnInit {
         self.paramsToSave = _.concat(self.paramsToSave, self.hydrapegV);
       }
     });
+
+    this.changePowerPositive();
 
     if (!self.product.name.includes('Atlantis')) {
       this.productHeader[0] = { selected: 'No'};
