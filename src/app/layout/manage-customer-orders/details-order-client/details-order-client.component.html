@@ -106,11 +106,11 @@
                         <div>
                           <h3>{{list.productRequested.product.name}} </h3>
                         </div>
-                        <div *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].name !== ''">
+                        <!-- <div *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].name !== ''">
                           <span class="price h5 text-warning">
                             <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
-                        </div>
+                        </div> -->
                         <div class="padding-params" *ngIf="order.status === 0 && user.role.idRole === 1 && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier === 7 && order.user.status !== 2">
                             <button type="button" (click)="openEdit(list.productRequested, list.urlImage, order)" class="btn btn-outline-primary" translate>
                               Edit
@@ -225,7 +225,7 @@
                             </dt>
                           </dl>
                         </div>
-                        <div class="col-sm-3" *ngIf="(list.productRequested.detail[0].codeSpectrum || list.productRequested.product.codeSpectrum) && list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && (list.productRequested.product.supplier.idSupplier === 16 || list.productRequested.product.supplier.idSupplier === 14 || list.productRequested.product.supplier.idSupplier === 13)">
+                        <div class="col-sm-3" *ngIf="list.productRequested.product.supplier && list.productRequested.product.supplier.idSupplier && (list.productRequested.product.supplier.idSupplier === 16 || list.productRequested.product.supplier.idSupplier === 14 || list.productRequested.product.supplier.idSupplier === 13) && (list.productRequested.detail[0].codeSpectrum || list.productRequested.product.codeSpectrum)">
                           <dl class="align-item">
                             <dt>{{ 'Spectrum code' | translate }}</dt>
                             <dt>

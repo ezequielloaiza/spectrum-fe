@@ -134,8 +134,10 @@ export class ListBasketComponent implements OnInit {
 
     _.each(auxList, function(basket) {
       priceAll = 0;
-      productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
-      existContraryEye = self.contraryEye(basket.productRequested.groupId, basket.productRequested.detail[0].eye);
+      var detail = basket.productRequested.detail[0];
+      var eye = detail && detail.eye;
+      productsGrouped = self.getProductsGrouped(basket.productRequested.groupId, eye);
+      existContraryEye = self.contraryEye(basket.productRequested.groupId, eye);
       const insertID = self.productModel.getInsertsID(basket.productRequested.product, null);
       const productDMV = insertID && _.find(productsAdditional, {idProduct: insertID});
 
@@ -204,7 +206,9 @@ export class ListBasketComponent implements OnInit {
     }
 
     _.each(this.listBasketAll, function(item) {
-      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === contraryEye) {
+      var detail = item.productRequested.detail[0];
+      var detail_eye = detail && detail.eye;
+      if (item.productRequested.groupId === groupId && detail_eye === contraryEye) {
         exist = true;
       }
     });
@@ -269,12 +273,13 @@ export class ListBasketComponent implements OnInit {
   getProductsGrouped(groupId, eye) {
     const auxList = [];
 
-    _.each(this.listBasketAll, function(item) {
-      if (item.productRequested.groupId === groupId && item.productRequested.detail[0].eye === eye) {
+    _.each(this.listBasketAll, function (item) {
+      var detail = item.productRequested.detail[0];
+      var detail_eye = detail && detail.eye;
+      if (item.productRequested.groupId === groupId && detail_eye === eye) {
         auxList.push(item);
       }
     });
-
     return auxList;
   }
 
@@ -303,10 +308,12 @@ export class ListBasketComponent implements OnInit {
 
     const listSelect = this.productRequestedToBuy;
     _.each(this.listBasket, function(item) {
+      var detail = item.productRequested.detail[0];
+      var detail_eye = detail && detail.eye;
       _.each(listSelect, function(itemBasket) {
         const supplierId = item.productRequested.product.supplier.idSupplier;
         if (self.productModel.haveAdditionalProduct(supplierId) && item.idBasketProductRequested === itemBasket) {
-          productsAdditional = _.concat(productsAdditional, self.getProductsGrouped(item.productRequested.groupId, item.productRequested.detail[0].eye));
+          productsAdditional = _.concat(productsAdditional, self.getProductsGrouped(item.productRequested.groupId, detail_eye));
         }
       });
     });
