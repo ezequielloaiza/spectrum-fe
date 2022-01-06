@@ -964,7 +964,7 @@ var InfoClientComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row header-params\">\n  <div class=\"col-lg-12 custom-control custom-checkbox\">\n    <!--Eye-->\n    <div *ngIf=\"typeParams === 'header'\">\n      <input id=\"{{eye}}\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"selectEye(); cleanEye()\" class=\"custom-control-input\">\n      <label class=\"custom-control-label\" for=\"{{eye}}\">{{ getLabelEye() }}</label>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-2 margin-col padding-col pb-3\" *ngFor=\"let parameter of getParams()\">\n        <div class=\"row\">\n          <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n        </div>\n        <div class=\"row\" [ngSwitch]=\"parameter.type\">\n          <div *ngSwitchCase=\"'selected'\" class=\"col-sm-12 pl-0\">\n            <!-- <ng-select (change)=\"changeParamsAndPriceValue(parameter)\" [(ngModel)]=\"parameter.selected\" [required]=\"!parameter.noRequired\"\n                    bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"parameter.noRequired\"\n                    [disabled]=\"!enableParams\">\n              <ng-option [value]=\"item\" *ngFor=\"let item of getValues(parameter)\">{{ item | translate }}</ng-option>\n            </ng-select> -->\n\n            <ng-select [items]=\"parameter.values\" (change)=\"changeParamsAndPriceValue(parameter)\" [(ngModel)]=\"parameter.selected\"\n            [required]=\"!parameter.noRequired || changeRequired(parameter.name)\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n            [clearable]=\"parameter.noRequired\" [disabled]=\"!enableParams || parameter.values.length === 1\">\n                <ng-template ng-label-tmp let-item=\"item\">\n                  <div>\n                    <span>{{ item | translate }}</span>\n                  </div>\n                </ng-template>\n                <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                  <div>\n                    <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                  </div>\n                </ng-template>\n              </ng-select>\n          </div>\n\n          <div *ngSwitchCase=\"'input-text'\" class=\"col-sm-12 pl-0\">\n            <input type=\"text\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams\" maxlength=\"25\"\n              [required]=\"!parameter.noRequired\" (change)=\"changeParamsAndPriceValue(parameter)\" id=\"text-{{eye}}-{{parameter.name}}\"/>\n          </div>\n\n          <div *ngSwitchCase=\"'input-number'\" class=\"col-sm-12 pl-0\">\n            <input type=\"number\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || qtyDisabled(parameter)\"\n              [required]=\"!parameter.noRequired\" max=\"100\" oninput=\"validity.valid||(value='');\" [min]=\"setMinimum(parameter)\"\n              (change)=\"changeParamsAndPriceValue(parameter)\" id=\"number-{{eye}}-{{parameter.name}}\" step=\"0.01\"/>\n          </div>\n\n          <div *ngSwitchCase=\"'radio'\" class=\"radio-b\">\n            <div *ngFor=\"let value of parameter.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-{{eye}}-{{parameter.name}}-{{i}}\" name=\"radio-{{eye}}-{{parameter.name}}\"\n                       [value]=\"value\" [required]=\"!parameter.noRequired\" [disabled]=\"!enableParams\"\n                       (click)=\"setRadioButtonValue(parameter,eye,value)\"\n                       class=\" custom-control-input form-control\" [checked]=\"parameter.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-{{eye}}-{{parameter.name}}-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row header-params\">\n  <div class=\"col-lg-12 custom-control custom-checkbox\">\n    <!--Eye-->\n    <div *ngIf=\"typeParams === 'header'\">\n      <input id=\"{{eye}}\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"selectEye(); cleanEye()\" class=\"custom-control-input\">\n      <label class=\"custom-control-label\" for=\"{{eye}}\">{{ getLabelEye() }}</label>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-2 margin-col padding-col pb-3\" *ngFor=\"let parameter of getParams()\">\n        <div class=\"row\">\n          <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n        </div>\n        <div class=\"row\" [ngSwitch]=\"parameter.type\">\n          <div *ngSwitchCase=\"'selected'\" class=\"col-sm-12 pl-0\">\n            <ng-select [items]=\"parameter.values\" (change)=\"changeParamsAndPriceValue(parameter)\" [(ngModel)]=\"parameter.selected\"\n            [required]=\"!parameter.noRequired || changeRequired(parameter.name)\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n            [clearable]=\"parameter.noRequired\" [disabled]=\"!enableParams || parameter.values.length === 1\">\n                <ng-template ng-label-tmp let-item=\"item\">\n                  <div>\n                    <span>{{ item | translate }}</span>\n                  </div>\n                </ng-template>\n                <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                  <div>\n                    <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                  </div>\n                </ng-template>\n              </ng-select>\n          </div>\n\n          <div *ngSwitchCase=\"'input-text'\" class=\"col-sm-12 pl-0\">\n            <input type=\"text\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams\" maxlength=\"25\"\n              [required]=\"!parameter.noRequired\" (change)=\"changeParamsAndPriceValue(parameter)\" id=\"text-{{eye}}-{{parameter.name}}\"/>\n          </div>\n          <!-- this input number is for only positive numbers -->\n          <div *ngIf=\"parameter.type === 'input-number' && checkParamName(parameter)\" class=\"col-sm-12 pl-0\">\n            <input type=\"number\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || qtyDisabled(parameter)\"\n              [required]=\"!parameter.noRequired\" max=\"100\" oninput=\"validity.valid||(value='');\" [min]=\"setMinimum(parameter)\"\n              (change)=\"changeParamsAndPriceValue(parameter)\" id=\"number-{{eye}}-{{parameter.name}}\" step=\"0.01\"/>\n          </div>\n          <!-- this input number is for negative numbers -->\n          <div *ngIf=\"parameter.type === 'input-number' && !checkParamName(parameter) && parameter.name !== 'Axis'\" class=\"col-sm-12 pl-0\">\n            <input type=\"number\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || qtyDisabled(parameter)\"\n              [required]=\"!parameter.noRequired\" max=\"100\" [min]=\"setMinimum(parameter)\"\n              (change)=\"changeParamsAndPriceValue(parameter)\" id=\"number-{{eye}}-{{parameter.name}}\" step=\"0.01\"/>\n          </div>\n\n          <div *ngSwitchCase=\"'radio'\" class=\"radio-b\">\n            <div *ngFor=\"let value of parameter.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-{{eye}}-{{parameter.name}}-{{i}}\" name=\"radio-{{eye}}-{{parameter.name}}\"\n                       [value]=\"value\" [required]=\"!parameter.noRequired\" [disabled]=\"!enableParams\"\n                       (click)=\"setRadioButtonValue(parameter,eye,value)\"\n                       class=\" custom-control-input form-control\" [checked]=\"parameter.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-{{eye}}-{{parameter.name}}-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1063,15 +1063,18 @@ var InfoParamsComponent = /** @class */ (function () {
         return this.quantityDisabled && param.name === 'Quantity';
     };
     InfoParamsComponent.prototype.setMinimum = function (param) {
-        if (param.name === 'Quantity') {
+        if (param.name === 'Quantity' || param.name === 'Axis') {
             return 1;
         }
-        else if (['BC', 'Base Curve', 'Diameter'].some(function (x) { return param.name.includes(x); })) {
+        else if (['BC', 'Base Curve', 'Diameter', 'Addition'].some(function (x) { return param.name.includes(x); })) {
             return 0;
         }
         else {
             return null;
         }
+    };
+    InfoParamsComponent.prototype.checkParamName = function (parameter) {
+        return (['BC', 'Base Curve', 'Diameter', 'Addition'].some(function (x) { return parameter.name.includes(x); }));
     };
     InfoParamsComponent.prototype.changeRequired = function (parameter) {
         if (parameter === 'Edge') {
@@ -1816,7 +1819,16 @@ var ProductViewXCelComponent = /** @class */ (function () {
         modalRef.result.then(function (result) {
             _this.ngOnInit();
         }, function (reason) {
+            var self = _this;
+            var productsSelected = _this.productsSelected;
+            lodash__WEBPACK_IMPORTED_MODULE_5__["each"](productsSelected, function (p, index) {
+                self.revertChangePowerPositive(p.parameters);
+            });
         });
+    };
+    ProductViewXCelComponent.prototype.revertChangePowerPositive = function (params) {
+        var power = params.find(function (p) { return p.name.includes('Power'); });
+        power.selected = parseFloat(power.selected);
     };
     ProductViewXCelComponent.prototype.buildProductSelected = function () {
         var self = this;
@@ -1834,6 +1846,7 @@ var ProductViewXCelComponent = /** @class */ (function () {
             p.header = self.selectedProduct.params[index].header.filter(function (param) { return param.name !== 'Spectrum Code'; });
             p.dmv = lodash__WEBPACK_IMPORTED_MODULE_5__["find"](self.product.header, { name: "DMV" });
             p.parameters = self.selectedProduct.params[index].params;
+            self.changePowerPositive(p.parameters);
             p.hydrapeg = lodash__WEBPACK_IMPORTED_MODULE_5__["find"](p.parameters, { name: "Hydrapeg" }) || lodash__WEBPACK_IMPORTED_MODULE_5__["find"](self.originalParameters[eye], { name: "Hydrapeg" });
             p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
             if (self.product.name.includes('Atlantis')) {
@@ -1850,6 +1863,10 @@ var ProductViewXCelComponent = /** @class */ (function () {
             });
         });
         return requestedProducts;
+    };
+    ProductViewXCelComponent.prototype.changePowerPositive = function (parameters) {
+        var power = parameters.find(function (p) { return p.name.includes('Power'); });
+        power.selected = power.selected > 0 ? "+" + power.selected : power.selected;
     };
     ProductViewXCelComponent.prototype.setSelectedParams = function () {
         var self = this;
