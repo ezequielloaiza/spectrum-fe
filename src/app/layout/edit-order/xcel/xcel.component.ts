@@ -145,7 +145,8 @@ export class XcelComponent implements OnInit {
         self.changeParams(param,self.designPR)
       }
     });
-
+    let power = this.productParams.find(p => p.name.includes('Power'));
+    power.selected = parseFloat(power.selected);
     this.getOtherProducts();
 
     if (this.typeEdit === 1) {

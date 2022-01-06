@@ -299,6 +299,7 @@ export class ProductViewXCelComponent implements OnInit {
       p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
       p.dmv = _.find(self.product.header, {name: "DMV"});
       p.parameters = self.selectedProduct.params[index].params;
+      self.cdgd(p.parameters);
       p.hydrapeg = _.find(p.parameters, {name: "Hydrapeg"}) || _.find(self.originalParameters[eye], {name: "Hydrapeg"});
       p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
 
@@ -318,6 +319,12 @@ export class ProductViewXCelComponent implements OnInit {
 
     return requestedProducts;
 
+  }
+
+  cdgd(parameter) {
+    let power = parameter.find(p => p.name.includes('Power'));
+    power.selected = power.selected > 0? "+" + power.selected : power.selected;
+    console.log(power, "chequeando");
   }
 
   setSelectedParams() {
