@@ -44,8 +44,9 @@
                       [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 1000? quantity = '' : '';change(quantity)" required>
                   </div>
                   <div class="" *ngIf="saline">
-                    <input class="form-control" type="number" step="25" min="25" max="2000" [ngClass]="{'error-quantity':  quantity && (quantity%25 !== 0 || quantity > 2000) }"
-                      [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 2000? quantity = '' : '';change(quantity)" required>
+                      <ng-select [items]="quantityValues.values" [ngClass]="{'error-quantity':  quantity && (quantity%25 !== 0 || quantity > 2000) }" selected
+                        [(ngModel)]="quantity" (change)="quantity%25 !== 0 || quantity > 2000? quantity = '' : '';change(quantity)" required>
+                      </ng-select>
                   </div>
                 </dl>
               </dl>
@@ -64,7 +65,7 @@
       </div>
       <div class="col-md-12 message-quantity" *ngIf="saline">
         <span>{{'To make the order the minimum quantity is' | translate }} 250 {{ 'units' | translate }}</span>&nbsp;
-        <span>{{'and maximum' | translate}} 2000 {{ 'units' | translate }}</span>
+        <span>{{'and maximum 1000 boxes' | translate}}</span>
       </div>
       <!--Fin parameters-->
     </div>

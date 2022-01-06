@@ -56,6 +56,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   priceFrom: any;
   priceUp: any;
   clientSelected: any;
+  quantityValues: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   queueLimit = 5;
@@ -122,8 +123,9 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   getProductView() {
     this.id = +this.route.snapshot.paramMap.get('id');
-    this.product = _.find(this.products, {idProduct: this.id});
+    this.product = _.find(this.products, { idProduct: this.id });
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
+    this.quantityValues = (JSON.parse(this.product.infoAditional).find(n => n.name === 'Quantity'));
     this.product.priceSale = '';
     this.setClient();
     this.setPrice();
@@ -298,7 +300,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
-    if (!this.product.quantity || this.product.quantity < 250 ) {
+    if (!this.product.quantity || this.product.quantity < 250 || (!this.CustomersSelected && !this.product.client)) {
       isValid = false;
     }
     return isValid;
