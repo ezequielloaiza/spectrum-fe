@@ -146,6 +146,8 @@ export class XcelComponent implements OnInit {
       }
     });
 
+    this.revertChangePowerPositive();
+
     this.getOtherProducts();
 
     if (this.typeEdit === 1) {
@@ -153,6 +155,11 @@ export class XcelComponent implements OnInit {
     } else {
       this.findOrderByGroupdId();
     }
+  }
+
+  revertChangePowerPositive() {
+    let power = this.productParams.find(p => p.name.includes('Power'));
+    power.selected = parseFloat(power.selected);
   }
 
   getOtherProducts() {
@@ -1431,7 +1438,7 @@ export class XcelComponent implements OnInit {
   }
 
   getNamesForMin(param) {
-    return (['BC', 'Base Curve', 'Diameter'].some(x => param.name.includes(x)))
+    return (['BC', 'Base Curve', 'Diameter', 'Addition'].some(x => param.name.includes(x)))
   }
 
   changeRequired(parameter) {
@@ -1442,6 +1449,11 @@ export class XcelComponent implements OnInit {
       }
       return false;
     }
+  }
+
+  changePowerPositive() {
+    let power = this.paramsToSave.find(p => p.name.includes('Power'));
+    power.selected = power.selected > 0 ? "+" + power.selected : power.selected;
   }
 
   save() {
@@ -1472,6 +1484,8 @@ export class XcelComponent implements OnInit {
         self.paramsToSave = _.concat(self.paramsToSave, self.hydrapegV);
       }
     });
+
+    this.changePowerPositive();
 
     if (!self.product.name.includes('Atlantis')) {
       this.productHeader[0] = { selected: 'No'};

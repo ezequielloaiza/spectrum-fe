@@ -118,7 +118,7 @@
       <div class="col-lg-4">
         <div class="row">
           <div class="col-lg-12">
-              <label class="form-check-label">{{ 'Quantity' | translate }}</label>
+              <label class="form-check-label">{{ 'Box Quantity' | translate }}</label>
           </div>
           <div class="col-lg-6">
               <input class="form-control" type="number" step="25" min="25" max="1000" [ngClass]="{'error-quantity':  product.quantity && (product.quantity%25 !== 0 || product.quantity > 1000) }"
@@ -144,8 +144,8 @@
           </button>
         </div>
         <div class="col-md-12 message-quantity">
-          <span>{{'To make the order the minimum quantity is' | translate }} 25 {{ 'units' | translate }}</span>&nbsp;
-          <span>{{'and maximum' | translate}} 1000 {{ 'units' | translate }}</span>
+          <span>{{'To make the order the minimum quantity is' | translate }} 25 {{ 'boxes' | translate }}</span>&nbsp;
+          <span>{{'and maximum' | translate}} 1000 {{ 'boxes' | translate }}</span>
         </div>
       </div>
     </div>

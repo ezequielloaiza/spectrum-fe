@@ -279,7 +279,18 @@ export class ProductViewXCelComponent implements OnInit {
     modalRef.result.then((result) => {
       this.ngOnInit();
     } , (reason) => {
+      const self = this;
+      let productsSelected = this.productsSelected;
+
+      _.each(productsSelected, function (p, index) {
+        self.revertChangePowerPositive(p.parameters);
+      });
     });
+  }
+
+  revertChangePowerPositive(params) {
+    let power = params.find(p => p.name.includes('Power'));
+    power.selected = parseFloat(power.selected);
   }
 
   buildProductSelected() {
@@ -299,6 +310,9 @@ export class ProductViewXCelComponent implements OnInit {
       p.header = self.selectedProduct.params[index].header.filter(param => param.name !== 'Spectrum Code');
       p.dmv = _.find(self.product.header, {name: "DMV"});
       p.parameters = self.selectedProduct.params[index].params;
+
+      self.changePowerPositive(p.parameters);
+
       p.hydrapeg = _.find(p.parameters, {name: "Hydrapeg"}) || _.find(self.originalParameters[eye], {name: "Hydrapeg"});
       p.observations = eye === 'right' ? self.product.observationsRight : self.product.observationsLeft;
 
@@ -318,6 +332,11 @@ export class ProductViewXCelComponent implements OnInit {
 
     return requestedProducts;
 
+  }
+
+  changePowerPositive(parameters) {
+    let power = parameters.find(p => p.name.includes('Power'));
+    power.selected = power.selected > 0? "+" + power.selected : power.selected;
   }
 
   setSelectedParams() {
