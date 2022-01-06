@@ -99,11 +99,11 @@
                         <div>
                           <h3>{{list.productRequested.product.name}} </h3>
                         </div>
-                        <div  *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].name !== ''">
+                        <!-- <div  *ngIf="list.productRequested.detail.length > 0 && list.productRequested.detail[0].name !== ''">
                           <span class="price h5 text-warning">
                             <h3>-({{list.productRequested.detail[0].name}})</h3>
                           </span>
-                        </div>
+                        </div> -->
                         <div class="padding-params" *ngIf="order.status === 0 && list.productRequested.product.supplier.idSupplier === 7">
                           <button type="button" (click)="openEdit(list.productRequested, list.urlImage)" class="btn btn-outline-primary" translate>
                             Edit
