@@ -290,7 +290,9 @@ export class ProductViewXCelComponent implements OnInit {
 
   revertChangePowerPositive(params) {
     let power = params.find(p => p.name.includes('Power'));
-    power.selected = parseFloat(power.selected);
+    if (!!power) {
+      power.selected = parseFloat(power.selected);
+    }
   }
 
   buildProductSelected() {
@@ -336,7 +338,9 @@ export class ProductViewXCelComponent implements OnInit {
 
   changePowerPositive(parameters) {
     let power = parameters.find(p => p.name.includes('Power'));
-    power.selected = power.selected > 0? "+" + power.selected : power.selected;
+    if (!!power) {
+      power.selected = power.selected > 0? "+" + power.selected : power.selected;
+    }
   }
 
   setSelectedParams() {
@@ -516,22 +520,26 @@ export class ProductViewXCelComponent implements OnInit {
           switch (selectedDesign) {
             case 'Atlantis SPH':
             case 'Atlantis FT':
+              self.lzRequired(param,0);
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
             case 'Atlantis TPC':
             case 'Atlantis MF':
+              self.lzRequired(param,0);
               if (param.name === 'LZ 3D Vault / 2.0') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
             case 'Atlantis 3D':
+              self.lzRequired(param,1);
               if (param.name === 'TPC') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
             case 'Atlantis 2.0':
+              self.lzRequired(param,1);
               self.paramsAtlantisImages[value.eye].parameters = _.filter(self.originalParameters[value.eye], function (param) {
                 return selectedDesign === 'Atlantis 2.0' && self.checkAtlantisParams(param, 0);
               });
@@ -542,8 +550,10 @@ export class ProductViewXCelComponent implements OnInit {
               }
               return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
             case 'Atlantis LD':
+              self.lzRequired(param,0);
               return !param.header && !self.checkAtlantisParams(param, 0);
             default:
+              self.lzRequired(param,0);
               return param && !self.checkAtlantisParams(param, 0) && !param.header;
           }
         });
@@ -575,14 +585,23 @@ export class ProductViewXCelComponent implements OnInit {
           paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
             switch (selectedDesign) {
               case 'X-Cel Multifocal': //addition, dom eye, distance zone
-              return !param.header;
+              if (param.name === 'C.T / E.C') {
+                self.ctRequired(param, selectedDesign,0);
+              }
+                return !param.header;
               case 'Flexlens ARC':
+                if (param.name === 'C.T / E.C') {
+                  self.ctRequired(param, selectedDesign,1);
+                }
                 material.values = [];
                 material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
                 material.selected = (material.selected === '49%' || material.selected === 'Definitive 74%') ? material.selected : null;
                 material.values = material.values.filter(p => p === '49%' || p === 'Definitive 74%');
               return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye'
               case 'Flexlens Large Diameter':
+                if (param.name === 'C.T / E.C') {
+                  self.ctRequired(param, selectedDesign,0);
+                }
                 material.values = [];
                 material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
                 material.values = material.values.filter(p => p === '55%');
@@ -592,8 +611,18 @@ export class ProductViewXCelComponent implements OnInit {
                   param.selected = (param.selected === '3 Pack') ? null : param.selected;
                   self.presentationAndDesign[value.eye.toLowerCase()].presentation = null;
                 }
-              return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+                return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+                case 'Flexlens Tricurve':
+                  if (param.name === 'C.T / E.C') {
+                    self.ctRequired(param, selectedDesign,1);
+                  }
+                  debugger
               default:
+                if (param.name === 'C.T / E.C' && selectedDesign === 'Flexlens Tricurve') {
+                  self.ctRequired(param, selectedDesign,1);
+                } else if (param.name === 'C.T / E.C') {
+                  self.ctRequired(param, selectedDesign,0);
+                }
                 if (material.values.length <= 2) {
                   material.values = [];
                   material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
@@ -609,6 +638,27 @@ export class ProductViewXCelComponent implements OnInit {
 
     }
 
+  }
+
+  lzRequired(param, required) {
+    if (param.name.includes('LZ 3D Vault')) {
+        param.noRequired = required? false : true;
+    }
+  }
+
+  ctRequired(param, design, required) {
+    if (required) {
+        param.noRequired = false;
+      if (design.includes('ARC')) {
+        param.type = 'selected'
+        param.values = ['0.30', '0.50'];
+      } else {
+        param.type = 'input-number';
+      }
+    } else {
+      param.noRequired = true;
+      param.type = 'input-number';
+    }
   }
 
   setPriceByDesign(eye, design) {
