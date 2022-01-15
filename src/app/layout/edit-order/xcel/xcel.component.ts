@@ -1268,6 +1268,7 @@ export class XcelComponent implements OnInit {
           switch (self.designPR) {
             case 'Atlantis SPH':
             case 'Atlantis FT':
+              self.lzRequired(param,0);
               if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
@@ -1275,18 +1276,21 @@ export class XcelComponent implements OnInit {
               return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis TPC':
             case 'Atlantis MF':
+              self.lzRequired(param,0);
               if (param.name === 'LZ 3D Vault / 2.0') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               self.cleanAtlantisParam(param);
               return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 3D':
+              self.lzRequired(param,1);
               if (param.name === 'TPC') {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               self.cleanAtlantisParam(param);
               return param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 2.0':
+              self.lzRequired(param,1);
               self.paramsAtlantisImages = _.filter(self.productParams, function (param) {
                 return self.checkAtlantisParams(param, 1);
               });
@@ -1296,9 +1300,11 @@ export class XcelComponent implements OnInit {
               }
               return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && param.name !== 'Quantity' && param.name !== 'Hydrapeg'&& !self.checkAtlantisParams(param, 1);
             case 'Atlantis LD':
+              self.lzRequired(param,0);
               self.cleanAtlantisParam(param);
               return  !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             default:
+              self.lzRequired(param,0);
               self.cleanAtlantisParam(param);
               return param && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
           }
@@ -1334,14 +1340,23 @@ export class XcelComponent implements OnInit {
           this.paramsToShow = _.filter(this.productParams, function (param) {
             switch (self.designPR) {
               case 'X-Cel Multifocal': //addition, dom eye, distance zone
-              return param.name !== 'Quantity';
+                if (param.name === 'C.T / E.C') {
+                  self.ctRequired(param, self.designPR,0);
+                }
+                return param.name !== 'Quantity';
               case 'Flexlens ARC':
+                if (param.name === 'C.T / E.C') {
+                  self.ctRequired(param, self.designPR,1);
+                }
                 material.values = [];
                 material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
                 material.selected = (material.selected === '49%' || material.selected === 'Definitive 74%') ? material.selected : null;
                 material.values = material.values.filter(p => p === '49%' || p === 'Definitive 74%');
               return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && param.name !== 'Quantity';
               case 'Flexlens Large Diameter':
+                if (param.name === 'C.T / E.C') {
+                  self.ctRequired(param, self.designPR,0);
+                }
                 material.values = [];
                 material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
                 material.values = material.values.filter(p => p === '55%');
@@ -1352,6 +1367,11 @@ export class XcelComponent implements OnInit {
                 }
               return param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye' && param.name !== 'Quantity';
               default:
+                if (param.name === 'C.T / E.C' && self.designPR === 'Flexlens Tricurve') {
+                  self.ctRequired(param, self.designPR,1);
+                } else if (param.name === 'C.T / E.C') {
+                  self.ctRequired(param, self.designPR,0);
+                }
                 if (material.values.length <= 2) {
                   material.values = [];
                   material.values = _.concat(material.values, "45%", "49%", "55%", "59%", "Definitive 74%");
@@ -1366,6 +1386,27 @@ export class XcelComponent implements OnInit {
 
     }
 
+  }
+
+  lzRequired(param, required) {
+    if (param.name.includes('LZ 3D Vault')) {
+        param.noRequired = required? false : true;
+    }
+  }
+
+  ctRequired(param, design, required) {
+    if (required) {
+        param.noRequired = false;
+      if (design.includes('ARC')) {
+        param.type = 'selected'
+        param.values = ['0.30', '0.50'];
+      } else {
+        param.type = 'input-number';
+      }
+    } else {
+      param.noRequired = true;
+      param.type = 'input-number';
+    }
   }
 
   setRequiredParams(param, value) {
@@ -1453,7 +1494,9 @@ export class XcelComponent implements OnInit {
 
   changePowerPositive() {
     let power = this.paramsToSave.find(p => p.name.includes('Power'));
-    power.selected = power.selected > 0 ? "+" + power.selected : power.selected;
+    if (!!power) {
+      power.selected = power.selected > 0 ? "+" + power.selected : power.selected;
+    }
   }
 
   save() {
