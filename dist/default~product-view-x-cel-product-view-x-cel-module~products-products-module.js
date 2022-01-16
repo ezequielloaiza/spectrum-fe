@@ -1828,7 +1828,9 @@ var ProductViewXCelComponent = /** @class */ (function () {
     };
     ProductViewXCelComponent.prototype.revertChangePowerPositive = function (params) {
         var power = params.find(function (p) { return p.name.includes('Power'); });
-        power.selected = parseFloat(power.selected);
+        if (!!power) {
+            power.selected = parseFloat(power.selected);
+        }
     };
     ProductViewXCelComponent.prototype.buildProductSelected = function () {
         var self = this;
@@ -1866,7 +1868,9 @@ var ProductViewXCelComponent = /** @class */ (function () {
     };
     ProductViewXCelComponent.prototype.changePowerPositive = function (parameters) {
         var power = parameters.find(function (p) { return p.name.includes('Power'); });
-        power.selected = power.selected > 0 ? "+" + power.selected : power.selected;
+        if (!!power) {
+            power.selected = power.selected > 0 ? "+" + power.selected : power.selected;
+        }
     };
     ProductViewXCelComponent.prototype.setSelectedParams = function () {
         var self = this;
@@ -2017,22 +2021,26 @@ var ProductViewXCelComponent = /** @class */ (function () {
                     switch (selectedDesign_1) {
                         case 'Atlantis SPH':
                         case 'Atlantis FT':
+                            self.lzRequired(param, 0);
                             if (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                                 param.selected = (param.type === 'radio') ? 'No' : null;
                             }
                             return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
                         case 'Atlantis TPC':
                         case 'Atlantis MF':
+                            self.lzRequired(param, 0);
                             if (param.name === 'LZ 3D Vault / 2.0') {
                                 param.selected = (param.type === 'radio') ? 'No' : null;
                             }
                             return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
                         case 'Atlantis 3D':
+                            self.lzRequired(param, 1);
                             if (param.name === 'TPC') {
                                 param.selected = (param.type === 'radio') ? 'No' : null;
                             }
                             return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
                         case 'Atlantis 2.0':
+                            self.lzRequired(param, 1);
                             self.paramsAtlantisImages[value.eye].parameters = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](self.originalParameters[value.eye], function (param) {
                                 return selectedDesign_1 === 'Atlantis 2.0' && self.checkAtlantisParams(param, 0);
                             });
@@ -2043,8 +2051,10 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             }
                             return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
                         case 'Atlantis LD':
+                            self.lzRequired(param, 0);
                             return !param.header && !self.checkAtlantisParams(param, 0);
                         default:
+                            self.lzRequired(param, 0);
                             return param && !self.checkAtlantisParams(param, 0) && !param.header;
                     }
                 });
@@ -2071,14 +2081,23 @@ var ProductViewXCelComponent = /** @class */ (function () {
                 paramsBody = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.originalParameters[value.eye], function (param) {
                     switch (selectedDesign_2) {
                         case 'X-Cel Multifocal'://addition, dom eye, distance zone
+                            if (param.name === 'C.T / E.C') {
+                                self.ctRequired(param, selectedDesign_2, 0);
+                            }
                             return !param.header;
                         case 'Flexlens ARC':
+                            if (param.name === 'C.T / E.C') {
+                                self.ctRequired(param, selectedDesign_2, 1);
+                            }
                             material_1.values = [];
                             material_1.values = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](material_1.values, "45%", "49%", "55%", "59%", "Definitive 74%");
                             material_1.selected = (material_1.selected === '49%' || material_1.selected === 'Definitive 74%') ? material_1.selected : null;
                             material_1.values = material_1.values.filter(function (p) { return p === '49%' || p === 'Definitive 74%'; });
                             return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
                         case 'Flexlens Large Diameter':
+                            if (param.name === 'C.T / E.C') {
+                                self.ctRequired(param, selectedDesign_2, 0);
+                            }
                             material_1.values = [];
                             material_1.values = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](material_1.values, "45%", "49%", "55%", "59%", "Definitive 74%");
                             material_1.values = material_1.values.filter(function (p) { return p === '55%'; });
@@ -2089,7 +2108,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                 self.presentationAndDesign[value.eye.toLowerCase()].presentation = null;
                             }
                             return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
+                        case 'Flexlens Tricurve':
+                            if (param.name === 'C.T / E.C') {
+                                self.ctRequired(param, selectedDesign_2, 1);
+                            }
+                            debugger;
                         default:
+                            if (param.name === 'C.T / E.C' && selectedDesign_2 === 'Flexlens Tricurve') {
+                                self.ctRequired(param, selectedDesign_2, 1);
+                            }
+                            else if (param.name === 'C.T / E.C') {
+                                self.ctRequired(param, selectedDesign_2, 0);
+                            }
                             if (material_1.values.length <= 2) {
                                 material_1.values = [];
                                 material_1.values = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](material_1.values, "45%", "49%", "55%", "59%", "Definitive 74%");
@@ -2102,6 +2132,27 @@ var ProductViewXCelComponent = /** @class */ (function () {
                 });
                 this.product[this.parametersByEye(value.eye)] = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](paramsHeader, paramsBody);
             }
+        }
+    };
+    ProductViewXCelComponent.prototype.lzRequired = function (param, required) {
+        if (param.name.includes('LZ 3D Vault')) {
+            param.noRequired = required ? false : true;
+        }
+    };
+    ProductViewXCelComponent.prototype.ctRequired = function (param, design, required) {
+        if (required) {
+            param.noRequired = false;
+            if (design.includes('ARC')) {
+                param.type = 'selected';
+                param.values = ['0.30', '0.50'];
+            }
+            else {
+                param.type = 'input-number';
+            }
+        }
+        else {
+            param.noRequired = true;
+            param.type = 'input-number';
         }
     };
     ProductViewXCelComponent.prototype.setPriceByDesign = function (eye, design) {
