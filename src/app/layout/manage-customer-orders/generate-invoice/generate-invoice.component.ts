@@ -397,7 +397,8 @@ export class GenerateInvoiceComponent implements OnInit {
       productR.codeSpectrum = pRequested.productRequested.additionalInformation !== null
       ? pRequested.productRequested.additionalInformation.codeSpectrum
       : pRequested.productRequested.product.codeSpectrum;
-      productR.codeSpectrum =  productR.codeSpectrum || JSON.parse(JSON.stringify(productR.productRequested.detail))[0].codeSpectrum;
+      productR.codeSpectrum =  productR.codeSpectrum ? (productR.productRequested.detail ? 
+        JSON.parse(JSON.stringify(productR.productRequested.detail))[0].codeSpectrum : '') : '';
       productR.patient = pRequested.productRequested.patient === '' ? 'Not apply' : pRequested.productRequested.patient;
       productR.delete = false;
       productReq.push(productR);
