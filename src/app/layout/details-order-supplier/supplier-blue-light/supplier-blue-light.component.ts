@@ -52,6 +52,7 @@ export class SupplierBlueLightComponent implements OnInit {
     modalRefBlue.componentInstance.detailEdit = this.lista;
     modalRefBlue.componentInstance.typeEdit = 2;
     modalRefBlue.componentInstance.image = this.urlImage;
+    modalRefBlue.componentInstance.membership = this.order.user.membership.idMembership;
     modalRefBlue.result.then((result) => {
       /*this.listAux = result;
       this.sendReply();*/
