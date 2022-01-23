@@ -95,7 +95,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
           if (res1.code === CodeHttp.ok) {
             this.productsCode = res1.data;
             if (this.user.role.idRole === 3) {
-              this.setCodeProduct(this.currentUser.name);
+              this.setCodeProduct();
             }
           } else {
             console.log(res1.errors[0].detail);
@@ -125,21 +125,15 @@ export class ProductViewFluoStripsComponent implements OnInit {
     this.setPrice();
   }
 
-  setCodeProduct(clienteSelect) {
-    const productName = this.product.codeSpectrum;
+  setCodeProduct() {
+    let self = this;
     let prCode;
-    let condition;
-    if (clienteSelect.name === 'MEDICAL CHOICE' && this.product.codeSpectrum === '40') {
-      condition = '40A (M.C.)';
-    } else {
-      condition = productName;
-    }
     _.each(this.productsCode, function (pr) {
-      if (pr.codeSpectrum == condition) {
+      if (pr.codeSpectrum == self.product.codeSpectrum) {
         prCode = pr;
       }
     });
-    this.productCode = prCode;
+    this.productCode = prCode || this.product;
   }
 
   setClient() {
@@ -169,7 +163,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
       this.client = clienteSelect.idUser;
       this.findShippingAddress(this.client);
       this.definePrice(clienteSelect.membership.idMembership);
-      this.setCodeProduct(clienteSelect);
+      this.setCodeProduct();
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -223,7 +217,6 @@ export class ProductViewFluoStripsComponent implements OnInit {
       case 7:
         this.product.priceSale = this.product.price7;
         break;
-
     }
   }
 
