@@ -243,6 +243,10 @@ export class ProductViewOrionComponent implements OnInit {
       this.product.price1 = this.productCode.price1;
       this.product.price2 = this.productCode.price2;
       this.product.price3 = this.productCode.price3;
+      this.product.price4 = this.productCode.price4;
+      this.product.price5 = this.productCode.price5;
+      this.product.price6 = this.productCode.price6;
+      this.product.price7 = this.productCode.price7;
     }
     this.setPrice();
     console.log(this.product);
@@ -271,6 +275,18 @@ export class ProductViewOrionComponent implements OnInit {
         break;
       case 3:
         product.priceSale = product.price3;
+        break;
+      case 4:
+        product.priceSale = product.price4;
+        break;
+      case 5:
+        product.priceSale = product.price5;
+        break;
+      case 6:
+        product.priceSale = product.price6;
+        break;
+      case 7:
+        product.priceSale = product.price7;
         break;
     }
   }

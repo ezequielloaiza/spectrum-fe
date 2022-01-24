@@ -616,7 +616,6 @@ export class ProductViewXCelComponent implements OnInit {
                   if (param.name === 'C.T / E.C') {
                     self.ctRequired(param, selectedDesign,1);
                   }
-                  debugger
               default:
                 if (param.name === 'C.T / E.C' && selectedDesign === 'Flexlens Tricurve') {
                   self.ctRequired(param, selectedDesign,1);

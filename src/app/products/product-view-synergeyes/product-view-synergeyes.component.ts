@@ -17,8 +17,6 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
 import { ConfirmationSynergeyesComponent } from '../modals/confirmation-buy/confirmation-synergeyes/confirmation-synergeyes.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ValueTransformer } from '@angular/compiler/src/util';
-import { ChangePasswordTemporalComponent } from '../../initial-sessions/change-password-temporal/change-password-temporal.component';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -249,6 +247,11 @@ export class ProductViewSynergeyesComponent implements OnInit {
       this.product.price1 = this.productCode.price1;
       this.product.price2 = this.productCode.price2;
       this.product.price3 = this.productCode.price3;
+      this.product.price4 = this.productCode.price4;
+      this.product.price5 = this.productCode.price5;
+      this.product.price6 = this.productCode.price6;
+      this.product.price7 = this.productCode.price7;
+
     }
   }
 
@@ -598,6 +601,18 @@ export class ProductViewSynergeyesComponent implements OnInit {
       case 3:
         this.product.priceSale = this.product.price3;
         break;
+      case 4:
+        this.product.priceSale = this.product.price4;
+        break;
+      case 5:
+        this.product.priceSale = this.product.price5;
+        break;
+      case 6:
+        this.product.priceSale = this.product.price6;
+        break;
+      case 7:
+        this.product.priceSale = this.product.price7;
+        break;
     }
   }
 
@@ -687,7 +702,15 @@ export class ProductViewSynergeyesComponent implements OnInit {
         return prCode.price2;
       case 3:
         return prCode.price3;
-    }
+      case 4:
+        return prCode.price4;
+      case 5:
+        return prCode.price5;
+      case 6:
+        return prCode.price6;
+      case 7:
+        return prCode.price7;
+  }
   }
 
   formIsValid() {
