@@ -678,6 +678,18 @@ export class ProductViewXCelComponent implements OnInit {
             case 3://Preffered
               this.price[eye].priceUnit = 95;
               break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 175;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 180;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
+              break;
           }
         break;
         case 'Atlantis TPC':
@@ -691,6 +703,18 @@ export class ProductViewXCelComponent implements OnInit {
               break;
             case 3://Preffered
               this.price[eye].priceUnit = 140;
+              break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 175;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 260;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
               break;
           }
         break;
@@ -706,6 +730,18 @@ export class ProductViewXCelComponent implements OnInit {
             case 3://Preffered
               this.price[eye].priceUnit = 140;
               break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 175;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 260;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
+              break;
           }
         break;
         case 'Atlantis 3D':
@@ -719,6 +755,18 @@ export class ProductViewXCelComponent implements OnInit {
               break;
             case 3://Preffered
               this.price[eye].priceUnit = 140;
+              break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 175;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 260;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
               break;
           }
         break;
@@ -734,6 +782,18 @@ export class ProductViewXCelComponent implements OnInit {
             case 3://Preffered
               this.price[eye].priceUnit = 140;
               break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 175;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 260;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
+              break;
           }
         break;
         case 'Atlantis 2.0':
@@ -748,6 +808,18 @@ export class ProductViewXCelComponent implements OnInit {
             case 3://Preffered
               this.price[eye].priceUnit = 140;
               break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 175;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 260;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
+              break;
           }
         break;
         case 'Atlantis LD':
@@ -761,6 +833,18 @@ export class ProductViewXCelComponent implements OnInit {
               break;
             case 3://Preffered
               this.price[eye].priceUnit = 140;
+              break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 175;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 260;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
               break;
           }
         break;
@@ -778,7 +862,19 @@ export class ProductViewXCelComponent implements OnInit {
               break;
             case 3://Preffered
               this.price[eye].priceUnit = 65;
-          break;
+              break;
+            case 4://Bronze
+              this.price[eye].priceUnit = 94.3;
+              break;
+            case 5://Diamond Saudi
+              this.price[eye].priceUnit = 0;
+              break;
+            case 6://Central America
+              this.price[eye].priceUnit = 95;
+              break;
+            case 6://Diamond Price
+              this.price[eye].priceUnit = 0;
+              break;
           }
           break;
           case 'Bitoric':
@@ -792,6 +888,18 @@ export class ProductViewXCelComponent implements OnInit {
                 break;
               case 3://Preffered
                 this.price[eye].priceUnit = 32;
+                break;
+              case 4://Bronze
+                this.price[eye].priceUnit = 55.3;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 50;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
                 break;
             }
           break;
@@ -807,6 +915,18 @@ export class ProductViewXCelComponent implements OnInit {
               case 3://Preffered
                 this.price[eye].priceUnit = 66;
                 break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 111.75;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 99;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
+                break;
             }
           break;
           case 'Pinnacle':
@@ -820,6 +940,18 @@ export class ProductViewXCelComponent implements OnInit {
                 break;
               case 3://Preffered
                 this.price[eye].priceUnit = 21;
+                break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 42.15;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 31;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
                 break;
             }
           break;
@@ -835,6 +967,18 @@ export class ProductViewXCelComponent implements OnInit {
               case 3://Preffered
                 this.price[eye].priceUnit = 55;
                 break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 94.3;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 84;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
+                break;
             }
           break;
           case 'Pinnacle LD':
@@ -848,6 +992,18 @@ export class ProductViewXCelComponent implements OnInit {
                 break;
               case 3://Preffered
                 this.price[eye].priceUnit = 31;
+                break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 72.45;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 46;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
                 break;
             }
           break;
@@ -863,6 +1019,18 @@ export class ProductViewXCelComponent implements OnInit {
               case 3://Preffered
                 this.price[eye].priceUnit = 47;
                 break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 95.4;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 70;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
+                break;
             }
           break;
           case 'Sphere':
@@ -876,6 +1044,18 @@ export class ProductViewXCelComponent implements OnInit {
                 break;
               case 3://Preffered
                 this.price[eye].priceUnit = 21;
+                break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 33.45;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 31;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
                 break;
             }
           break;
@@ -891,6 +1071,18 @@ export class ProductViewXCelComponent implements OnInit {
               case 3://Preffered
                 this.price[eye].priceUnit = 21;
                 break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 33.45;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 31;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
+                break;
             }
           break;
           case 'Titan':
@@ -905,6 +1097,18 @@ export class ProductViewXCelComponent implements OnInit {
               case 3://Preffered
                 this.price[eye].priceUnit = 65;
                 break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 94.3;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 95;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
+                break;
             }
           break;
           case 'X-Cel Thin':
@@ -918,6 +1122,18 @@ export class ProductViewXCelComponent implements OnInit {
                 break;
               case 3://Preffered
                 this.price[eye].priceUnit = 21;
+                break;
+                case 4://Bronze
+                this.price[eye].priceUnit = 33.45;
+                break;
+              case 5://Diamond Saudi
+                this.price[eye].priceUnit = 0;
+                break;
+              case 6://Central America
+                this.price[eye].priceUnit = 31;
+                break;
+              case 6://Diamond Price
+                this.price[eye].priceUnit = 0;
                 break;
             }
           break;
@@ -943,6 +1159,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 60.00;
                     break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 50.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 91.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -957,6 +1185,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 30.00;
                     break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 20.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 47.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -970,6 +1210,18 @@ export class ProductViewXCelComponent implements OnInit {
                     break;
                   case 3://Preffered
                     this.price[eye].priceUnit = 93.00;
+                    break;
+                   case 4://Bronze
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 144.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
                     break;
                 }
               break;
@@ -989,6 +1241,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 69.00;
                     break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 80.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 104.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -1003,6 +1267,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 36.50;
                     break;
+                   case 4://Bronze
+                    this.price[eye].priceUnit = 30.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 53.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -1016,6 +1292,18 @@ export class ProductViewXCelComponent implements OnInit {
                     break;
                   case 3://Preffered
                     this.price[eye].priceUnit = 103.50;
+                    break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 90.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 155.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
                     break;
                 }
               break;
@@ -1035,6 +1323,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 79.00;
                     break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 80.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 123.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -1049,6 +1349,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 45.00;
                     break;
+                    case 4://Bronze
+                    this.price[eye].priceUnit = 30.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 69.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -1062,6 +1374,18 @@ export class ProductViewXCelComponent implements OnInit {
                     break;
                   case 3://Preffered
                     this.price[eye].priceUnit = 99.00;
+                    break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 90.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 150.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
                     break;
                 }
               break;
@@ -1081,6 +1405,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 60.00;
                     break;
+                    case 4://Bronze
+                    this.price[eye].priceUnit = 50.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 91.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -1095,6 +1431,18 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 37.50;
                     break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 20.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 58.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -1108,6 +1456,18 @@ export class ProductViewXCelComponent implements OnInit {
                     break;
                   case 3://Preffered
                     this.price[eye].priceUnit = 110.00;
+                    break;
+                  case 4://Bronze
+                    this.price[eye].priceUnit = 60.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 168.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
                     break;
                 }
               break;
@@ -1127,10 +1487,22 @@ export class ProductViewXCelComponent implements OnInit {
                   case 3://Preffered
                     this.price[eye].priceUnit = 51.75;
                     break;
+                    case 4://Bronze
+                    this.price[eye].priceUnit = 50.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 78.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
-                this.price[eye].spCode = '108B (NW)';
+                this.price[eye].spCode = '108C (NW)';
                 switch (this.membership) {
                   case 1://Gold
                     this.price[eye].priceUnit = 32.30;
@@ -1140,6 +1512,18 @@ export class ProductViewXCelComponent implements OnInit {
                     break;
                   case 3://Preffered
                     this.price[eye].priceUnit = 32.30;
+                    break;
+                    case 4://Bronze
+                    this.price[eye].priceUnit = 20.00;
+                    break;
+                  case 5://Diamond Saudi
+                    this.price[eye].priceUnit = 0;
+                    break;
+                  case 6://Central America
+                    this.price[eye].priceUnit = 48.00;
+                    break;
+                  case 6://Diamond Price
+                    this.price[eye].priceUnit = 0;
                     break;
                 }
               break;
@@ -1159,6 +1543,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 70.00;
                       break;
+                    case 4://Bronze
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 110.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1173,6 +1569,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 37.50;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 30.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 58.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1186,6 +1594,18 @@ export class ProductViewXCelComponent implements OnInit {
                       break;
                     case 3://Preffered
                       this.price[eye].priceUnit = 80.00;
+                      break;
+                    case 4://Bronze
+                      this.price[eye].priceUnit = 90.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 125.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
                       break;
                   }
                 break;
@@ -1205,6 +1625,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 26.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 50.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 39.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1219,6 +1651,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 14.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 20.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 27.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1232,6 +1676,18 @@ export class ProductViewXCelComponent implements OnInit {
                       break;
                     case 3://Preffered
                       this.price[eye].priceUnit = 42.00;
+                      break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 60.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 81.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
                       break;
                   }
                 break;
@@ -1251,6 +1707,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 40.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 50.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 60.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1265,6 +1733,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 18.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 20.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 33.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1278,6 +1758,18 @@ export class ProductViewXCelComponent implements OnInit {
                       break;
                     case 3://Preffered
                       this.price[eye].priceUnit = 54.00;
+                      break;
+                    case 4://Bronze
+                      this.price[eye].priceUnit = 60.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 99.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
                       break;
                   }
                 break;
@@ -1297,6 +1789,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 70.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 80.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 110.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1311,6 +1815,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 37.50;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 30.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 58.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1324,6 +1840,18 @@ export class ProductViewXCelComponent implements OnInit {
                       break;
                     case 3://Preffered
                       this.price[eye].priceUnit = 80.00;
+                      break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 90.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 125.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
                       break;
                   }
                 break;
@@ -1343,6 +1871,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 26.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 50.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 39.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1357,6 +1897,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 14.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 20.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 27.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1370,6 +1922,18 @@ export class ProductViewXCelComponent implements OnInit {
                       break;
                     case 3://Preffered
                       this.price[eye].priceUnit = 42.00;
+                      break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 60.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 81.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
                       break;
                   }
                 break;
@@ -1389,6 +1953,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 40.00;
                       break;
+                    case 4://Bronze
+                      this.price[eye].priceUnit = 50.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 60.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1403,6 +1979,18 @@ export class ProductViewXCelComponent implements OnInit {
                     case 3://Preffered
                       this.price[eye].priceUnit = 18.00;
                       break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 20.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 33.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1416,6 +2004,18 @@ export class ProductViewXCelComponent implements OnInit {
                       break;
                     case 3://Preffered
                       this.price[eye].priceUnit = 54.00;
+                      break;
+                      case 4://Bronze
+                      this.price[eye].priceUnit = 60.00;
+                      break;
+                    case 5://Diamond Saudi
+                      this.price[eye].priceUnit = 0;
+                      break;
+                    case 6://Central America
+                      this.price[eye].priceUnit = 99.00;
+                      break;
+                    case 6://Diamond Price
+                      this.price[eye].priceUnit = 0;
                       break;
                   }
                 break;
