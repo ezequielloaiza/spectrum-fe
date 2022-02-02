@@ -39,7 +39,6 @@ export class OrionComponent implements OnInit {
   warrantyRight = false;
   warrantyLeft = false;
   client: any;
-  parameterType: any;
 
   constructor(public modalReference: NgbActiveModal,
     private notification: ToastrService,
@@ -71,6 +70,22 @@ export class OrionComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 
+//   getProductsCode() {
+//     this.productService.findBySupplierAndInViewAndCategory$(10, false, 10).subscribe(res1 => {
+//       if (res1.code === CodeHttp.ok) {
+//         this.productsCode = res1.data;
+//         const pC = this.productsCode.filter((item) => { return _.includes(item.codeSpectrum, this.product.codeSpectrum); });
+//         this.productsCode = pC.sort((a, b) => (b.idProduct > a.idProduct) ? -1 : 1);
+//       } else {
+//         console.log(res1.errors[0].detail);
+//         this.spinner.hide();
+//       }
+//     }, error => {
+//       console.log('error', error);
+//       this.spinner.hide();
+//     });
+//   }
+
   getProductsCode() {
     let productName: any;
     if (this.product.idProduct === 150 || this.product.idProduct === 151 || this.product.idProduct === 152) {
@@ -97,37 +112,54 @@ export class OrionComponent implements OnInit {
 
   setCodeProduct() {
     let productName;
-    if (this.product.idProduct === 150 || this.product.idProduct === 151 || this.product.idProduct === 152) {
-      productName = 'BioColors';
-    } else if (this.product.idProduct === 153 || this.product.idProduct === 154) {
-      productName = 'BioMed';
-    } else if (this.product.idProduct === 271 || this.product.idProduct === 272) {
-      productName = 'BioSport';
-    }
-    const idProduct = this.product.idProduct;
-    const parameterType = this.parameterType === 'Cosmetic' ||  this.parameterType === 'Prosthetic' ? this.parameterType : '';
     let prCode;
+    if (_.includes(this.product.name.toLowerCase(), 'biocolor')) {
+      productName = 'biocolor';
+    } else if (_.includes(this.product.name.toLowerCase(), 'biomed')) {
+      productName = 'biomed';
+    } else if (_.includes(this.product.name.toLowerCase(), 'biosport')) {
+      productName = 'biosport';
+    }
+
+    const cylinder:any = _.find(this.product.parameters, {name: 'Cylinder'});
+    const typeBiocolors:any = _.find(this.product.parameters, {name: 'Type'});
+
+    const cylinderValue = (cylinder && cylinder.selected) || '';
+    const typeValue = (typeBiocolors && typeBiocolors.selected) || '';
+
+
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
-      let pr = this.productsCode[i];
-      if (idProduct === 150 || idProduct === 151 || idProduct === 152) {
-        if (parameterType === 'Cosmetic') {
-          if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
-              && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase()) && _.includes(pr.name.toLowerCase(), 'sphere')) {
-              prCode = pr;
-              break;
-           }
-        } else {
-          if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
-          && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase())) {
+      const pr = this.productsCode[i];
+      if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())) {
+        if (productName === 'biocolor' && _.includes(pr.name.toLowerCase(), typeValue.toLowerCase())) {
+          if (_.includes(pr.name.toLowerCase(), 'prosthetic')){
             prCode = pr;
             break;
           }
-        }
-      } else {
-        if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
-        && _.includes(pr.name.toLowerCase(), 'sphere')) {
-          prCode = pr;
-          break;
+
+          if (cylinderValue !== '' && cylinderValue !== "0.00") {
+            if (_.includes(pr.name.toLowerCase(), 'toric')) {
+              prCode = pr;
+              break;
+            }
+          } else {
+            if (_.includes(pr.name.toLowerCase(), 'sphere')){
+              prCode = pr;
+              break;
+            }
+          }
+        } else {
+          if ((cylinderValue !== '' && cylinderValue !== "0.00")) {
+            if (_.includes(pr.name.toLowerCase(), 'toric')) {
+              prCode = pr;
+              break;
+            }
+          } else {
+            if (_.includes(pr.name.toLowerCase(), 'sphere')){
+              prCode = pr;
+              break;
+            }
+          }
         }
       }
     }
@@ -156,7 +188,6 @@ export class OrionComponent implements OnInit {
     this.observations = this.productRequested.observations;
     this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
-    let typeParameter = '';
     let paramet = this.product.parameters;
 
     _.each(this.detail.parameters, function(item) {
@@ -168,17 +199,16 @@ export class OrionComponent implements OnInit {
            } else {
                productSelected.selected = item.selected;
            }
-           if (productSelected.name === 'Type') {
-            typeParameter = productSelected.selected;
-           }
         }
      });
     });
     this.product.parameters = paramet;
-    this.parameterType = typeParameter;
   }
 
   changeSelect(eye, parameter, value) {
+    const param:any = _.find(this.product.parameters, {name: parameter.name});
+    param.selected = value;
+
     parameter.selected = value;
     if (parameter.name === 'Warranty') {
       if (eye === 'Right') {
@@ -198,9 +228,6 @@ export class OrionComponent implements OnInit {
       }
     }
     if (this.membership) {
-      if (parameter.name === 'Type') {
-        this.parameterType = parameter.selected;
-      }
       this.setCodeProduct();
       this.definePrice(this.membership);
     }

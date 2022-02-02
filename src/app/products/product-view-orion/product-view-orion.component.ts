@@ -18,6 +18,7 @@ import { ConfirmationOrionComponent } from '../modals/confirmation-buy/confirmat
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
+import { BreadcrumbModule } from '../../shared';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
 
@@ -56,7 +57,6 @@ export class ProductViewOrionComponent implements OnInit {
   warrantyLeft = false;
   download = false;
   type: any;
-  parameterType: any;
   typeOrder = 'new';
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
@@ -187,17 +187,14 @@ export class ProductViewOrionComponent implements OnInit {
     this.setClient();
     this.setPrice();
     this.getProductsCode();
-    this.setCodeProduct();
   }
 
   getProductsCode() {
     this.productService.findBySupplierAndInViewAndCategory$(10, false, 10).subscribe(res1 => {
       if (res1.code === CodeHttp.ok) {
         this.productsCode = res1.data;
-        const pC = this.productsCode.filter((item) => {
-          return _.includes(item.codeSpectrum, this.product.codeSpectrum); });
+        const pC = this.productsCode.filter((item) => { return _.includes(item.codeSpectrum, this.product.codeSpectrum); });
         this.productsCode = pC.sort((a, b) => (b.idProduct > a.idProduct) ? -1 : 1);
-        this.setCodeProduct();
       } else {
         console.log(res1.errors[0].detail);
         this.spinner.hide();
@@ -208,48 +205,72 @@ export class ProductViewOrionComponent implements OnInit {
     });
   }
 
-  setCodeProduct() {
+  setCodeProduct(eye) {
     const productName = this.product.name;
-    const idProduct = this.product.idProduct;
-    const parameterType = this.parameterType === 'Cosmetic' ||  this.parameterType === 'Prosthetic' ? this.parameterType : '';
     let prCode;
+    let params;
+
+    if (eye === 'right') {
+      params = this.product.parametersRight;
+    } else {
+      params = this.product.parametersLeft;
+    }
+
+    const cylinder:any = _.find(params, {name: 'Cylinder'});
+    const typeBiocolors:any = _.find(params, {name: 'Type'});
+
+    const cylinderValue = (cylinder && cylinder.selected) || '';
+    const typeValue = (typeBiocolors && typeBiocolors.selected) || '';
+
+
     for (let i = 0, len = this.productsCode.length; i < len; i++) {
       const pr = this.productsCode[i];
-      if (idProduct === 267) {
-        if (parameterType === 'Cosmetic') {
-          if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
-              && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase()) && _.includes(pr.name.toLowerCase(), 'sphere')) {
-              prCode = pr;
-              break;
-           }
-        } else {
-          if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
-          && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase())) {
+
+      if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())) {
+        if (_.includes(pr.name.toLowerCase(), 'biocolor') && _.includes(pr.name.toLowerCase(), typeValue.toLowerCase())) {
+          if (_.includes(pr.name.toLowerCase(), 'prosthetic')){
             prCode = pr;
             break;
           }
-        }
-      } else {
-        if (_.includes(pr.name.toLowerCase(), productName.toLowerCase())
-        && _.includes(pr.name.toLowerCase(), 'sphere')) {
-          prCode = pr;
-          break;
+
+          if (cylinderValue !== '' && cylinderValue !== "0.00") {
+            if (_.includes(pr.name.toLowerCase(), 'toric')) {
+              prCode = pr;
+              break;
+            }
+          } else {
+            if (_.includes(pr.name.toLowerCase(), 'sphere')){
+              prCode = pr;
+              break;
+            }
+          }
+        } else {
+          if ((cylinderValue !== '' && cylinderValue !== "0.00")) {
+            if (_.includes(pr.name.toLowerCase(), 'toric')) {
+              prCode = pr;
+              break;
+            }
+          } else {
+            if (_.includes(pr.name.toLowerCase(), 'sphere')){
+              prCode = pr;
+              break;
+            }
+          }
         }
       }
     }
-    this.productCode = prCode;
+    this.product[eye] = {productCode: prCode};
 
-    if (this.productCode) {
-      this.product.price1 = this.productCode.price1;
-      this.product.price2 = this.productCode.price2;
-      this.product.price3 = this.productCode.price3;
-      this.product.price4 = this.productCode.price4;
-      this.product.price5 = this.productCode.price5;
-      this.product.price6 = this.productCode.price6;
-      this.product.price7 = this.productCode.price7;
+    if (this.product[eye].productCode) {
+      this.product.price1 = this.product[eye].productCode.price1;
+      this.product.price2 = this.product[eye].productCode.price2;
+      this.product.price3 = this.product[eye].productCode.price3;
+      this.product.price4 = this.product[eye].productCode.price4;
+      this.product.price5 = this.product[eye].productCode.price5;
+      this.product.price6 = this.product[eye].productCode.price6;
+      this.product.price7 = this.product[eye].productCode.price7;
     }
     this.setPrice();
-    console.log(this.product);
     this.updatePriceSale();
   }
 
@@ -412,12 +433,9 @@ export class ProductViewOrionComponent implements OnInit {
         }
       }
     }
+
     if (this.client ) {
-      if (parameter.name === 'Type') {
-        parameter.selected = value;
-        this.parameterType = parameter.selected;
-      }
-      this.setCodeProduct();
+      this.setCodeProduct(eye);
       this.definePrice(this.client.membership.idMembership, this.product);
       if (eye === 'right') {
         this.product.priceSaleRight = this.product.priceSale;
@@ -767,48 +785,10 @@ export class ProductViewOrionComponent implements OnInit {
     // add products code
     const auxList = JSON.parse(JSON.stringify(productsSelected));
     const auxproductsSelected = [];
-    const productsCode = this.productsCode;
-    const idProduct = this.product.idProduct;
-    const namePr = this.product.name;
 
     _.each(auxList, function (productAux, index: number) {
       const productH = JSON.parse(JSON.stringify(productAux));
-      let prCode: any;
-      let parameterType: any;
-      if (idProduct === 267) {
-        if (productH.detail.eye === 'Left') {
-          parameterType = typeLeft;
-        } else if (productH.detail.eye === 'Right') {
-          parameterType = typeRight;
-        }
-
-        for (let i = 0, len = productsCode.length; i < len; i++) {
-          let pr = productsCode[i];
-          if (parameterType === 'Cosmetic') {
-            if (_.includes(pr.name.toLowerCase(), namePr.toLowerCase())
-                && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase()) && _.includes(pr.name.toLowerCase(), 'sphere')) {
-                prCode = pr;
-                break;
-             }
-          } else {
-            if (_.includes(pr.name.toLowerCase(), namePr.toLowerCase())
-            && _.includes(pr.name.toLowerCase(), parameterType.toLowerCase())) {
-              prCode = pr;
-              break;
-            }
-          }
-        }
-      } else {
-        for (let i = 0, len = productsCode.length; i < len; i++) {
-          let pr = productsCode[i];
-          if (_.includes(pr.name.toLowerCase(), namePr.toLowerCase())
-          && _.includes(pr.name.toLowerCase(), 'sphere')) {
-            prCode = pr;
-            break;
-          }
-        }
-      }
-
+      const prCode = self.product[productH.detail.eye.toLowerCase()].productCode;
       productH.id = prCode.idProduct;
       productH.name = prCode.name;
       productH.codeSpectrum = prCode.codeSpectrum;
