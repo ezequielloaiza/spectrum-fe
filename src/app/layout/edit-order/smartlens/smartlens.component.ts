@@ -263,6 +263,14 @@ export class SmartlensComponent implements OnInit {
             return 100;
           case 3:
             return 100;
+          case 4:
+            return 110;
+          case 5:
+            return 0;
+          case 6:
+            return 220;
+          case 7:
+            return 0;
         }
       }
 
@@ -274,6 +282,14 @@ export class SmartlensComponent implements OnInit {
             return 125;
           case 3:
             return 125;
+          case 4:
+            return 135;
+          case 5:
+            return 0;
+          case 6:
+            return 265;
+          case 7:
+            return 0;
         }
       }
     }
@@ -288,17 +304,29 @@ export class SmartlensComponent implements OnInit {
         { "hydrapeg": {
             "gold": 0,
             "diamond": 0,
-            "preferred": 0
+            "preferred": 0,
+            "bronze": 0,
+            "diamondSaudi": 0,
+            "centralAmerica": 0,
+            "diamondPO": 0
           },
           "notch" : {
             "gold": 0,
             "diamond": 0,
-            "preferred": 0
+            "preferred": 0,
+            "bronze": 0,
+            "diamondSaudi": 0,
+            "centralAmerica": 0,
+            "diamondPO": 0
           },
           "dmv insertion and removal set": {
             "gold": 0,
             "diamond": 0,
-            "preferred": 0
+            "preferred": 0,
+            "bronze": 0,
+            "diamondSaudi": 0,
+            "centralAmerica": 0,
+            "diamondPO": 0
           }
         }
     }
@@ -309,7 +337,11 @@ export class SmartlensComponent implements OnInit {
       self.product.infoAdditionalPrices.values[name] = {
         "gold": product.price1,
         "diamond": product.price2,
-        "preferred": product.price3
+        "preferred": product.price3,
+        "bronze": product.price4,
+        "diamondSaudi": product.price5,
+        "centralAmerica": product.price6,
+        "diamondPO": product.price7
       };
     });
   }
@@ -336,6 +368,26 @@ export class SmartlensComponent implements OnInit {
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
         this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+        break;
+      case 4:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.bronze;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.bronze;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].bronze;
+        break;
+      case 5:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondSaudi;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamondSaudi;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondSaudi;
+        break;
+      case 6:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.centralAmerica;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.centralAmerica;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].centralAmerica;
+        break;
+      case 7:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondPO;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamondPO;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondPO;
         break;
     }
   }
