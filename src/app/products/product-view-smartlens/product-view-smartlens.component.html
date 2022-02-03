@@ -202,7 +202,7 @@
 
             <!-- parameters right -->
             <div class="col-lg-3 padding-params" *ngFor="let parameter of getParams('right')">
-              <div>
+              <div *ngIf="isVisible('right', parameter)">
                 <!--param name-->
                 <div class="row label">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
@@ -232,10 +232,10 @@
                   <div *ngIf="parameter.type === 'radio'" class="radio-custom">
                     <div *ngFor="let value of parameter.values; let i = index">
                       <div class="custom-control custom-radio">
-                        <input type="radio" id="radio-overrefaction-{{i}}" name="radioORRight" [value]="value"
+                        <input type="radio" id="radio-{{parameter.name}}-{{i}}" name="radio-{{parameter.name}}" [value]="value"
                                [disabled]="!product.eyeRight"  class="custom-control-input"
                                (change)="changeSelect('right', parameter, value, 0)" [checked]="parameter.selected === value">
-                        <label class="custom-control-label" for="radio-overrefaction-{{i}}">{{ value | translate }}</label>
+                        <label class="custom-control-label" for="radio-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
                       </div>
                     </div>
                   </div>
@@ -298,11 +298,13 @@
 
         <!--prices additional right-->
         <div class="row additional col-lg-12">
-          <p *ngIf="getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight">
+          <p *ngIf="getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight || getAdditionalPrices(true).multimeridianRight">
             <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
             <span *ngIf="getAdditionalPrices(true).hydrapegRight">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : " USD $" }}</span>&nbsp;
             <span *ngIf="getAdditionalPrices(true).notchRight && getAdditionalPrices(true).hydrapegRight">| </span>
             <span *ngIf="getAdditionalPrices(true).notchRight">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchRight | currency : " USD $" }}</span>&nbsp;
+            <span *ngIf="getAdditionalPrices(true).multimeridianRight && (getAdditionalPrices(true).hydrapegRight || getAdditionalPrices(true).notchRight)">| </span>
+            <span *ngIf="getAdditionalPrices(true).multimeridianRight">{{'Multimeridian' | translate}}:{{ getAdditionalPrices(true).multimeridianRight | currency : " USD $" }}</span>&nbsp;
           </p>
         </div>
 
@@ -432,7 +434,7 @@
               </div>
             </div>
             <div class="col-lg-3 padding-params" *ngFor="let parameter of getParams('left')">
-              <div>
+              <div *ngIf="isVisible('left', parameter)">
                 <!--param name-->
                 <div class="row label">
                   <label class="form-check-label">{{ parameter.name | translate }}</label>&nbsp;&nbsp;
@@ -464,10 +466,10 @@
                   <div *ngIf="parameter.type === 'radio'" class="radio-custom">
                     <div *ngFor="let value of parameter.values; let i = index">
                       <div class="custom-control custom-radio">
-                        <input type="radio" id="radio-overrefaction-{{i}}" name="radioORLeft" [value]="value"
+                        <input type="radio" id="radio-{{parameter.name}}-{{i}}" name="radio-{{parameter.name}}-left" [value]="value"
                                [disabled]="!product.eyeLeft"  class="custom-control-input"
                                (change)="changeSelect('left', parameter, value, 0)" [checked]="parameter.selected === value">
-                        <label class="custom-control-label" for="radio-overrefaction-{{i}}">{{ value | translate }}</label>
+                        <label class="custom-control-label" for="radio-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
                       </div>
                     </div>
                   </div>
@@ -530,11 +532,13 @@
 
         <!--prices additional left-->
         <div class="row additional col-lg-12">
-          <p *ngIf="getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft">
+          <p *ngIf="getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft || getAdditionalPrices(true).multimeridianLeft">
             <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
             <span *ngIf="getAdditionalPrices(true).hydrapegLeft">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : " USD $" }}</span>&nbsp;
             <span *ngIf="getAdditionalPrices(true).notchLeft && getAdditionalPrices(true).hydrapegLeft">| </span>
             <span *ngIf="getAdditionalPrices(true).notchLeft">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchLeft | currency : " USD $" }}</span>&nbsp;
+            <span *ngIf="getAdditionalPrices(true).multimeridianLeft && (getAdditionalPrices(true).hydrapegLeft || getAdditionalPrices(true).notchLeft)">| </span>
+            <span *ngIf="getAdditionalPrices(true).multimeridianLeft">{{'Multimeridian' | translate}}:{{ getAdditionalPrices(true).multimeridianLeft | currency : " USD $" }}</span>&nbsp;
           </p>
         </div>
 

@@ -210,6 +210,11 @@ export class SmartlensComponent implements OnInit {
               prDMV = basket.productRequested;
             }
             break;
+          // TODO:case 316:
+          //   if (JSON.parse(basket.productRequested.detail)[0].eye === eye) {
+          //     prDMV = basket.productRequested;
+          //   }
+          //   break;
         }
       });
       this.productRequestedDMV = prDMV;
