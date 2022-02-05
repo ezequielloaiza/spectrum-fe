@@ -237,7 +237,7 @@ export class ProductViewSmartlensComponent implements OnInit {
             "diamondSaudi": 0,
             "centralAmerica": 0,
             "diamondPO": 0
-          },
+          }
         }
     }
 
