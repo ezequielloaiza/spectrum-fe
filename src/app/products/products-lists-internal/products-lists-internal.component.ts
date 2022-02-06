@@ -276,6 +276,18 @@ export class ProductsListInternalComponent implements OnInit {
             case 3:
               product.priceSale = product.price3;
               break;
+            case 4:
+              product.priceSale = product.price4;
+              break;
+            case 5:
+              product.priceSale = product.price5;
+              break;
+            case 6:
+              product.priceSale = product.price6;
+              break;
+            case 7:
+              product.priceSale = product.price7;
+              break;
           }
         } else {
           let info = JSON.parse(product.infoAditional);
@@ -312,7 +324,7 @@ export class ProductsListInternalComponent implements OnInit {
           this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
         }
         break;
-      case 3: // Lenticon
+      case 3: // Elipsys
         this.router.navigate(['/products/' + product.idProduct + '/product-view-lenticon']);
         break;
       case 4:  // euclid
@@ -321,7 +333,7 @@ export class ProductsListInternalComponent implements OnInit {
       case 5: // magic look
         this.router.navigate(['/products/' + product.idProduct + '/product-view-magic']);
         break;
-      case 6:  // magic blue
+      case 6:  // Lentes blandos de vendaje
         this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
         break;
       case 8: // medmont

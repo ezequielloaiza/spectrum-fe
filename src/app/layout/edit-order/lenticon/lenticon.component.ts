@@ -8,6 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import * as _ from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from '../../../shared/services/products/product.service';
 
 @Component({
   selector: 'app-lenticon',
@@ -16,6 +17,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class LenticonComponent implements OnInit {
   basket: any;
+  productsCode: any;
   productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
   product: any;
@@ -24,7 +26,6 @@ export class LenticonComponent implements OnInit {
   typeEdit: any;
   quantity: any;
   observations: any;
-  price: any;
   editPrice = false;
   user: any;
   patient: any;
@@ -36,6 +37,7 @@ export class LenticonComponent implements OnInit {
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
+              private productService: ProductService,
               private productRequestedService: ProductsRequestedService,
               private userService: UserStorageService,
               private spinner: NgxSpinnerService) {
@@ -53,10 +55,38 @@ export class LenticonComponent implements OnInit {
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.getProductView();
+    this.getProductsLenticon();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
 
+  }
+
+  getProductsLenticon() {
+    this.productService.findBySupplier$(3).subscribe(res1 => {
+      if (res1.code === CodeHttp.ok) {
+        this.productsCode = res1.data;
+      } else {
+        console.log(res1.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
+  }
+
+  getProductSelected(parameters) {
+    const design: any = _.find(parameters, { name: 'Design' });
+    let productSelected;
+
+    _.each(this.productsCode, function (pr) {
+      if (pr.name === (design.selected.replace(/_/g, ' ') + ' Contact Lens')) {
+        productSelected = pr;
+      }
+    });
+
+    return productSelected || this.product;
   }
 
   close() {
@@ -70,7 +100,6 @@ export class LenticonComponent implements OnInit {
     this.product.set = JSON.parse(this.product.types)[0].set;
     this.quantity = this.productRequested.quantity;
     this.observations = this.productRequested.observations;
-    this.price = this.productRequested.price;
     this.patient = this.productRequested.patient;
     let paramet = this.product.parameters;
     let set = this.product.set;
@@ -142,6 +171,25 @@ export class LenticonComponent implements OnInit {
     }
   }
 
+  getPrice(product) {
+    switch (this.membership) {
+      case 1:
+        return product.price1;
+      case 2:
+        return product.price2;
+      case 3:
+        return product.price3;
+      case 4:
+        return product.price4;
+      case 5:
+        return product.price5;
+      case 6:
+        return product.price6;
+      case 7:
+        return product.price7;
+    }
+  }
+
   save() {
     this.spinner.show();
     let paramet = this.product.parameters;
@@ -187,9 +235,9 @@ export class LenticonComponent implements OnInit {
       this.productRequested.detail = '[' + JSON.stringify({ name: this.product.name , eye: this.detail.eye, typeLens: this.typeLens.selected,
                                       parameters: this.detail.parameters, set: this.detail.set}) + ']';
       this.productRequested.observations = this.observations;
-      this.productRequested.price = this.price;
+      this.productRequested.price = this.getPrice(this.getProductSelected(this.detail.parameters));
       this.productRequested.quantity = this.quantity;
-      this.productRequested.product = this.product.idProduct;
+      this.productRequested.product = this.getProductSelected(this.detail.parameters).idProduct;
       this.productRequested.patient = this.patient;
       this.update(this.productRequested);
     } else { // Order Detail
@@ -197,9 +245,9 @@ export class LenticonComponent implements OnInit {
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.product.name, eye: this.detail.eye, typeLens: this.typeLens.selected,
                                           parameters: this.detail.parameters, set: this.detail.set}) + ']';
       this.productRequestedAux.observations = this.observations;
-      this.productRequestedAux.price = this.price;
+      this.productRequestedAux.price = this.getPrice(this.getProductSelected(this.detail.parameters));
       this.productRequestedAux.quantity = this.quantity;
-      this.productRequestedAux.product = this.product.idProduct;
+      this.productRequestedAux.product = this.getProductSelected(this.detail.parameters).idProduct;
       this.productRequestedAux.patient = this.patient;
       this.update(this.productRequestedAux);
     }
@@ -235,7 +283,7 @@ export class LenticonComponent implements OnInit {
       });
     }
 
-    if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '' ||
+    if (this.quantity === null  || (this.patient === null || this.patient === '' ||
       (addAux && this.product.pupillary === null) )) {
         valido = false;
     }

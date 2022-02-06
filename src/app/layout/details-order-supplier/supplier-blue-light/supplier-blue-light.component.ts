@@ -8,7 +8,7 @@ import { BlueLightComponent } from '../../edit-order/blue-light/blue-light.compo
 import { UserStorageService } from '../../../http/user-storage.service';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const URL = environment.apiUrl + 'fileProductRequested/downloadFile/';
 
@@ -28,15 +28,22 @@ export class SupplierBlueLightComponent implements OnInit {
   valueStatus: any;
   valueClient: any;
   user: any;
+  paramStatus: any;
   constructor(private modalService: NgbModal,
               private userStorageService: UserStorageService,
+              private route: ActivatedRoute,
               private router: Router) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
    }
 
   skipLocationAndRedirect(uri) {
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-    this.router.navigate([uri]));
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      if (this.paramStatus) {
+        this.router.navigate(['/details-order-client/'+this.order.idOrder+'/view'], { queryParams: { status: this.paramStatus } })
+      } else {
+        this.router.navigate([uri]);
+      }
+    });
   }
 
   ngOnInit() {
@@ -44,6 +51,7 @@ export class SupplierBlueLightComponent implements OnInit {
     this.urlImage = this.image;
     this.valueStatus = this.order.status;
     this.valueClient = this.order.user.status;
+    this.paramStatus = this.route.snapshot.queryParams.status;
   }
 
   openEdit() {
@@ -52,6 +60,7 @@ export class SupplierBlueLightComponent implements OnInit {
     modalRefBlue.componentInstance.detailEdit = this.lista;
     modalRefBlue.componentInstance.typeEdit = 2;
     modalRefBlue.componentInstance.image = this.urlImage;
+    modalRefBlue.componentInstance.membership = this.order.user.membership.idMembership;
     modalRefBlue.result.then((result) => {
       /*this.listAux = result;
       this.sendReply();*/

@@ -36,6 +36,8 @@ export class SalineFluoComponent implements OnInit {
   image: any;
   strips: any;
   quantityValues: any;
+  membership: any;
+  userOrder: any;
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
@@ -50,8 +52,10 @@ export class SalineFluoComponent implements OnInit {
   ngOnInit() {
     if (this.typeEdit === 1 ) { // Basket
       this.productRequested = this.basket.productRequested;
+      this.membership = this.basket.basket.user.membership.idMembership;
     } else { // order-detail
       this.productRequested = this.detailEdit;
+      this.membership = this.userOrder.membership.idMembership;
     }
     this.product = this.productRequested.product;
     this.getProductView();
@@ -78,7 +82,7 @@ export class SalineFluoComponent implements OnInit {
   }
 
   getProductsCode() {
-    if (this.product.codeSpectrum == '44A' || this.product.codeSpectrum == '44B') {
+    if (this.product.codeSpectrum == '44A' || this.product.codeSpectrum == '44B' || this.product.codeSpectrum == '44C') {
       this.productService.findBySupplierAndInViewAndCategory$(7, false, 10).subscribe(res1 => {
         if (res1.code === CodeHttp.ok) {
           this.productsCode = res1.data;
@@ -102,20 +106,50 @@ export class SalineFluoComponent implements OnInit {
     console.log('this.quantity >= 250 && this.quantity < 500', this.quantity >= 250 && this.quantity < 500);
     if (this.quantity >= 250 && this.quantity < 500) {
       flag = '250';
-    } else if (this.quantity >= 500) {
+    } else if (this.quantity >= 500 && this.quantity < 1000) {
       flag = '500';
+    } else if (this.quantity >= 1000) {
+      flag = '1000';
     }
     _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.name, flag)) {
+      var productName = (JSON.parse(pr.infoAditional).find(n => n.name === 'ProductName'));
+      if (productName && _.includes(productName.value, flag)) {
         productCode = pr;
       }
     });
-    this.productCode = productCode;
+    this.productCode = productCode || this.product;
+    this.definePrice();
+  }
+
+  definePrice() {
+    switch (this.membership) {
+      case 1:
+        this.price = this.productCode.price1;
+        break;
+      case 2:
+        this.price = this.productCode.price2;
+        break;
+      case 3:
+        this.price = this.productCode.price3;
+        break;
+      case 4:
+        this.price = this.productCode.price4;
+        break;
+      case 5:
+        this.price = this.productCode.price5;
+        break;
+      case 6:
+        this.price = this.productCode.price6;
+        break;
+      case 7:
+        this.price = this.productCode.price7;
+        break;
+    }
   }
 
   save() {
     let idProduct = this.product.idProduct;
-    if (this.product.codeSpectrum == '44A' || this.product.codeSpectrum == '44B') {
+    if (this.product.codeSpectrum == '44A' || this.product.codeSpectrum == '44B' || this.product.codeSpectrum == '44C') {
       this.changeSpectrumSaline();
       idProduct = this.productCode.idProduct;
     }
@@ -150,6 +184,7 @@ export class SalineFluoComponent implements OnInit {
     if (quantity % 25 === 0) {
       this.strips = quantity * 100;
     }
+    this.changeSpectrumSaline();
   }
 
   update(productRequested) {

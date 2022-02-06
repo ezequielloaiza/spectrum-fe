@@ -5,25 +5,20 @@ import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationMagicLookComponent } from '../modals/confirmation-buy/confirmation-magic-look/confirmation-magic-look.component';
-import { debug } from 'util';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 const URL = environment.apiUrl + 'fileProductRequested/uploader';
@@ -41,7 +36,7 @@ export class ProductViewMagicComponent implements OnInit {
   boxesCopy: any;
   tones: Array<any> = new Array;
   product: any;
-  productCode: any;
+  codeSpectrum: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -121,18 +116,6 @@ export class ProductViewMagicComponent implements OnInit {
     this.productService.findBySupplierInView$(5, true).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.products = res.data;
-        this.productService.findBySupplierAndInViewAndCategory$(5, false, 10).subscribe(res1 => {
-          if (res1.code === CodeHttp.ok) {
-            this.productsCode = res1.data;
-            this.setCodeProduct();
-          } else {
-            console.log(res1.errors[0].detail);
-            this.spinner.hide();
-          }
-        }, error => {
-          console.log('error', error);
-          this.spinner.hide();
-        });
         this.getProductView();
         this.spinner.hide();
       } else {
@@ -170,17 +153,6 @@ export class ProductViewMagicComponent implements OnInit {
         self.changeSelect(parameter, parameter.selected);
       }
     });
-  }
-
-  setCodeProduct() {
-    const productName = this.product.name;
-    let prCode;
-    _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.name, productName)) {
-        prCode = pr;
-      }
-    });
-    this.productCode = prCode;
   }
 
   addBox() {
@@ -307,10 +279,42 @@ export class ProductViewMagicComponent implements OnInit {
           case 3: // Preferred
             if (totalQuantity >= 250) {
               this.product.priceSale = parseFloat(info[3].values[pos].price);
-          } else {
-            this.priceFrom = parseFloat(info[3].values[2].price);
-            this.priceUp = parseFloat(info[3].values[0].price);
-          }
+            } else {
+              this.priceFrom = parseFloat(info[3].values[2].price);
+              this.priceUp = parseFloat(info[3].values[0].price);
+            }
+            break
+          case 4:
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[4].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[4].values[2].price);
+              this.priceUp = parseFloat(info[4].values[0].price);
+            }
+            break;
+          case 5:
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[5].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[5].values[2].price);
+              this.priceUp = parseFloat(info[5].values[0].price);
+            }
+            break;
+          case 6:
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[6].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[6].values[2].price);
+              this.priceUp = parseFloat(info[6].values[0].price);
+            }
+            break;
+          case 7:
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[7].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[7].values[2].price);
+              this.priceUp = parseFloat(info[7].values[0].price);
+            }
             break;
         }
   }
@@ -318,7 +322,7 @@ export class ProductViewMagicComponent implements OnInit {
   buildProductsSelected() {
     let productsSelected = [];
     let product = this.productCopy;
-    let productCode = this.productCode;
+    let productCode = this.product;
     let boxes = this.boxesCopy;
     let boxesProduct = [];
 
@@ -344,7 +348,7 @@ export class ProductViewMagicComponent implements OnInit {
 
     var totalQuantity = _.sumBy(boxes, 'quantity');
 
-    productSelected.detail = { name: '', eye: '', parameters: parameters, boxes: boxesProduct };
+    productSelected.detail = { name: '', eye: '', parameters: parameters, boxes: boxesProduct, codeSpectrum: this.codeSpectrum };
     productSelected.quantity = totalQuantity;
 
     productsSelected.push(productSelected);
@@ -378,7 +382,7 @@ export class ProductViewMagicComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationMagicLookComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.productCode;
+    modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;
@@ -484,7 +488,19 @@ export class ProductViewMagicComponent implements OnInit {
             this.product.priceSale = parseFloat(info[2].values[pos].price);
             break;
           case 3: // Preferred
-          this.product.priceSale = parseFloat(info[3].values[pos].price);
+            this.product.priceSale = parseFloat(info[3].values[pos].price);
+            break;
+          case 4:
+            this.product.priceSale = parseFloat(info[4].values[pos].price);
+            break;
+          case 5:
+            this.product.priceSale = parseFloat(info[5].values[pos].price);
+            break;
+          case 6:
+            this.product.priceSale = parseFloat(info[6].values[pos].price);
+            break;
+          case 7:
+            this.product.priceSale = parseFloat(info[7].values[pos].price);
             break;
         }
       } else {
@@ -498,10 +514,13 @@ export class ProductViewMagicComponent implements OnInit {
     let pos;
       if (totalQuantity >= 250 && totalQuantity <= 1000 ) {
          pos = 0;
+         this.codeSpectrum = '50C';
       } else if (totalQuantity >= 1001 && totalQuantity <= 2000) {
          pos = 1;
+         this.codeSpectrum = '50A';
       } else if (totalQuantity >= 2001) {
-         pos = 2;
+        this.codeSpectrum = '50D';
+        pos = 2;
       }
       return pos;
   }

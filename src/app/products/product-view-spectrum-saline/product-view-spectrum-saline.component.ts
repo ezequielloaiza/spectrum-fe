@@ -5,24 +5,19 @@ import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfirmationSpectrumSalineComponent } from '../modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
 
@@ -35,6 +30,8 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 })
 export class ProductViewSpectrumSalineComponent implements OnInit {
 
+  codeSpectrum: any;
+  membership: any;
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   product: any;
@@ -124,7 +121,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   getProductView() {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.product = _.find(this.products, { idProduct: this.id });
-    this.product.properties = JSON.parse(this.product.infoAditional)[0];
+    this.product.properties = JSON.parse(this.product.infoAditional)[1];
     this.quantityValues = (JSON.parse(this.product.infoAditional).find(n => n.name === 'Quantity'));
     this.product.priceSale = '';
     this.setClient();
@@ -132,16 +129,24 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   }
 
   setCodeProduct() {
-    const productName = this.product.codeSpectrum;
-    let codesP = [];
-    let prCode;
+    let self = this;
+    let flag = '';
+    let productCode = null;
+    if (this.product.quantity >= 250 && this.product.quantity < 500) {
+      flag = '250';
+    } else if (this.product.quantity >= 500 && this.product.quantity < 1000) {
+      flag = '500';
+    } else if (this.product.quantity >= 1000) {
+      flag = '1000';
+    }
     _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.name, productName)) {
-        prCode = pr;
-        codesP.push(prCode);
+      var productName = (JSON.parse(pr.infoAditional).find(n => n.name === 'ProductName'));
+      if (productName && _.includes(productName.value, flag)) {
+        productCode = pr;
       }
     });
-    this.productCode = codesP;
+
+    this.productCode = productCode || this.product;
   }
 
   setClient() {
@@ -172,7 +177,8 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
       this.client = clienteSelect.idUser;
       this.clientSelected = clienteSelect;
       this.findShippingAddress(this.client);
-      this.definePrice(clienteSelect.membership.idMembership);
+      this.membership = clienteSelect.membership.idMembership;
+      this.definePrice();
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -201,60 +207,44 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
 
   setPrice() {
     if (this.user.role.idRole === 3) {
-      const membership = this.currentUser.membership.idMembership;
-       this.definePrice(membership);
+      this.membership = this.currentUser.membership.idMembership;
+      this.definePrice();
     }
   }
 
-  definePrice(membership) {
-    let info = JSON.parse(this.product.infoAditional);
-    const pos = this.calculateQuantity(this.product.quantity);
-        switch (membership) {
-          case 1: // Gold
-            if (this.product.quantity >= 250) {
-              this.product.priceSale = parseFloat(info[1].values[pos].price);
-            } else {
-              this.priceFrom = parseFloat(info[1].values[2].price);
-              this.priceUp = parseFloat(info[1].values[0].price);
-            }
-            break;
-          case 2: // Diamond
-            if (this.product.quantity >= 250) {
-              this.product.priceSale = parseFloat(info[2].values[pos].price);
-            } else {
-              this.priceFrom = parseFloat(info[2].values[2].price);
-              this.priceUp = parseFloat(info[2].values[0].price);
-            }
-            break;
-          case 3: // Preferred
-            if (this.product.quantity >= 250) {
-              this.product.priceSale = parseFloat(info[3].values[pos].price);
-          } else {
-            this.priceFrom = parseFloat(info[3].values[2].price);
-            this.priceUp = parseFloat(info[3].values[0].price);
-          }
-            break;
-        }
+  definePrice() {
+    this.setCodeProduct();
+
+    switch (this.membership) {
+      case 1: // Gold
+        this.productCode.priceSale = this.productCode.price1;
+        break;
+      case 2: // Diamond
+        this.productCode.priceSale = this.productCode.price2;
+        break;
+      case 3: // Preferred
+        this.productCode.priceSale = this.productCode.price3;
+        break;
+      case 4:
+        this.productCode.priceSale = this.productCode.price4;
+        break;
+      case 5:
+        this.productCode.priceSale = this.productCode.price5;
+        break;
+      case 6:
+        this.productCode.priceSale = this.productCode.price6;
+        break;
+      case 7:
+        this.productCode.priceSale = this.productCode.price7;
+        break;
+    }
   }
 
   buildProductSelected() {
     let product = this.productCopy;
     let productSelected = product;
-    let productCode;
-    let flag = '';
-    if (this.product.quantity >= 250 && this.product.quantity < 500) {
-      flag = '250';
-    } else if (this.product.quantity >= 500) {
-      flag = '500';
-    }
-    _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.name, flag)) {
-        productCode = pr;
-      }
-    });
-    this.productCode = productCode;
-    productSelected.idProduct = productCode.idProduct;
-    productSelected.price = product.priceSale;
+    productSelected.idProduct = this.productCode.idProduct;
+    productSelected.price = this.productCode.priceSale;
     productSelected.quantity = product.quantity;
     productSelected.detail = '';
     productSelected.observations = product.observations;
@@ -305,46 +295,6 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
     }
     return isValid;
   }
-
-  setPriceBoxes(quantity) {
-      let info = JSON.parse(this.product.infoAditional);
-      let  membership = 0;
-      const pos = this.calculateQuantity(quantity);
-      if (this.user.role.idRole === 3) {
-        membership = this.currentUser.membership.idMembership;
-      } else {
-        if (this.clientSelected !== undefined && this.clientSelected !== '')  {
-          membership = this.clientSelected.membership.idMembership;
-        }
-      }
-      if (quantity >= 250) {
-        switch (membership) {
-          case 1: // Gold
-            this.product.priceSale = parseFloat(info[1].values[pos].price);
-            break;
-          case 2: // Diamond
-            this.product.priceSale = parseFloat(info[2].values[pos].price);
-            break;
-          case 3: // Preferred
-          this.product.priceSale = parseFloat(info[3].values[pos].price);
-            break;
-        }
-      } else {
-        this.product.priceSale = '';
-      }
-  }
-
-  calculateQuantity(quantity): any {
-    let pos;
-      if (quantity >= 250 && quantity <= 499 ) {
-         pos = 0;
-      } else if (quantity >= 500 && quantity <= 999) {
-         pos = 1;
-      } else if (quantity >= 1000) {
-         pos = 2;
-      }
-      return pos;
-    }
 
   excludeClients(listCustomers, idSupplier, product) {
     let listClients = [];

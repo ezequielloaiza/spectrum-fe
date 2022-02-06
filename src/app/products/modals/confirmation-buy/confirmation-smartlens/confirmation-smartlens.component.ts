@@ -129,7 +129,7 @@ export class ConfirmationSmartlensComponent implements OnInit {
   }
 
   isAdditionalProduct(productRequested) {
-    return productRequested.name === 'DMV Insertion and Removal Set' || productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg';
+    return productRequested.name === 'DMV Insertion and Removal Set' || productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg' || productRequested.name === 'Multimeridian';
   }
 
   getBalance() {
