@@ -83,6 +83,7 @@ export class ProductViewSmartlensComponent implements OnInit {
   priceNotch: any;
   priceHydrapeg: any;
   priceDMV: any;
+  priceMultimeridian: any;
 
   public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -204,17 +205,38 @@ export class ProductViewSmartlensComponent implements OnInit {
         { "hydrapeg": {
             "gold": 0,
             "diamond": 0,
-            "preferred": 0
+            "preferred": 0,
+            "bronze": 0,
+            "diamondSaudi": 0,
+            "centralAmerica": 0,
+            "diamondPO": 0
           },
           "notch" :{
             "gold": 0,
             "diamond": 0,
-            "preferred": 0
+            "preferred": 0,
+            "bronze": 0,
+            "diamondSaudi": 0,
+            "centralAmerica": 0,
+            "diamondPO": 0
           },
           "dmv insertion and removal set": {
             "gold": 0,
             "diamond": 0,
-            "preferred": 0
+            "preferred": 0,
+            "bronze": 0,
+            "diamondSaudi": 0,
+            "centralAmerica": 0,
+            "diamondPO": 0
+          },
+          "multimeridian" :{
+            "gold": 0,
+            "diamond": 0,
+            "preferred": 0,
+            "bronze": 0,
+            "diamondSaudi": 0,
+            "centralAmerica": 0,
+            "diamondPO": 0
           }
         }
     }
@@ -225,7 +247,11 @@ export class ProductViewSmartlensComponent implements OnInit {
       self.product.infoAdditionalPrices.values[name] = {
         "gold": product.price1,
         "diamond": product.price2,
-        "preferred": product.price3
+        "preferred": product.price3,
+        "bronze": product.price4,
+        "diamondSaudi": product.price5,
+        "centralAmerica": product.price6,
+        "diamondPO": product.price7
       };
     });
   }
@@ -345,6 +371,14 @@ export class ProductViewSmartlensComponent implements OnInit {
             return 100;
           case 3:
             return 100;
+          case 4:
+            return 110;
+          case 5:
+            return 0;
+          case 6:
+            return 220;
+          case 7:
+            return 0;
         }
       }
 
@@ -356,6 +390,14 @@ export class ProductViewSmartlensComponent implements OnInit {
             return 125;
           case 3:
             return 125;
+          case 4:
+            return 135;
+          case 5:
+            return 0;
+          case 6:
+            return 265;
+          case 7:
+            return 0;
         }
       }
     }
@@ -450,16 +492,43 @@ export class ProductViewSmartlensComponent implements OnInit {
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
         this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.gold;
         break;
       case 2:
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
         this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.diamond;
         break;
       case 3:
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
         this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.preferred;
+        break;
+      case 4:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.bronze;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.bronze;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].bronze;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.bronze;
+        break;
+      case 5:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondSaudi;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamondSaudi;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondSaudi;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.diamondSaudi;
+        break;
+      case 6:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.centralAmerica;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.centralAmerica;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].centralAmerica;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.centralAmerica;
+        break;
+      case 7:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondPO;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamondPO;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondPO;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.diamondPO;
         break;
     }
   }
@@ -468,44 +537,59 @@ export class ProductViewSmartlensComponent implements OnInit {
     let dmv = 0;
     let notchRight = 0;
     let hydrapegRight = 0;
+    let multimeridianRight = 0;
 
     let notchLeft = 0;
     let hydrapegLeft = 0;
+    let multimeridianLeft = 0;
 
     // Finding DMV
     if (this.product.dmv.selected === 'Yes') {
       dmv = this.priceDMV;
     }
 
-    // Finding Notch
+    // Finding Notch Rigth
     const notch: any = _.find(this.product.parametersRight, { name: 'Notch (mm)' });
     if (notch.selected !== '0x0' && notch.selected !== null) {
       notchRight = this.priceNotch;
     }
 
-    // Finding Hydrapeg
+    // Finding Hydrapeg Rigth
     if (this.product.hydrapegRight.selected === "Yes") {
       hydrapegRight =  this.priceHydrapeg;
     }
 
+    // Finding Multimeridian Rigth
+    const multimeridian: any = _.find(this.product.parametersRight, { name: 'Multimeridian' });
+    if (multimeridian.selected === "Yes") {
+      multimeridianRight = this.priceMultimeridian;
+    }
 
-    // Finding Notch
+
+    // Finding Notch Left
     const notchL: any = _.find(this.product.parametersLeft, { name: 'Notch (mm)' });
     if (notchL.selected !== '0x0' && notchL.selected !== null) {
       notchLeft = this.priceNotch;
     }
 
-    // Finding Hydrapeg
+    // Finding Hydrapeg Left
     if (this.product.hydrapegLeft.selected === "Yes") {
       hydrapegLeft = this.priceHydrapeg;
     }
 
+    // Finding Multimeridian Left
+    const multimeridianL: any = _.find(this.product.parametersLeft, { name: 'Multimeridian' });
+    if (multimeridianL.selected === "Yes") {
+      multimeridianLeft = this.priceMultimeridian;
+    }
+
     if (isIndividualPrice) {
-      return { "dmv": (dmv || 0), "notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
+      return { "dmv": (dmv || 0), "notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft, "multimeridianRight": multimeridianRight, "multimeridianLeft": multimeridianLeft };
     } else {
       return { "dmv": (dmv || 0),
               "notch": ((notchRight * this.product.quantityRight) || 0) + ((notchLeft * this.product.quantityLeft || 0)),
-              "hydrapeg": ((hydrapegRight * this.product.quantityRight) || 0) + ((hydrapegLeft * this.product.quantityLeft) || 0)};
+              "hydrapeg": ((hydrapegRight * this.product.quantityRight) || 0) + ((hydrapegLeft * this.product.quantityLeft) || 0),
+              "multimeridian": ((multimeridianRight * this.product.quantityRight) || 0) + ((multimeridianLeft * this.product.quantityLeft) || 0)};
     }
   }
 
@@ -582,24 +666,26 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
+  isVisible(eye, parameter) {
+    if (parameter.name === 'Multimeridian') {
+      const params = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+      const diameter: any = _.find(params, {name: 'Diameter (mm)'});
+
+      return diameter.selected === "16.50";
+    }
+    return true;
+  }
+
   changeSelect(eye, parameter, value, value2) {
     parameter.selected = value;
 
-    // Finding baseCurve
-    let baseCurve = null;
-    if (eye === "right") {
-      baseCurve = _.find(this.product.parametersRight, { name: 'Base Curve (mm)' });
-    } else {
-      baseCurve = _.find(this.product.parametersLeft, { name: 'Base Curve (mm)' });
-    }
+    let params = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
 
-     // Finding power
-     let power = null;
-     if (eye === "right") {
-       power = _.find(this.product.parametersRight, { name: 'Power (D)' });
-     } else {
-       power = _.find(this.product.parametersLeft, { name: 'Power (D)' });
-     }
+    // Finding baseCurve
+    let baseCurve:any = _.find(params, { name: 'Base Curve (mm)' });
+
+    // Finding power
+    let power:any = _.find(params, { name: 'Power (D)' });
 
     if (!power || !baseCurve) {
       return;
@@ -608,16 +694,15 @@ export class ProductViewSmartlensComponent implements OnInit {
     if (parameter.name === "Diameter (mm)") {
 
       // Finding Sag.
-      let sag = null;
-      if (eye === "right") {
-        sag = _.find(this.product.parametersRight, { name: 'Sag.' });
-      } else {
-        sag = _.find(this.product.parametersLeft, { name: 'Sag.' });
-      }
+      let sag:any = _.find(params, { name: 'Sag.' });
 
       if (!sag) {
         return;
       }
+
+      // Finding Multimeridian.
+      let multimeridian:any = _.find(params, {name: 'Multimeridian'});
+      multimeridian.selected = "No";
 
       sag.selected = null;
       baseCurve.selected = null;
@@ -637,12 +722,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     } else if (parameter.name === "Sag.") {
 
       // Finding Diameter.
-      let diameter = null;
-      if (eye === "right") {
-        diameter = _.find(this.product.parametersRight, { name: 'Diameter (mm)' });
-      } else {
-        diameter = _.find(this.product.parametersLeft, { name: 'Diameter (mm)' });
-      }
+      let diameter:any = _.find(params, { name: 'Diameter (mm)' });
 
       baseCurve.disabled = true;
       power.disabled = true;
@@ -970,13 +1050,13 @@ export class ProductViewSmartlensComponent implements OnInit {
 
         switch (this.notchParam.selectedNotchTime) {
           case 'Upper Temporal':
-            return _.range(90, 181).toString().split(",")
+            return _.range(90,181).toString().split(",")
           case 'Lower Temporal':
-            return _.range(180, 271).toString().split(",");
+            return _.range(180,271).toString().split(",");
           case 'Upper Nasal':
-            return _.range(0, 91).toString().split(",");
+            return _.range(0,91).toString().split(",");
           case 'Lower Nasal':
-            return _.range(270, 361).toString().split(",");
+            return _.range(270,361).toString().split(",");
           default:
             this.axisParam.selected = null;
             return [];
@@ -988,13 +1068,13 @@ export class ProductViewSmartlensComponent implements OnInit {
 
         switch (this.notchParam.selectedNotchTime) {
           case 'Upper Temporal':
-            return _.range(90, 181).toString().split(",")
+            return _.range(90,181).toString().split(",")
           case 'Lower Temporal':
-            return _.range(180, 271).toString().split(",");
+            return _.range(180,271).toString().split(",");
           case 'Upper Nasal':
-            return _.range(0, 91).toString().split(",");
+            return _.range(0,91).toString().split(",");
           case 'Lower Nasal':
-            return _.range(270, 361).toString().split(",");
+            return _.range(270,361).toString().split(",");
           default:
             this.axisParam.selected = null;
             return [];
@@ -1037,10 +1117,12 @@ export class ProductViewSmartlensComponent implements OnInit {
     const keyDMV = 'dmv';
     const keyNotch = eye === 'Right' ? "notchRight" : "notchLeft";
     const keyHydrapeg = eye === 'Right' ? "hydrapegRight" : "hydrapegLeft";
+    const keyMultimeridian = eye === 'Right' ? "multimeridianRight" : "multimeridianLeft";
 
     const productDMV: any = _.find(this.productsAdditional, {name:"DMV Insertion and Removal Set"});
     const productNotch: any = _.find(this.productsAdditional, {name:"Notch"});
     const productHydrapeg: any = _.find(this.productsAdditional, {name:"Hydrapeg"});
+    const productMultimeridian: any = _.find(this.productsAdditional, {name:"Multimeridian"});
 
     if (this.getAdditionalPrices(true)[keyDMV]) {
       let dmv = {
@@ -1091,6 +1173,23 @@ export class ProductViewSmartlensComponent implements OnInit {
         hydrapeg.detail = productSelected.detail;
       }
       additionals.push(hydrapeg)
+    }
+
+    if (this.getAdditionalPrices(true)[keyMultimeridian]) {
+      let multimeridian = {
+        id: productMultimeridian.idProduct,
+        name: productMultimeridian.name,
+        price: this.getAdditionalPrices(true)[keyMultimeridian],
+        quantity: productSelected.quantity,
+        patient: productSelected.patient,
+        codeSpectrum: productMultimeridian.codeSpectrum,
+        detail: {}
+      }
+
+      if (type === 'basket') {
+        multimeridian.detail = productSelected.detail;
+      }
+      additionals.push(multimeridian);
     }
 
     return additionals;
@@ -1228,6 +1327,7 @@ export class ProductViewSmartlensComponent implements OnInit {
     modalRef.componentInstance.additionalDMV = this.getAdditionalPrices(false).dmv;
     modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
     modalRef.componentInstance.additionalNotch = this.getAdditionalPrices(false).notch;
+    modalRef.componentInstance.additionalMultimeridian = this.getAdditionalPrices(false).multimeridian;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
     modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
     modalRef.componentInstance.typeOrder = this.typeOrder;

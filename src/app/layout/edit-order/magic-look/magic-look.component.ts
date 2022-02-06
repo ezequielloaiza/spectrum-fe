@@ -32,6 +32,7 @@ export class MagicLookComponent implements OnInit {
   patient: any;
   membership: any;
   userOrder: any;
+  codeSpectrum: any;
   // NUEVO
   parametList: Array<any> = new Array;
   listBoxes:  Array<any> = new Array;
@@ -156,10 +157,13 @@ export class MagicLookComponent implements OnInit {
     let pos;
       if (this.quantity >= 250 && this.quantity <= 1000 ) {
          pos = 0;
+         this.codeSpectrum = '50C';
       } else if (this.quantity >= 1001 && this.quantity <= 2000) {
          pos = 1;
+         this.codeSpectrum = '50A';
       } else if (this.quantity >= 2001) {
          pos = 2;
+         this.codeSpectrum = '50D';
       }
     if (this.quantity >= 250) {
       switch (this.membership) {
@@ -170,7 +174,19 @@ export class MagicLookComponent implements OnInit {
           this.price = parseFloat(info[2].values[pos].price);
           break;
         case 3: // Preferred
-        this.price = parseFloat(info[3].values[pos].price);
+          this.price = parseFloat(info[3].values[pos].price);
+          break;
+        case 4:
+          this.price = parseFloat(info[4].values[pos].price);
+          break;
+        case 5:
+          this.price = parseFloat(info[5].values[pos].price);
+          break;
+        case 6:
+          this.price = parseFloat(info[6].values[pos].price);
+          break;
+        case 7:
+          this.price = parseFloat(info[7].values[pos].price);
           break;
       }
     } else {
@@ -204,7 +220,7 @@ export class MagicLookComponent implements OnInit {
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
       this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: '',
-      parameters: this.detail.parameters, boxes: this.listBoxes}) + ']';
+      parameters: this.detail.parameters, boxes: this.listBoxes, codeSpectrum: this.codeSpectrum}) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
@@ -214,7 +230,7 @@ export class MagicLookComponent implements OnInit {
     } else {
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: '',
-      parameters: this.detail.parameters, boxes: this.listBoxes}) + ']';
+      parameters: this.detail.parameters, boxes: this.listBoxes, codeSpectrum: this.codeSpectrum}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;

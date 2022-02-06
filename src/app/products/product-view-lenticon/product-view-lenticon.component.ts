@@ -36,7 +36,6 @@ export class ProductViewLenticonComponent implements OnInit {
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   product: any;
-  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -156,7 +155,6 @@ export class ProductViewLenticonComponent implements OnInit {
         this.productService.findBySupplierAndInViewAndCategory$(3, false, 10).subscribe(res1 => {
           if (res1.code === CodeHttp.ok) {
             this.productsCode = res1.data;
-            this.setCodeProduct();
           } else {
             console.log(res1.errors[0].detail);
             this.spinner.hide();
@@ -195,8 +193,6 @@ export class ProductViewLenticonComponent implements OnInit {
     this.setParameterDefaultValue(this.product.parametersLeft);
     this.changeTypeLens('left', 'Please design my lens');
 
-    this.product.priceSaleRight = 0;
-    this.product.priceSaleLeft = 0;
     this.product.pupillaryRight = null;
     this.product.pupillaryLeft = null;
     this.setClient();
@@ -215,15 +211,17 @@ export class ProductViewLenticonComponent implements OnInit {
     });
   }
 
-  setCodeProduct() {
-    const productName = this.product.name;
-    let prCode;
+  getProductSelected(parameters) {
+    const design: any = _.find(parameters, { name: 'Design' });
+    let productSelected;
+
     _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.name, productName)) {
-        prCode = pr;
+      if (pr.name === (design.selected.replace(/_/g, ' ') + ' Contact Lens')) {
+        productSelected = pr;
       }
     });
-    this.productCode = prCode;
+
+    return productSelected || this.product;
   }
 
   changeSelect(eye, parameter, value, value2) {
@@ -343,13 +341,9 @@ export class ProductViewLenticonComponent implements OnInit {
       this.client = clienteSelect.idUser;
       this.membership = clienteSelect.membership.idMembership;
       this.findShippingAddress(this.client);
-      this.definePrice(clienteSelect.membership.idMembership);
     } else {
       this.client = '';
       this.product.shippingAddress = '';
-      this.product.priceSaleRight = 0;
-      this.product.priceSaleLeft = 0;
-      this.product.priceSale = 0;
       this.membership = 0;
     }
   }
@@ -373,21 +367,25 @@ export class ProductViewLenticonComponent implements OnInit {
   setPrice() {
     if (this.user.role.idRole === 3) {
        this.membership = this.currentUser.membership.idMembership;
-       this.definePrice(this.membership);
     }
   }
 
-  definePrice(membership) {
-    switch (membership) {
+  getPrice(product) {
+    switch (this.membership) {
       case 1:
-        this.product.priceSale = this.product.price1;
-        break;
+        return product.price1;
       case 2:
-        this.product.priceSale = this.product.price2;
-        break;
+        return product.price2;
       case 3:
-        this.product.priceSale = this.product.price3;
-        break;
+        return product.price3;
+      case 4:
+        return product.price4;
+      case 5:
+        return product.price5;
+      case 6:
+        return product.price6;
+      case 7:
+        return product.price7;
     }
   }
 
@@ -395,19 +393,19 @@ export class ProductViewLenticonComponent implements OnInit {
     let self = this;
     this.setEyeSelected();
     let product = this.productCopy;
-    let productCode = this.productCode;
     let productsSelected = this.productsSelected;
     let pupillaryRight = this.product.pupillaryRight === null ? '' : this.product.pupillaryRight;
     let pupillaryLeft = this.product.pupillaryLeft === null ? '' : this.product.pupillaryLeft;
     _.each(productsSelected, function(productSelected, index) {
 
-      productSelected.id = productCode.idProduct;
       productSelected.patient = product.patient;
-      productSelected.price = product.priceSale;
       if (productSelected.eye === "Right") {
+        productSelected.id = self.getProductSelected(product.parametersRight).idProduct;
         productSelected.quantity = product.quantityRight;
+        productSelected.price = self.getPrice(self.getProductSelected(product.parametersRight));
         productSelected.observations = product.observationsRight;
         productSelected.typeLens = self.typeLensRight.selected;
+        productSelected.codeSpectrum = self.getProductSelected(product.parametersRight).codeSpectrum;
 
         /* set*/
         _.each(product.setRight, function(parameter, index) {
@@ -432,9 +430,12 @@ export class ProductViewLenticonComponent implements OnInit {
 
       }
       if (productSelected.eye === "Left") {
+        productSelected.id = self.getProductSelected(product.parametersLeft).idProduct;
         productSelected.quantity = product.quantityLeft;
+        productSelected.price = self.getPrice(self.getProductSelected(product.parametersLeft));
         productSelected.observations = product.observationsLeft;
         productSelected.typeLens = self.typeLensLeft.selected;
+        productSelected.codeSpectrum = self.getProductSelected(product.parametersLeft).codeSpectrum;
 
         /* set*/
         _.each(product.setLeft, function(parameter, index) {
@@ -483,6 +484,7 @@ export class ProductViewLenticonComponent implements OnInit {
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
       productRequest.patient = product.patient;
       productRequest.observations = product.observations;
+      productRequest.codeSpectrum = product.codeSpectrum;
       productsRequested.push(productRequest);
     });
     this.basketRequestModal.idUser = this.client;
@@ -503,7 +505,7 @@ export class ProductViewLenticonComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationLenticonComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.productCode;
+    modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.typeBuy = type;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;

@@ -121,7 +121,7 @@
           </div>
           <div class="col-lg-6">
             <ng-select [items]="quantityValues.values" [ngClass]="{'error-quantity':  product.quantity && (product.quantity < 250 || product.quantity > 2000) }"
-                      [(ngModel)]="product.quantity" bindValue="item" (change)="product.quantity < 250 || product.quantity > 2000 ? product.quantity = '' : '';setPriceBoxes(product.quantity)" required>
+                      [(ngModel)]="product.quantity" bindValue="item" (change)="product.quantity < 250 || product.quantity > 2000 ? product.quantity = '' : '';definePrice()" required>
             </ng-select>
           </div>
         </div>

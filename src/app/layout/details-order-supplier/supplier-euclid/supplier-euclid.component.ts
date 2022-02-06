@@ -34,6 +34,7 @@ export class SupplierEuclidComponent implements OnInit {
   valueStatus: any;
   valueClient: any;
   user: any;
+  paramStatus: any;
 
   constructor(private fileProductRequestedService: FileProductRequestedService,
               private modalService: NgbModal,
@@ -45,8 +46,13 @@ export class SupplierEuclidComponent implements OnInit {
 }
 
   skipLocationAndRedirect(uri) {
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-    this.router.navigate([uri]));
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      if (this.paramStatus) {
+        this.router.navigate(['/details-order-client/'+this.order.idOrder+'/view'], { queryParams: { status: this.paramStatus } })
+      } else {
+        this.router.navigate([uri]);
+      }
+    });
   }
 
   ngOnInit() {
@@ -54,6 +60,7 @@ export class SupplierEuclidComponent implements OnInit {
     this.urlImage = this.image;
     this.valueStatus = this.order.status;
     this.valueClient = this.order.user.status;
+    this.paramStatus = this.route.snapshot.queryParams.status;
     this.sendReply();
   }
 

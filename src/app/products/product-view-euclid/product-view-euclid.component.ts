@@ -5,22 +5,18 @@ import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationEuclidComponent } from '../modals/confirmation-buy/confirmation-euclid/confirmation-euclid.component';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -452,19 +448,36 @@ export class ProductViewEuclidComponent implements OnInit {
     }
   }
 
+  //TODO: pending refactor prices
   definePrice(membership) {
     switch (membership) {
       case 1:
         this.product.priceSale = this.product.price1;
-        this.product.additional = this.product.pricesAditionalWarranties.values[0].price - this.product.price1;
+        this.product.additional = 20;
         break;
       case 2:
         this.product.priceSale = this.product.price2;
-        this.product.additional = this.product.pricesAditionalWarranties.values[1].price - this.product.price2;
+        this.product.additional = 20;
         break;
       case 3:
         this.product.priceSale = this.product.price3;
-        this.product.additional = this.product.pricesAditionalWarranties.values[2].price - this.product.price3;
+        this.product.additional = 20;
+        break;
+      case 4:
+        this.product.priceSale = this.product.price4;
+        this.product.additional = 20;
+        break;
+      case 5:
+        this.product.priceSale = this.product.price5;
+        this.product.additional = 20;
+        break;
+      case 6:
+        this.product.priceSale = this.product.price6;
+        this.product.additional = 20;
+        break;
+      case 7:
+        this.product.priceSale = this.product.price7;
+        this.product.additional = 20;
         break;
     }
   }
