@@ -10,7 +10,7 @@ import { EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserStorageService } from '../../../http/user-storage.service';
 import { MagicLookComponent } from '../../edit-order/magic-look/magic-look.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-supplier-magic-look',
@@ -29,15 +29,24 @@ export class SupplierMagicLookComponent implements OnInit {
   valueStatus: any;
   valueClient: any;
   user: any;
+  paramStatus: any;
+
   constructor(private modalService: NgbModal,
     private userStorageService: UserStorageService,
+    private route: ActivatedRoute,
     private router: Router) {
               this.user = JSON.parse(userStorageService.getCurrentUser());
 }
 
+
   skipLocationAndRedirect(uri) {
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-    this.router.navigate([uri]));
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      if (this.paramStatus) {
+        this.router.navigate(['/details-order-client/'+this.order.idOrder+'/view'], { queryParams: { status: this.paramStatus } })
+      } else {
+        this.router.navigate([uri]);
+      }
+    });
   }
 
   ngOnInit() {
@@ -45,6 +54,7 @@ export class SupplierMagicLookComponent implements OnInit {
     this.urlImage = this.image;
     this.valueStatus = this.order.status;
     this.valueClient = this.order.user.status;
+    this.paramStatus = this.route.snapshot.queryParams.status;
   }
 
   openEdit() {
