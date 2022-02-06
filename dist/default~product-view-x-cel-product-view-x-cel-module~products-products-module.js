@@ -1674,12 +1674,20 @@ var ProductViewXCelComponent = /** @class */ (function () {
             "name": "prices", "values": { "hydrapeg": {
                     "gold": 0,
                     "diamond": 0,
-                    "preferred": 0
+                    "preferred": 0,
+                    "bronze": 0,
+                    "diamondSaudi": 0,
+                    "centralAmerica": 0,
+                    "diamondPO": 0
                 },
                 "dmv insertion and removal set": {
                     "gold": 0,
                     "diamond": 0,
-                    "preferred": 0
+                    "preferred": 0,
+                    "bronze": 0,
+                    "diamondSaudi": 0,
+                    "centralAmerica": 0,
+                    "diamondPO": 0
                 }
             }
         };
@@ -1688,7 +1696,11 @@ var ProductViewXCelComponent = /** @class */ (function () {
             self.product.infoAdditionalPrices.values[name] = {
                 "gold": product.price1,
                 "diamond": product.price2,
-                "preferred": product.price3
+                "preferred": product.price3,
+                "bronze": product.price4,
+                "diamondSaudi": product.price5,
+                "centralAmerica": product.price6,
+                "diamondPO": product.price7
             };
         });
     };
@@ -1713,6 +1725,22 @@ var ProductViewXCelComponent = /** @class */ (function () {
             case 3:
                 this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
                 this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+                break;
+            case 4:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.bronze;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].bronze;
+                break;
+            case 5:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondSaudi;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondSaudi;
+                break;
+            case 6:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.centralAmerica;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].centralAmerica;
+                break;
+            case 7:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondPO;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondPO;
                 break;
         }
     };
@@ -2112,7 +2140,6 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             if (param.name === 'C.T / E.C') {
                                 self.ctRequired(param, selectedDesign_2, 1);
                             }
-                            debugger;
                         default:
                             if (param.name === 'C.T / E.C' && selectedDesign_2 === 'Flexlens Tricurve') {
                                 self.ctRequired(param, selectedDesign_2, 1);
@@ -2172,6 +2199,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 95;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 175;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 180;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Atlantis TPC':
@@ -2185,6 +2224,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 140;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 175;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 260;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2200,6 +2251,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 140;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 175;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 260;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Atlantis 3D':
@@ -2213,6 +2276,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 140;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 175;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 260;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2228,6 +2303,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 140;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 175;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 260;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Atlantis 2.0':
@@ -2242,6 +2329,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 140;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 175;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 260;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Atlantis LD':
@@ -2255,6 +2354,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 140;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 175;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 260;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2274,6 +2385,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 65;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 94.3;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 95;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Bitoric':
@@ -2287,6 +2410,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 32;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 55.3;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 50;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2302,6 +2437,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 66;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 111.75;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 99;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Pinnacle':
@@ -2315,6 +2462,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 21;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 42.15;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 31;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2330,6 +2489,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 55;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 94.3;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 84;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Pinnacle LD':
@@ -2343,6 +2514,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 31;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 72.45;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 46;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2358,6 +2541,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 47;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 95.4;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 70;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Sphere':
@@ -2371,6 +2566,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 21;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 33.45;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 31;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2386,6 +2593,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 21;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 33.45;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 31;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'Titan':
@@ -2400,6 +2619,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         case 3://Preffered
                             this.price[eye].priceUnit = 65;
                             break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 94.3;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 95;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
+                            break;
                     }
                     break;
                 case 'X-Cel Thin':
@@ -2413,6 +2644,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             break;
                         case 3://Preffered
                             this.price[eye].priceUnit = 21;
+                            break;
+                        case 4://Bronze
+                            this.price[eye].priceUnit = 33.45;
+                            break;
+                        case 5://Diamond Saudi
+                            this.price[eye].priceUnit = 0;
+                            break;
+                        case 6://Central America
+                            this.price[eye].priceUnit = 31;
+                            break;
+                        case 7://Diamond P&O
+                            this.price[eye].priceUnit = 0;
                             break;
                     }
                     break;
@@ -2438,6 +2681,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 60.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 50.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 91.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2452,6 +2707,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 30.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 20.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 47.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2465,6 +2732,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 93.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 144.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2484,6 +2763,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 69.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 80.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 104.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2498,6 +2789,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 36.50;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 30.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 53.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2511,6 +2814,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 103.50;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 90.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 155.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2530,6 +2845,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 79.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 80.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 123.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2544,6 +2871,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 45.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 30.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 69.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2557,6 +2896,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 99.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 90.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 150.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2576,6 +2927,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 60.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 50.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 91.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2590,6 +2953,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 37.50;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 20.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 58.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2603,6 +2978,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 110.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 168.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2622,10 +3009,22 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 51.75;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 50.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 78.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
-                                this.price[eye].spCode = '108B (NW)';
+                                this.price[eye].spCode = '108C (NW)';
                                 switch (this.membership) {
                                     case 1://Gold
                                         this.price[eye].priceUnit = 32.30;
@@ -2635,6 +3034,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 32.30;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 20.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 48.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2654,6 +3065,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 70.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 80.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 110.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2668,6 +3091,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 37.50;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 30.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 58.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2681,6 +3116,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 80.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 90.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 125.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2700,6 +3147,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 26.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 50.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 39.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2714,6 +3173,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 14.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 20.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 27.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2727,6 +3198,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 42.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 81.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2746,6 +3229,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 40.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 50.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2760,6 +3255,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 18.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 20.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 33.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2773,6 +3280,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 54.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 99.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2792,6 +3311,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 70.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 80.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 110.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2806,6 +3337,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 37.50;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 30.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 58.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2819,6 +3362,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 80.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 90.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 125.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2838,6 +3393,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 26.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 50.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 39.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2852,6 +3419,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 14.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 20.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 27.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2865,6 +3444,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 42.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 81.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;
@@ -2884,6 +3475,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 40.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 50.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case 'Spare (Blister)':
@@ -2898,6 +3501,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 18.00;
                                         break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 20.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 33.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
+                                        break;
                                 }
                                 break;
                             case '3 Pack':
@@ -2911,6 +3526,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                                         break;
                                     case 3://Preffered
                                         this.price[eye].priceUnit = 54.00;
+                                        break;
+                                    case 4://Bronze
+                                        this.price[eye].priceUnit = 60.00;
+                                        break;
+                                    case 5://Diamond Saudi
+                                        this.price[eye].priceUnit = 0;
+                                        break;
+                                    case 6://Central America
+                                        this.price[eye].priceUnit = 99.00;
+                                        break;
+                                    case 7://Diamond P&O
+                                        this.price[eye].priceUnit = 0;
                                         break;
                                 }
                                 break;

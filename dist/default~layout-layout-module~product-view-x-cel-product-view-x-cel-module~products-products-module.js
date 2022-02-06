@@ -1161,6 +1161,7 @@ var Product = /** @class */ (function () {
             idProduct === 305 || // Hydrapeg Smartlens
             idProduct === 306 || // Notch Smartlens
             idProduct === 307 || // Dmv Inserts Smartlens
+            idProduct === 316 || // Multimeridian Smartlens
             idProduct === 310 || // Hydrapeg Xcel
             idProduct === 311; // Dmv Xcel
     };

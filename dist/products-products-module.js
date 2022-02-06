@@ -824,7 +824,7 @@ var ConsultationFormComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Confirm purchase' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 main-info\">\n        <!--Image-->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n        </div>\n        <div class=\"row\">\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Spectrum code' | translate }}</span>\n            <dl>\n              <dt>{{ product.codeSpectrum }}</dt>\n            </dl>\n          </div>\n          <!--Patient-->\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ namePatient}}</dt>\n            </dl>\n          </div>\n        <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Price' | translate }}</span>\n          <dl>\n            <dt>{{ price | currency : \"USD $\" }}</dt>\n          </dl>\n        </div>\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"card-body table-responsive\">\n        <div class=\"row justify-content-md-center div-parametros\" *ngFor=\"let list of listBasket\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Quantity' | translate }}</dt>\n              <hr class=\"separators\">\n              <dt>\n                <span class=\"items\"> {{ list.quantity }}</span>\n              </dt>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of list.detail[0].parameters\">\n            <dl class=\"align-item\">\n              <dt>{{parameter.name | translate }}</dt>\n              <hr class=\"separators\">\n              <dt>\n                <span class=\"items\"> {{parameter.selected}}</span>\n              </dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--FIN PARAMETERS-->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===2\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===1\">{{ 'Buy' | translate }}&nbsp;\n      <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description}}\n  </ng-template>\n</div>\n"
+module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Confirm purchase' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 main-info\">\n        <!--Image-->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n        </div>\n        <div class=\"row\">\n          <!--Patient-->\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ namePatient}}</dt>\n            </dl>\n          </div>\n        <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Price' | translate }}</span>\n          <dl>\n            <dt>{{ price | currency : \"USD $\" }}</dt>\n          </dl>\n        </div>\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"card-body table-responsive\">\n        <div class=\"row justify-content-md-center div-parametros\" *ngFor=\"let list of listBasket\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Spectrum Code\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Quantity' | translate }}</dt>\n              <hr class=\"separators\">\n              <dt>\n                <span class=\"items\"> {{ list.quantity }}</span>\n              </dt>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of list.detail[0].parameters\">\n            <dl class=\"align-item\">\n              <dt>{{parameter.name | translate }}</dt>\n              <hr class=\"separators\">\n              <dt>\n                <span class=\"items\"> {{parameter.selected}}</span>\n              </dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--FIN PARAMETERS-->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===2\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===1\">{{ 'Buy' | translate }}&nbsp;\n      <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description}}\n  </ng-template>\n</div>\n"
 
 /***/ }),
 
@@ -2175,7 +2175,7 @@ var ConfirmationEuropaComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Confirm purchase' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!--Image-->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!--Image-->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n        </div>\n        <div class=\"row\">\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Spectrum code' | translate }}</span>\n            <dl>\n              <dt>{{ product.codeSpectrum }}</dt>\n            </dl>\n          </div>\n          <!--Patient-->\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ namePatient}}</dt>\n            </dl>\n          </div>\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Price' | translate }}</span>\n            <dl>\n              <dt>{{ price | currency : \"USD $\" }}</dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-6\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"row test-set\" *ngIf=\"list.detail[0].typeLens === 'Please design my lens'\">\n            <div class=\"col-lg-12 title title-info\">\n                <span>{{ 'Test set' | translate }}</span>&nbsp;&nbsp;\n            </div>\n            <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].set\">\n              <dl class=\"align-item\"  *ngIf=\"parameter.selected !== ''\">\n                <dt>{{ parameter.name | translate }}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\">\n                    {{ parameter.selected}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n\n        </div>\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title title-info\">\n              <span>{{ 'Parameters' | translate }}</span>&nbsp;&nbsp;\n          </div>\n          <div class=\"col-sm-4\">\n            <dl class=\"align-item\">\n              <dt>{{'Quantity'| translate}}\n              </dt>\n              <hr class=\"separators\">\n              <dl>\n                <dt class=\"items\">\n                  {{ list.quantity }}\n                </dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].parameters\">\n            <dl class=\"align-item\"  *ngIf=\"parameter.selected !== ''\">\n              <dt>{{ parameter.name | translate }}\n              </dt>\n              <hr class=\"separators\">\n              <dl>\n                <dt class=\"items\">\n                  {{ parameter.selected}}\n                </dt>\n              </dl>\n            </dl>\n          </div>\n          <!--Comments-->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{'Comments'| translate}}\n                  </dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations === '' || list.observations === null\">\n                    <span translate>{{'No comments' | translate}}</span>\n                  </dl>\n                  <dl *ngIf=\"list.observations !==''\">\n                    <span style=\"overflow-x: hidden;\"> {{ list.observations }}</span>\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!--FIN PARAMETERS-->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy === 2\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy === 1\">{{ 'Buy' | translate }}&nbsp;\n      <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description}}\n  </ng-template>\n</div>\n"
+module.exports = "<div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Confirm purchase' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!--Image-->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!--Image-->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n        </div>\n        <div class=\"row\">\n          <!--Patient-->\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Patient' | translate }}</span>\n            <dl>\n              <dt>{{ namePatient}}</dt>\n            </dl>\n          </div>\n          <div class=\"col-lg-4 title label-title patient-info\">\n            <span>{{ 'Price' | translate }}</span>\n            <dl>\n              <dt>{{ price | currency : \"USD $\" }}</dt>\n            </dl>\n          </div>\n        </div>\n      </div>\n      <!--PARAMETERS-->\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-6\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Spectrum Code\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"col-lg-6\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"row test-set\" *ngIf=\"list.detail[0].typeLens === 'Please design my lens'\">\n            <div class=\"col-lg-12 title title-info\">\n                <span>{{ 'Test set' | translate }}</span>&nbsp;&nbsp;\n            </div>\n            <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].set\">\n              <dl class=\"align-item\"  *ngIf=\"parameter.selected !== ''\">\n                <dt>{{ parameter.name | translate }}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\">\n                    {{ parameter.selected}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n\n        </div>\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title title-info\">\n              <span>{{ 'Parameters' | translate }}</span>&nbsp;&nbsp;\n          </div>\n          <div class=\"col-sm-4\">\n            <dl class=\"align-item\">\n              <dt>{{'Quantity'| translate}}\n              </dt>\n              <hr class=\"separators\">\n              <dl>\n                <dt class=\"items\">\n                  {{ list.quantity }}\n                </dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-4\" *ngFor=\"let parameter of list.detail[0].parameters\">\n            <dl class=\"align-item\"  *ngIf=\"parameter.selected !== ''\">\n              <dt>{{ parameter.name | translate }}\n              </dt>\n              <hr class=\"separators\">\n              <dl>\n                <dt class=\"items\">\n                  {{ parameter.selected}}\n                </dt>\n              </dl>\n            </dl>\n          </div>\n          <!--Comments-->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{'Comments'| translate}}\n                  </dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations === '' || list.observations === null\">\n                    <span translate>{{'No comments' | translate}}</span>\n                  </dl>\n                  <dl *ngIf=\"list.observations !==''\">\n                    <span style=\"overflow-x: hidden;\"> {{ list.observations }}</span>\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!--FIN PARAMETERS-->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy === 2\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy === 1\">{{ 'Buy' | translate }}&nbsp;\n      <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description}}\n  </ng-template>\n</div>\n"
 
 /***/ }),
 
@@ -2470,7 +2470,7 @@ var ConfirmationLenticonComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Confirm purchase' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"body\">\n    <div>\n      <div class=\"list-basket\">\n\n        <div class=\"row\">\n          <div class=\"col-lg-12 main-info\">\n            <!--Image-->\n            <div class=\"label-title\">\n              <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n            </div>\n            <div class=\"row\">\n              <div class=\"col-lg-6 title label-title patient-info\">\n                <span>{{ 'Spectrum code' | translate }}</span>\n                <dl>\n                  <dt>{{ product.codeSpectrum }}</dt>\n                </dl>\n              </div>\n              <div class=\"col-lg-6 title label-title patient-info\">\n                <span>{{ 'Price' | translate }}</span>\n                <dl>\n                  <dt>{{ price | currency : \"USD $\" }}</dt>\n                </dl>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-lg-12 display-row padding-params\">\n            <!--CONTENT INFO-->\n            <!--PARAMETERS-->\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Total Quantity'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\">\n                    {{ listBasket[0].quantity }}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <div class=\"col-lg-8 display-row padding-params\">\n              <div *ngFor=\"let parameter of listBasket[0].detail[0].parameters\" class=\"col-sm-6 title\">\n                <div>\n                  <dl class=\"align-item\">\n                    <dt>{{ parameter.name | translate }}\n                    </dt>\n                    <hr class=\"separators\">\n                    <dl class=\"items\">\n                      <dt>\n                        {{ parameter.selected}}\n                      </dt>\n                    </dl>\n                  </dl>\n                </div>\n              </div>\n            </div>\n          </div>\n          <!--FIN PARAMETERS-->\n          <!--BOXES-->\n          <div class=\"col-lg-12 display-row padding-params\">\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Quantity'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngFor=\"let parameter of listBasket[0].detail[0].boxes\">\n                  <dt class=\"items\">\n                    {{ parameter.Quantity}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Tone'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngFor=\"let parameter of listBasket[0].detail[0].boxes\">\n                  <dt class=\"items\">\n                    {{ parameter.Tone}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Color'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngFor=\"let parameter of listBasket[0].detail[0].boxes\">\n                  <dt class=\"items\">\n                    {{ parameter.Color}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n          <!--Fin Boxes-->\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===2\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===1\">{{ 'Buy' | translate }}&nbsp;\n      <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description}}\n  </ng-template>\n</div>\n"
+module.exports = "<div>\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ 'Confirm purchase' | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"body\">\n    <div>\n      <div class=\"list-basket\">\n\n        <div class=\"row\">\n          <div class=\"col-lg-12 main-info\">\n            <!--Image-->\n            <div class=\"label-title\">\n              <img class=\"img-product\" src=\"{{ product.mainImg }}\">\n            </div>\n            <div class=\"row\">\n              <div class=\"col-lg-6 title label-title patient-info\">\n                <span>{{ 'Spectrum code' | translate }}</span>\n                <dl>\n                  <dt>{{ listBasket[0].detail[0].codeSpectrum }}</dt>\n                </dl>\n              </div>\n              <div class=\"col-lg-6 title label-title patient-info\">\n                <span>{{ 'Price' | translate }}</span>\n                <dl>\n                  <dt>{{ price | currency : \"USD $\" }}</dt>\n                </dl>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-lg-12 display-row padding-params\">\n            <!--CONTENT INFO-->\n            <!--PARAMETERS-->\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Total Quantity'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl>\n                  <dt class=\"items\">\n                    {{ listBasket[0].quantity }}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <div class=\"col-lg-8 display-row padding-params\">\n              <div *ngFor=\"let parameter of listBasket[0].detail[0].parameters\" class=\"col-sm-6 title\">\n                <div>\n                  <dl class=\"align-item\">\n                    <dt>{{ parameter.name | translate }}\n                    </dt>\n                    <hr class=\"separators\">\n                    <dl class=\"items\">\n                      <dt>\n                        {{ parameter.selected}}\n                      </dt>\n                    </dl>\n                  </dl>\n                </div>\n              </div>\n            </div>\n          </div>\n          <!--FIN PARAMETERS-->\n          <!--BOXES-->\n          <div class=\"col-lg-12 display-row padding-params\">\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Quantity'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngFor=\"let parameter of listBasket[0].detail[0].boxes\">\n                  <dt class=\"items\">\n                    {{ parameter.Quantity}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Tone'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngFor=\"let parameter of listBasket[0].detail[0].boxes\">\n                  <dt class=\"items\">\n                    {{ parameter.Tone}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n            <div class=\"col-sm-4\">\n              <dl class=\"align-item\">\n                <dt>{{'Color'| translate}}\n                </dt>\n                <hr class=\"separators\">\n                <dl *ngFor=\"let parameter of listBasket[0].detail[0].boxes\">\n                  <dt class=\"items\">\n                    {{ parameter.Color}}\n                  </dt>\n                </dl>\n              </dl>\n            </div>\n          </div>\n          <!--Fin Boxes-->\n        </div>\n      </div>\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">{{ 'Cancel' | translate }}&nbsp;\n      <i class=\"fa fa-times\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===2\">{{ 'Save' | translate }}&nbsp;\n      <i class=\"fa fa-save\"></i>\n    </button>\n    <button type=\"button\" class=\"btn btn-main\" (click)=\"save()\" [hidden]=\"typeBuy===1\">{{ 'Buy' | translate }}&nbsp;\n      <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description}}\n  </ng-template>\n</div>\n"
 
 /***/ }),
 
@@ -3721,7 +3721,7 @@ var ConfirmationOrionComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "  <div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!-- Image -->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\" />\n        </div>\n        <!-- Patient -->\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Patient\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ namePatient }}</dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n        <div class=\"col-lg-12\">\n          <dl>\n            <dt>{{ price | currency: \"USD $\" }}</dt>\n            <p class=\"eye-info\" *ngIf=\"additionalDMV || additionalHydrapeg || additionalNotch\">\n              (\n                <span>{{ 'Includes' | translate }}</span>&nbsp;\n                <span *ngIf=\"additionalDMV\">{{'Inserts (DMV)' | translate}}:{{ additionalDMV | currency : \" USD $\" }}</span>\n                <span  *ngIf=\"additionalHydrapeg\">&nbsp;|&nbsp;</span>\n                <span *ngIf=\"additionalHydrapeg\">{{'Hydrapeg' | translate}}:{{ additionalHydrapeg | currency : \" USD $\" }}</span>\n                <span  *ngIf=\"additionalNotch\">&nbsp;|&nbsp;</span>\n                <span *ngIf=\"additionalNotch\">{{'Notch (mm)' | translate}}:{{ additionalNotch | currency : \" USD $\" }}</span>\n              )\n            </p>\n          </dl>\n        </div>\n      </div>\n\n      <!-- PARAMETERS -->\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Spectrum code' | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Design -->\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Design\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].design | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Type lens-->\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Materials -->\n          <div class=\"col-lg-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Material\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].materials }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n           <!-- Hydrapeg -->\n          <div class=\"col-lg-12\" *ngIf=\"list.detail[0].materials === 'Boston-XO'\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Hydrapeg\" | translate }}:</dt>\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].hydrapeg }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"separator-set\"></div>\n\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of getParams(list.detail[0])\">\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined\">{{ parameter.selected }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || parameter.selected === undefined\">{{ 'Unassigned' | translate}}</dt>\n              </dl>\n            </dl>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
+module.exports = "  <div *ngIf=\"namePatient\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">{{ \"Confirm purchase\" | translate }}</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"list-basket body\">\n    <div class=\"row\">\n      <!-- Image -->\n      <div class=\"col-lg-12 main-info\">\n        <div>\n          <span class=\"title\">{{ product.name }}</span>\n        </div>\n        <!-- Image -->\n        <div class=\"label-title\">\n          <img class=\"img-product\" src=\"{{ product.mainImg }}\" />\n        </div>\n        <!-- Patient -->\n        <div class=\"col-lg-12 title label-title patient-info\">\n          <div class=\"col-sm-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Patient\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ namePatient }}</dt>\n              </dl>\n            </dl>\n          </div>\n        </div>\n        <div class=\"col-lg-12\">\n          <dl>\n            <dt>{{ price | currency: \"USD $\" }}</dt>\n            <p class=\"eye-info\" *ngIf=\"additionalDMV || additionalHydrapeg || additionalNotch || additionalMultimeridian\">\n              (\n                <span>{{ 'Includes' | translate }}</span>&nbsp;\n                <span *ngIf=\"additionalDMV\">{{'Inserts (DMV)' | translate}}:{{ additionalDMV | currency : \" USD $\" }}</span>\n                <span  *ngIf=\"additionalHydrapeg\">&nbsp;|&nbsp;</span>\n                <span *ngIf=\"additionalHydrapeg\">{{'Hydrapeg' | translate}}:{{ additionalHydrapeg | currency : \" USD $\" }}</span>\n                <span  *ngIf=\"additionalNotch\">&nbsp;|&nbsp;</span>\n                <span *ngIf=\"additionalNotch\">{{'Notch (mm)' | translate}}:{{ additionalNotch | currency : \" USD $\" }}</span>\n                <span  *ngIf=\"additionalMultimeridian\">&nbsp;|&nbsp;</span>\n                <span *ngIf=\"additionalMultimeridian\">{{'Multimeridian' | translate}}:{{ additionalMultimeridian | currency : \" USD $\" }}</span>\n              )\n            </p>\n          </dl>\n        </div>\n      </div>\n\n      <!-- PARAMETERS -->\n      <div class=\"col-lg-12\" *ngFor=\"let list of listBasket\">\n        <div class=\"row padding-params\">\n          <div class=\"col-lg-12 title eye-info\">\n            <span>{{ list.detail[0].eye + ' Eye' | translate }}</span>&nbsp;&nbsp;\n          </div>\n\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ 'Spectrum code' | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.codeSpectrum }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Design -->\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Design\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].design | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Type lens-->\n          <div class=\"col-lg-4\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Type\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].typeLens | translate }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <!-- Materials -->\n          <div class=\"col-lg-12\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Material\" | translate }}:</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].materials }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n           <!-- Hydrapeg -->\n          <div class=\"col-lg-12\" *ngIf=\"list.detail[0].materials === 'Boston-XO'\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Hydrapeg\" | translate }}:</dt>\n              <dl>\n                <dt class=\"items\">{{ list.detail[0].hydrapeg }}</dt>\n              </dl>\n            </dl>\n          </div>\n\n          <div class=\"separator-set\"></div>\n\n          <div class=\"col-sm-12\">\n            <div class=\"parameters\">{{ \"Parameters\" | translate }}:</div>\n          </div>\n          <div class=\"col-sm-3\">\n            <dl class=\"align-item\">\n              <dt>{{ \"Quantity\" | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\">{{ list.quantity }}</dt>\n              </dl>\n            </dl>\n          </div>\n          <div class=\"col-sm-3\" *ngFor=\"let parameter of getParams(list.detail[0])\">\n            <dl class=\"align-item\">\n              <dt>{{ parameter.name | translate }}</dt>\n              <hr class=\"separators\" />\n              <dl>\n                <dt class=\"items\" *ngIf=\"parameter.selected !== null && parameter.selected !== '' && parameter.selected !== undefined\">{{ parameter.selected }}</dt>\n                <dt class=\"items\" *ngIf=\"parameter.selected === null || parameter.selected === '' || parameter.selected === undefined\">{{ 'Unassigned' | translate}}</dt>\n              </dl>\n            </dl>\n          </div>\n          <br />\n          <!-- Comments -->\n          <div class=\"col-lg-12\">\n            <div class=\"row padding-params\">\n              <div class=\"col-sm-12\">\n                <dl>\n                  <dt>{{ \"Comments\" | translate }}</dt>\n                  <dl class=\"comment\" *ngIf=\"list.observations ==='' || list.observations === null\">\n                      <span translate>{{'No comments' | translate}}</span>\n                    </dl>\n                  <dl>\n                    <span style=\"overflow-x: hidden;\">\n                      {{ list.observations }}</span\n                    >\n                  </dl>\n                </dl>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <!-- FIN PARAMETERS -->\n    </div>\n  </div>\n  <div class=\"modal-footer\">\n    <button type=\"button\" class=\"btn btn-secondary\" (click)=\"close()\">\n      {{ \"Cancel\" | translate }}&nbsp; <i class=\"fa fa-times\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 2\"\n    >\n      {{ \"Save\" | translate }}&nbsp; <i class=\"fa fa-save\"></i>\n    </button>\n    <button\n      type=\"button\"\n      class=\"btn btn-main\"\n      (click)=\"save()\"\n      [hidden]=\"typeBuy === 1\"\n    >\n      {{ \"Buy\" | translate }}&nbsp; <i class=\"fa fa-check\"></i>\n    </button>\n  </div>\n  <ng-template #rt let-r=\"result\" let-t=\"term\">\n    {{ r.description }}\n  </ng-template>\n</div>\n"
 
 /***/ }),
 
@@ -3875,7 +3875,7 @@ var ConfirmationSmartlensComponent = /** @class */ (function () {
         this.price = priceAcum;
     };
     ConfirmationSmartlensComponent.prototype.isAdditionalProduct = function (productRequested) {
-        return productRequested.name === 'DMV Insertion and Removal Set' || productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg';
+        return productRequested.name === 'DMV Insertion and Removal Set' || productRequested.name === 'Notch' || productRequested.name === 'Hydrapeg' || productRequested.name === 'Multimeridian';
     };
     ConfirmationSmartlensComponent.prototype.getBalance = function () {
         var _this = this;
@@ -5997,7 +5997,7 @@ var EditProductComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"item-properties col-md-2\">\n          <dt>{{ product.properties.name | translate }}</dt>\n          <p>\n            <!--<img *ngFor=\"let property of product.properties.values\" placement=\"top\" ngbTooltip=\"{{ property.title }}\"\n              class=\"\" src=\"{{ property.image }}\" width=\"30\" height=\"30\">&nbsp;-->\n          </p>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacement Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n              [(ngModel)]=\"product.client\" disabled>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n         <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-1\">\n          <h5 class=\"padding-price\" [hidden]=\"product.priceSale === ''\">\n            <span>{{ product.priceSale | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specify your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\">\n              </div>\n            </div>\n            <!--params right-->\n            <div class=\"col-lg-2 margin-col padding-col\" *ngFor=\"let parameter of product.parametersRight\">\n              <div>\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div *ngIf=\"parameter.type === 'selected'\" class=\"row select-values\">\n                  <ng-select [items]=\"parameter.values\" [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\"\n                    [(ngModel)]=\"parameter.selected\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\">\n                    {{item}}\n                  </ng-select>\n                </div>\n\n                <div *ngIf=\"parameter.type === 'input'\" class=\"row select-values\">\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                    [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeRight\">\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityLeft\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\">\n              </div>\n            </div>\n            <!--params left-->\n            <div class=\"col-lg-2 margin-col padding-col\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div *ngIf=\"parameter.type === 'selected'\" class=\"row select-values\">\n                  <ng-select (change)=\"changeSelect('left', parameter, $event)\" [items]=\"parameter.values\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"parameter.sel\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [required]=\"product.eyeLeft\">\n                    {{item}}\n                  </ng-select>\n                </div>\n\n                <div *ngIf=\"parameter.type === 'input'\" class=\"row select-values\">\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeLeft\">\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n"
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"item-properties col-md-2\">\n          <dt>{{ product.properties.name | translate }}</dt>\n          <p>\n            <!--<img *ngFor=\"let property of product.properties.values\" placement=\"top\" ngbTooltip=\"{{ property.title }}\"\n              class=\"\" src=\"{{ property.image }}\" width=\"30\" height=\"30\">&nbsp;-->\n          </p>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacement Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ product.url }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n              [(ngModel)]=\"product.client\" disabled>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n         <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specify your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\">\n              </div>\n            </div>\n            <!--params right-->\n            <div class=\"col-lg-2 margin-col padding-col\" *ngFor=\"let parameter of product.parametersRight\">\n              <div>\n                <!--param name-->\n                <div class=\"row\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div *ngIf=\"parameter.type === 'selected'\" class=\"row select-values\">\n                  <ng-select [items]=\"parameter.values\" [disabled]=\"!product.eyeRight\" [required]=\"product.eyeRight\"\n                    [(ngModel)]=\"parameter.selected\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\">\n                    {{item}}\n                  </ng-select>\n                </div>\n\n                <div *ngIf=\"parameter.type === 'input'\" class=\"row select-values\">\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                    [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeRight\">\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n          <div class=\"title\">{{ 'Parameters' | translate }}</div>\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-2 margin-col padding-col\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <input class=\"form-control\" type=\"number\" step=1 min=\"1\" [(ngModel)]=\"product.quantityLeft\" oninput=\"validity.valid||(value='');\"\n                  [disabled]=\"!product.eyeLeft\" [required]=\"product.eyeLeft\">\n              </div>\n            </div>\n            <!--params left-->\n            <div class=\"col-lg-2 margin-col padding-col\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div *ngIf=\"parameter.type === 'selected'\" class=\"row select-values\">\n                  <ng-select (change)=\"changeSelect('left', parameter, $event)\" [items]=\"parameter.values\" [disabled]=\"!product.eyeLeft\"\n                    [(ngModel)]=\"parameter.sel\" bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [required]=\"product.eyeLeft\">\n                    {{item}}\n                  </ng-select>\n                </div>\n\n                <div *ngIf=\"parameter.type === 'input'\" class=\"row select-values\">\n                  <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\" oninput=\"validity.valid||(value='');\"\n                    [disabled]=\"!product.eyeLeft\">\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -6146,7 +6146,6 @@ var ProductViewBlueComponent = /** @class */ (function () {
                 _this.productService.findBySupplierAndInViewAndCategory$(6, false, 10).subscribe(function (res1) {
                     if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
                         _this.productsCode = res1.data;
-                        _this.setCodeProduct();
                     }
                     else {
                         console.log(res1.errors[0].detail);
@@ -6179,7 +6178,7 @@ var ProductViewBlueComponent = /** @class */ (function () {
         this.product.properties = JSON.parse(this.product.infoAditional)[0];
         this.product.priceSale = '';
         this.setClient();
-        this.setPrice();
+        this.setMembership();
     };
     ProductViewBlueComponent.prototype.changeSelect = function (eye, parameter, value) {
         parameter.selected = value;
@@ -6200,16 +6199,6 @@ var ProductViewBlueComponent = /** @class */ (function () {
                 this.clean('left');
             }
         }
-    };
-    ProductViewBlueComponent.prototype.setCodeProduct = function () {
-        var productName = this.product.name;
-        var prCode;
-        lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.productsCode, function (pr) {
-            if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](pr.name, productName)) {
-                prCode = pr;
-            }
-        });
-        this.productCode = prCode;
     };
     ProductViewBlueComponent.prototype.setEyeSelected = function () {
         this.productsSelected = [];
@@ -6247,7 +6236,7 @@ var ProductViewBlueComponent = /** @class */ (function () {
         if (clienteSelect !== undefined) {
             this.client = clienteSelect.idUser;
             this.findShippingAddress(this.client);
-            this.definePrice(clienteSelect.membership.idMembership);
+            this.membership = clienteSelect.membership.idMembership;
         }
         else {
             this.client = '';
@@ -6272,35 +6261,50 @@ var ProductViewBlueComponent = /** @class */ (function () {
             }
         });
     };
-    ProductViewBlueComponent.prototype.setPrice = function () {
+    ProductViewBlueComponent.prototype.setMembership = function () {
         if (this.user.role.idRole === 3) {
-            var membership = this.currentUser.membership.idMembership;
-            this.definePrice(membership);
+            this.membership = this.currentUser.membership.idMembership;
         }
     };
-    ProductViewBlueComponent.prototype.definePrice = function (membership) {
-        switch (membership) {
+    ProductViewBlueComponent.prototype.getPrice = function (product) {
+        switch (this.membership) {
             case 1:
-                this.product.priceSale = this.product.price1;
-                break;
+                return product.price1;
             case 2:
-                this.product.priceSale = this.product.price2;
-                break;
+                return product.price2;
             case 3:
-                this.product.priceSale = this.product.price3;
-                break;
+                return product.price3;
+            case 4:
+                return product.price4;
+            case 5:
+                return product.price5;
+            case 6:
+                return product.price6;
+            case 7:
+                return product.price7;
         }
+    };
+    ProductViewBlueComponent.prototype.getProductSelected = function (parameters) {
+        var diameter = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](parameters, { name: 'Diameter (mm)' });
+        var productSelected;
+        lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.productsCode, function (pr) {
+            if (diameter.selected === "22.0" && lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](pr.name, '22.0')) {
+                productSelected = pr;
+            }
+        });
+        return productSelected || this.product;
     };
     ProductViewBlueComponent.prototype.buildProductsSelected = function () {
         this.setEyeSelected();
+        var self = this;
         var product = this.productCopy;
-        var productCode = this.productCode;
         var productsSelected = this.productsSelected;
         lodash__WEBPACK_IMPORTED_MODULE_1__["each"](productsSelected, function (productSelected, index) {
-            productSelected.id = productCode.idProduct;
             productSelected.patient = product.patient;
-            productSelected.price = product.priceSale;
             if (productSelected.eye === "Right") {
+                productSelected.id = self.getProductSelected(product.parametersRight).idProduct;
+                productSelected.price = self.getPrice(self.getProductSelected(product.parametersRight));
+                productSelected.codeSpectrum = self.getProductSelected(product.parametersRight).codeSpectrum;
                 productSelected.quantity = product.quantityRight;
                 productSelected.observations = product.observationsRight;
                 lodash__WEBPACK_IMPORTED_MODULE_1__["each"](product.parametersRight, function (parameter, index) {
@@ -6309,6 +6313,9 @@ var ProductViewBlueComponent = /** @class */ (function () {
                 productSelected.parameters = product.parametersRight;
             }
             if (productSelected.eye === "Left") {
+                productSelected.id = self.getProductSelected(product.parametersLeft).idProduct;
+                productSelected.price = self.getPrice(self.getProductSelected(product.parametersLeft));
+                productSelected.codeSpectrum = self.getProductSelected(product.parametersLeft).codeSpectrum;
                 productSelected.quantity = product.quantityLeft;
                 productSelected.observations = product.observationsLeft;
                 lodash__WEBPACK_IMPORTED_MODULE_1__["each"](product.parametersLeft, function (parameter, index) {
@@ -6336,6 +6343,7 @@ var ProductViewBlueComponent = /** @class */ (function () {
             productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
             productRequest.patient = product.patient;
             productRequest.observations = product.observations;
+            productRequest.codeSpectrum = product.codeSpectrum;
             productsRequested.push(productRequest);
         });
         this.basketRequestModal.idUser = this.client;
@@ -6346,7 +6354,7 @@ var ProductViewBlueComponent = /** @class */ (function () {
         var _this = this;
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_blue_light_confirmation_blue_light_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
-        modalRef.componentInstance.product = this.productCode;
+        modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileBasket = this.listFileBasket;
         modalRef.componentInstance.role = this.user.role.idRole;
         modalRef.componentInstance.typeBuy = type;
@@ -6960,19 +6968,36 @@ var ProductViewEuclidComponent = /** @class */ (function () {
             this.definePrice(membership);
         }
     };
+    //TODO: pending refactor prices
     ProductViewEuclidComponent.prototype.definePrice = function (membership) {
         switch (membership) {
             case 1:
                 this.product.priceSale = this.product.price1;
-                this.product.additional = this.product.pricesAditionalWarranties.values[0].price - this.product.price1;
+                this.product.additional = 20;
                 break;
             case 2:
                 this.product.priceSale = this.product.price2;
-                this.product.additional = this.product.pricesAditionalWarranties.values[1].price - this.product.price2;
+                this.product.additional = 20;
                 break;
             case 3:
                 this.product.priceSale = this.product.price3;
-                this.product.additional = this.product.pricesAditionalWarranties.values[2].price - this.product.price3;
+                this.product.additional = 20;
+                break;
+            case 4:
+                this.product.priceSale = this.product.price4;
+                this.product.additional = 20;
+                break;
+            case 5:
+                this.product.priceSale = this.product.price5;
+                this.product.additional = 20;
+                break;
+            case 6:
+                this.product.priceSale = this.product.price6;
+                this.product.additional = 20;
+                break;
+            case 7:
+                this.product.priceSale = this.product.price7;
+                this.product.additional = 20;
                 break;
         }
     };
@@ -7573,10 +7598,13 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         else if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](this.product.name, 'SPH')) {
             this.productName = 'Europa Sphere';
         }
+        else if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](this.product.name, 'Multifocal')) {
+            this.productName = 'Europa MF';
+        }
         else if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](this.product.name, 'Multifocal')
             || lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](this.product.name, 'Front Toric')
             || lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](this.product.name, 'TPC')) {
-            this.productName = 'Europa FT, TPC,  MF';
+            this.productName = 'Europa FT, TPC';
         }
     };
     ProductViewEuropaComponent.prototype.setCodeProduct = function (name) {
@@ -8007,41 +8035,85 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         switch (membership) {
             case 1:
                 this.priceA = productNew ? productNew.price1 : this.product.price1;
-                this.priceB = productNew ? productNew.price1 : this.product.priced1;
+                this.priceB = productNew ? productNew.price1 : this.product.price1;
                 break;
             case 2:
                 this.priceA = productNew ? productNew.price2 : this.product.price2;
-                this.priceB = productNew ? productNew.priced2 : this.product.priced2;
+                this.priceB = productNew ? productNew.price2 : this.product.price2;
                 break;
             case 3:
                 this.priceA = productNew ? productNew.price3 : this.product.price3;
-                this.priceB = productNew ? productNew.priced3 : this.product.priced3;
+                this.priceB = productNew ? productNew.price3 : this.product.price3;
+                break;
+            case 4:
+                this.priceA = productNew ? productNew.price4 : this.product.price4;
+                this.priceB = productNew ? productNew.price4 : this.product.price4;
+                break;
+            case 5:
+                this.priceA = productNew ? productNew.price5 : this.product.price5;
+                this.priceB = productNew ? productNew.price5 : this.product.price5;
+                break;
+            case 6:
+                this.priceA = productNew ? productNew.price6 : this.product.price6;
+                this.priceB = productNew ? productNew.price6 : this.product.price6;
+                break;
+            case 7:
+                this.priceA = productNew ? productNew.price7 : this.product.price7;
+                this.priceB = productNew ? productNew.price7 : this.product.price7;
                 break;
         }
     };
     ProductViewEuropaComponent.prototype.definePriceHidrapeg = function (membership) {
         switch (membership) {
             case 1:
-                this.hidrapeg = this.product.pricesAditionalHidrapeg.values[0].price;
+                // TODO: logic additional prices obsolete, this will be solved in the prices refactor
+                //this.hidrapeg = this.product.pricesAditionalHidrapeg.values[0].price;
+                this.hidrapeg = 30;
                 break;
             case 2:
-                this.hidrapeg = this.product.pricesAditionalHidrapeg.values[1].price;
+                this.hidrapeg = 30;
                 break;
             case 3:
-                this.hidrapeg = this.product.pricesAditionalHidrapeg.values[2].price;
+                this.hidrapeg = 30;
+                break;
+            case 4:
+                this.hidrapeg = 30;
+                break;
+            case 5:
+                this.hidrapeg = 30;
+                break;
+            case 6:
+                this.hidrapeg = 50;
+                break;
+            case 7:
+                this.hidrapeg = 30;
                 break;
         }
     };
     ProductViewEuropaComponent.prototype.definePriceInserts = function (membership) {
         switch (membership) {
             case 1:
-                this.inserts = this.product.pricesAditionalInserts.values[0].price;
+                // TODO: logic additional prices obsolete, this will be solved in the prices refactor
+                //this.inserts = this.product.pricesAditionalInserts.values[0].price;
+                this.inserts = 5.15;
                 break;
             case 2:
-                this.inserts = this.product.pricesAditionalInserts.values[1].price;
+                this.inserts = 5.15;
                 break;
             case 3:
-                this.inserts = this.product.pricesAditionalInserts.values[2].price;
+                this.inserts = 5.15;
+                break;
+            case 4:
+                this.inserts = 5.15;
+                break;
+            case 5:
+                this.inserts = 5.15;
+                break;
+            case 6:
+                this.inserts = 11;
+                break;
+            case 7:
+                this.inserts = 5.15;
                 break;
         }
     };
@@ -8049,13 +8121,27 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         this.notch = 0;
         switch (membership) {
             case 1:
-                this.notch = this.product.pricesAditionalNotch.values[0].price;
+                // TODO: logic additional prices obsolete, this will be solved in the prices refactor
+                //this.notch = this.product.pricesAditionalNotch.values[0].price;
+                this.notch = 40;
                 break;
             case 2:
-                this.notch = this.product.pricesAditionalNotch.values[1].price;
+                this.notch = 40;
                 break;
             case 3:
-                this.notch = this.product.pricesAditionalNotch.values[2].price;
+                this.notch = 40;
+                break;
+            case 4:
+                this.notch = 40;
+                break;
+            case 5:
+                this.notch = 40;
+                break;
+            case 6:
+                this.notch = 50;
+                break;
+            case 7:
+                this.notch = 40;
                 break;
         }
     };
@@ -9161,7 +9247,7 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
                     if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
                         _this.productsCode = res1.data;
                         if (_this.user.role.idRole === 3) {
-                            _this.setCodeProduct(_this.currentUser.name);
+                            _this.setCodeProduct();
                         }
                     }
                     else {
@@ -9191,22 +9277,15 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
         this.setClient();
         this.setPrice();
     };
-    ProductViewFluoStripsComponent.prototype.setCodeProduct = function (clienteSelect) {
-        var productName = this.product.codeSpectrum;
+    ProductViewFluoStripsComponent.prototype.setCodeProduct = function () {
+        var self = this;
         var prCode;
-        var condition;
-        if (clienteSelect.name === 'MEDICAL CHOICE' && this.product.codeSpectrum === '40') {
-            condition = '40A (M.C.)';
-        }
-        else {
-            condition = productName;
-        }
         lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.productsCode, function (pr) {
-            if (pr.codeSpectrum == condition) {
+            if (pr.codeSpectrum == self.product.codeSpectrum) {
                 prCode = pr;
             }
         });
-        this.productCode = prCode;
+        this.productCode = prCode || this.product;
     };
     ProductViewFluoStripsComponent.prototype.setClient = function () {
         var _this = this;
@@ -9236,7 +9315,7 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
             this.client = clienteSelect.idUser;
             this.findShippingAddress(this.client);
             this.definePrice(clienteSelect.membership.idMembership);
-            this.setCodeProduct(clienteSelect);
+            this.setCodeProduct();
         }
         else {
             this.client = '';
@@ -9277,6 +9356,18 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
                 break;
             case 3:
                 this.product.priceSale = this.product.price3;
+                break;
+            case 4:
+                this.product.priceSale = this.product.price4;
+                break;
+            case 5:
+                this.product.priceSale = this.product.price5;
+                break;
+            case 6:
+                this.product.priceSale = this.product.price6;
+                break;
+            case 7:
+                this.product.priceSale = this.product.price7;
                 break;
         }
     };
@@ -9384,7 +9475,7 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div> -->\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material | translate }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacement Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a (click)=\"download()\" href=\"javascript:void(0);\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n        <div class=\"col-lg-1\">\n          <h5 class=\"padding-price\" [hidden]=\"product.priceSale === ''\">\n            <span>{{ product.priceSale | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specify your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n\n          <div class=\"row type-lens\">\n            <span class=\"title\">{{ 'Type' | translate }}:</span>\n            <div *ngFor=\"let value of typeLensRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-{{i}}\" name=\"radioTypeLensRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" (change)=\"changeTypeLens('right', value)\" class=\"custom-control-input\" [checked]=\"typeLensRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <!--row header right (contamac / hydrapeg / insertors)-->\n          <br *ngIf=\"typeLensRight.selected === 'Please design my lens'\">\n          <div *ngIf=\"typeLensRight.selected === 'Please design my lens'\" class=\"row title\">{{ 'Test Set' | translate }}</div>\n          <div *ngIf=\"typeLensRight.selected === 'Please design my lens'\" class=\"row\">\n            <div class=\"col-lg-3\" *ngFor=\"let itemSet of product.setRight\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"itemSet.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('right', itemSet, $event,0)\" [items]=\"itemSet.values\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"itemSet.sel\" bindLabel=\"value\" bindValue=\"id\" placeholder=\"{{ 'Select value' | translate }}\" [required]=\"product.eyeRight\"\n                    [clearable]=\"false\">\n                  </ng-select>\n                </div>\n                 <div *ngIf=\"itemSet.type === 'input'\" class=\"select-values param-power col-sm-12\">\n                  <input class=\"form-control\" type=\"text\" placeholder=\"{{ itemSet.placeholder | translate }}\"\n                    [required]=\"product.eyeRight\" [(ngModel)]=\"itemSet.selected\"\n                    [disabled]=true>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n          <!--params right-->\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                     [required]=\"product.eyeRight\"  [disabled]=\"!product.eyeRight\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersRight\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.sel\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!addRight || parameter.values.length === 1\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.sel\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"true\" step=\"0.10\">\n                  </div>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"col-lg-3\" *ngIf=\"addRight\">\n              <div class=\"row\">\n                  <label class=\"form-check-label\">{{ 'Pupillary diameter' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" min=\"1\" step=\"0.10\" [(ngModel)]=\"product.pupillaryRight\" oninput=\"validity.valid||(value='');\"\n                      [required]=\"product.eyeRight\" (change)=\"changePupillary('right', product.pupillaryRight)\">\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n        </div>\n\n        <!--comments right-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n                  [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n        <!--files right-->\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row\">\n              <div class=\"col-md-12\">\n                <div class=\"\">\n                  <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n                  <div class=\"custom-file\">\n                    <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                      [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                    <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                    <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                    <div class=\"message-error-file\">\n                      <span translate>{{'Max files size:' | translate}} 25MB</span>\n                      <span> / </span>\n                      <span translate>{{'Maximum files number:' | translate }} 5</span>\n                    </div>\n                  </div>\n                </div>\n                <br>\n                <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n                  <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                    <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                      <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                    </button>\n                  </div>\n                  <br>\n                  <table class=\"table\">\n                    <thead>\n                      <tr>\n                        <th width=\"50%\">{{ 'Name' | translate }}</th>\n                        <th>{{ 'Size' | translate }}</th>\n                        <th>{{ 'Actions' | translate }}</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                        <td><strong>{{ item?.file?.name }}</strong></td>\n                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                        <td nowrap>\n                          <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                            <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                          </button>\n                        </td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n\n          <div class=\"row type-lens\">\n            <span class=\"title\">{{ 'Type' | translate }}:</span>\n            <div *ngFor=\"let value of typeLensLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-left-{{i}}\" name=\"radioTypeLensLeft\"  [disabled]=\"!product.eyeLeft\" [value]=\"value\" (change)=\"changeTypeLens('left', value)\" class=\"custom-control-input\" [checked]=\"typeLensLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-left-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <!--row header left (contamac / hydrapeg / insertors)-->\n          <br *ngIf=\"typeLensLeft.selected === 'Please design my lens'\">\n          <div *ngIf=\"typeLensLeft.selected === 'Please design my lens'\" class=\"row title\">{{ 'Test Set' | translate }}</div>\n          <div *ngIf=\"typeLensLeft.selected === 'Please design my lens'\" class=\"row\">\n            <div class=\"col-lg-3\" *ngFor=\"let setLeft of product.setLeft\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ setLeft.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"setLeft.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('left', setLeft, $event,0)\" [items]=\"setLeft.values\" [disabled]=\"!product.eyeLeft\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"setLeft.sel\" bindLabel=\"value\" bindValue=\"id\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [clearable]=\"false\">\n                  </ng-select>\n                </div>\n                <!--Only Design-->\n                <div *ngIf=\"setLeft.type === 'input'\" class=\"select-values param-power col-sm-12\">\n                  <input class=\"form-control\" type=\"text\" placeholder=\"{{ setLeft.placeholder | translate }}\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"setLeft.selected\"\n                    [disabled]=true>\n                </div>\n              </div>\n            </div>\n          </div>\n           <br>\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\" bindLabel=\"item\"\n                      bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!addLeft || parameter.values.length === 1\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"true\" step=\"0.10\">\n                  </div>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"col-lg-3\" *ngIf=\"addLeft\">\n              <div class=\"row\">\n                  <label class=\"form-check-label\">{{ 'Pupillary diameter' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" min=\"1\" step=\"0.10\" [(ngModel)]=\"product.pupillaryLeft\" oninput=\"validity.valid||(value='');\"\n                      [required]=\"product.eyeLeft\" (change)=\"changePupillary('left', product.pupillaryLeft)\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n\n        <!--comments left-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n                  [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n        <!--files left-->\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row\">\n              <div class=\"col-md-12\">\n                <div class=\"\">\n                  <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n                  <div class=\"custom-file\">\n                    <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                      [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                    <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                    <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                    <div class=\"message-error-file\">\n                      <span translate>{{'Max files size:' | translate}} 25MB</span>\n                      <span> / </span>\n                      <span translate>{{'Maximum files number:' | translate }} 5</span>\n                    </div>\n                  </div>\n                </div>\n                <br>\n                <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n                  <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                    <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                      <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                    </button>\n                  </div>\n                  <br>\n                  <table class=\"table\">\n                    <thead>\n                      <tr>\n                        <th width=\"50%\">{{ 'Name' | translate }}</th>\n                        <th>{{ 'Size' | translate }}</th>\n                        <th>{{ 'Actions' | translate }}</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                        <td><strong>{{ item?.file?.name }}</strong></td>\n                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                        <td nowrap>\n                          <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                            <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                          </button>\n                        </td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div> -->\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-3\">\n          <dt>{{ 'Material' | translate }}</dt>\n          <dd>\n            <a>{{ product.material | translate }}</a>\n          </dd>\n        </div>\n        <div class=\"col-md-3\">\n          <dt>{{ 'Replacement Period' | translate }}</dt>\n          <p>{{ product.replacementPeriod | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Warranty' | translate }}</dt>\n          <p>{{ product.warranty }} {{ 'days' | translate }}</p>\n        </div>\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a (click)=\"download()\" href=\"javascript:void(0);\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specify your product' | translate }}</label>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header-params\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n\n          <div class=\"row type-lens\">\n            <span class=\"title\">{{ 'Type' | translate }}:</span>\n            <div *ngFor=\"let value of typeLensRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-{{i}}\" name=\"radioTypeLensRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" (change)=\"changeTypeLens('right', value)\" class=\"custom-control-input\" [checked]=\"typeLensRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <!--row header right (contamac / hydrapeg / insertors)-->\n          <br *ngIf=\"typeLensRight.selected === 'Please design my lens'\">\n          <div *ngIf=\"typeLensRight.selected === 'Please design my lens'\" class=\"row title\">{{ 'Test Set' | translate }}</div>\n          <div *ngIf=\"typeLensRight.selected === 'Please design my lens'\" class=\"row\">\n            <div class=\"col-lg-3\" *ngFor=\"let itemSet of product.setRight\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ itemSet.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"itemSet.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('right', itemSet, $event,0)\" [items]=\"itemSet.values\" [disabled]=\"!product.eyeRight\"\n                    [(ngModel)]=\"itemSet.sel\" bindLabel=\"value\" bindValue=\"id\" placeholder=\"{{ 'Select value' | translate }}\" [required]=\"product.eyeRight\"\n                    [clearable]=\"false\">\n                  </ng-select>\n                </div>\n                 <div *ngIf=\"itemSet.type === 'input'\" class=\"select-values param-power col-sm-12\">\n                  <input class=\"form-control\" type=\"text\" placeholder=\"{{ itemSet.placeholder | translate }}\"\n                    [required]=\"product.eyeRight\" [(ngModel)]=\"itemSet.selected\"\n                    [disabled]=true>\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n          <!--params right-->\n          <div class=\"row\">\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                     [required]=\"product.eyeRight\"  [disabled]=\"!product.eyeRight\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersRight\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.sel\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!addRight || parameter.values.length === 1\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.sel\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"true\" step=\"0.10\">\n                  </div>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"col-lg-3\" *ngIf=\"addRight\">\n              <div class=\"row\">\n                  <label class=\"form-check-label\">{{ 'Pupillary diameter' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" min=\"1\" step=\"0.10\" [(ngModel)]=\"product.pupillaryRight\" oninput=\"validity.valid||(value='');\"\n                      [required]=\"product.eyeRight\" (change)=\"changePupillary('right', product.pupillaryRight)\">\n                </div>\n              </div>\n            </div>\n          </div>\n          <br>\n        </div>\n\n        <!--comments right-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n                  [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n        <!--files right-->\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row\">\n              <div class=\"col-md-12\">\n                <div class=\"\">\n                  <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n                  <div class=\"custom-file\">\n                    <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                      [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                    <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                    <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                    <div class=\"message-error-file\">\n                      <span translate>{{'Max files size:' | translate}} 25MB</span>\n                      <span> / </span>\n                      <span translate>{{'Maximum files number:' | translate }} 5</span>\n                    </div>\n                  </div>\n                </div>\n                <br>\n                <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n                  <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                    <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                      <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                    </button>\n                  </div>\n                  <br>\n                  <table class=\"table\">\n                    <thead>\n                      <tr>\n                        <th width=\"50%\">{{ 'Name' | translate }}</th>\n                        <th>{{ 'Size' | translate }}</th>\n                        <th>{{ 'Actions' | translate }}</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                        <td><strong>{{ item?.file?.name }}</strong></td>\n                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                        <td nowrap>\n                          <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                            <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                          </button>\n                        </td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n\n          <div class=\"row type-lens\">\n            <span class=\"title\">{{ 'Type' | translate }}:</span>\n            <div *ngFor=\"let value of typeLensLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-left-{{i}}\" name=\"radioTypeLensLeft\"  [disabled]=\"!product.eyeLeft\" [value]=\"value\" (change)=\"changeTypeLens('left', value)\" class=\"custom-control-input\" [checked]=\"typeLensLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-left-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <!--row header left (contamac / hydrapeg / insertors)-->\n          <br *ngIf=\"typeLensLeft.selected === 'Please design my lens'\">\n          <div *ngIf=\"typeLensLeft.selected === 'Please design my lens'\" class=\"row title\">{{ 'Test Set' | translate }}</div>\n          <div *ngIf=\"typeLensLeft.selected === 'Please design my lens'\" class=\"row\">\n            <div class=\"col-lg-3\" *ngFor=\"let setLeft of product.setLeft\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ setLeft.name | translate }}</label>&nbsp;&nbsp;\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\" *ngIf=\"setLeft.type === 'selected'\">\n                  <ng-select (change)=\"changeSelect('left', setLeft, $event,0)\" [items]=\"setLeft.values\" [disabled]=\"!product.eyeLeft\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"setLeft.sel\" bindLabel=\"value\" bindValue=\"id\" placeholder=\"{{ 'Select value' | translate }}\"\n                    [clearable]=\"false\">\n                  </ng-select>\n                </div>\n                <!--Only Design-->\n                <div *ngIf=\"setLeft.type === 'input'\" class=\"select-values param-power col-sm-12\">\n                  <input class=\"form-control\" type=\"text\" placeholder=\"{{ setLeft.placeholder | translate }}\"\n                    [required]=\"product.eyeLeft\" [(ngModel)]=\"setLeft.selected\"\n                    [disabled]=true>\n                </div>\n              </div>\n            </div>\n          </div>\n           <br>\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"!product.eyeLeft\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3\" *ngFor=\"let parameter of product.parametersLeft\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\" bindLabel=\"item\"\n                      bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!addLeft || parameter.values.length === 1\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.sel\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name !== 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n                  <div *ngIf=\"parameter.type === 'input' && parameter.name === 'Far Zone Diameter'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"true\" step=\"0.10\">\n                  </div>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"col-lg-3\" *ngIf=\"addLeft\">\n              <div class=\"row\">\n                  <label class=\"form-check-label\">{{ 'Pupillary diameter' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" min=\"1\" step=\"0.10\" [(ngModel)]=\"product.pupillaryLeft\" oninput=\"validity.valid||(value='');\"\n                      [required]=\"product.eyeLeft\" (change)=\"changePupillary('left', product.pupillaryLeft)\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n\n        <!--comments left-->\n        <br>\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row header\">\n              <div class=\"col-md-12\">\n                <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n                <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n                  [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n              </div>\n            </div>\n            <br>\n          </div>\n        </div>\n        <!--files left-->\n        <div class=\"col-md-12\">\n          <div class=\"comments\">\n            <div class=\"row\">\n              <div class=\"col-md-12\">\n                <div class=\"\">\n                  <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n                  <div class=\"custom-file\">\n                    <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                      [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                    <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                    <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                    <div class=\"message-error-file\">\n                      <span translate>{{'Max files size:' | translate}} 25MB</span>\n                      <span> / </span>\n                      <span translate>{{'Maximum files number:' | translate }} 5</span>\n                    </div>\n                  </div>\n                </div>\n                <br>\n                <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n                  <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                    <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                      <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                    </button>\n                  </div>\n                  <br>\n                  <table class=\"table\">\n                    <thead>\n                      <tr>\n                        <th width=\"50%\">{{ 'Name' | translate }}</th>\n                        <th>{{ 'Size' | translate }}</th>\n                        <th>{{ 'Actions' | translate }}</th>\n                      </tr>\n                    </thead>\n                    <tbody>\n                      <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                        <td><strong>{{ item?.file?.name }}</strong></td>\n                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                        <td nowrap>\n                          <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                            <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                          </button>\n                        </td>\n                      </tr>\n                    </tbody>\n                  </table>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -9565,7 +9656,6 @@ var ProductViewLenticonComponent = /** @class */ (function () {
                 _this.productService.findBySupplierAndInViewAndCategory$(3, false, 10).subscribe(function (res1) {
                     if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_14__["CodeHttp"].ok) {
                         _this.productsCode = res1.data;
-                        _this.setCodeProduct();
                     }
                     else {
                         console.log(res1.errors[0].detail);
@@ -9602,8 +9692,6 @@ var ProductViewLenticonComponent = /** @class */ (function () {
         this.product.setLeft = JSON.parse(this.product.types)[0].set;
         this.setParameterDefaultValue(this.product.parametersLeft);
         this.changeTypeLens('left', 'Please design my lens');
-        this.product.priceSaleRight = 0;
-        this.product.priceSaleLeft = 0;
         this.product.pupillaryRight = null;
         this.product.pupillaryLeft = null;
         this.setClient();
@@ -9620,15 +9708,15 @@ var ProductViewLenticonComponent = /** @class */ (function () {
             }
         });
     };
-    ProductViewLenticonComponent.prototype.setCodeProduct = function () {
-        var productName = this.product.name;
-        var prCode;
+    ProductViewLenticonComponent.prototype.getProductSelected = function (parameters) {
+        var design = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](parameters, { name: 'Design' });
+        var productSelected;
         lodash__WEBPACK_IMPORTED_MODULE_15__["each"](this.productsCode, function (pr) {
-            if (lodash__WEBPACK_IMPORTED_MODULE_15__["includes"](pr.name, productName)) {
-                prCode = pr;
+            if (pr.name === (design.selected.replace(/_/g, ' ') + ' Contact Lens')) {
+                productSelected = pr;
             }
         });
-        this.productCode = prCode;
+        return productSelected || this.product;
     };
     ProductViewLenticonComponent.prototype.changeSelect = function (eye, parameter, value, value2) {
         parameter.selected = value;
@@ -9750,14 +9838,10 @@ var ProductViewLenticonComponent = /** @class */ (function () {
             this.client = clienteSelect.idUser;
             this.membership = clienteSelect.membership.idMembership;
             this.findShippingAddress(this.client);
-            this.definePrice(clienteSelect.membership.idMembership);
         }
         else {
             this.client = '';
             this.product.shippingAddress = '';
-            this.product.priceSaleRight = 0;
-            this.product.priceSaleLeft = 0;
-            this.product.priceSale = 0;
             this.membership = 0;
         }
     };
@@ -9781,38 +9865,42 @@ var ProductViewLenticonComponent = /** @class */ (function () {
     ProductViewLenticonComponent.prototype.setPrice = function () {
         if (this.user.role.idRole === 3) {
             this.membership = this.currentUser.membership.idMembership;
-            this.definePrice(this.membership);
         }
     };
-    ProductViewLenticonComponent.prototype.definePrice = function (membership) {
-        switch (membership) {
+    ProductViewLenticonComponent.prototype.getPrice = function (product) {
+        switch (this.membership) {
             case 1:
-                this.product.priceSale = this.product.price1;
-                break;
+                return product.price1;
             case 2:
-                this.product.priceSale = this.product.price2;
-                break;
+                return product.price2;
             case 3:
-                this.product.priceSale = this.product.price3;
-                break;
+                return product.price3;
+            case 4:
+                return product.price4;
+            case 5:
+                return product.price5;
+            case 6:
+                return product.price6;
+            case 7:
+                return product.price7;
         }
     };
     ProductViewLenticonComponent.prototype.buildProductsSelected = function () {
         var self = this;
         this.setEyeSelected();
         var product = this.productCopy;
-        var productCode = this.productCode;
         var productsSelected = this.productsSelected;
         var pupillaryRight = this.product.pupillaryRight === null ? '' : this.product.pupillaryRight;
         var pupillaryLeft = this.product.pupillaryLeft === null ? '' : this.product.pupillaryLeft;
         lodash__WEBPACK_IMPORTED_MODULE_15__["each"](productsSelected, function (productSelected, index) {
-            productSelected.id = productCode.idProduct;
             productSelected.patient = product.patient;
-            productSelected.price = product.priceSale;
             if (productSelected.eye === "Right") {
+                productSelected.id = self.getProductSelected(product.parametersRight).idProduct;
                 productSelected.quantity = product.quantityRight;
+                productSelected.price = self.getPrice(self.getProductSelected(product.parametersRight));
                 productSelected.observations = product.observationsRight;
                 productSelected.typeLens = self.typeLensRight.selected;
+                productSelected.codeSpectrum = self.getProductSelected(product.parametersRight).codeSpectrum;
                 /* set*/
                 lodash__WEBPACK_IMPORTED_MODULE_15__["each"](product.setRight, function (parameter, index) {
                     if (parameter.name === 'num.LC' && parameter.selected) {
@@ -9834,9 +9922,12 @@ var ProductViewLenticonComponent = /** @class */ (function () {
                 productSelected.parameters.push({ 'name': 'Pupillary diameter', 'selected': pupillaryRight });
             }
             if (productSelected.eye === "Left") {
+                productSelected.id = self.getProductSelected(product.parametersLeft).idProduct;
                 productSelected.quantity = product.quantityLeft;
+                productSelected.price = self.getPrice(self.getProductSelected(product.parametersLeft));
                 productSelected.observations = product.observationsLeft;
                 productSelected.typeLens = self.typeLensLeft.selected;
+                productSelected.codeSpectrum = self.getProductSelected(product.parametersLeft).codeSpectrum;
                 /* set*/
                 lodash__WEBPACK_IMPORTED_MODULE_15__["each"](product.setLeft, function (parameter, index) {
                     if (parameter.name === 'num.LC' && parameter.selected) {
@@ -9880,6 +9971,7 @@ var ProductViewLenticonComponent = /** @class */ (function () {
             productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
             productRequest.patient = product.patient;
             productRequest.observations = product.observations;
+            productRequest.codeSpectrum = product.codeSpectrum;
             productsRequested.push(productRequest);
         });
         this.basketRequestModal.idUser = this.client;
@@ -9898,7 +9990,7 @@ var ProductViewLenticonComponent = /** @class */ (function () {
         this.spinner.hide();
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_lenticon_confirmation_lenticon_component__WEBPACK_IMPORTED_MODULE_19__["ConfirmationLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
-        modalRef.componentInstance.product = this.productCode;
+        modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.typeBuy = type;
         modalRef.componentInstance.role = this.user.role.idRole;
         modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
@@ -10389,19 +10481,6 @@ var ProductViewMagicComponent = /** @class */ (function () {
         this.productService.findBySupplierInView$(5, true).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
                 _this.products = res.data;
-                _this.productService.findBySupplierAndInViewAndCategory$(5, false, 10).subscribe(function (res1) {
-                    if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
-                        _this.productsCode = res1.data;
-                        _this.setCodeProduct();
-                    }
-                    else {
-                        console.log(res1.errors[0].detail);
-                        _this.spinner.hide();
-                    }
-                }, function (error) {
-                    console.log('error', error);
-                    _this.spinner.hide();
-                });
                 _this.getProductView();
                 _this.spinner.hide();
             }
@@ -10437,16 +10516,6 @@ var ProductViewMagicComponent = /** @class */ (function () {
                 self.changeSelect(parameter, parameter.selected);
             }
         });
-    };
-    ProductViewMagicComponent.prototype.setCodeProduct = function () {
-        var productName = this.product.name;
-        var prCode;
-        lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.productsCode, function (pr) {
-            if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](pr.name, productName)) {
-                prCode = pr;
-            }
-        });
-        this.productCode = prCode;
     };
     ProductViewMagicComponent.prototype.addBox = function () {
         var parametersBox = { parameters: JSON.parse(JSON.stringify(this.product.parametersBoxes)) };
@@ -10578,12 +10647,48 @@ var ProductViewMagicComponent = /** @class */ (function () {
                     this.priceUp = parseFloat(info[3].values[0].price);
                 }
                 break;
+            case 4:
+                if (totalQuantity >= 250) {
+                    this.product.priceSale = parseFloat(info[4].values[pos].price);
+                }
+                else {
+                    this.priceFrom = parseFloat(info[4].values[2].price);
+                    this.priceUp = parseFloat(info[4].values[0].price);
+                }
+                break;
+            case 5:
+                if (totalQuantity >= 250) {
+                    this.product.priceSale = parseFloat(info[5].values[pos].price);
+                }
+                else {
+                    this.priceFrom = parseFloat(info[5].values[2].price);
+                    this.priceUp = parseFloat(info[5].values[0].price);
+                }
+                break;
+            case 6:
+                if (totalQuantity >= 250) {
+                    this.product.priceSale = parseFloat(info[6].values[pos].price);
+                }
+                else {
+                    this.priceFrom = parseFloat(info[6].values[2].price);
+                    this.priceUp = parseFloat(info[6].values[0].price);
+                }
+                break;
+            case 7:
+                if (totalQuantity >= 250) {
+                    this.product.priceSale = parseFloat(info[7].values[pos].price);
+                }
+                else {
+                    this.priceFrom = parseFloat(info[7].values[2].price);
+                    this.priceUp = parseFloat(info[7].values[0].price);
+                }
+                break;
         }
     };
     ProductViewMagicComponent.prototype.buildProductsSelected = function () {
         var productsSelected = [];
         var product = this.productCopy;
-        var productCode = this.productCode;
+        var productCode = this.product;
         var boxes = this.boxesCopy;
         var boxesProduct = [];
         var productSelected = {
@@ -10604,7 +10709,7 @@ var ProductViewMagicComponent = /** @class */ (function () {
             boxesProduct.push(boxProduct);
         });
         var totalQuantity = lodash__WEBPACK_IMPORTED_MODULE_1__["sumBy"](boxes, 'quantity');
-        productSelected.detail = { name: '', eye: '', parameters: parameters, boxes: boxesProduct };
+        productSelected.detail = { name: '', eye: '', parameters: parameters, boxes: boxesProduct, codeSpectrum: this.codeSpectrum };
         productSelected.quantity = totalQuantity;
         productsSelected.push(productSelected);
         return productsSelected;
@@ -10635,7 +10740,7 @@ var ProductViewMagicComponent = /** @class */ (function () {
         var _this = this;
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_magic_look_confirmation_magic_look_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
-        modalRef.componentInstance.product = this.productCode;
+        modalRef.componentInstance.product = this.product;
         modalRef.componentInstance.listFileBasket = this.listFileBasket;
         modalRef.componentInstance.role = this.user.role.idRole;
         modalRef.componentInstance.typeBuy = type;
@@ -10736,6 +10841,18 @@ var ProductViewMagicComponent = /** @class */ (function () {
                     case 3:// Preferred
                         this.product.priceSale = parseFloat(info[3].values[pos].price);
                         break;
+                    case 4:
+                        this.product.priceSale = parseFloat(info[4].values[pos].price);
+                        break;
+                    case 5:
+                        this.product.priceSale = parseFloat(info[5].values[pos].price);
+                        break;
+                    case 6:
+                        this.product.priceSale = parseFloat(info[6].values[pos].price);
+                        break;
+                    case 7:
+                        this.product.priceSale = parseFloat(info[7].values[pos].price);
+                        break;
                 }
             }
             else {
@@ -10748,11 +10865,14 @@ var ProductViewMagicComponent = /** @class */ (function () {
         var pos;
         if (totalQuantity >= 250 && totalQuantity <= 1000) {
             pos = 0;
+            this.codeSpectrum = '50C';
         }
         else if (totalQuantity >= 1001 && totalQuantity <= 2000) {
             pos = 1;
+            this.codeSpectrum = '50A';
         }
         else if (totalQuantity >= 2001) {
+            this.codeSpectrum = '50D';
             pos = 2;
         }
         return pos;
@@ -11203,8 +11323,8 @@ var ProductViewMoldedLensesComponent = /** @class */ (function () {
     };
     ProductViewMoldedLensesComponent.prototype.setPrice = function () {
         if (this.user.role.idRole === 3) {
-            var membership = this.currentUser.membership.idMembership;
-            this.definePrice(membership);
+            this.membership = this.currentUser.membership.idMembership;
+            this.definePrice();
         }
     };
     //////////////////////// BY BOXES///////////////////////////
@@ -11214,44 +11334,74 @@ var ProductViewMoldedLensesComponent = /** @class */ (function () {
             if (totalQuantity < 501) {
                 this.product.codeSpectrum = '216A';
                 this.product.priceSale = 14.0;
+                if (this.membership === 6) {
+                    this.product.priceSale = 29.0;
+                }
             }
             else if (totalQuantity < 2001) {
                 this.product.codeSpectrum = '216B';
                 this.product.priceSale = 13.5;
+                if (this.membership === 6) {
+                    this.product.priceSale = 28.5;
+                }
             }
             else if (totalQuantity < 3501) {
                 this.product.codeSpectrum = '216C';
                 this.product.priceSale = 13.2;
+                if (this.membership === 6) {
+                    this.product.priceSale = 28.0;
+                }
             }
             else if (totalQuantity < 5001) {
                 this.product.codeSpectrum = '216D';
                 this.product.priceSale = 12.75;
+                if (this.membership === 6) {
+                    this.product.priceSale = 27.5;
+                }
             }
             else {
                 this.product.codeSpectrum = '216E';
                 this.product.priceSale = 12.5;
+                if (this.membership === 6) {
+                    this.product.priceSale = 27.0;
+                }
             }
         }
         else if (this.product.name === 'Claria SiHy Toric 6pk') {
             if (totalQuantity < 501) {
                 this.product.codeSpectrum = '217A';
                 this.product.priceSale = 18.25;
+                if (this.membership === 6) {
+                    this.product.priceSale = 35.0;
+                }
             }
             else if (totalQuantity < 2001) {
                 this.product.codeSpectrum = '217B';
                 this.product.priceSale = 18.0;
+                if (this.membership === 6) {
+                    this.product.priceSale = 34.5;
+                }
             }
             else if (totalQuantity < 3501) {
                 this.product.codeSpectrum = '217C';
                 this.product.priceSale = 17.75;
+                if (this.membership === 6) {
+                    this.product.priceSale = 34.0;
+                }
             }
             else if (totalQuantity < 5001) {
                 this.product.codeSpectrum = '217D';
                 this.product.priceSale = 17.5;
+                if (this.membership === 6) {
+                    this.product.priceSale = 33.5;
+                }
             }
             else {
                 this.product.codeSpectrum = '217E';
                 this.product.priceSale = 17.25;
+                if (this.membership === 6) {
+                    this.product.priceSale = 33.0;
+                }
             }
         }
     };
@@ -11267,7 +11417,8 @@ var ProductViewMoldedLensesComponent = /** @class */ (function () {
         if (clienteSelect !== undefined) {
             this.client = clienteSelect.idUser;
             this.findShippingAddress(this.client);
-            this.definePrice(clienteSelect.membership.idMembership);
+            this.membership = clienteSelect.membership.idMembership;
+            this.definePrice();
         }
         else {
             this.client = '';
@@ -11292,8 +11443,8 @@ var ProductViewMoldedLensesComponent = /** @class */ (function () {
             }
         });
     };
-    ProductViewMoldedLensesComponent.prototype.definePrice = function (membership) {
-        switch (membership) {
+    ProductViewMoldedLensesComponent.prototype.definePrice = function () {
+        switch (this.membership) {
             case 1:
                 this.product.priceSale = this.product.price1;
                 break;
@@ -11302,6 +11453,18 @@ var ProductViewMoldedLensesComponent = /** @class */ (function () {
                 break;
             case 3:
                 this.product.priceSale = this.product.price3;
+                break;
+            case 4:
+                this.product.priceSale = this.product.price4;
+                break;
+            case 5:
+                this.product.priceSale = this.product.price5;
+                break;
+            case 6:
+                this.product.priceSale = this.product.price6;
+                break;
+            case 7:
+                this.product.priceSale = this.product.price7;
                 break;
         }
     };
@@ -11609,18 +11772,14 @@ var ProductViewOrionComponent = /** @class */ (function () {
         this.setClient();
         this.setPrice();
         this.getProductsCode();
-        this.setCodeProduct();
     };
     ProductViewOrionComponent.prototype.getProductsCode = function () {
         var _this = this;
         this.productService.findBySupplierAndInViewAndCategory$(10, false, 10).subscribe(function (res1) {
             if (res1.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_1__["CodeHttp"].ok) {
                 _this.productsCode = res1.data;
-                var pC = _this.productsCode.filter(function (item) {
-                    return lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](item.codeSpectrum, _this.product.codeSpectrum);
-                });
+                var pC = _this.productsCode.filter(function (item) { return lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](item.codeSpectrum, _this.product.codeSpectrum); });
                 _this.productsCode = pC.sort(function (a, b) { return (b.idProduct > a.idProduct) ? -1 : 1; });
-                _this.setCodeProduct();
             }
             else {
                 console.log(res1.errors[0].detail);
@@ -11631,45 +11790,68 @@ var ProductViewOrionComponent = /** @class */ (function () {
             _this.spinner.hide();
         });
     };
-    ProductViewOrionComponent.prototype.setCodeProduct = function () {
+    ProductViewOrionComponent.prototype.setCodeProduct = function (eye) {
         var productName = this.product.name;
-        var idProduct = this.product.idProduct;
-        var parameterType = this.parameterType === 'Cosmetic' || this.parameterType === 'Prosthetic' ? this.parameterType : '';
         var prCode;
+        var params;
+        if (eye === 'right') {
+            params = this.product.parametersRight;
+        }
+        else {
+            params = this.product.parametersLeft;
+        }
+        var cylinder = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](params, { name: 'Cylinder' });
+        var typeBiocolors = lodash__WEBPACK_IMPORTED_MODULE_12__["find"](params, { name: 'Type' });
+        var cylinderValue = (cylinder && cylinder.selected) || '';
+        var typeValue = (typeBiocolors && typeBiocolors.selected) || '';
         for (var i = 0, len = this.productsCode.length; i < len; i++) {
             var pr = this.productsCode[i];
-            if (idProduct === 267) {
-                if (parameterType === 'Cosmetic') {
-                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), productName.toLowerCase())
-                        && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase()) && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
+            if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), productName.toLowerCase())) {
+                if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'biocolor') && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), typeValue.toLowerCase())) {
+                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'prosthetic')) {
                         prCode = pr;
                         break;
+                    }
+                    if (cylinderValue !== '' && cylinderValue !== "0.00") {
+                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'toric')) {
+                            prCode = pr;
+                            break;
+                        }
+                    }
+                    else {
+                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
+                            prCode = pr;
+                            break;
+                        }
                     }
                 }
                 else {
-                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), productName.toLowerCase())
-                        && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase())) {
-                        prCode = pr;
-                        break;
+                    if ((cylinderValue !== '' && cylinderValue !== "0.00")) {
+                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'toric')) {
+                            prCode = pr;
+                            break;
+                        }
+                    }
+                    else {
+                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
+                            prCode = pr;
+                            break;
+                        }
                     }
                 }
             }
-            else {
-                if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), productName.toLowerCase())
-                    && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
-                    prCode = pr;
-                    break;
-                }
-            }
         }
-        this.productCode = prCode;
-        if (this.productCode) {
-            this.product.price1 = this.productCode.price1;
-            this.product.price2 = this.productCode.price2;
-            this.product.price3 = this.productCode.price3;
+        this.product[eye] = { productCode: prCode };
+        if (this.product[eye].productCode) {
+            this.product.price1 = this.product[eye].productCode.price1;
+            this.product.price2 = this.product[eye].productCode.price2;
+            this.product.price3 = this.product[eye].productCode.price3;
+            this.product.price4 = this.product[eye].productCode.price4;
+            this.product.price5 = this.product[eye].productCode.price5;
+            this.product.price6 = this.product[eye].productCode.price6;
+            this.product.price7 = this.product[eye].productCode.price7;
         }
         this.setPrice();
-        console.log(this.product);
         this.updatePriceSale();
     };
     ProductViewOrionComponent.prototype.updatePriceSale = function () {
@@ -11692,6 +11874,18 @@ var ProductViewOrionComponent = /** @class */ (function () {
                 break;
             case 3:
                 product.priceSale = product.price3;
+                break;
+            case 4:
+                product.priceSale = product.price4;
+                break;
+            case 5:
+                product.priceSale = product.price5;
+                break;
+            case 6:
+                product.priceSale = product.price6;
+                break;
+            case 7:
+                product.priceSale = product.price7;
                 break;
         }
     };
@@ -11816,11 +12010,7 @@ var ProductViewOrionComponent = /** @class */ (function () {
             }
         }
         if (this.client) {
-            if (parameter.name === 'Type') {
-                parameter.selected = value;
-                this.parameterType = parameter.selected;
-            }
-            this.setCodeProduct();
+            this.setCodeProduct(eye);
             this.definePrice(this.client.membership.idMembership, this.product);
             if (eye === 'right') {
                 this.product.priceSaleRight = this.product.priceSale;
@@ -12150,48 +12340,9 @@ var ProductViewOrionComponent = /** @class */ (function () {
         // add products code
         var auxList = JSON.parse(JSON.stringify(productsSelected));
         var auxproductsSelected = [];
-        var productsCode = this.productsCode;
-        var idProduct = this.product.idProduct;
-        var namePr = this.product.name;
         lodash__WEBPACK_IMPORTED_MODULE_12__["each"](auxList, function (productAux, index) {
             var productH = JSON.parse(JSON.stringify(productAux));
-            var prCode;
-            var parameterType;
-            if (idProduct === 267) {
-                if (productH.detail.eye === 'Left') {
-                    parameterType = typeLeft;
-                }
-                else if (productH.detail.eye === 'Right') {
-                    parameterType = typeRight;
-                }
-                for (var i = 0, len = productsCode.length; i < len; i++) {
-                    var pr = productsCode[i];
-                    if (parameterType === 'Cosmetic') {
-                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), namePr.toLowerCase())
-                            && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase()) && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
-                            prCode = pr;
-                            break;
-                        }
-                    }
-                    else {
-                        if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), namePr.toLowerCase())
-                            && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), parameterType.toLowerCase())) {
-                            prCode = pr;
-                            break;
-                        }
-                    }
-                }
-            }
-            else {
-                for (var i = 0, len = productsCode.length; i < len; i++) {
-                    var pr = productsCode[i];
-                    if (lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), namePr.toLowerCase())
-                        && lodash__WEBPACK_IMPORTED_MODULE_12__["includes"](pr.name.toLowerCase(), 'sphere')) {
-                        prCode = pr;
-                        break;
-                    }
-                }
-            }
+            var prCode = self.product[productH.detail.eye.toLowerCase()].productCode;
             productH.id = prCode.idProduct;
             productH.name = prCode.name;
             productH.codeSpectrum = prCode.codeSpectrum;
@@ -12365,7 +12516,7 @@ var ProductViewOrionComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ getProductSheet() }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h5 class=\"padding-price\" *ngIf=\"priceSaleTotal()\">\n            <span>{{ priceSaleTotal() | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n\n          <div class=\"col-lg-6\" *ngIf=\"product?.dmv\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ product.dmv.name | translate }}:</span>\n              <div *ngFor=\"let value of product.dmv.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-dmv-{{i}}\" name=\"radioDMV\" [value]=\"value\"\n                         class=\"custom-control-input\" (change)=\"changeDMV(value)\"\n                         [checked]=\"product.dmv.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-dmv-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n            <div class=\"row additional col-lg-12\">\n              <p *ngIf=\"product.dmv.selected === 'Yes'\">\n                <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;\n                <span>{{'Inserts (DMV)' | translate}}:{{ getAdditionalPrices(false).dmv | currency : \" USD $\" }}</span>&nbsp;\n              </p>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header\" *ngIf=\"typeLensRight\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n\n          <div class=\"materials\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ 'Materials' | translate }}:</span>\n              <div class=\"align-radio\" *ngFor=\"let value of product.materialsRight.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-materials-right-{{i}}\" name=\"radioMaterialsRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeMaterials(value, 'right')\" [checked]=\"product.materialsRight.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-materials-right-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row radio-custom\" *ngIf=\"product.materialsRight.selected === 'Boston-XO'\" >\n              <span class=\"title\">{{ 'Hydrapeg' | translate }}:</span>\n              <div *ngFor=\"let value of product.hydrapegRight.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-hydrapeg-right-{{i}}\" name=\"radiohydrapegRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeSelect('right', product.hydrapegRight, value,0)\" [checked]=\"product.hydrapegRight.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-hydrapeg-right-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Design' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of designRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-design-right-{{i}}\" name=\"radioDesignRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeDesign('right', value)\" [checked]=\"designRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-design-right-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Type' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of typeLensRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-right-{{i}}\" name=\"radioTypeLensRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" (change)=\"changeTypeLens('right', value)\" class=\"custom-control-input\" [checked]=\"typeLensRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-right-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--params right-->\n          <div class=\"row\">\n\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                     [required]=\"product.eyeRight\"  [disabled]=\"true\" min=\"1\">\n                </div>\n              </div>\n            </div>\n\n            <!-- parameters right -->\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of getParams('right')\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <!-- SELECTED OF ALL -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      placement=\"top\" ngbTooltip=\"{{ isDependent(parameter, 'right') | translate }}\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'right')\" [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"parameter.noRequired\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- SELECTED ONLY ADITION -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- INPUT RADIO -->\n                  <div *ngIf=\"parameter.type === 'radio'\" class=\"radio-custom\">\n                    <div *ngFor=\"let value of parameter.values; let i = index\">\n                      <div class=\"custom-control custom-radio\">\n                        <input type=\"radio\" id=\"radio-overrefaction-{{i}}\" name=\"radioORRight\" [value]=\"value\"\n                               [disabled]=\"!product.eyeRight\"  class=\"custom-control-input\"\n                               (change)=\"changeSelect('right', parameter, value, 0)\" [checked]=\"parameter.selected === value\">\n                        <label class=\"custom-control-label\" for=\"radio-overrefaction-{{i}}\">{{ value | translate }}</label>\n                      </div>\n                    </div>\n                  </div>\n\n                  <!-- INPUT TYPE TEXT-->\n                  <div *ngIf=\"parameter.type === 'input-text'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ (parameter.placeholder || 'Introduce value') | translate }}\"\n                      [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" maxlength=\"{{ parameter.maxLength }}\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <!-- INPUT TYPE NUMBER-->\n                  <div *ngIf=\"parameter.type === 'input-number'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <!--Only Axis (notch)-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [disabled]=\"!product.eyeRight || !axisRequired('right')\" [required]=\"product.eyeRight && axisRequired('right')\" [(ngModel)]=\"parameter.selected\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" *ngFor=\"let item of axisValues('right')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!-- Notch -->\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchRight class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeRight\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeRight\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeRight\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!--prices additional right-->\n        <div class=\"row additional col-lg-12\">\n          <p *ngIf=\"getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight\">\n            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).hydrapegRight\">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).notchRight && getAdditionalPrices(true).hydrapegRight\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).notchRight\">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchRight | currency : \" USD $\" }}</span>&nbsp;\n          </p>\n        </div>\n\n        <!--comments right-->\n        <br>\n        <div class=\"row col-md-12\">\n          <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n          <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n            [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n        </div>\n\n        <br>\n        <!--files right-->\n        <div class=\"row attachments\">\n          <div class=\"col-md-12\">\n            <div>\n              <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                  [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error-file\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row header\" *ngIf=\"typeLensLeft\">\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n\n          <div class=\"materials\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ 'Materials' | translate }}:</span>\n              <div class=\"align-radio\" *ngFor=\"let value of product.materialsLeft.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-materials-{{i}}\" name=\"radioMaterialsLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeMaterials(value, 'left')\" [checked]=\"product.materialsLeft.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-materials-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row radio-custom\" *ngIf=\"product.materialsLeft.selected === 'Boston-XO'\" >\n              <span class=\"title\">{{ 'Hydrapeg' | translate }}:</span>\n              <div *ngFor=\"let value of product.hydrapegLeft.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-hydrapeg-{{i}}\" name=\"radiohydrapegLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeSelect('left', product.hydrapegLeft, value,0)\" [checked]=\"product.hydrapegLeft.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-hydrapeg-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Design' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of designLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-design-{{i}}\" name=\"radioDesignLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeDesign('left', value)\" [checked]=\"designLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-design-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Type' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of typeLensLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-{{i}}\" name=\"radioTypeLensLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" (change)=\"changeTypeLens('left', value)\" class=\"custom-control-input\" [checked]=\"typeLensLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"true\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of getParams('left')\">\n              <div>\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n\n                <div class=\"row\">\n\n                  <!-- SELECTED OF ALL -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      placement=\"top\" ngbTooltip=\"{{ isDependent(parameter, 'left') | translate }}\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'left')\" [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" bindLabel=\"item\"\n                      bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"parameter.noRequired\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- SELECTED ONLY ADITION -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- INPUT RADIO -->\n                  <div *ngIf=\"parameter.type === 'radio'\" class=\"radio-custom\">\n                    <div *ngFor=\"let value of parameter.values; let i = index\">\n                      <div class=\"custom-control custom-radio\">\n                        <input type=\"radio\" id=\"radio-overrefaction-{{i}}\" name=\"radioORLeft\" [value]=\"value\"\n                               [disabled]=\"!product.eyeLeft\"  class=\"custom-control-input\"\n                               (change)=\"changeSelect('left', parameter, value, 0)\" [checked]=\"parameter.selected === value\">\n                        <label class=\"custom-control-label\" for=\"radio-overrefaction-{{i}}\">{{ value | translate }}</label>\n                      </div>\n                    </div>\n                  </div>\n\n                  <!-- INPUT TYPE NUMBER-->\n                  <div *ngIf=\"parameter.type === 'input-number'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <!-- INPUT TYPE TEXT-->\n                  <div *ngIf=\"parameter.type === 'input-text'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ (parameter.placeholder || 'Introduce value') | translate }}\"\n                      [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" maxlength=\"{{ parameter.maxLength }}\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <!--Only Axis (notch)-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [disabled]=\"!product.eyeLeft || !axisRequired('left')\" [required]=\"product.eyeLeft && axisRequired('left')\" [(ngModel)]=\"parameter.selected\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" *ngFor=\"let item of axisValues('left')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!-- Notch -->\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchLeft class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeLeft\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"  (keyup)=\"changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeLeft\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\" (keyup)=\"changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeLeft\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!--prices additional left-->\n        <div class=\"row additional col-lg-12\">\n          <p *ngIf=\"getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft\">\n            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).hydrapegLeft\">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).notchLeft && getAdditionalPrices(true).hydrapegLeft\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).notchLeft\">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchLeft | currency : \" USD $\" }}</span>&nbsp;\n          </p>\n        </div>\n\n        <!--comments left-->\n        <br>\n        <div class=\"row col-md-12\">\n          <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n          <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n            [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n        </div>\n\n\n        <!--files left-->\n        <br>\n        <div class=\"row attachments\">\n          <div class=\"col-md-12\">\n            <div class=\"\">\n              <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                  [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error-file\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (sheet) -->\n      <div class=\"row product-info\">\n        <div class=\"col-md-2\">\n          <dt>{{ 'Product Sheet' | translate }}</dt>\n          <dd>\n            <a href=\"{{ getProductSheet() }}\" target=\"_blank\">{{ 'Download' | translate }}</a>\n          </dd>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- patient -->\n        <div class=\"col-lg-3\">\n          <dt class=\"title\">{{ 'Patient Full Name' | translate }}</dt>\n          <div class=\"row info-content\">\n            <input class=\"form-control\" type=\"text\" maxlength=\"50\" placeholder=\"{{ 'Enter name patient' | translate }}\" [(ngModel)]=\"product.patient\"\n              required>\n          </div>\n        </div>\n\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" [(ngModel)]=\"product.client\"\n              disabled required>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\"\n              required>\n            </ng-select>\n          </div>\n        </div>\n\n        <!--shipping address-->\n        <div class=\"col-lg-4\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content\">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row\">\n        <div class=\"col-md-12\">\n          <h5 class=\"padding-price\" *ngIf=\"priceSaleTotal()\">\n            <span>{{ priceSaleTotal() | currency : \"USD $\" }}</span>\n          </h5>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specific your product' | translate }}</label>\n\n          <div class=\"col-lg-6\" *ngIf=\"product?.dmv\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ product.dmv.name | translate }}:</span>\n              <div *ngFor=\"let value of product.dmv.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-dmv-{{i}}\" name=\"radioDMV\" [value]=\"value\"\n                         class=\"custom-control-input\" (change)=\"changeDMV(value)\"\n                         [checked]=\"product.dmv.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-dmv-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n            <div class=\"row additional col-lg-12\">\n              <p *ngIf=\"product.dmv.selected === 'Yes'\">\n                <span>{{ 'Includes' | translate }}</span>&nbsp;&nbsp;\n                <span>{{'Inserts (DMV)' | translate}}:{{ getAdditionalPrices(false).dmv | currency : \" USD $\" }}</span>&nbsp;\n              </p>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (parameters) -->\n      <div class=\"row header\" *ngIf=\"typeLensRight\">\n        <!-- row (parameters right) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n\n          <input id=\"right\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('right')\" [checked]=\"product.eyeRight\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"right\">{{ 'OD' }}</label>\n\n          <div class=\"materials\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ 'Materials' | translate }}:</span>\n              <div class=\"align-radio\" *ngFor=\"let value of product.materialsRight.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-materials-right-{{i}}\" name=\"radioMaterialsRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeMaterials(value, 'right')\" [checked]=\"product.materialsRight.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-materials-right-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row radio-custom\" *ngIf=\"product.materialsRight.selected === 'Boston-XO'\" >\n              <span class=\"title\">{{ 'Hydrapeg' | translate }}:</span>\n              <div *ngFor=\"let value of product.hydrapegRight.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-hydrapeg-right-{{i}}\" name=\"radiohydrapegRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeSelect('right', product.hydrapegRight, value,0)\" [checked]=\"product.hydrapegRight.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-hydrapeg-right-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Design' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of designRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-design-right-{{i}}\" name=\"radioDesignRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" class=\"custom-control-input\" (change)=\"changeDesign('right', value)\" [checked]=\"designRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-design-right-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Type' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of typeLensRight.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-right-{{i}}\" name=\"radioTypeLensRight\" [value]=\"value\" [disabled]=\"!product.eyeRight\" (change)=\"changeTypeLens('right', value)\" class=\"custom-control-input\" [checked]=\"typeLensRight.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-right-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--params right-->\n          <div class=\"row\">\n\n            <!--quantity right-->\n            <div class=\"col-lg-3\">\n              <div class=\"row\">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityRight\" oninput=\"validity.valid||(value='');\"\n                     [required]=\"product.eyeRight\"  [disabled]=\"true\" min=\"1\">\n                </div>\n              </div>\n            </div>\n\n            <!-- parameters right -->\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of getParams('right')\">\n              <div *ngIf=\"isVisible('right', parameter)\">\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n                <div class=\"row\">\n                  <!-- SELECTED OF ALL -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      placement=\"top\" ngbTooltip=\"{{ isDependent(parameter, 'right') | translate }}\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'right')\" [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"parameter.noRequired\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- SELECTED ONLY ADITION -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeRight || parameter.values.length === 1\" [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- INPUT RADIO -->\n                  <div *ngIf=\"parameter.type === 'radio'\" class=\"radio-custom\">\n                    <div *ngFor=\"let value of parameter.values; let i = index\">\n                      <div class=\"custom-control custom-radio\">\n                        <input type=\"radio\" id=\"radio-{{parameter.name}}-{{i}}\" name=\"radio-{{parameter.name}}\" [value]=\"value\"\n                               [disabled]=\"!product.eyeRight\"  class=\"custom-control-input\"\n                               (change)=\"changeSelect('right', parameter, value, 0)\" [checked]=\"parameter.selected === value\">\n                        <label class=\"custom-control-label\" for=\"radio-{{parameter.name}}-{{i}}\">{{ value | translate }}</label>\n                      </div>\n                    </div>\n                  </div>\n\n                  <!-- INPUT TYPE TEXT-->\n                  <div *ngIf=\"parameter.type === 'input-text'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ (parameter.placeholder || 'Introduce value') | translate }}\"\n                      [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" maxlength=\"{{ parameter.maxLength }}\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <!-- INPUT TYPE NUMBER-->\n                  <div *ngIf=\"parameter.type === 'input-number'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeRight && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeRight\">\n                  </div>\n\n                  <!--Only Axis (notch)-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('right', parameter, $event,0)\" [disabled]=\"!product.eyeRight || !axisRequired('right')\" [required]=\"product.eyeRight && axisRequired('right')\" [(ngModel)]=\"parameter.selected\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" *ngFor=\"let item of axisValues('right')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!-- Notch -->\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchRight class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeRight\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('right', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('right', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[0].selected, parameter.values[1].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeRight\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeRight\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)\" (keyup)=\"changeSelect('right', parameter, parameter.values[1].selected, parameter.values[0].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeRight\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!--prices additional right-->\n        <div class=\"row additional col-lg-12\">\n          <p *ngIf=\"getAdditionalPrices(true).notchRight || getAdditionalPrices(true).hydrapegRight || getAdditionalPrices(true).multimeridianRight\">\n            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).hydrapegRight\">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegRight | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).notchRight && getAdditionalPrices(true).hydrapegRight\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).notchRight\">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchRight | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).multimeridianRight && (getAdditionalPrices(true).hydrapegRight || getAdditionalPrices(true).notchRight)\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).multimeridianRight\">{{'Multimeridian' | translate}}:{{ getAdditionalPrices(true).multimeridianRight | currency : \" USD $\" }}</span>&nbsp;\n          </p>\n        </div>\n\n        <!--comments right-->\n        <br>\n        <div class=\"row col-md-12\">\n          <div class=\"title\">{{ 'OD Comments' | translate }}</div>\n          <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsRight\"\n            [disabled]=\"!product.eyeRight\" placeholder=\"{{ 'Enter OD Observations' | translate }}\"></textarea>\n        </div>\n\n        <br>\n        <!--files right-->\n        <div class=\"row attachments\">\n          <div class=\"col-md-12\">\n            <div>\n              <dt class=\"title\">{{ 'OD Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesRightEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderRightEye\"\n                  [disabled]=\"!product.eyeRight || uploaderRightEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error-file\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div style=\"margin-bottom: 40px\" *ngIf=\"uploaderRightEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderRightEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderRightEye.clearQueue()\" [disabled]=\"!uploaderRightEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderRightEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Right')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row header\" *ngIf=\"typeLensLeft\">\n        <!-- row (parameters left) -->\n        <div class=\"col-lg-12 custom-control custom-checkbox\">\n          <!--header-->\n          <input id=\"left\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"setValueEye('left')\" [checked]=\"product.eyeLeft\"\n            class=\"custom-control-input\">\n          <label class=\"custom-control-label\" for=\"left\">{{ 'OS' }}</label>\n\n          <div class=\"materials\">\n            <div class=\"row radio-custom\">\n              <span class=\"title label-radio\">{{ 'Materials' | translate }}:</span>\n              <div class=\"align-radio\" *ngFor=\"let value of product.materialsLeft.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-materials-{{i}}\" name=\"radioMaterialsLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeMaterials(value, 'left')\" [checked]=\"product.materialsLeft.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-materials-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n\n            <div class=\"row radio-custom\" *ngIf=\"product.materialsLeft.selected === 'Boston-XO'\" >\n              <span class=\"title\">{{ 'Hydrapeg' | translate }}:</span>\n              <div *ngFor=\"let value of product.hydrapegLeft.values; let i = index\">\n                <div class=\"custom-control custom-radio\">\n                  <input type=\"radio\" id=\"radio-hydrapeg-{{i}}\" name=\"radiohydrapegLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeSelect('left', product.hydrapegLeft, value,0)\" [checked]=\"product.hydrapegLeft.selected === value\">\n                  <label class=\"custom-control-label\" for=\"radio-hydrapeg-{{i}}\">{{ value | translate }}</label>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Design' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of designLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-design-{{i}}\" name=\"radioDesignLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" class=\"custom-control-input\" (change)=\"changeDesign('left', value)\" [checked]=\"designLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-design-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row radio-custom\">\n            <span class=\"title label-radio\">{{ 'Type' | translate }}:</span>\n            <div class=\"align-radio\" *ngFor=\"let value of typeLensLeft.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-lens-{{i}}\" name=\"radioTypeLensLeft\" [value]=\"value\" [disabled]=\"!product.eyeLeft\" (change)=\"changeTypeLens('left', value)\" class=\"custom-control-input\" [checked]=\"typeLensLeft.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-lens-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row title\">{{ 'Parameters' | translate }}</div>\n\n          <!--params left-->\n          <div class=\"row\">\n            <!--quantity left-->\n            <div class=\"col-lg-3\">\n              <div class=\"row \">\n                <label class=\"form-check-label\">{{ 'Quantity' | translate }}</label>\n              </div>\n              <div class=\"row\">\n                <div class=\"select-values col-sm-12\">\n                  <input class=\"form-control\" type=\"number\" value=\"1\" [(ngModel)]=\"product.quantityLeft\" [required]=\"product.eyeLeft\"\n                    oninput=\"validity.valid||(value='');\" [disabled]=\"true\" min=\"1\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-lg-3 padding-params\" *ngFor=\"let parameter of getParams('left')\">\n              <div *ngIf=\"isVisible('left', parameter)\">\n                <!--param name-->\n                <div class=\"row label\">\n                  <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n                </div>\n                <!--param values-->\n\n                <div class=\"row\">\n\n                  <!-- SELECTED OF ALL -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name !== 'Addition' && parameter.name !== 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      placement=\"top\" ngbTooltip=\"{{ isDependent(parameter, 'left') | translate }}\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1 || parameter.disabled || isDependent(parameter, 'left')\" [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" bindLabel=\"item\"\n                      bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"parameter.noRequired\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- SELECTED ONLY ADITION -->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Addition'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [items]=\"parameter.values\"\n                      [disabled]=\"!product.eyeLeft || parameter.values.length === 1\" [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.selected\"\n                      bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      {{item}}\n                    </ng-select>\n                  </div>\n\n                  <!-- INPUT RADIO -->\n                  <div *ngIf=\"parameter.type === 'radio'\" class=\"radio-custom\">\n                    <div *ngFor=\"let value of parameter.values; let i = index\">\n                      <div class=\"custom-control custom-radio\">\n                        <input type=\"radio\" id=\"radio-{{parameter.name}}-{{i}}\" name=\"radio-{{parameter.name}}-left\" [value]=\"value\"\n                               [disabled]=\"!product.eyeLeft\"  class=\"custom-control-input\"\n                               (change)=\"changeSelect('left', parameter, value, 0)\" [checked]=\"parameter.selected === value\">\n                        <label class=\"custom-control-label\" for=\"radio-{{parameter.name}}-{{i}}\">{{ value | translate }}</label>\n                      </div>\n                    </div>\n                  </div>\n\n                  <!-- INPUT TYPE NUMBER-->\n                  <div *ngIf=\"parameter.type === 'input-number'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"number\" placeholder=\"{{ parameter.placeholder | translate }}\"\n                      [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <!-- INPUT TYPE TEXT-->\n                  <div *ngIf=\"parameter.type === 'input-text'\" class=\"select-values col-sm-12\">\n                    <input class=\"form-control\" type=\"text\" placeholder=\"{{ (parameter.placeholder || 'Introduce value') | translate }}\"\n                      [required]=\"product.eyeLeft && !parameter.noRequired\" [(ngModel)]=\"parameter.selected\" maxlength=\"{{ parameter.maxLength }}\"\n                      [disabled]=\"!product.eyeLeft\">\n                  </div>\n\n                  <!--Only Axis (notch)-->\n                  <div *ngIf=\"parameter.type === 'selected' && parameter.name === 'Axis (º)'\" class=\"select-values col-sm-12\">\n                    <ng-select (change)=\"changeSelect('left', parameter, $event,0)\" [disabled]=\"!product.eyeLeft || !axisRequired('left')\" [required]=\"product.eyeLeft && axisRequired('left')\" [(ngModel)]=\"parameter.selected\"\n                                bindLabel=\"item\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\" [clearable]=\"false\">\n                      <ng-option [value]=\"item\" *ngFor=\"let item of axisValues('left')\">{{ item  | translate }}</ng-option>\n                    </ng-select>\n                  </div>\n\n                  <!-- Notch -->\n                  <div *ngIf=\"parameter.type === 'selected-double'\" class=\"select-values param-flex col-sm-12\">\n                    <ng-select #notchLeft class=\"select-notch\" [items]=\"['Upper Temporal']\"\n                               [(ngModel)]=\"parameter.selectedNotchTime\" placeholder=\"{{ 'Select type' | translate }}\"\n                               [disabled]=\"!product.eyeLeft\" [required]=\"parameter.values[0].selected !== 0 || parameter.values[1].selected !== 0\"\n                               (click)=\"validateSelectedNotch(parameter)\" (clear)=\"validateSelectedNotch(parameter)\" (change)=\"validateSelectedNotch(parameter)\">\n                      <ng-template ng-option-tmp>\n                        <div class=\"main-info\">\n                          <div class=\"one-two\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-one.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Upper Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-two.png'\" (click)=\"changeNotchTime('left', parameter, 'Upper Nasal')\">\n                          </div>\n                          <div clas=\"three-four\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Temporal'}\" [src]=\"'assets/images/products/europa/notch-time-three.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Temporal')\">\n                            <img [ngClass]=\"{'selected-image': parameter.selectedNotchTime === 'Lower Nasal'}\" [src]=\"'assets/images/products/europa/notch-time-four.png'\" (click)=\"changeNotchTime('left', parameter, 'Lower Nasal')\">\n                          </div>\n                        </div>\n                      </ng-template>\n                    </ng-select>\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[0].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[0].selected\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"  (keyup)=\"changeSelect('left', parameter, parameter.values[0].selected,parameter.values[1].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeLeft\">\n\n                    <input class=\"form-control notch\" type=\"number\" placeholder=\"{{ parameter.values[1].placeholder | translate }}\"\n                      [required]=\"product.eyeLeft\" [(ngModel)]=\"parameter.values[1].selected\" (change)=\"setNotch(parameter);changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\" (keyup)=\"changeSelect('left', parameter, parameter.values[1].selected,parameter.values[0].selected)\"\n                      step=\"0.01\" [disabled]=\"!product.eyeLeft\">\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n\n        <!--prices additional left-->\n        <div class=\"row additional col-lg-12\">\n          <p *ngIf=\"getAdditionalPrices(true).notchLeft || getAdditionalPrices(true).hydrapegLeft || getAdditionalPrices(true).multimeridianLeft\">\n            <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).hydrapegLeft\">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapegLeft | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).notchLeft && getAdditionalPrices(true).hydrapegLeft\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).notchLeft\">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notchLeft | currency : \" USD $\" }}</span>&nbsp;\n            <span *ngIf=\"getAdditionalPrices(true).multimeridianLeft && (getAdditionalPrices(true).hydrapegLeft || getAdditionalPrices(true).notchLeft)\">| </span>\n            <span *ngIf=\"getAdditionalPrices(true).multimeridianLeft\">{{'Multimeridian' | translate}}:{{ getAdditionalPrices(true).multimeridianLeft | currency : \" USD $\" }}</span>&nbsp;\n          </p>\n        </div>\n\n        <!--comments left-->\n        <br>\n        <div class=\"row col-md-12\">\n          <div class=\"title\">{{ 'OS Comments' | translate }}</div>\n          <textarea style=\"overflow-x: hidden;\" class=\"form-control\" type=\"text\" [(ngModel)]=\"product.observationsLeft\"\n            [disabled]=\"!product.eyeLeft\" placeholder=\"{{ 'Enter OS Observations' | translate }}\"></textarea>\n        </div>\n\n\n        <!--files left-->\n        <br>\n        <div class=\"row attachments\">\n          <div class=\"col-md-12\">\n            <div class=\"\">\n              <dt class=\"title\">{{ 'OS Documents | Attach Consultation Form' | translate }}</dt>\n              <div class=\"custom-file\">\n                <input #selectedFilesLeftEye type=\"file\" class=\"custom-file-input\" ng2FileSelect [uploader]=\"uploaderLeftEye\"\n                  [disabled]=\"!product.eyeLeft || uploaderLeftEye.queue.length > 4\" multiple />\n                <label class=\"custom-file-label\" for=\"FS\">{{ 'Choose file' | translate }}...</label>\n                <div class=\"invalid-feedback\">Example invalid custom file feedback</div>\n                <div class=\"message-error-file\">\n                  <span translate>{{'Max files size:' | translate}} 25MB</span>\n                  <span> / </span>\n                  <span translate>{{'Maximum files number:' | translate }} 5</span>\n                </div>\n              </div>\n            </div>\n            <br>\n            <div class=\"\" style=\"margin-bottom: 40px\" *ngIf=\"uploaderLeftEye.queue.length > 0\">\n              <div class=\"row justify-content-end\" *ngIf=\"uploaderLeftEye.queue.length > 1\">\n                <button type=\"button\" class=\"btn btn-danger btn-s\" (click)=\"uploaderLeftEye.clearQueue()\" [disabled]=\"!uploaderLeftEye.queue.length\">\n                  <span class=\"fa fa-trash-o\"></span> {{ 'Remove all' | translate }}\n                </button>\n              </div>\n              <br>\n              <table class=\"table\">\n                <thead>\n                  <tr>\n                    <th width=\"50%\">{{ 'Name' | translate }}</th>\n                    <th>{{ 'Size' | translate }}</th>\n                    <th>{{ 'Actions' | translate }}</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr *ngFor=\"let item of uploaderLeftEye.queue\">\n                    <td><strong>{{ item?.file?.name }}</strong></td>\n                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>\n                    <td nowrap>\n                      <button type=\"button\" class=\"btn btn-danger btn-xs\" (click)=\"removeFile(item, 'Left')\">\n                        <span class=\"fa fa-trash-o\"></span> {{ 'Remove' | translate }}\n                      </button>\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -12574,17 +12725,38 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
             "name": "prices", "values": { "hydrapeg": {
                     "gold": 0,
                     "diamond": 0,
-                    "preferred": 0
+                    "preferred": 0,
+                    "bronze": 0,
+                    "diamondSaudi": 0,
+                    "centralAmerica": 0,
+                    "diamondPO": 0
                 },
                 "notch": {
                     "gold": 0,
                     "diamond": 0,
-                    "preferred": 0
+                    "preferred": 0,
+                    "bronze": 0,
+                    "diamondSaudi": 0,
+                    "centralAmerica": 0,
+                    "diamondPO": 0
                 },
                 "dmv insertion and removal set": {
                     "gold": 0,
                     "diamond": 0,
-                    "preferred": 0
+                    "preferred": 0,
+                    "bronze": 0,
+                    "diamondSaudi": 0,
+                    "centralAmerica": 0,
+                    "diamondPO": 0
+                },
+                "multimeridian": {
+                    "gold": 0,
+                    "diamond": 0,
+                    "preferred": 0,
+                    "bronze": 0,
+                    "diamondSaudi": 0,
+                    "centralAmerica": 0,
+                    "diamondPO": 0
                 }
             }
         };
@@ -12593,7 +12765,11 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
             self.product.infoAdditionalPrices.values[name] = {
                 "gold": product.price1,
                 "diamond": product.price2,
-                "preferred": product.price3
+                "preferred": product.price3,
+                "bronze": product.price4,
+                "diamondSaudi": product.price5,
+                "centralAmerica": product.price6,
+                "diamondPO": product.price7
             };
         });
     };
@@ -12709,6 +12885,14 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
                         return 100;
                     case 3:
                         return 100;
+                    case 4:
+                        return 110;
+                    case 5:
+                        return 0;
+                    case 6:
+                        return 220;
+                    case 7:
+                        return 0;
                 }
             }
             if (lodash__WEBPACK_IMPORTED_MODULE_15__["includes"](["15.50", "16.50"], param.selected)) {
@@ -12719,6 +12903,14 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
                         return 125;
                     case 3:
                         return 125;
+                    case 4:
+                        return 135;
+                    case 5:
+                        return 0;
+                    case 6:
+                        return 265;
+                    case 7:
+                        return 0;
                 }
             }
         }
@@ -12802,16 +12994,43 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
                 this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.gold;
                 this.priceNotch = this.product.infoAdditionalPrices.values.notch.gold;
                 this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].gold;
+                this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.gold;
                 break;
             case 2:
                 this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamond;
                 this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamond;
                 this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamond;
+                this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.diamond;
                 break;
             case 3:
                 this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.preferred;
                 this.priceNotch = this.product.infoAdditionalPrices.values.notch.preferred;
                 this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].preferred;
+                this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.preferred;
+                break;
+            case 4:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.bronze;
+                this.priceNotch = this.product.infoAdditionalPrices.values.notch.bronze;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].bronze;
+                this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.bronze;
+                break;
+            case 5:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondSaudi;
+                this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamondSaudi;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondSaudi;
+                this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.diamondSaudi;
+                break;
+            case 6:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.centralAmerica;
+                this.priceNotch = this.product.infoAdditionalPrices.values.notch.centralAmerica;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].centralAmerica;
+                this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.centralAmerica;
+                break;
+            case 7:
+                this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondPO;
+                this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamondPO;
+                this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondPO;
+                this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.diamondPO;
                 break;
         }
     };
@@ -12819,37 +13038,50 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
         var dmv = 0;
         var notchRight = 0;
         var hydrapegRight = 0;
+        var multimeridianRight = 0;
         var notchLeft = 0;
         var hydrapegLeft = 0;
+        var multimeridianLeft = 0;
         // Finding DMV
         if (this.product.dmv.selected === 'Yes') {
             dmv = this.priceDMV;
         }
-        // Finding Notch
+        // Finding Notch Rigth
         var notch = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Notch (mm)' });
         if (notch.selected !== '0x0' && notch.selected !== null) {
             notchRight = this.priceNotch;
         }
-        // Finding Hydrapeg
+        // Finding Hydrapeg Rigth
         if (this.product.hydrapegRight.selected === "Yes") {
             hydrapegRight = this.priceHydrapeg;
         }
-        // Finding Notch
+        // Finding Multimeridian Rigth
+        var multimeridian = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Multimeridian' });
+        if (multimeridian.selected === "Yes") {
+            multimeridianRight = this.priceMultimeridian;
+        }
+        // Finding Notch Left
         var notchL = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Notch (mm)' });
         if (notchL.selected !== '0x0' && notchL.selected !== null) {
             notchLeft = this.priceNotch;
         }
-        // Finding Hydrapeg
+        // Finding Hydrapeg Left
         if (this.product.hydrapegLeft.selected === "Yes") {
             hydrapegLeft = this.priceHydrapeg;
         }
+        // Finding Multimeridian Left
+        var multimeridianL = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Multimeridian' });
+        if (multimeridianL.selected === "Yes") {
+            multimeridianLeft = this.priceMultimeridian;
+        }
         if (isIndividualPrice) {
-            return { "dmv": (dmv || 0), "notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft };
+            return { "dmv": (dmv || 0), "notchRight": notchRight, "notchLeft": notchLeft, "hydrapegRight": hydrapegRight, "hydrapegLeft": hydrapegLeft, "multimeridianRight": multimeridianRight, "multimeridianLeft": multimeridianLeft };
         }
         else {
             return { "dmv": (dmv || 0),
                 "notch": ((notchRight * this.product.quantityRight) || 0) + ((notchLeft * this.product.quantityLeft || 0)),
-                "hydrapeg": ((hydrapegRight * this.product.quantityRight) || 0) + ((hydrapegLeft * this.product.quantityLeft) || 0) };
+                "hydrapeg": ((hydrapegRight * this.product.quantityRight) || 0) + ((hydrapegLeft * this.product.quantityLeft) || 0),
+                "multimeridian": ((multimeridianRight * this.product.quantityRight) || 0) + ((multimeridianLeft * this.product.quantityLeft) || 0) };
         }
     };
     ProductViewSmartlensComponent.prototype.setValueEye = function (eye) {
@@ -12921,39 +13153,33 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
                 break;
         }
     };
+    ProductViewSmartlensComponent.prototype.isVisible = function (eye, parameter) {
+        if (parameter.name === 'Multimeridian') {
+            var params = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
+            var diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Diameter (mm)' });
+            return diameter.selected === "16.50";
+        }
+        return true;
+    };
     ProductViewSmartlensComponent.prototype.changeSelect = function (eye, parameter, value, value2) {
         parameter.selected = value;
+        var params = eye === 'right' ? this.product.parametersRight : this.product.parametersLeft;
         // Finding baseCurve
-        var baseCurve = null;
-        if (eye === "right") {
-            baseCurve = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Base Curve (mm)' });
-        }
-        else {
-            baseCurve = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Base Curve (mm)' });
-        }
+        var baseCurve = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Base Curve (mm)' });
         // Finding power
-        var power = null;
-        if (eye === "right") {
-            power = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Power (D)' });
-        }
-        else {
-            power = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Power (D)' });
-        }
+        var power = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Power (D)' });
         if (!power || !baseCurve) {
             return;
         }
         if (parameter.name === "Diameter (mm)") {
             // Finding Sag.
-            var sag = null;
-            if (eye === "right") {
-                sag = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Sag.' });
-            }
-            else {
-                sag = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Sag.' });
-            }
+            var sag = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Sag.' });
             if (!sag) {
                 return;
             }
+            // Finding Multimeridian.
+            var multimeridian = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Multimeridian' });
+            multimeridian.selected = "No";
             sag.selected = null;
             baseCurve.selected = null;
             power.selected = null;
@@ -12971,13 +13197,7 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
         }
         else if (parameter.name === "Sag.") {
             // Finding Diameter.
-            var diameter = null;
-            if (eye === "right") {
-                diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersRight, { name: 'Diameter (mm)' });
-            }
-            else {
-                diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.product.parametersLeft, { name: 'Diameter (mm)' });
-            }
+            var diameter = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](params, { name: 'Diameter (mm)' });
             baseCurve.disabled = true;
             power.disabled = true;
             // Diameter 15.00
@@ -13320,9 +13540,11 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
         var keyDMV = 'dmv';
         var keyNotch = eye === 'Right' ? "notchRight" : "notchLeft";
         var keyHydrapeg = eye === 'Right' ? "hydrapegRight" : "hydrapegLeft";
+        var keyMultimeridian = eye === 'Right' ? "multimeridianRight" : "multimeridianLeft";
         var productDMV = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.productsAdditional, { name: "DMV Insertion and Removal Set" });
         var productNotch = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.productsAdditional, { name: "Notch" });
         var productHydrapeg = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.productsAdditional, { name: "Hydrapeg" });
+        var productMultimeridian = lodash__WEBPACK_IMPORTED_MODULE_15__["find"](this.productsAdditional, { name: "Multimeridian" });
         if (this.getAdditionalPrices(true)[keyDMV]) {
             var dmv = {
                 id: productDMV.idProduct,
@@ -13367,6 +13589,21 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
                 hydrapeg.detail = productSelected.detail;
             }
             additionals.push(hydrapeg);
+        }
+        if (this.getAdditionalPrices(true)[keyMultimeridian]) {
+            var multimeridian = {
+                id: productMultimeridian.idProduct,
+                name: productMultimeridian.name,
+                price: this.getAdditionalPrices(true)[keyMultimeridian],
+                quantity: productSelected.quantity,
+                patient: productSelected.patient,
+                codeSpectrum: productMultimeridian.codeSpectrum,
+                detail: {}
+            };
+            if (type === 'basket') {
+                multimeridian.detail = productSelected.detail;
+            }
+            additionals.push(multimeridian);
         }
         return additionals;
     };
@@ -13482,6 +13719,7 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
         modalRef.componentInstance.additionalDMV = this.getAdditionalPrices(false).dmv;
         modalRef.componentInstance.additionalHydrapeg = this.getAdditionalPrices(false).hydrapeg;
         modalRef.componentInstance.additionalNotch = this.getAdditionalPrices(false).notch;
+        modalRef.componentInstance.additionalMultimeridian = this.getAdditionalPrices(false).multimeridian;
         modalRef.componentInstance.listFileLeftEye = this.listFileLeftEye;
         modalRef.componentInstance.listFileRightEye = this.listFileRightEye;
         modalRef.componentInstance.typeOrder = this.typeOrder;
@@ -13625,7 +13863,7 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\" *ngIf=\"product.properties.values.length === 3\">\n        <div class=\"item-properties col-md-4\" *ngFor=\"let property of product.properties.values\">\n          <i class=\"{{ property.class }}\"></i>\n          <p>{{ property.text | translate }}</p>\n        </div>\n      </div>\n\n      <div class=\"row product-info\" *ngIf=\"product.properties.values.length === 4\">\n        <div class=\"item-properties col-md-6\" *ngFor=\"let property of product.properties.values\">\n          <i class=\"{{ property.class }}\"></i>\n          <p>{{ property.text | translate }}</p>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n              [(ngModel)]=\"product.client\" disabled>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n         <!--shipping address-->\n        <div class=\"col-lg-5\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n         <!--Price-->\n         <div class=\"col-lg-3\">\n          <h4 class=\"padding-price\" [hidden]=\"(priceFrom==='' && priceUp==='') || product.priceSale !==''\">\n            <span>{{ priceFrom | currency : \"USD $\"}}{{priceFrom ? ' - ':''}}{{ priceUp | currency : \"$\"}}</span>\n            <!--<span></span>-->\n          </h4>\n          <h4 class=\"padding-price\" [hidden]=\"product.priceSale===''\">\n            <span>{{ product.priceSale | currency : \"USD $\" }}</span>\n          </h4>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specify your product' | translate }}</label>\n        </div>\n      </div>\n      <!--quantity right-->\n      <div class=\"col-lg-4\">\n        <div class=\"row\">\n          <div class=\"col-lg-12\">\n              <label class=\"form-check-label\">{{ 'Box Quantity' | translate }}</label>\n          </div>\n          <div class=\"col-lg-6\">\n            <ng-select [items]=\"quantityValues.values\" [ngClass]=\"{'error-quantity':  product.quantity && (product.quantity < 250 || product.quantity > 2000) }\"\n                      [(ngModel)]=\"product.quantity\" bindValue=\"item\" (change)=\"product.quantity < 250 || product.quantity > 2000 ? product.quantity = '' : '';setPriceBoxes(product.quantity)\" required>\n            </ng-select>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n        <div class=\"col-md-12 message-quantity\">\n          <span>{{'To make the order the minimum quantity is' | translate }} 250 {{ 'boxes' | translate }}</span>&nbsp;\n          <span>{{'and maximum 1000 boxes' | translate}}</span>\n        </div>\n      </div>\n    </div>\n  </div>\n"
+module.exports = "<div class=\"info-breadcrumbs\" *ngIf=\"product\">\n  <div class=\"header-body\">\n    <h4 class=\"page-header\">\n      {{ 'Product Details' | translate }}\n    </h4>\n    <ol class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/dashboard']\">\n          <i class=\"fa fa-dashboard\"></i> {{ 'Dashboard' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item\">\n        <a class=\"link\" href=\"Javascript:void(0)\" [routerLink]=\"['/products/' + product.supplier.idSupplier + '/internal']\">\n          <i class=\"fa fa-edit\"></i> {{ 'Products List' | translate }}</a>\n      </li>\n      <li class=\"breadcrumb-item active\">\n        <i class=\"fa fa-eye\"></i> {{ 'Product Details' | translate}}</li>\n    </ol>\n  </div>\n</div>\n<div class=\"padding-detail\" *ngIf=\"product\">\n  <div class=\"card\">\n    <div class=\"\">\n      <!-- row (name-price-image) -->\n      <div class=\"row wrapper\">\n        <div class=\"preview col-md-12\">\n          <!-- name-price -->\n          <div class=\"main-info\">\n            <h3 class=\"product-title\">{{'Order Form For' | translate }}:\n              <br>\n              <i>{{ product.name }}</i>\n            </h3>\n          </div>\n          <!-- image -->\n          <!-- <div class=\"preview-pic tab-content main-info\">\n            <div class=\"tab-pane active\" id=\"pic-1\">\n              <img src=\"{{ product.mainImg }}\" />\n            </div>\n          </div>-->\n        </div>\n      </div>\n\n      <div *ngIf=\"user.role.idRole !== 3\">\n        <span class=\"title\">{{ 'Order Type' | translate }}</span>\n        <div class=\"d-flex\">\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-new\" name=\"orderType\" value=\"new\" [(ngModel)]=\"typeOrder\"  class=\"custom-control-input\" [checked]=\"typeOrder === 'new'\">\n            <label class=\"custom-control-label\" for=\"order-new\">{{ 'New' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio mr-3\">\n            <input type=\"radio\" id=\"order-duplicate\" name=\"orderType\" value=\"duplicate\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'duplicate'\">\n            <label class=\"custom-control-label\" for=\"order-duplicate\">{{ 'Duplicate' | translate }}</label>\n          </div>\n          <div class=\"custom-control custom-radio\">\n            <input type=\"radio\" id=\"order-warranty\" name=\"orderType\" value=\"warranty\" [(ngModel)]=\"typeOrder\" class=\"custom-control-input\" [checked]=\"typeOrder === 'warranty'\">\n            <label class=\"custom-control-label\" for=\"order-warranty\">{{ 'Warranty' | translate }}</label>\n          </div>\n        </div>\n      </div>\n\n      <!-- row (properties-material-replacement-warranty-sheet) -->\n      <div class=\"row product-info\" *ngIf=\"product.properties.values.length === 3\">\n        <div class=\"item-properties col-md-4\" *ngFor=\"let property of product.properties.values\">\n          <i class=\"{{ property.class }}\"></i>\n          <p>{{ property.text | translate }}</p>\n        </div>\n      </div>\n\n      <div class=\"row product-info\" *ngIf=\"product.properties.values.length === 4\">\n        <div class=\"item-properties col-md-6\" *ngFor=\"let property of product.properties.values\">\n          <i class=\"{{ property.class }}\"></i>\n          <p>{{ property.text | translate }}</p>\n        </div>\n      </div>\n\n      <!-- row (pacient, client, shipping address) -->\n      <div class=\"row product-info\">\n        <!-- client -->\n        <div class=\"col-lg-4\">\n          <dt class=\"title\">{{ 'Account Name' | translate }}</dt>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole !== 3\">\n            <input class=\"form-control\" type=\"text\" placeholder=\"{{ 'Enter name customer' | translate }}\" required\n              [(ngModel)]=\"product.client\" disabled>\n          </div>\n          <div class=\"row info-content\" [hidden]=\"user.role.idRole === 3\">\n            <ng-select [items]=\"listCustomers\" (change)=\"onSelectedClient($event)\" [(ngModel)]=\"CustomersSelected\"\n              required [virtualScroll]=\"true\" bindLabel=\"fullName\" bindValue=\"idUser\" placeholder=\"{{ 'Select value' | translate }}\">\n            </ng-select>\n          </div>\n        </div>\n        <!--shipping address-->\n         <!--shipping address-->\n        <div class=\"col-lg-5\">\n          <span class=\"title\">{{ 'Shipping Address' | translate }}</span>\n          <div class=\"row info-content \">\n            <input class=\"form-control readonly-input\" type=\"text\" [(ngModel)]=\"product.shippingAddress\" placeholder=\"{{ 'This field is filled when the client is selected.' | translate }}\"\n              readonly>\n          </div>\n        </div>\n         <!--Price-->\n         <div class=\"col-lg-3\">\n          <h4 class=\"padding-price\" [hidden]=\"(priceFrom==='' && priceUp==='') || product.priceSale !==''\">\n            <span>{{ priceFrom | currency : \"USD $\"}}{{priceFrom ? ' - ':''}}{{ priceUp | currency : \"$\"}}</span>\n            <!--<span></span>-->\n          </h4>\n          <h4 class=\"padding-price\" [hidden]=\"product.priceSale===''\">\n            <span>{{ product.priceSale | currency : \"USD $\" }}</span>\n          </h4>\n        </div>\n      </div>\n\n      <div class=\"row product-info\">\n        <div class=\"col-md-12 title\">\n          <label> {{ 'Please specify your product' | translate }}</label>\n        </div>\n      </div>\n      <!--quantity right-->\n      <div class=\"col-lg-4\">\n        <div class=\"row\">\n          <div class=\"col-lg-12\">\n              <label class=\"form-check-label\">{{ 'Box Quantity' | translate }}</label>\n          </div>\n          <div class=\"col-lg-6\">\n            <ng-select [items]=\"quantityValues.values\" [ngClass]=\"{'error-quantity':  product.quantity && (product.quantity < 250 || product.quantity > 2000) }\"\n                      [(ngModel)]=\"product.quantity\" bindValue=\"item\" (change)=\"product.quantity < 250 || product.quantity > 2000 ? product.quantity = '' : '';definePrice()\" required>\n            </ng-select>\n          </div>\n        </div>\n      </div>\n      <br>\n      <div class=\"row\">\n        <div class=\"col-md-12 buy-btns\">\n          <button [hidden]=\"user.role.idRole === 3\" class=\"btn btn-lg btn-primary btn-outline-primary text-uppercase margin-button\"\n            (click)=\"formIsValid() && addToCart(2)\" [disabled]=\"!formIsValid()\">\n            {{ 'Buy Now' | translate }}\n          </button>\n          <button *ngIf=\"typeOrder === 'new'\" class=\"btn btn-lg btn-outline-primary text-uppercase margin-button\" (click)=\"formIsValid() && addToCart(1)\"\n            [disabled]=\"!formIsValid()\">\n            <i class=\"fa fa-cart-plus\"></i> {{ 'Add to cart' | translate }}\n          </button>\n        </div>\n        <div class=\"col-md-12 message-quantity\">\n          <span>{{'To make the order the minimum quantity is' | translate }} 250 {{ 'boxes' | translate }}</span>&nbsp;\n          <span>{{'and maximum 1000 boxes' | translate}}</span>\n        </div>\n      </div>\n    </div>\n  </div>\n"
 
 /***/ }),
 
@@ -13777,23 +14015,32 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
     ProductViewSpectrumSalineComponent.prototype.getProductView = function () {
         this.id = +this.route.snapshot.paramMap.get('id');
         this.product = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](this.products, { idProduct: this.id });
-        this.product.properties = JSON.parse(this.product.infoAditional)[0];
+        this.product.properties = JSON.parse(this.product.infoAditional)[1];
         this.quantityValues = (JSON.parse(this.product.infoAditional).find(function (n) { return n.name === 'Quantity'; }));
         this.product.priceSale = '';
         this.setClient();
         this.setPrice();
     };
     ProductViewSpectrumSalineComponent.prototype.setCodeProduct = function () {
-        var productName = this.product.codeSpectrum;
-        var codesP = [];
-        var prCode;
+        var self = this;
+        var flag = '';
+        var productCode = null;
+        if (this.product.quantity >= 250 && this.product.quantity < 500) {
+            flag = '250';
+        }
+        else if (this.product.quantity >= 500 && this.product.quantity < 1000) {
+            flag = '500';
+        }
+        else if (this.product.quantity >= 1000) {
+            flag = '1000';
+        }
         lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.productsCode, function (pr) {
-            if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](pr.name, productName)) {
-                prCode = pr;
-                codesP.push(prCode);
+            var productName = (JSON.parse(pr.infoAditional).find(function (n) { return n.name === 'ProductName'; }));
+            if (productName && lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](productName.value, flag)) {
+                productCode = pr;
             }
         });
-        this.productCode = codesP;
+        this.productCode = productCode || this.product;
     };
     ProductViewSpectrumSalineComponent.prototype.setClient = function () {
         var _this = this;
@@ -13824,7 +14071,8 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
             this.client = clienteSelect.idUser;
             this.clientSelected = clienteSelect;
             this.findShippingAddress(this.client);
-            this.definePrice(clienteSelect.membership.idMembership);
+            this.membership = clienteSelect.membership.idMembership;
+            this.definePrice();
         }
         else {
             this.client = '';
@@ -13854,62 +14102,41 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
     };
     ProductViewSpectrumSalineComponent.prototype.setPrice = function () {
         if (this.user.role.idRole === 3) {
-            var membership = this.currentUser.membership.idMembership;
-            this.definePrice(membership);
+            this.membership = this.currentUser.membership.idMembership;
+            this.definePrice();
         }
     };
-    ProductViewSpectrumSalineComponent.prototype.definePrice = function (membership) {
-        var info = JSON.parse(this.product.infoAditional);
-        var pos = this.calculateQuantity(this.product.quantity);
-        switch (membership) {
+    ProductViewSpectrumSalineComponent.prototype.definePrice = function () {
+        this.setCodeProduct();
+        switch (this.membership) {
             case 1:// Gold
-                if (this.product.quantity >= 250) {
-                    this.product.priceSale = parseFloat(info[1].values[pos].price);
-                }
-                else {
-                    this.priceFrom = parseFloat(info[1].values[2].price);
-                    this.priceUp = parseFloat(info[1].values[0].price);
-                }
+                this.productCode.priceSale = this.productCode.price1;
                 break;
             case 2:// Diamond
-                if (this.product.quantity >= 250) {
-                    this.product.priceSale = parseFloat(info[2].values[pos].price);
-                }
-                else {
-                    this.priceFrom = parseFloat(info[2].values[2].price);
-                    this.priceUp = parseFloat(info[2].values[0].price);
-                }
+                this.productCode.priceSale = this.productCode.price2;
                 break;
             case 3:// Preferred
-                if (this.product.quantity >= 250) {
-                    this.product.priceSale = parseFloat(info[3].values[pos].price);
-                }
-                else {
-                    this.priceFrom = parseFloat(info[3].values[2].price);
-                    this.priceUp = parseFloat(info[3].values[0].price);
-                }
+                this.productCode.priceSale = this.productCode.price3;
+                break;
+            case 4:
+                this.productCode.priceSale = this.productCode.price4;
+                break;
+            case 5:
+                this.productCode.priceSale = this.productCode.price5;
+                break;
+            case 6:
+                this.productCode.priceSale = this.productCode.price6;
+                break;
+            case 7:
+                this.productCode.priceSale = this.productCode.price7;
                 break;
         }
     };
     ProductViewSpectrumSalineComponent.prototype.buildProductSelected = function () {
         var product = this.productCopy;
         var productSelected = product;
-        var productCode;
-        var flag = '';
-        if (this.product.quantity >= 250 && this.product.quantity < 500) {
-            flag = '250';
-        }
-        else if (this.product.quantity >= 500) {
-            flag = '500';
-        }
-        lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.productsCode, function (pr) {
-            if (lodash__WEBPACK_IMPORTED_MODULE_1__["includes"](pr.name, flag)) {
-                productCode = pr;
-            }
-        });
-        this.productCode = productCode;
-        productSelected.idProduct = productCode.idProduct;
-        productSelected.price = product.priceSale;
+        productSelected.idProduct = this.productCode.idProduct;
+        productSelected.price = this.productCode.priceSale;
         productSelected.quantity = product.quantity;
         productSelected.detail = '';
         productSelected.observations = product.observations;
@@ -13954,48 +14181,6 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
             isValid = false;
         }
         return isValid;
-    };
-    ProductViewSpectrumSalineComponent.prototype.setPriceBoxes = function (quantity) {
-        var info = JSON.parse(this.product.infoAditional);
-        var membership = 0;
-        var pos = this.calculateQuantity(quantity);
-        if (this.user.role.idRole === 3) {
-            membership = this.currentUser.membership.idMembership;
-        }
-        else {
-            if (this.clientSelected !== undefined && this.clientSelected !== '') {
-                membership = this.clientSelected.membership.idMembership;
-            }
-        }
-        if (quantity >= 250) {
-            switch (membership) {
-                case 1:// Gold
-                    this.product.priceSale = parseFloat(info[1].values[pos].price);
-                    break;
-                case 2:// Diamond
-                    this.product.priceSale = parseFloat(info[2].values[pos].price);
-                    break;
-                case 3:// Preferred
-                    this.product.priceSale = parseFloat(info[3].values[pos].price);
-                    break;
-            }
-        }
-        else {
-            this.product.priceSale = '';
-        }
-    };
-    ProductViewSpectrumSalineComponent.prototype.calculateQuantity = function (quantity) {
-        var pos;
-        if (quantity >= 250 && quantity <= 499) {
-            pos = 0;
-        }
-        else if (quantity >= 500 && quantity <= 999) {
-            pos = 1;
-        }
-        else if (quantity >= 1000) {
-            pos = 2;
-        }
-        return pos;
     };
     ProductViewSpectrumSalineComponent.prototype.excludeClients = function (listCustomers, idSupplier, product) {
         var listClients = [];
@@ -14310,6 +14495,10 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
             this.product.price1 = this.productCode.price1;
             this.product.price2 = this.productCode.price2;
             this.product.price3 = this.productCode.price3;
+            this.product.price4 = this.productCode.price4;
+            this.product.price5 = this.productCode.price5;
+            this.product.price6 = this.productCode.price6;
+            this.product.price7 = this.productCode.price7;
         }
     };
     ProductViewSynergeyesComponent.prototype.setClient = function () {
@@ -14648,6 +14837,18 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
             case 3:
                 this.product.priceSale = this.product.price3;
                 break;
+            case 4:
+                this.product.priceSale = this.product.price4;
+                break;
+            case 5:
+                this.product.priceSale = this.product.price5;
+                break;
+            case 6:
+                this.product.priceSale = this.product.price6;
+                break;
+            case 7:
+                this.product.priceSale = this.product.price7;
+                break;
         }
     };
     ProductViewSynergeyesComponent.prototype.buildProductsSelected = function () {
@@ -14725,6 +14926,14 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
                 return prCode.price2;
             case 3:
                 return prCode.price3;
+            case 4:
+                return prCode.price4;
+            case 5:
+                return prCode.price5;
+            case 6:
+                return prCode.price6;
+            case 7:
+                return prCode.price7;
         }
     };
     ProductViewSynergeyesComponent.prototype.formIsValid = function () {
@@ -16287,6 +16496,18 @@ var ProductsListInternalComponent = /** @class */ (function () {
                         case 3:
                             product.priceSale = product.price3;
                             break;
+                        case 4:
+                            product.priceSale = product.price4;
+                            break;
+                        case 5:
+                            product.priceSale = product.price5;
+                            break;
+                        case 6:
+                            product.priceSale = product.price6;
+                            break;
+                        case 7:
+                            product.priceSale = product.price7;
+                            break;
                     }
                 }
                 else {
@@ -16324,7 +16545,7 @@ var ProductsListInternalComponent = /** @class */ (function () {
                     this.router.navigate(['/products/' + product.idProduct + '/product-view-europa']);
                 }
                 break;
-            case 3:// Lenticon
+            case 3:// Elipsys
                 this.router.navigate(['/products/' + product.idProduct + '/product-view-lenticon']);
                 break;
             case 4:// euclid
@@ -16333,7 +16554,7 @@ var ProductsListInternalComponent = /** @class */ (function () {
             case 5:// magic look
                 this.router.navigate(['/products/' + product.idProduct + '/product-view-magic']);
                 break;
-            case 6:// magic blue
+            case 6:// Lentes blandos de vendaje
                 this.router.navigate(['/products/' + product.idProduct + '/product-view-blue']);
                 break;
             case 8:// medmont
