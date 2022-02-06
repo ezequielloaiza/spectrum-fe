@@ -5,22 +5,18 @@ import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -34,10 +30,10 @@ const URL = environment.apiUrl + 'fileProductRequested/uploader';
 })
 export class ProductViewBlueComponent implements OnInit {
 
+  membership:any;
   products: Array<any> = new Array;
   productsCode: Array<any> = new Array;
   product: any;
-  productCode: any;
   productCopy: any;
   id: any;
   parameters: any;
@@ -118,7 +114,6 @@ export class ProductViewBlueComponent implements OnInit {
         this.productService.findBySupplierAndInViewAndCategory$(6, false, 10).subscribe(res1 => {
           if (res1.code === CodeHttp.ok) {
             this.productsCode = res1.data;
-            this.setCodeProduct();
           } else {
             console.log(res1.errors[0].detail);
             this.spinner.hide();
@@ -151,7 +146,7 @@ export class ProductViewBlueComponent implements OnInit {
     this.product.properties = JSON.parse(this.product.infoAditional)[0];
     this.product.priceSale = '';
     this.setClient();
-    this.setPrice();
+    this.setMembership();
   }
 
   changeSelect(eye, parameter, value) {
@@ -173,17 +168,6 @@ export class ProductViewBlueComponent implements OnInit {
         this.clean('left');
       }
     }
-  }
-
-  setCodeProduct() {
-    const productName = this.product.name;
-    let prCode;
-    _.each(this.productsCode, function (pr) {
-      if (_.includes(pr.name, productName)) {
-        prCode = pr;
-      }
-    });
-    this.productCode = prCode;
   }
 
   setEyeSelected() {
@@ -223,7 +207,7 @@ export class ProductViewBlueComponent implements OnInit {
     if (clienteSelect !== undefined) {
       this.client = clienteSelect.idUser;
       this.findShippingAddress(this.client);
-      this.definePrice(clienteSelect.membership.idMembership);
+      this.membership = clienteSelect.membership.idMembership;
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -247,40 +231,57 @@ export class ProductViewBlueComponent implements OnInit {
     });
   }
 
-  setPrice() {
+  setMembership() {
     if (this.user.role.idRole === 3) {
-      const membership = this.currentUser.membership.idMembership;
-       this.definePrice(membership);
+      this.membership = this.currentUser.membership.idMembership;
     }
   }
 
-  definePrice(membership) {
-    switch (membership) {
+  getPrice(product) {
+    switch (this.membership) {
       case 1:
-        this.product.priceSale = this.product.price1;
-        break;
+        return product.price1;
       case 2:
-        this.product.priceSale = this.product.price2;
-        break;
+        return product.price2;
       case 3:
-        this.product.priceSale = this.product.price3;
-        break;
+        return product.price3;
+      case 4:
+        return product.price4;
+      case 5:
+        return product.price5;
+      case 6:
+        return product.price6;
+      case 7:
+        return product.price7;
     }
+  }
+
+  getProductSelected(parameters) {
+    const diameter: any = _.find(parameters, { name: 'Diameter (mm)' });
+    let productSelected;
+
+    _.each(this.productsCode, function (pr) {
+      if (diameter.selected === "22.0" && _.includes(pr.name, '22.0')) {
+        productSelected = pr;
+      }
+    });
+
+    return productSelected || this.product;
   }
 
   buildProductsSelected() {
     this.setEyeSelected();
+    let self = this;
     let product = this.productCopy;
-    let productCode = this.productCode;
     let productsSelected = this.productsSelected;
 
     _.each(productsSelected, function(productSelected, index) {
-
-      productSelected.id = productCode.idProduct;
       productSelected.patient = product.patient;
-      productSelected.price = product.priceSale;
 
       if (productSelected.eye === "Right") {
+        productSelected.id = self.getProductSelected(product.parametersRight).idProduct;
+        productSelected.price = self.getPrice(self.getProductSelected(product.parametersRight));
+        productSelected.codeSpectrum = self.getProductSelected(product.parametersRight).codeSpectrum;
         productSelected.quantity = product.quantityRight;
         productSelected.observations = product.observationsRight;
         _.each(product.parametersRight, function(parameter, index) {
@@ -290,6 +291,9 @@ export class ProductViewBlueComponent implements OnInit {
       }
 
       if (productSelected.eye === "Left") {
+        productSelected.id = self.getProductSelected(product.parametersLeft).idProduct;
+        productSelected.price = self.getPrice(self.getProductSelected(product.parametersLeft));
+        productSelected.codeSpectrum = self.getProductSelected(product.parametersLeft).codeSpectrum;
         productSelected.quantity = product.quantityLeft;
         productSelected.observations = product.observationsLeft;
         _.each(product.parametersLeft, function(parameter, index) {
@@ -320,6 +324,7 @@ export class ProductViewBlueComponent implements OnInit {
       productRequest.detail = '[' + JSON.stringify(product.detail) + ']';
       productRequest.patient = product.patient;
       productRequest.observations = product.observations;
+      productRequest.codeSpectrum = product.codeSpectrum;
       productsRequested.push(productRequest);
     });
     this.basketRequestModal.idUser = this.client;
@@ -331,7 +336,7 @@ export class ProductViewBlueComponent implements OnInit {
     const modalRef = this.modalService.open( ConfirmationBlueLightComponent,
     { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.datos = this.basketRequestModal;
-    modalRef.componentInstance.product = this.productCode;
+    modalRef.componentInstance.product = this.product;
     modalRef.componentInstance.listFileBasket = this.listFileBasket;
     modalRef.componentInstance.role = this.user.role.idRole;
     modalRef.componentInstance.typeBuy = type;

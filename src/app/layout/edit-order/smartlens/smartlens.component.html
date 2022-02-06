@@ -125,7 +125,7 @@
 
           <div class="params col-sm-12 title">{{ 'Parameters' | translate }}</div>
           <div class="col-sm-4" *ngFor="let parameter of getParams()">
-            <dl>
+            <dl *ngIf="isVisible(parameter)">
               <div *ngIf="parameter.type !== 'selected-double' && parameter.name !== 'Type'">
                 <dt>{{ parameter.name | translate }}</dt>
               </div>
@@ -162,9 +162,9 @@
                   <div *ngIf="parameter.type === 'radio'" class="radio-custom">
                     <div *ngFor="let value of parameter.values; let i = index">
                       <div class="custom-control custom-radio">
-                        <input type="radio" id="radio-overrefaction-{{i}}" name="radioOR" [value]="value" class="custom-control-input"
+                        <input type="radio" id="radio-{{parameter.name}}-{{i}}" name="{{parameter.name}}" [value]="value" class="custom-control-input"
                                (change)="changeSelect(parameter, value, 0)" [checked]="parameter.selected === value">
-                        <label class="custom-control-label" for="radio-overrefaction-{{i}}">{{ value | translate }}</label>
+                        <label class="custom-control-label" for="radio-{{parameter.name}}-{{i}}">{{ value | translate }}</label>
                       </div>
                     </div>
                   </div>
@@ -224,11 +224,14 @@
       </div>
 
       <div class="additional col-lg-12">
-        <p *ngIf="getAdditionalPrices(true).notch || getAdditionalPrices(true).hydrapeg">
+        <p *ngIf="getAdditionalPrices(true).notch || getAdditionalPrices(true).hydrapeg || getAdditionalPrices(true).multimeridian">
           <span>{{ 'Includes' | translate }}:</span>&nbsp;&nbsp;
           <span *ngIf="getAdditionalPrices(true).hydrapeg">{{'Hydrapeg' | translate}}:{{ getAdditionalPrices(true).hydrapeg | currency : " USD $" }}</span>&nbsp;
           <span *ngIf="getAdditionalPrices(true).notch && getAdditionalPrices(true).hydrapeg">| </span>
           <span *ngIf="getAdditionalPrices(true).notch">{{'Notch (mm)' | translate}}:{{ getAdditionalPrices(true).notch | currency : " USD $" }}</span>&nbsp;
+          <span *ngIf="getAdditionalPrices(true).multimeridian && (getAdditionalPrices(true).hydrapeg || getAdditionalPrices(true).notch)">| </span>
+          <span *ngIf="getAdditionalPrices(true).multimeridian">{{'Multimeridian' | translate}}:{{ getAdditionalPrices(true).multimeridian | currency : " USD $" }}</span>&nbsp;
+
         </p>
       </div>
 

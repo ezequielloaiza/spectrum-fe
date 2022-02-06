@@ -5,6 +5,10 @@ export class Product {
   public price1: number;
   public price2: number;
   public price3: number;
+  public price4: number;
+  public price5: number;
+  public price6: number;
+  public price7: number;
   public priceType: Number;
   public minimum: number;
   public maximum: number;
@@ -51,6 +55,7 @@ export class Product {
            idProduct === 305 || // Hydrapeg Smartlens
            idProduct === 306 || // Notch Smartlens
            idProduct === 307 || // Dmv Inserts Smartlens
+           idProduct === 316 || // Multimeridian Smartlens
            idProduct === 310 || // Hydrapeg Xcel
            idProduct === 311; // Dmv Xcel
   }

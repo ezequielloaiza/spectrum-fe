@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { ProductRequested } from '../../../shared/models/productrequested';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ProductService } from '../../../shared/services/products/product.service';
 
 @Component({
   selector: 'app-blue-light',
@@ -18,6 +19,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class BlueLightComponent implements OnInit {
 
   basket: any;
+  productsCode: any;
+  membership: any;
+  userOrder:any;
   productRequested: ProductRequested = new ProductRequested();
   productRequestedAux: ProductRequested = new ProductRequested();
   product: any;
@@ -35,6 +39,7 @@ export class BlueLightComponent implements OnInit {
   constructor(public modalReference: NgbActiveModal,
               private notification: ToastrService,
               private translate: TranslateService,
+              private productService: ProductService,
               private productRequestedService: ProductsRequestedService,
               private userService: UserStorageService,
               public router: Router,
@@ -45,16 +50,32 @@ export class BlueLightComponent implements OnInit {
   ngOnInit() {
     if (this.typeEdit === 1 ) { // Basket
       this.productRequested = this.basket.productRequested;
+      this.membership = this.basket.basket.user.membership.idMembership;
     } else { // order-detail
       this.productRequested = this.detailEdit;
     }
     this.detail = this.productRequested.detail[0];
     this.product = this.productRequested.product;
     this.getProductView();
+    this.getProductsBlueLight();
     if (this.user.role.idRole === 1 || this.user.role.idRole === 2) {
       this.editPrice = true;
     }
 
+  }
+
+  getProductsBlueLight() {
+    this.productService.findBySupplier$(6).subscribe(res1 => {
+      if (res1.code === CodeHttp.ok) {
+        this.productsCode = res1.data;
+      } else {
+        console.log(res1.errors[0].detail);
+        this.spinner.hide();
+      }
+    }, error => {
+      console.log('error', error);
+      this.spinner.hide();
+    });
   }
 
   close() {
@@ -79,6 +100,38 @@ export class BlueLightComponent implements OnInit {
     this.product.parameters = paramet;
   }
 
+  getProductSelected(parameters) {
+    const diameter: any = _.find(parameters, { name: 'Diameter (mm)' });
+    let productSelected;
+
+    _.each(this.productsCode, function (pr) {
+      if (diameter.selected === "22.0" && _.includes(pr.name, '22.0')) {
+        productSelected = pr;
+      }
+    });
+
+    return productSelected || this.productsCode[0]; // TODO: refactor prices... Explanation: Position 0 is diameter 15.5 to 18.0
+  }
+
+  getPrice(product) {
+    switch (this.membership) {
+      case 1:
+        return product.price1;
+      case 2:
+        return product.price2;
+      case 3:
+        return product.price3;
+      case 4:
+        return product.price4;
+      case 5:
+        return product.price5;
+      case 6:
+        return product.price6;
+      case 7:
+        return product.price7;
+    }
+  }
+
   save() {
     this.spinner.show();
     let paramet = this.product.parameters;
@@ -93,18 +146,18 @@ export class BlueLightComponent implements OnInit {
         this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
         this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: '', parameters: this.detail.parameters}) + ']';
         this.productRequested.observations = this.observations;
-        this.productRequested.price = this.price;
+        this.productRequested.price = this.getPrice(this.getProductSelected(this.detail.parameters));
         this.productRequested.quantity = this.quantity;
-        this.productRequested.product = this.product.idProduct;
+        this.productRequested.product = this.getProductSelected(this.detail.parameters).idProduct;
         this.productRequested.patient = this.patient;
         this.update(this.productRequested);
    } else { // Order Detail
         this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
         this.productRequestedAux.detail = '[' + JSON.stringify({ name: '', eye: '', parameters: this.detail.parameters}) + ']';
         this.productRequestedAux.observations = this.observations;
-        this.productRequestedAux.price = this.price;
+        this.productRequestedAux.price = this.getPrice(this.getProductSelected(this.detail.parameters));
         this.productRequestedAux.quantity = this.quantity;
-        this.productRequestedAux.product = this.product.idProduct;
+        this.productRequestedAux.product = this.getProductSelected(this.detail.parameters).idProduct;
         this.productRequestedAux.patient = this.patient;
         this.update(this.productRequestedAux);
     }
@@ -118,7 +171,7 @@ export class BlueLightComponent implements OnInit {
            valido = false;
           }
      });
-     if (this.quantity === null  || this.price === null || (this.patient === null || this.patient === '')) {
+     if (this.quantity === null  || (this.patient === null || this.patient === '')) {
           valido = false;
      }
      return valido;

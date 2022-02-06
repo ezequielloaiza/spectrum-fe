@@ -117,12 +117,12 @@ export class EuclidComponent implements OnInit {
     if (parameter.name === 'Warranty') {
       if (parameter.selected === 'Yes') {
         this.warranty = true;
-        this.definePriceWarranty(this.membership);
+        this.definePrice(this.membership, true);
         this.productCode = this.setCodeProduct('(W)');
       } else {
         this.warranty = false;
         this.additional = 0;
-        this.definePrice(this.membership);
+        this.definePrice(this.membership, false);
         this.productCode = this.setCodeProduct('(NW)');
       }
     }
@@ -196,33 +196,36 @@ export class EuclidComponent implements OnInit {
      return valido;
   }
 
-  definePriceWarranty(membership) {
+  definePrice(membership, haveWarranty) {
+    const additional = haveWarranty ? 20 : 0;
     switch (membership) {
       case 1:
-        this.price = this.product.pricesAditionalWarranties.values[0].price;
-        this.additional = this.product.pricesAditionalWarranties.values[0].price - this.product.price1;
+        this.price = this.product.price1 + additional;
+        this.additional = 20;
         break;
       case 2:
-        this.price = this.product.pricesAditionalWarranties.values[1].price;
-        this.additional = this.product.pricesAditionalWarranties.values[1].price - this.product.price2;
+        this.price = this.product.price2 + additional;
+        this.additional = 20;
         break;
       case 3:
-       this.price = this.product.pricesAditionalWarranties.values[2].price;
-       this.additional = this.product.pricesAditionalWarranties.values[2].price - this.product.price3;
+        this.price = this.product.price3 + additional;
+        this.additional = 20;
         break;
-    }
-  }
-
-  definePrice(membership) {
-    switch (membership) {
-      case 1:
-        this.price = this.product.price1;
+      case 4:
+        this.price = this.product.price4 + additional;
+        this.additional = 20;
         break;
-      case 2:
-        this.price = this.product.price2;
+      case 5:
+        this.price = this.product.price5 + additional;
+        this.additional = 20;
         break;
-      case 3:
-        this.price = this.product.price3;
+      case 6:
+        this.price = this.product.price6 + additional;
+        this.additional = 20;
+        break;
+      case 7:
+        this.price = this.product.price7 + additional;
+        this.additional = 20;
         break;
     }
   }
