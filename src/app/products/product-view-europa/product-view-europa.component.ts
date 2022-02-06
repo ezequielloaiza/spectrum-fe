@@ -304,10 +304,12 @@ export class ProductViewEuropaComponent implements OnInit {
       this.productName = 'Europa Bitoric';
     } else if (_.includes(this.product.name, 'SPH')) {
       this.productName = 'Europa Sphere';
+    }  else if (_.includes(this.product.name, 'Multifocal')) {
+      this.productName = 'Europa MF';
     } else if (_.includes(this.product.name, 'Multifocal')
       || _.includes(this.product.name, 'Front Toric')
       || _.includes(this.product.name, 'TPC')) {
-      this.productName = 'Europa FT, TPC,  MF';
+      this.productName = 'Europa FT, TPC';
     }
   }
 
@@ -719,15 +721,31 @@ export class ProductViewEuropaComponent implements OnInit {
     switch (membership) {
       case 1:
         this.priceA = productNew ? productNew.price1 : this.product.price1;
-        this.priceB = productNew ? productNew.price1 : this.product.priced1;
+        this.priceB = productNew ? productNew.price1 : this.product.price1;
         break;
       case 2:
         this.priceA = productNew ? productNew.price2 : this.product.price2;
-        this.priceB = productNew ? productNew.priced2 : this.product.priced2;
+        this.priceB = productNew ? productNew.price2 : this.product.price2;
         break;
       case 3:
         this.priceA = productNew ? productNew.price3 : this.product.price3;
-        this.priceB = productNew ? productNew.priced3 : this.product.priced3;
+        this.priceB = productNew ? productNew.price3 : this.product.price3;
+        break;
+      case 4:
+        this.priceA = productNew ? productNew.price4 : this.product.price4;
+        this.priceB = productNew ? productNew.price4 : this.product.price4;
+        break;
+      case 5:
+        this.priceA = productNew ? productNew.price5 : this.product.price5;
+        this.priceB = productNew ? productNew.price5 : this.product.price5;
+        break;
+      case 6:
+        this.priceA = productNew ? productNew.price6 : this.product.price6;
+        this.priceB = productNew ? productNew.price6 : this.product.price6;
+        break;
+      case 7:
+        this.priceA = productNew ? productNew.price7 : this.product.price7;
+        this.priceB = productNew ? productNew.price7 : this.product.price7;
         break;
     }
   }
@@ -735,13 +753,27 @@ export class ProductViewEuropaComponent implements OnInit {
   definePriceHidrapeg(membership) {
     switch (membership) {
       case 1:
-        this.hidrapeg = this.product.pricesAditionalHidrapeg.values[0].price;
+        // TODO: logic additional prices obsolete, this will be solved in the prices refactor
+        //this.hidrapeg = this.product.pricesAditionalHidrapeg.values[0].price;
+        this.hidrapeg = 30;
         break;
       case 2:
-        this.hidrapeg = this.product.pricesAditionalHidrapeg.values[1].price;
+        this.hidrapeg = 30;
         break;
       case 3:
-        this.hidrapeg = this.product.pricesAditionalHidrapeg.values[2].price;
+        this.hidrapeg = 30;
+        break;
+      case 4:
+        this.hidrapeg = 30;
+        break;
+      case 5:
+        this.hidrapeg = 30;
+        break;
+      case 6:
+        this.hidrapeg = 50;
+        break;
+      case 7:
+        this.hidrapeg = 30;
         break;
     }
   }
@@ -749,13 +781,27 @@ export class ProductViewEuropaComponent implements OnInit {
   definePriceInserts(membership) {
     switch (membership) {
       case 1:
-        this.inserts = this.product.pricesAditionalInserts.values[0].price;
+        // TODO: logic additional prices obsolete, this will be solved in the prices refactor
+        //this.inserts = this.product.pricesAditionalInserts.values[0].price;
+        this.inserts = 5.15;
         break;
       case 2:
-        this.inserts = this.product.pricesAditionalInserts.values[1].price;
+        this.inserts = 5.15;
         break;
       case 3:
-        this.inserts = this.product.pricesAditionalInserts.values[2].price;
+        this.inserts = 5.15;
+        break;
+      case 4:
+        this.inserts = 5.15;
+        break;
+      case 5:
+        this.inserts = 5.15;
+        break;
+      case 6:
+        this.inserts = 11;
+        break;
+      case 7:
+        this.inserts = 5.15;
         break;
     }
   }
@@ -764,13 +810,27 @@ export class ProductViewEuropaComponent implements OnInit {
     this.notch = 0;
     switch (membership) {
       case 1:
-        this.notch = this.product.pricesAditionalNotch.values[0].price;
+        // TODO: logic additional prices obsolete, this will be solved in the prices refactor
+        //this.notch = this.product.pricesAditionalNotch.values[0].price;
+        this.notch = 40;
         break;
       case 2:
-        this.notch = this.product.pricesAditionalNotch.values[1].price;
+        this.notch = 40;
         break;
       case 3:
-        this.notch = this.product.pricesAditionalNotch.values[2].price;
+        this.notch = 40;
+        break;
+      case 4:
+        this.notch = 40;
+        break;
+      case 5:
+        this.notch = 40;
+        break;
+      case 6:
+        this.notch = 50;
+        break;
+      case 7:
+        this.notch = 40;
         break;
     }
   }

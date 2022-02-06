@@ -5,24 +5,19 @@ import { ProductService } from '../../shared/services/products/product.service';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { UserStorageService } from '../../http/user-storage.service';
 import { ProductRequested } from '../../shared/models/productrequested';
-import { FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 import { BasketService } from '../../shared/services/basket/basket.service';
 import { AlertifyService } from '../../shared/services/alertify/alertify.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Product } from '../../shared/models/product';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationBuyComponent } from '../modals/confirmation-buy/confirmation-buy.component';
 import { BasketRequest } from '../../shared/models/basketrequest';
 import { ShippingAddressService } from '../../shared/services/shippingAddress/shipping-address.service';
 import { UserService } from '../../shared/services';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { FileProductRequested } from '../../shared/models/fileproductrequested';
 import { FileProductRequestedService } from '../../shared/services/fileproductrequested/fileproductrequested.service';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ConfirmationBlueLightComponent } from '../modals/confirmation-buy/confirmation-blue-light/confirmation-blue-light.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ConfirmationSpectrumSalineComponent } from '../modals/confirmation-buy/confirmation-spectrum-saline/confirmation-spectrum-saline.component';
 import { saveAs } from 'file-saver';
@@ -100,7 +95,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
           if (res1.code === CodeHttp.ok) {
             this.productsCode = res1.data;
             if (this.user.role.idRole === 3) {
-              this.setCodeProduct(this.currentUser.name);
+              this.setCodeProduct();
             }
           } else {
             console.log(res1.errors[0].detail);
@@ -130,21 +125,15 @@ export class ProductViewFluoStripsComponent implements OnInit {
     this.setPrice();
   }
 
-  setCodeProduct(clienteSelect) {
-    const productName = this.product.codeSpectrum;
+  setCodeProduct() {
+    let self = this;
     let prCode;
-    let condition;
-    if (clienteSelect.name === 'MEDICAL CHOICE' && this.product.codeSpectrum === '40') {
-      condition = '40A (M.C.)';
-    } else {
-      condition = productName;
-    }
     _.each(this.productsCode, function (pr) {
-      if (pr.codeSpectrum == condition) {
+      if (pr.codeSpectrum == self.product.codeSpectrum) {
         prCode = pr;
       }
     });
-    this.productCode = prCode;
+    this.productCode = prCode || this.product;
   }
 
   setClient() {
@@ -174,7 +163,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
       this.client = clienteSelect.idUser;
       this.findShippingAddress(this.client);
       this.definePrice(clienteSelect.membership.idMembership);
-      this.setCodeProduct(clienteSelect);
+      this.setCodeProduct();
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -215,6 +204,18 @@ export class ProductViewFluoStripsComponent implements OnInit {
         break;
       case 3:
         this.product.priceSale = this.product.price3;
+        break;
+      case 4:
+        this.product.priceSale = this.product.price4;
+        break;
+      case 5:
+        this.product.priceSale = this.product.price5;
+        break;
+      case 6:
+        this.product.priceSale = this.product.price6;
+        break;
+      case 7:
+        this.product.priceSale = this.product.price7;
         break;
     }
   }

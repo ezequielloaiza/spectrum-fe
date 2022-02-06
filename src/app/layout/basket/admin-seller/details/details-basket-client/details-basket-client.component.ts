@@ -225,6 +225,18 @@ export class DetailsBasketClientComponent implements OnInit {
       case 3:
         price = productDMV.price3;
         break;
+      case 4:
+        price = productDMV.price4;
+        break;
+      case 5:
+        price = productDMV.price5;
+        break;
+      case 6:
+        price = productDMV.price6;
+        break;
+      case 7:
+        price = productDMV.price7;
+        break;
     }
 
     return price;

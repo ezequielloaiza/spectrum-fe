@@ -22,6 +22,7 @@ import { ConfirmationMoldedLensesComponent } from '../modals/confirmation-buy/co
 })
 export class ProductViewMoldedLensesComponent implements OnInit {
 
+  membership:any;
   products: Array<any> = new Array;
   product: any;
   productCopy: any;
@@ -126,8 +127,8 @@ export class ProductViewMoldedLensesComponent implements OnInit {
 
   setPrice() {
     if (this.user.role.idRole === 3) {
-      const membership = this.currentUser.membership.idMembership;
-      this.definePrice(membership);
+      this.membership = this.currentUser.membership.idMembership;
+      this.definePrice();
     }
   }
 
@@ -140,35 +141,65 @@ export class ProductViewMoldedLensesComponent implements OnInit {
       if (totalQuantity < 501) {
         this.product.codeSpectrum = '216A';
         this.product.priceSale = 14.0;
+        if (this.membership === 6) {
+          this.product.priceSale = 29.0;
+        }
       } else if (totalQuantity < 2001) {
         this.product.codeSpectrum = '216B';
         this.product.priceSale = 13.5;
+        if (this.membership === 6) {
+          this.product.priceSale = 28.5;
+        }
       } else if (totalQuantity < 3501) {
         this.product.codeSpectrum = '216C';
         this.product.priceSale = 13.2;
+        if (this.membership === 6) {
+          this.product.priceSale = 28.0;
+        }
       } else if (totalQuantity < 5001) {
         this.product.codeSpectrum = '216D';
         this.product.priceSale = 12.75;
+        if (this.membership === 6) {
+          this.product.priceSale = 27.5;
+        }
       } else {
         this.product.codeSpectrum = '216E';
         this.product.priceSale = 12.5;
+        if (this.membership === 6) {
+          this.product.priceSale = 27.0;
+        }
       }
     } else if (this.product.name === 'Claria SiHy Toric 6pk') {
       if (totalQuantity < 501) {
         this.product.codeSpectrum = '217A';
         this.product.priceSale = 18.25;
+        if (this.membership === 6) {
+          this.product.priceSale = 35.0;
+        }
       } else if (totalQuantity < 2001) {
         this.product.codeSpectrum = '217B';
         this.product.priceSale = 18.0;
+        if (this.membership === 6) {
+          this.product.priceSale = 34.5;
+        }
       } else if (totalQuantity < 3501) {
         this.product.codeSpectrum = '217C';
         this.product.priceSale = 17.75;
+        if (this.membership === 6) {
+          this.product.priceSale = 34.0;
+        }
       } else if (totalQuantity < 5001) {
         this.product.codeSpectrum = '217D';
         this.product.priceSale = 17.5;
+        if (this.membership === 6) {
+          this.product.priceSale = 33.5;
+        }
       } else {
         this.product.codeSpectrum = '217E';
         this.product.priceSale = 17.25;
+        if (this.membership === 6) {
+          this.product.priceSale = 33.0;
+        }
       }
     }
   }
@@ -187,7 +218,8 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     if (clienteSelect !== undefined) {
       this.client = clienteSelect.idUser;
       this.findShippingAddress(this.client);
-      this.definePrice(clienteSelect.membership.idMembership);
+      this.membership = clienteSelect.membership.idMembership;
+      this.definePrice();
     } else {
       this.client = '';
       this.product.shippingAddress = '';
@@ -211,8 +243,8 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     });
   }
 
-  definePrice(membership) {
-    switch (membership) {
+  definePrice() {
+    switch (this.membership) {
       case 1:
         this.product.priceSale = this.product.price1;
         break;
@@ -221,6 +253,18 @@ export class ProductViewMoldedLensesComponent implements OnInit {
         break;
       case 3:
         this.product.priceSale = this.product.price3;
+        break;
+      case 4:
+        this.product.priceSale = this.product.price4;
+        break;
+      case 5:
+        this.product.priceSale = this.product.price5;
+        break;
+      case 6:
+        this.product.priceSale = this.product.price6;
+        break;
+      case 7:
+        this.product.priceSale = this.product.price7;
         break;
     }
   }
