@@ -68,6 +68,7 @@ export class ProductViewLenticonComponent implements OnInit {
   typeOrder = 'new';
   typeLensLeft: any;
   typeLensRight: any;
+  membershipAllowed: any;
 
   public uploaderLeftEye: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -371,21 +372,42 @@ export class ProductViewLenticonComponent implements OnInit {
   }
 
   getPrice(product) {
+    let price = 0;
     switch (this.membership) {
       case 1:
-        return product.price1;
+        price = product.price1;
+        break;
       case 2:
-        return product.price2;
+        price = product.price2;
+        break;
       case 3:
-        return product.price3;
+        price = product.price3;
+        break;
       case 4:
-        return product.price4;
+        price = product.price4;
+        break;
       case 5:
-        return product.price5;
+        price = product.price5;
+        break;
       case 6:
-        return product.price6;
+        price = product.price6;
+        break;
       case 7:
-        return product.price7;
+        price = product.price7;
+        break;
+    }
+
+    this.membershipAllowed = price > 0;
+
+    this.membershipNotAllowed(price);
+    return price;
+  }
+
+  membershipNotAllowed(price) {
+    if (!(price > 0)) {
+      this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+        this.notification.error('', res);
+      });
     }
   }
 
@@ -474,6 +496,11 @@ export class ProductViewLenticonComponent implements OnInit {
     this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
+
+    if (_.some(productsSelected, function(p) {return !(p.price > 0);})) {
+      return;
+    }
+
     _.each(productsSelected, function (product) {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
@@ -502,6 +529,9 @@ export class ProductViewLenticonComponent implements OnInit {
 
   openModal(type): void {
     this.spinner.hide();
+    if (!this.membershipAllowed) {
+      return;
+    }
     const modalRef = this.modalService.open( ConfirmationLenticonComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
