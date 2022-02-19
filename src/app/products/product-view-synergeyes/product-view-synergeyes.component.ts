@@ -688,7 +688,8 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
       productH.id = prCode.idProduct;
       productH.name = prCode.name;
-      productH.codeSpectrum = prCode.codeSpectrum;
+      productH.codeSpectrum = membership !== 7 ? prCode.codeSpectrum : prCode.codeSpectrum + ' P&O';
+      productH.detail.codeSpectrum = productH.codeSpectrum;
       auxproductsSelected.push(productH);
     });
 
