@@ -55,6 +55,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
   queueLimit = 5;
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
+  membershipAllowed: any;
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -194,6 +195,12 @@ export class ProductViewFluoStripsComponent implements OnInit {
     }
   }
 
+  membershipNotAllowed() {
+    this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+      this.notification.error('', res);
+    });
+  }
+
   definePrice(membership) {
     switch (membership) {
       case 1:
@@ -218,6 +225,8 @@ export class ProductViewFluoStripsComponent implements OnInit {
         this.product.priceSale = this.product.price7;
         break;
     }
+
+    this.membershipAllowed = this.product.priceSale > 0;
   }
 
   buildProductSelected() {
@@ -256,6 +265,12 @@ export class ProductViewFluoStripsComponent implements OnInit {
   }
 
   openModal(type): void {
+
+    if (!this.membershipAllowed) {
+      this.membershipNotAllowed();
+      return;
+    }
+
     const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent,
     { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
@@ -273,6 +288,7 @@ export class ProductViewFluoStripsComponent implements OnInit {
 
   formIsValid() {
     var isValid = true;
+
     if (!this.product.quantity) {
       isValid = false;
     }

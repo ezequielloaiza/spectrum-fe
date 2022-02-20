@@ -55,6 +55,7 @@ export class ProductViewSynergeyesComponent implements OnInit {
   download = false;
   type: any;
   typeOrder = 'new';
+  membershipAllowed: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
@@ -614,6 +615,8 @@ export class ProductViewSynergeyesComponent implements OnInit {
         this.product.priceSale = this.product.price7;
         break;
     }
+
+    this.membershipAllowed = this.product.priceSale > 0;
   }
 
   buildProductsSelected() {
@@ -685,32 +688,14 @@ export class ProductViewSynergeyesComponent implements OnInit {
 
       productH.id = prCode.idProduct;
       productH.name = prCode.name;
-      productH.codeSpectrum = prCode.codeSpectrum;
+      productH.codeSpectrum = membership !== 7 ? prCode.codeSpectrum : prCode.codeSpectrum + ' P&O';
+      productH.detail.codeSpectrum = productH.codeSpectrum;
       auxproductsSelected.push(productH);
     });
 
     productsSelected = auxproductsSelected;
 
     return productsSelected;
-  }
-
-  definePriceProduct(membership, prCode) {
-    switch (membership) {
-      case 1:
-        return prCode.price1;
-      case 2:
-        return prCode.price2;
-      case 3:
-        return prCode.price3;
-      case 4:
-        return prCode.price4;
-      case 5:
-        return prCode.price5;
-      case 6:
-        return prCode.price6;
-      case 7:
-        return prCode.price7;
-  }
   }
 
   formIsValid() {
@@ -760,8 +745,20 @@ export class ProductViewSynergeyesComponent implements OnInit {
     }
   }
 
+  membershipNotAllowed() {
+    this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+      this.notification.error('', res);
+    });
+  }
+
   openModal(type): void {
     this.spinner.hide();
+
+    if (!this.membershipAllowed) {
+      this.membershipNotAllowed();
+      return;
+    }
+
     const modalRef = this.modalService.open(ConfirmationSynergeyesComponent,
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;

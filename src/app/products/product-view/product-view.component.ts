@@ -508,6 +508,28 @@ export class ProductViewComponent implements OnInit {
       case 3:
         this.product.priceSale = this.product.price3;
         break;
+      case 4:
+        this.product.priceSale = this.product.price4;
+        break;
+      case 5:
+        this.product.priceSale = this.product.price5;
+        break;
+      case 6:
+        this.product.priceSale = this.product.price6;
+        break;
+      case 7:
+        this.product.priceSale = 0;
+        break;
+    }
+
+    this.membershipNotAllowed(this.product.priceSale);
+  }
+
+  membershipNotAllowed(price) {
+    if (!(price > 0)) {
+      this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+        this.notification.error('', res);
+      });
     }
   }
 
@@ -590,6 +612,11 @@ export class ProductViewComponent implements OnInit {
 
   formIsValid() {
     let isValid = true;
+
+    if (!(this.product.priceSale > 0)) {
+      return false;
+    }
+
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
       return false;
     }

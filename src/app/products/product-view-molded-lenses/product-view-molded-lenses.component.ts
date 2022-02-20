@@ -40,7 +40,7 @@ export class ProductViewMoldedLensesComponent implements OnInit {
   listCustomersAux: Array<any> = new Array;
   CustomersSelected: any;
   typeOrder = 'new';
-
+  membershipAllowed: any;
   boxes: any;
 
   constructor(private productService: ProductService,
@@ -267,6 +267,8 @@ export class ProductViewMoldedLensesComponent implements OnInit {
         this.product.priceSale = this.product.price7;
         break;
     }
+
+    this.membershipAllowed = this.product.priceSale > 0;
   }
 
   buildProductsSelected() {
@@ -302,7 +304,17 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     this.openModal(type);
   }
 
+  membershipNotAllowed() {
+    this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+      this.notification.error('', res);
+    });
+  }
+
   openModal(type): void {
+    if (!this.membershipAllowed) {
+      this.membershipNotAllowed();
+      return;
+    }
     const modalRef = this.modalService.open(ConfirmationMoldedLensesComponent,
       { size: 'lg', windowClass: 'modal-content-border modal-custom', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;

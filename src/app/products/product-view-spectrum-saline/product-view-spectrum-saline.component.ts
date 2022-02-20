@@ -60,6 +60,7 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
   typeOrder = 'new';
+  membershipAllowed: any;
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -238,6 +239,15 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
         this.productCode.priceSale = this.productCode.price7;
         break;
     }
+
+    this.membershipAllowed = this.productCode.priceSale > 0;
+  }
+
+
+  membershipNotAllowed() {
+    this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+      this.notification.error('', res);
+    });
   }
 
   buildProductSelected() {
@@ -273,6 +283,12 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
   }
 
   openModal(type): void {
+
+    if (!this.membershipAllowed) {
+      this.membershipNotAllowed();
+      return;
+    }
+
     const modalRef = this.modalService.open( ConfirmationSpectrumSalineComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;

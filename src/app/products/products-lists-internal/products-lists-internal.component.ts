@@ -304,6 +304,22 @@ export class ProductsListInternalComponent implements OnInit {
               priceFrom = parseFloat(info[3].values[2].price);
               priceUp = parseFloat(info[3].values[0].price);
               break;
+            case 4:
+              priceFrom = parseFloat(info[4].values[2].price);
+              priceUp = parseFloat(info[4].values[0].price);
+              break;
+            case 5:
+              priceFrom = parseFloat(info[5].values[2].price);
+              priceUp = parseFloat(info[5].values[0].price);
+              break;
+            case 6:
+              priceFrom = parseFloat(info[6].values[2].price);
+              priceUp = parseFloat(info[6].values[0].price);
+              break;
+            case 7:
+              priceFrom = parseFloat(info[7].values[2].price);
+              priceUp = parseFloat(info[7].values[0].price);
+              break;
           }
         }
       });

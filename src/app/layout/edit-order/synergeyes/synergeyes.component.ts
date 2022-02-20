@@ -139,7 +139,9 @@ export class SynergeyesComponent implements OnInit {
     this.product.parameters = paramet;
     let dominance: any;
     dominance = _.find(this.product.parameters, { name: 'Dominance' });
-    this.changeSelect(dominance, dominance.selected);
+    if (dominance) {
+      this.changeSelect(dominance, dominance.selected);
+    }
   }
 
   changeSelect(parameter, value) {
@@ -328,10 +330,13 @@ export class SynergeyesComponent implements OnInit {
         }
      });
     });
+
+    const codeSpectrum = this.membership !== 7 ? this.productCode.codeSpectrum : (this.productCode.codeSpectrum + ' P&O')
+
     if (this.typeEdit === 1) { // Basket
       this.productRequested.idProductRequested = this.basket.productRequested.idProductRequested;
       this.productRequested.detail = '[' + JSON.stringify({ name: this.productCode.name,
-        eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+        eye: this.detail.eye, parameters: this.detail.parameters, codeSpectrum}) + ']';
       this.productRequested.observations = this.observations;
       this.productRequested.price = this.price;
       this.productRequested.quantity = this.quantity;
@@ -341,7 +346,7 @@ export class SynergeyesComponent implements OnInit {
     } else { // Order Detail
       this.productRequestedAux.idProductRequested = this.detailEdit.idProductRequested;
       this.productRequestedAux.detail = '[' + JSON.stringify({ name: this.productCode.name,
-        eye: this.detail.eye, parameters: this.detail.parameters}) + ']';
+        eye: this.detail.eye, parameters: this.detail.parameters, codeSpectrum}) + ']';
       this.productRequestedAux.observations = this.observations;
       this.productRequestedAux.price = this.price;
       this.productRequestedAux.quantity = this.quantity;
