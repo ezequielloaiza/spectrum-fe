@@ -1576,6 +1576,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../shared/services */ "./src/app/shared/services/index.ts");
 /* harmony import */ var _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../shared/enum/code-http.enum */ "./src/app/shared/enum/code-http.enum.ts");
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1598,12 +1600,16 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var ProductViewXCelComponent = /** @class */ (function () {
-    function ProductViewXCelComponent(route, modalService, userStorageService, userService, productService, spinner) {
+    function ProductViewXCelComponent(route, modalService, userStorageService, userService, notification, translate, productService, spinner) {
         this.route = route;
         this.modalService = modalService;
         this.userStorageService = userStorageService;
         this.userService = userService;
+        this.notification = notification;
+        this.translate = translate;
         this.productService = productService;
         this.spinner = spinner;
         this.showImg = { right: false, left: false };
@@ -1795,6 +1801,12 @@ var ProductViewXCelComponent = /** @class */ (function () {
             this.productsSelected.push({ eye: 'Left' });
         }
     };
+    ProductViewXCelComponent.prototype.membershipNotAllowed = function () {
+        var _this = this;
+        this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+            _this.notification.error('', res);
+        });
+    };
     ProductViewXCelComponent.prototype.buttonAction = function (functionName) {
         var _this = this;
         this.uploadFilesComponents.forEach(function (uploadFileComponent) {
@@ -1834,6 +1846,10 @@ var ProductViewXCelComponent = /** @class */ (function () {
         this.selectedProduct['typeOrder'] = this.product.typeOrder;
         this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null; //this's DMV according to Json
         this.selectedProduct['totalPrice'] = this.setTotalPrice(); //sum both eyes, hydra, dmv
+        if ((this.enable.right && !(this.price.right.priceUnit > 0)) || (this.enable.left && !(this.price.left.priceUnit > 0))) {
+            this.membershipNotAllowed();
+            return;
+        }
         var modalRef = this.modalService.open(_components_confirm_purchase_confirmation_component_component__WEBPACK_IMPORTED_MODULE_6__["PurchaseConfirmationComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.selectedProduct = this.selectedProduct;
         modalRef.componentInstance.buttonPressed = functionName;
@@ -3650,6 +3666,8 @@ var ProductViewXCelComponent = /** @class */ (function () {
             _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_4__["NgbModal"],
             _http_user_storage_service__WEBPACK_IMPORTED_MODULE_2__["UserStorageService"],
             _shared_services__WEBPACK_IMPORTED_MODULE_10__["UserService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_14__["ToastrService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_13__["TranslateService"],
             _shared_services_products_product_service__WEBPACK_IMPORTED_MODULE_3__["ProductService"],
             ngx_spinner__WEBPACK_IMPORTED_MODULE_12__["NgxSpinnerService"]])
     ], ProductViewXCelComponent);

@@ -6266,23 +6266,42 @@ var ProductViewBlueComponent = /** @class */ (function () {
             this.membership = this.currentUser.membership.idMembership;
         }
     };
+    ProductViewBlueComponent.prototype.membershipNotAllowed = function (price) {
+        var _this = this;
+        if (!(price > 0)) {
+            this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+                _this.notification.error('', res);
+            });
+        }
+    };
     ProductViewBlueComponent.prototype.getPrice = function (product) {
+        var price = 0;
         switch (this.membership) {
             case 1:
-                return product.price1;
+                price = product.price1;
+                break;
             case 2:
-                return product.price2;
+                price = product.price2;
+                break;
             case 3:
-                return product.price3;
+                price = product.price3;
+                break;
             case 4:
-                return product.price4;
+                price = product.price4;
+                break;
             case 5:
-                return product.price5;
+                price = product.price5;
+                break;
             case 6:
-                return product.price6;
+                price = product.price6;
+                break;
             case 7:
-                return product.price7;
+                price = product.price7;
+                break;
         }
+        this.membershipAllowed = price > 0;
+        this.membershipNotAllowed(price);
+        return price;
     };
     ProductViewBlueComponent.prototype.getProductSelected = function (parameters) {
         var diameter = lodash__WEBPACK_IMPORTED_MODULE_1__["find"](parameters, { name: 'Diameter (mm)' });
@@ -6333,6 +6352,9 @@ var ProductViewBlueComponent = /** @class */ (function () {
         this.saveFiles();
         var productsRequested = [];
         var productsSelected = this.buildProductsSelected();
+        if (lodash__WEBPACK_IMPORTED_MODULE_1__["some"](productsSelected, function (p) { return !(p.price > 0); })) {
+            return;
+        }
         lodash__WEBPACK_IMPORTED_MODULE_1__["each"](productsSelected, function (product) {
             var productRequest = new _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_6__["ProductRequested"]();
             var productoSelect = new _shared_models_product__WEBPACK_IMPORTED_MODULE_11__["Product"]();
@@ -6352,6 +6374,9 @@ var ProductViewBlueComponent = /** @class */ (function () {
     };
     ProductViewBlueComponent.prototype.openModal = function (type) {
         var _this = this;
+        if (!this.membershipAllowed) {
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_blue_light_confirmation_blue_light_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationBlueLightComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
@@ -6367,6 +6392,9 @@ var ProductViewBlueComponent = /** @class */ (function () {
     ProductViewBlueComponent.prototype.formIsValid = function () {
         var isValid = true;
         if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+            return false;
+        }
+        if (!this.membershipAllowed) {
             return false;
         }
         if (this.product.eyeRight) {
@@ -6968,6 +6996,14 @@ var ProductViewEuclidComponent = /** @class */ (function () {
             this.definePrice(membership);
         }
     };
+    ProductViewEuclidComponent.prototype.membershipNotAllowed = function (price) {
+        var _this = this;
+        if (!(price > 0)) {
+            this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+                _this.notification.error('', res);
+            });
+        }
+    };
     //TODO: pending refactor prices
     ProductViewEuclidComponent.prototype.definePrice = function (membership) {
         switch (membership) {
@@ -7000,6 +7036,7 @@ var ProductViewEuclidComponent = /** @class */ (function () {
                 this.product.additional = 20;
                 break;
         }
+        this.membershipNotAllowed(this.product.priceSale);
     };
     ProductViewEuclidComponent.prototype.buildProductsSelected = function () {
         this.setEyeSelected();
@@ -7100,6 +7137,9 @@ var ProductViewEuclidComponent = /** @class */ (function () {
     ProductViewEuclidComponent.prototype.formIsValid = function () {
         var isValid = true;
         if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+            return false;
+        }
+        if (!(this.product.priceSale > 0)) {
             return false;
         }
         if (this.product.eyeRight) {
@@ -7630,7 +7670,6 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         if (parameter.name === 'Hidrapeg' || parameter.name === 'Inserts (DMV)') {
             parameter.selected = parameter.selected === 'Yes' ? true : false;
         }
-        this.definePrice(this.membership, null);
         this.definePriceHidrapeg(this.membership);
         this.definePriceNotch(this.membership);
         // this.definePriceTickness(this.membership);
@@ -7639,6 +7678,9 @@ var ProductViewEuropaComponent = /** @class */ (function () {
             if (this.membership !== 0) {
                 this.valueDiameter(value, eye);
             }
+        }
+        else {
+            this.definePrice(this.membership, null);
         }
         if (parameter.name === 'Hidrapeg') {
             if (value === 'Yes') {
@@ -8062,6 +8104,15 @@ var ProductViewEuropaComponent = /** @class */ (function () {
                 this.priceB = productNew ? productNew.price7 : this.product.price7;
                 break;
         }
+        this.membershipNotAllowed(this.priceA);
+    };
+    ProductViewEuropaComponent.prototype.membershipNotAllowed = function (price) {
+        var _this = this;
+        if (!(price > 0)) {
+            this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+                _this.notification.error('', res);
+            });
+        }
     };
     ProductViewEuropaComponent.prototype.definePriceHidrapeg = function (membership) {
         switch (membership) {
@@ -8471,6 +8522,9 @@ var ProductViewEuropaComponent = /** @class */ (function () {
         var isValid = true;
         var self = this;
         if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+            return false;
+        }
+        if ((this.product.eyeRight && !(this.product.priceSaleRight > 0)) || (this.product.eyeLeft && !(this.product.priceSaleLeft > 0))) {
             return false;
         }
         lodash__WEBPACK_IMPORTED_MODULE_1__["each"](this.product.headerRight, function (param) {
@@ -9346,6 +9400,12 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
             this.definePrice(membership);
         }
     };
+    ProductViewFluoStripsComponent.prototype.membershipNotAllowed = function () {
+        var _this = this;
+        this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+            _this.notification.error('', res);
+        });
+    };
     ProductViewFluoStripsComponent.prototype.definePrice = function (membership) {
         switch (membership) {
             case 1:
@@ -9370,6 +9430,7 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
                 this.product.priceSale = this.product.price7;
                 break;
         }
+        this.membershipAllowed = this.product.priceSale > 0;
     };
     ProductViewFluoStripsComponent.prototype.buildProductSelected = function () {
         var product = this.productCopy;
@@ -9402,6 +9463,10 @@ var ProductViewFluoStripsComponent = /** @class */ (function () {
     };
     ProductViewFluoStripsComponent.prototype.openModal = function (type) {
         var _this = this;
+        if (!this.membershipAllowed) {
+            this.membershipNotAllowed();
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_spectrum_saline_confirmation_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSpectrumSalineComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.productCode;
@@ -9868,21 +9933,40 @@ var ProductViewLenticonComponent = /** @class */ (function () {
         }
     };
     ProductViewLenticonComponent.prototype.getPrice = function (product) {
+        var price = 0;
         switch (this.membership) {
             case 1:
-                return product.price1;
+                price = product.price1;
+                break;
             case 2:
-                return product.price2;
+                price = product.price2;
+                break;
             case 3:
-                return product.price3;
+                price = product.price3;
+                break;
             case 4:
-                return product.price4;
+                price = product.price4;
+                break;
             case 5:
-                return product.price5;
+                price = product.price5;
+                break;
             case 6:
-                return product.price6;
+                price = product.price6;
+                break;
             case 7:
-                return product.price7;
+                price = product.price7;
+                break;
+        }
+        this.membershipAllowed = price > 0;
+        this.membershipNotAllowed(price);
+        return price;
+    };
+    ProductViewLenticonComponent.prototype.membershipNotAllowed = function (price) {
+        var _this = this;
+        if (!(price > 0)) {
+            this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+                _this.notification.error('', res);
+            });
         }
     };
     ProductViewLenticonComponent.prototype.buildProductsSelected = function () {
@@ -9961,6 +10045,9 @@ var ProductViewLenticonComponent = /** @class */ (function () {
         this.saveFiles();
         var productsRequested = [];
         var productsSelected = this.buildProductsSelected();
+        if (lodash__WEBPACK_IMPORTED_MODULE_15__["some"](productsSelected, function (p) { return !(p.price > 0); })) {
+            return;
+        }
         lodash__WEBPACK_IMPORTED_MODULE_15__["each"](productsSelected, function (product) {
             var productRequest = new _shared_models_productrequested__WEBPACK_IMPORTED_MODULE_17__["ProductRequested"]();
             var productoSelect = new _shared_models_product__WEBPACK_IMPORTED_MODULE_18__["Product"]();
@@ -9988,6 +10075,9 @@ var ProductViewLenticonComponent = /** @class */ (function () {
     ProductViewLenticonComponent.prototype.openModal = function (type) {
         var _this = this;
         this.spinner.hide();
+        if (!this.membershipAllowed) {
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_lenticon_confirmation_lenticon_component__WEBPACK_IMPORTED_MODULE_19__["ConfirmationLenticonComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
@@ -10738,6 +10828,10 @@ var ProductViewMagicComponent = /** @class */ (function () {
     };
     ProductViewMagicComponent.prototype.openModal = function (type) {
         var _this = this;
+        if (!this.membershipAllowed) {
+            this.membershipNotAllowed();
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_magic_look_confirmation_magic_look_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationMagicLookComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
@@ -10859,6 +10953,13 @@ var ProductViewMagicComponent = /** @class */ (function () {
                 this.product.priceSale = '';
             }
         }
+        this.membershipAllowed = this.product.priceSale > 0;
+    };
+    ProductViewMagicComponent.prototype.membershipNotAllowed = function () {
+        var _this = this;
+        this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+            _this.notification.error('', res);
+        });
     };
     ProductViewMagicComponent.prototype.calculateQuantity = function () {
         var totalQuantity = lodash__WEBPACK_IMPORTED_MODULE_1__["sumBy"](this.boxes, 'quantity');
@@ -11467,6 +11568,7 @@ var ProductViewMoldedLensesComponent = /** @class */ (function () {
                 this.product.priceSale = this.product.price7;
                 break;
         }
+        this.membershipAllowed = this.product.priceSale > 0;
     };
     ProductViewMoldedLensesComponent.prototype.buildProductsSelected = function () {
         var self = this;
@@ -11499,8 +11601,18 @@ var ProductViewMoldedLensesComponent = /** @class */ (function () {
         this.basketRequestModal.productRequestedList = productsRequested;
         this.openModal(type);
     };
+    ProductViewMoldedLensesComponent.prototype.membershipNotAllowed = function () {
+        var _this = this;
+        this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+            _this.notification.error('', res);
+        });
+    };
     ProductViewMoldedLensesComponent.prototype.openModal = function (type) {
         var _this = this;
+        if (!this.membershipAllowed) {
+            this.membershipNotAllowed();
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_molded_lenses_confirmation_molded_lenses_component__WEBPACK_IMPORTED_MODULE_15__["ConfirmationMoldedLensesComponent"], { size: 'lg', windowClass: 'modal-content-border modal-custom', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
@@ -11888,6 +12000,13 @@ var ProductViewOrionComponent = /** @class */ (function () {
                 product.priceSale = product.price7;
                 break;
         }
+        this.membershipAllowed = product.priceSale > 0;
+    };
+    ProductViewOrionComponent.prototype.membershipNotAllowed = function () {
+        var _this = this;
+        this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+            _this.notification.error('', res);
+        });
     };
     ProductViewOrionComponent.prototype.setClient = function () {
         var _this = this;
@@ -12360,6 +12479,10 @@ var ProductViewOrionComponent = /** @class */ (function () {
     ProductViewOrionComponent.prototype.openModal = function (type) {
         var _this = this;
         this.spinner.hide();
+        if (!this.membershipAllowed) {
+            this.membershipNotAllowed();
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_orion_confirmation_orion_component__WEBPACK_IMPORTED_MODULE_16__["ConfirmationOrionComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
@@ -13708,9 +13831,24 @@ var ProductViewSmartlensComponent = /** @class */ (function () {
             this.openModal(this.type);
         }
     };
+    ProductViewSmartlensComponent.prototype.membershipAllowed = function () {
+        var _this = this;
+        var withoutPrice = lodash__WEBPACK_IMPORTED_MODULE_15__["some"](this.basketRequestModal.productRequestedList, function (p) {
+            return !(p.price > 0);
+        });
+        if (withoutPrice) {
+            this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+                _this.notification.error('', res);
+            });
+        }
+        return !withoutPrice;
+    };
     ProductViewSmartlensComponent.prototype.openModal = function (type) {
         var _this = this;
         this.spinner.hide();
+        if (!this.basketRequestModal.productRequestedList || !this.membershipAllowed()) {
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_smartlens_confirmation_smartlens_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSmartlensComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
@@ -14131,6 +14269,13 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
                 this.productCode.priceSale = this.productCode.price7;
                 break;
         }
+        this.membershipAllowed = this.productCode.priceSale > 0;
+    };
+    ProductViewSpectrumSalineComponent.prototype.membershipNotAllowed = function () {
+        var _this = this;
+        this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+            _this.notification.error('', res);
+        });
     };
     ProductViewSpectrumSalineComponent.prototype.buildProductSelected = function () {
         var product = this.productCopy;
@@ -14162,6 +14307,10 @@ var ProductViewSpectrumSalineComponent = /** @class */ (function () {
     };
     ProductViewSpectrumSalineComponent.prototype.openModal = function (type) {
         var _this = this;
+        if (!this.membershipAllowed) {
+            this.membershipNotAllowed();
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_spectrum_saline_confirmation_spectrum_saline_component__WEBPACK_IMPORTED_MODULE_20__["ConfirmationSpectrumSalineComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.productCode;
@@ -14850,6 +14999,7 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
                 this.product.priceSale = this.product.price7;
                 break;
         }
+        this.membershipAllowed = this.product.priceSale > 0;
     };
     ProductViewSynergeyesComponent.prototype.buildProductsSelected = function () {
         this.setEyeSelected();
@@ -14912,29 +15062,12 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
             }
             productH.id = prCode.idProduct;
             productH.name = prCode.name;
-            productH.codeSpectrum = prCode.codeSpectrum;
+            productH.codeSpectrum = membership !== 7 ? prCode.codeSpectrum : prCode.codeSpectrum + ' P&O';
+            productH.detail.codeSpectrum = productH.codeSpectrum;
             auxproductsSelected.push(productH);
         });
         productsSelected = auxproductsSelected;
         return productsSelected;
-    };
-    ProductViewSynergeyesComponent.prototype.definePriceProduct = function (membership, prCode) {
-        switch (membership) {
-            case 1:
-                return prCode.price1;
-            case 2:
-                return prCode.price2;
-            case 3:
-                return prCode.price3;
-            case 4:
-                return prCode.price4;
-            case 5:
-                return prCode.price5;
-            case 6:
-                return prCode.price6;
-            case 7:
-                return prCode.price7;
-        }
     };
     ProductViewSynergeyesComponent.prototype.formIsValid = function () {
         var isValid = true;
@@ -14979,9 +15112,19 @@ var ProductViewSynergeyesComponent = /** @class */ (function () {
             this.openModal(this.type);
         }
     };
+    ProductViewSynergeyesComponent.prototype.membershipNotAllowed = function () {
+        var _this = this;
+        this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+            _this.notification.error('', res);
+        });
+    };
     ProductViewSynergeyesComponent.prototype.openModal = function (type) {
         var _this = this;
         this.spinner.hide();
+        if (!this.membershipAllowed) {
+            this.membershipNotAllowed();
+            return;
+        }
         var modalRef = this.modalService.open(_modals_confirmation_buy_confirmation_synergeyes_confirmation_synergeyes_component__WEBPACK_IMPORTED_MODULE_17__["ConfirmationSynergeyesComponent"], { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
         modalRef.componentInstance.datos = this.basketRequestModal;
         modalRef.componentInstance.product = this.product;
@@ -15996,6 +16139,27 @@ var ProductViewComponent = /** @class */ (function () {
             case 3:
                 this.product.priceSale = this.product.price3;
                 break;
+            case 4:
+                this.product.priceSale = this.product.price4;
+                break;
+            case 5:
+                this.product.priceSale = this.product.price5;
+                break;
+            case 6:
+                this.product.priceSale = this.product.price6;
+                break;
+            case 7:
+                this.product.priceSale = 0;
+                break;
+        }
+        this.membershipNotAllowed(this.product.priceSale);
+    };
+    ProductViewComponent.prototype.membershipNotAllowed = function (price) {
+        var _this = this;
+        if (!(price > 0)) {
+            this.translate.get('The current membership does not have prices for this product.', { value: 'The current membership does not have prices for this product.' }).subscribe(function (res) {
+                _this.notification.error('', res);
+            });
         }
     };
     ProductViewComponent.prototype.buildProductsSelected = function () {
@@ -16068,6 +16232,9 @@ var ProductViewComponent = /** @class */ (function () {
     };
     ProductViewComponent.prototype.formIsValid = function () {
         var isValid = true;
+        if (!(this.product.priceSale > 0)) {
+            return false;
+        }
         if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
             return false;
         }
@@ -16524,6 +16691,22 @@ var ProductsListInternalComponent = /** @class */ (function () {
                         case 3:// Preferred
                             priceFrom_1 = parseFloat(info[3].values[2].price);
                             priceUp_1 = parseFloat(info[3].values[0].price);
+                            break;
+                        case 4:
+                            priceFrom_1 = parseFloat(info[4].values[2].price);
+                            priceUp_1 = parseFloat(info[4].values[0].price);
+                            break;
+                        case 5:
+                            priceFrom_1 = parseFloat(info[5].values[2].price);
+                            priceUp_1 = parseFloat(info[5].values[0].price);
+                            break;
+                        case 6:
+                            priceFrom_1 = parseFloat(info[6].values[2].price);
+                            priceUp_1 = parseFloat(info[6].values[0].price);
+                            break;
+                        case 7:
+                            priceFrom_1 = parseFloat(info[7].values[2].price);
+                            priceUp_1 = parseFloat(info[7].values[0].price);
                             break;
                     }
                 }
