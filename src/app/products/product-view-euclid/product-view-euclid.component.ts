@@ -448,6 +448,14 @@ export class ProductViewEuclidComponent implements OnInit {
     }
   }
 
+  membershipNotAllowed(price) {
+    if (!(price > 0)) {
+      this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+        this.notification.error('', res);
+      });
+    }
+  }
+
   //TODO: pending refactor prices
   definePrice(membership) {
     switch (membership) {
@@ -480,6 +488,8 @@ export class ProductViewEuclidComponent implements OnInit {
         this.product.additional = 20;
         break;
     }
+
+    this.membershipNotAllowed(this.product.priceSale);
   }
 
   buildProductsSelected() {
@@ -593,6 +603,10 @@ export class ProductViewEuclidComponent implements OnInit {
   formIsValid() {
     var isValid = true;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+      return false;
+    }
+
+    if (!(this.product.priceSale > 0)) {
       return false;
     }
 

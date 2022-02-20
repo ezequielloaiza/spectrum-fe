@@ -58,6 +58,7 @@ export class ProductViewOrionComponent implements OnInit {
   download = false;
   type: any;
   typeOrder = 'new';
+  membershipAllowed: any;
   // Upload files
   @ViewChild('selectedFiles') selectedFiles: any;
   @ViewChild('selectedFilesLeftEye') selectedFilesLeftEye: any;
@@ -310,6 +311,14 @@ export class ProductViewOrionComponent implements OnInit {
         product.priceSale = product.price7;
         break;
     }
+
+    this.membershipAllowed = product.priceSale > 0;
+  }
+
+  membershipNotAllowed() {
+    this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+      this.notification.error('', res);
+    });
   }
 
   setClient() {
@@ -809,6 +818,12 @@ export class ProductViewOrionComponent implements OnInit {
 
   openModal(type): void {
     this.spinner.hide();
+
+    if (!this.membershipAllowed) {
+      this.membershipNotAllowed();
+      return;
+    }
+
     const modalRef = this.modalService.open(ConfirmationOrionComponent,
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.datos = this.basketRequestModal;

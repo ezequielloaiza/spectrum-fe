@@ -54,6 +54,8 @@ export class ProductViewBlueComponent implements OnInit {
   maxFileSize = 25 * 1024 * 1024; // 25 MB
   listFileBasket: Array<FileProductRequested> = new Array;
   typeOrder = 'new';
+  membershipAllowed: any;
+
   private uploadResult: any = null;
   public uploader: FileUploader = new FileUploader({url: URL,
                                                     itemAlias: 'files',
@@ -237,23 +239,43 @@ export class ProductViewBlueComponent implements OnInit {
     }
   }
 
+  membershipNotAllowed(price) {
+    if (!(price > 0)) {
+      this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+        this.notification.error('', res);
+      });
+    }
+  }
+
   getPrice(product) {
+    let price = 0;
     switch (this.membership) {
       case 1:
-        return product.price1;
+        price = product.price1;
+        break;
       case 2:
-        return product.price2;
+        price = product.price2;
+        break;
       case 3:
-        return product.price3;
+        price = product.price3;
+        break;
       case 4:
-        return product.price4;
+        price = product.price4;
+        break;
       case 5:
-        return product.price5;
+        price = product.price5;
+        break;
       case 6:
-        return product.price6;
+        price = product.price6;
+        break;
       case 7:
-        return product.price7;
+        price = product.price7;
+        break;
     }
+
+    this.membershipAllowed = price > 0;
+    this.membershipNotAllowed(price);
+    return price;
   }
 
   getProductSelected(parameters) {
@@ -314,6 +336,11 @@ export class ProductViewBlueComponent implements OnInit {
     this.saveFiles();
     const productsRequested = [];
     const productsSelected = this.buildProductsSelected();
+
+    if (_.some(productsSelected, function(p) {return !(p.price > 0);})) {
+      return;
+    }
+
     _.each(productsSelected, function (product) {
       const productRequest: ProductRequested = new ProductRequested();
       const productoSelect: Product = new Product();
@@ -333,6 +360,9 @@ export class ProductViewBlueComponent implements OnInit {
   }
 
   openModal(type): void {
+    if (!this.membershipAllowed) {
+      return;
+    }
     const modalRef = this.modalService.open( ConfirmationBlueLightComponent,
     { size: 'lg', windowClass: 'modal-content-border' , backdrop  : 'static', keyboard  : false});
     modalRef.componentInstance.datos = this.basketRequestModal;
@@ -350,6 +380,10 @@ export class ProductViewBlueComponent implements OnInit {
   formIsValid() {
     var isValid = true;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+      return false;
+    }
+
+    if (!this.membershipAllowed) {
       return false;
     }
 
