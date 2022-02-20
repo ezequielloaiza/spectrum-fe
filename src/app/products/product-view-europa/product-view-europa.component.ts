@@ -339,7 +339,6 @@ export class ProductViewEuropaComponent implements OnInit {
     if (parameter.name === 'Hidrapeg' || parameter.name === 'Inserts (DMV)') {
       parameter.selected = parameter.selected === 'Yes' ? true : false;
     }
-    this.definePrice(this.membership, null);
     this.definePriceHidrapeg(this.membership);
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
@@ -348,6 +347,8 @@ export class ProductViewEuropaComponent implements OnInit {
       if (this.membership !== 0) {
         this.valueDiameter(value, eye);
       }
+    } else {
+      this.definePrice(this.membership, null);
     }
     if (parameter.name === 'Hidrapeg') {
       if (value === 'Yes') {
@@ -747,6 +748,16 @@ export class ProductViewEuropaComponent implements OnInit {
         this.priceA = productNew ? productNew.price7 : this.product.price7;
         this.priceB = productNew ? productNew.price7 : this.product.price7;
         break;
+    }
+
+    this.membershipNotAllowed(this.priceA);
+  }
+
+  membershipNotAllowed(price) {
+    if (!(price > 0)) {
+      this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+        this.notification.error('', res);
+      });
     }
   }
 
@@ -1181,6 +1192,10 @@ export class ProductViewEuropaComponent implements OnInit {
     var isValid = true;
     let self = this;
     if ((!this.product.eyeRight && !this.product.eyeLeft) || !this.product.patient || !this.client) {
+      return false;
+    }
+
+    if ((this.product.eyeRight && !(this.product.priceSaleRight > 0)) || (this.product.eyeLeft && !(this.product.priceSaleLeft > 0))) {
       return false;
     }
 

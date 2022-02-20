@@ -13,6 +13,8 @@ import { BasketRequest } from '../../shared/models/basketrequest';
 import { UserService } from '../../shared/services';
 import { CodeHttp } from '../../shared/enum/code-http.enum';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-view-x-cel',
@@ -59,6 +61,8 @@ export class ProductViewXCelComponent implements OnInit {
     private modalService: NgbModal,
     private userStorageService: UserStorageService,
     private userService: UserService,
+    private notification: ToastrService,
+    private translate: TranslateService,
     private productService: ProductService,
     private spinner: NgxSpinnerService) { }
 
@@ -254,6 +258,12 @@ export class ProductViewXCelComponent implements OnInit {
     }
   }
 
+  membershipNotAllowed() {
+    this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+      this.notification.error('', res);
+    });
+  }
+
   buttonAction(functionName) {
     this.uploadFilesComponents.forEach(uploadFileComponent => {
       uploadFileComponent.saveFiles();
@@ -293,6 +303,13 @@ export class ProductViewXCelComponent implements OnInit {
     this.selectedProduct['typeOrder'] = this.product.typeOrder;
     this.selectedProduct['insertor'] = this.product.name.includes('Atlantis') ? this.product.header[0] : null;//this's DMV according to Json
     this.selectedProduct['totalPrice'] = this.setTotalPrice(); //sum both eyes, hydra, dmv
+
+
+    if ((this.enable.right && !(this.price.right.priceUnit > 0)) || (this.enable.left && !(this.price.left.priceUnit > 0))) {
+      this.membershipNotAllowed();
+      return;
+    }
+
     const modalRef = this.modalService.open( PurchaseConfirmationComponent,
       { size: 'lg', windowClass: 'modal-content-border', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.selectedProduct = this.selectedProduct;
