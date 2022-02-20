@@ -1316,8 +1316,26 @@ export class ProductViewSmartlensComponent implements OnInit {
     }
   }
 
+  membershipAllowed() {
+    const withoutPrice = _.some(this.basketRequestModal.productRequestedList, function(p) {
+      return !(p.price > 0);
+    });
+
+    if (withoutPrice) {
+      this.translate.get('The current membership does not have prices for this product.', {value: 'The current membership does not have prices for this product.'}).subscribe(( res: string) => {
+        this.notification.error('', res);
+      });
+    }
+    return !withoutPrice;
+  }
+
   openModal(type): void {
     this.spinner.hide();
+
+    if (!this.basketRequestModal.productRequestedList || !this.membershipAllowed()) {
+      return;
+    }
+
     const modalRef = this.modalService.open( ConfirmationSmartlensComponent,
     { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
     modalRef.componentInstance.datos = this.basketRequestModal;
