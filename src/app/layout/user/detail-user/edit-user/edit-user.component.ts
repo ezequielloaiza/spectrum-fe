@@ -62,6 +62,7 @@ export class EditUserComponent implements OnInit {
 
   initializeForm() {
     this.form = this.formBuilder.group({
+      username    : ['', [ Validators.required]],
       name        : ['', [ Validators.required]],
       email       : ['', [ Validators.required, Validators.pattern(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)]],
       address     : [''],
@@ -168,6 +169,7 @@ export class EditUserComponent implements OnInit {
   }
 
   setUser(user: any): void {
+    this.form.get('username').setValue(user.username);
     this.form.get('name').setValue(user.name);
     this.form.get('email').setValue(user.email);
     this.form.get('address').setValue(user.address);
@@ -244,6 +246,12 @@ export class EditUserComponent implements OnInit {
         { value: 'The certification code is associated with another client' }).subscribe((res: string) => {
           this.notification.warning('', res);
         });
+      } else if (CodeHttp.notAcceptable === res.code && res.data === 4) {
+        this.form.get('cityPlace').setValue({ description: this.form.value.city });
+        this.translate.get('The user already exists, check the username',
+        { value: 'The user already exists, check the username' }).subscribe((res: string) => {
+          this.notification.warning('', res);
+        });
       }
       this.saving = false;
     }, error  => {
@@ -274,6 +282,7 @@ export class EditUserComponent implements OnInit {
     });
   }
 
+  get username() { return this.form.get('username'); }
   get name() { return this.form.get('name'); }
   get email() { return this.form.get('email'); }
   get address() { return this.form.get('address'); }

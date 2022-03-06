@@ -61,7 +61,10 @@
             <fieldset class="form-group">
               <label>{{ 'Username' | translate }}</label>
               <div class="mb-2 mr-sm-2 mb-sm-0">
-                <span>{{ user.username }}</span>
+                <span [hidden]="canEdit">{{ user.username }}</span>
+                <input [hidden]="!canEdit" class="form-control"
+                  placeholder="{{ 'Enter username' | translate }}" name="username"
+                  formControlName="username">
               </div>
             </fieldset>
           </div>
