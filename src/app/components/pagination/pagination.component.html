@@ -1,0 +1,23 @@
+<div class="d-flex justify-content-end align-items-center pt-4">
+  <div class="border">
+    <button class="border-0 btn btn-outline-light icon-grey border-r" (click)="onFirst()" [disabled]="isDisabled('first')">
+      <span class="fa fa-angle-double-left"></span>
+    </button>
+    <button class="border-0 btn btn-outline-light icon-grey" (click)="onPrev()" [disabled]="isDisabled('first')">
+      <span class="fa fa-angle-left icons"></span>
+    </button>
+  </div>
+  <div class="pr-2 pl-2 border-y border">
+    <span>{{ currentPage }}</span>
+    <span class="pl-1 pr-1" translate>of</span>
+    <span>{{ pages }}</span>
+  </div>
+  <div class="border">
+    <button class="border-0 btn btn-outline-light icon-grey border-r" (click)="onNext()" [disabled]="isDisabled('last')">
+      <span class="fa fa-angle-right icons"></span>
+    </button>
+    <button class="border-0 btn btn-outline-light icon-grey" (click)="onLast()" [disabled]="isDisabled('last')">
+      <span class="fa fa-angle-double-right"></span>
+    </button>
+  </div>
+</div>
