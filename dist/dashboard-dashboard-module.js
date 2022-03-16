@@ -39153,6 +39153,10 @@ var DashboardComponent = /** @class */ (function () {
         this.months = 6;
         this.listSupplierUser = new Array;
         this.disabledNew = false;
+        this.paginateParams = {
+            page: 1,
+            perPage: 10
+        };
         this.barChartOptions = {
             scaleShowVerticalLines: false,
             responsive: true
@@ -39365,23 +39369,23 @@ var DashboardComponent = /** @class */ (function () {
     DashboardComponent.prototype.getOrdersPending = function () {
         var _this = this;
         if (this.user.role.idRole === 3) {
-            this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0).subscribe(function (res) {
+            this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0, this.paginateParams).subscribe(function (res) {
                 if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
-                    _this.orders = res.data.length;
+                    _this.orders = res.data.result.length;
                 }
             });
         }
         else if (this.user.role.idRole === 2) {
-            this.orderService.findOrdersClientBySeller$(0).subscribe(function (res) {
+            this.orderService.findOrdersClientBySeller$(0, {}).subscribe(function (res) {
                 if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
-                    _this.orders = res.data.length;
+                    _this.orders = res.data.result.length;
                 }
             });
         }
         else if (this.user.role.idRole === 1) {
-            this.orderService.allOrderWithStatus$(0).subscribe(function (res) {
+            this.orderService.allOrderWithStatus$(0, this.paginateParams).subscribe(function (res) {
                 if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
-                    _this.orders = res.data.length;
+                    _this.orders = res.data.result.length;
                 }
             });
         }
@@ -39390,15 +39394,15 @@ var DashboardComponent = /** @class */ (function () {
         var _this = this;
         //Admin Role
         if (this.user.role.idRole === 1) {
-            this.orderService.allOrderWithStatus$(2).subscribe(function (res) {
+            this.orderService.allOrderWithStatus$(2, this.paginateParams).subscribe(function (res) {
                 if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
-                    _this.ordersToBill = res.data.length;
+                    _this.ordersToBill = res.data.result.length;
                 }
             });
             //Seller Role
         }
         else if (this.user.role.idRole === 2) {
-            this.orderService.findOrdersClientBySeller$(2).subscribe(function (res) {
+            this.orderService.findOrdersClientBySeller$(2, {}).subscribe(function (res) {
                 if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
                     _this.ordersToBill = res.data.length;
                 }
@@ -39406,9 +39410,9 @@ var DashboardComponent = /** @class */ (function () {
             // Client Role
         }
         else if (this.user.role.idRole === 3) {
-            this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 2).subscribe(function (res) {
+            this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 2, this.paginateParams).subscribe(function (res) {
                 if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
-                    _this.ordersToBill = res.data.length;
+                    _this.ordersToBill = res.data.result.length;
                 }
             });
         }
