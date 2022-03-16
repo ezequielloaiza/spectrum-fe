@@ -1734,7 +1734,7 @@ export class XcelComponent implements OnInit {
   changeMaterials(value) {
     this.product.materials.selected = value;
 
-    if (value !== 'Boston-XO') {
+    if (value !== 'Boston-XO' && value !== 'Boston XO2') {
       this.product.hydrapeg.selected = "No";
     }
   }
