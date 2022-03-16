@@ -151,7 +151,7 @@
               </div>
             </div>
 
-            <div class="row radio-custom" *ngIf="product.materialsRight.selected === 'Boston-XO'" >
+            <div class="row radio-custom" *ngIf="product.materialsRight.selected === 'Boston-XO' || product.materialsRight.selected === 'Boston XO2'">
               <span class="title">{{ 'Hydrapeg' | translate }}:</span>
               <div *ngFor="let value of product.hydrapegRight.values; let i = index">
                 <div class="custom-control custom-radio">
@@ -386,7 +386,7 @@
               </div>
             </div>
 
-            <div class="row radio-custom" *ngIf="product.materialsLeft.selected === 'Boston-XO'" >
+            <div class="row radio-custom" *ngIf="product.materialsLeft.selected === 'Boston-XO' || product.materialsLeft.selected === 'Boston XO2'" >
               <span class="title">{{ 'Hydrapeg' | translate }}:</span>
               <div *ngFor="let value of product.hydrapegLeft.values; let i = index">
                 <div class="custom-control custom-radio">

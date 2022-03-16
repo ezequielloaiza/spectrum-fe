@@ -650,7 +650,7 @@ export class ProductViewSmartlensComponent implements OnInit {
       case 'right':
         this.product.materialsRight.selected = value;
 
-        if (value !== 'Boston-XO') {
+        if (value !== 'Boston-XO' && value !== 'Boston XO2') {
           this.product.hydrapegRight.selected = "No";
         }
         break;
@@ -659,7 +659,7 @@ export class ProductViewSmartlensComponent implements OnInit {
       case 'left':
         this.product.materialsLeft.selected = value;
 
-        if (value !== 'Boston-XO') {
+        if (value !== 'Boston-XO' && value !== 'Boston XO2') {
           this.product.hydrapegLeft.selected = "No";
         }
         break;
