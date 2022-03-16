@@ -120,6 +120,7 @@ import { SupplierSmartlensComponent } from './details-order-supplier/supplier-sm
 import { SupplierXcelComponent } from './details-order-supplier/supplier-xcel/supplier-xcel.component';
 import { DetailXcelComponent } from './basket/modals/detail-product/detail-xcel/detail-xcel.component';
 import { XcelComponent } from './edit-order/xcel/xcel.component';
+import { PaginationModule } from '../components/pagination/pagination.module';
 
 @NgModule({
     imports: [
@@ -137,7 +138,8 @@ import { XcelComponent } from './edit-order/xcel/xcel.component';
         FileUploadModule,
         NgxSpinnerModule,
         CurrencyMaskModule,
-        CommonsModule
+        CommonsModule,
+        PaginationModule
     ],
     declarations: [
         LayoutComponent,

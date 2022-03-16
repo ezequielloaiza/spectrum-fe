@@ -26,8 +26,9 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/findId/' + id);
   }
 
-  public findOrdersClientBySeller$(status): Observable<any> {
-    return this.http.get(environment.apiUrl + 'order/findOrdersClientBySeller/' + status);
+  public findOrdersClientBySeller$(status, params: any): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/findOrdersClientBySeller/' + status + '?page=' +
+    params.page + '&perPage=' + params.perPage);
   }
 
   public allOrdersUsersBySellerAndStatusNot$(status): Observable<any> {
@@ -42,8 +43,9 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/allOrder');
   }
 
-  public allOrderWithStatus$(idStatus): Observable<any> {
-    return this.http.get(environment.apiUrl + 'order/allOrderWithStatus/' + idStatus);
+  public allOrderWithStatus$(idStatus, params: any): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderWithStatus/' + idStatus +
+                          '?page=' + params.page + '&perPage=' + params.perPage);
   }
 
   public allOrderWithStatusNot$(idStatus): Observable<any> {
@@ -78,8 +80,9 @@ export class OrderService {
     return this.http.put(environment.apiUrl + 'order/generateInvoiceSupplierAndCopy/' + idsOrder + '/' + send, invoices);
   }
 
-  public allOrderByUserIdAndStatus$(idUser, IdStatus): Observable<any> {
-    return this.http.get(environment.apiUrl + 'order/allOrderByUserIdAndStatus/' + idUser + '/' + IdStatus);
+  public allOrderByUserIdAndStatus$(idUser, IdStatus, params: any): Observable<any> {
+    return this.http.get(environment.apiUrl + 'order/allOrderByUserIdAndStatus/' + idUser + '/' + IdStatus +
+                          '?page=' + params.page + '&perPage=' + params.perPage);
   }
 
   public downloadOrder$(name): Observable<any> {
