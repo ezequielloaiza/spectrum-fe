@@ -1,0 +1,50 @@
+.ng-select.page {
+  .ng-clear-wrapper .ng-clear {
+    display: none;
+  }
+
+  .ng-select-container {
+    min-height: 28px;
+
+    .ng-value-container {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  &.ng-select-single .ng-select-container {
+    height: 28px;
+    width: 55px;
+
+    .ng-value-container {
+      overflow: initial;
+      font-weight: 600;
+    }
+  }
+}
+
+.icon-grey {
+  color: gray;
+}
+
+.btn-outline-light:disabled {
+  color: gray;
+  cursor: not-allowed;
+}
+
+button:focus {
+  outline: none;
+}
+
+.border-y {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  border-right: 0 !important;
+  border-left: 0 !important;
+}
+
+.border-r {
+  border-right: solid 1px #e9ecef !important;
+  border-radius: 0 !important;
+}

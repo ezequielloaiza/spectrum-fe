@@ -61,6 +61,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   validoProvider = true;
   connected: boolean;
   ordersMap = {};
+  paginateParams: any;
+  meta = {
+    pages: 0,
+    total: 0
+  };
+
   constructor(private orderService: OrderService,
     private userService: UserStorageService,
     private modalService: NgbModal,
@@ -93,6 +99,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.model = { year: 0, month: 0, day: 0 };
     this.listAux = [];
     this.selectedAll = false;
+    this.paginateParams = {
+      page: 1,
+      perPage: 5
+    };
   }
 
   ngOnDestroy() {
@@ -107,35 +117,36 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     }
     this.spinner.show();
     if (this.user.role.idRole === 2) {
-      this.orderService.findOrdersClientBySeller$(this.status).subscribe(res => {
+      this.orderService.findOrdersClientBySeller$(this.status, this.paginateParams).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          this.meta = res.data.meta;
           let invoiceSupplierIds = [];
-          if (res.data.length && (this.status == 2 || this.status == 3)) {
-            invoiceSupplierIds = res.data[0].invoiceSupplierIds;
+          if (res.data.result.length && (this.status == 2 || this.status == 3)) {
+            invoiceSupplierIds = res.data.result[0].invoiceSupplierIds;
             if (invoiceSupplierIds.length) {
               _.each(invoiceSupplierIds, function(id) {
-                const orders: any[] = _.filter(res.data, { 'invoiceSupplierId': id });
+                const orders: any[] = _.filter(res.data.result, { 'invoiceSupplierId': id });
                 if (orders.length) {
-                  const index = _.findIndex(res.data, {'idOrder': orders[0].idOrder});
-                  res.data[index].listOrderGroups = orders;
+                  const index = _.findIndex(res.data.result, {'idOrder': orders[0].idOrder});
+                  res.data.result[index].listOrderGroups = orders;
                   const patients = [];
                   _.each(orders, function(o, j) {
                     patients.push(_.uniq(_.map(o.listProductRequested, 'productRequested.patient')));
                     if (j !== 0) {
-                      res.data[index].listProductRequested = _.concat(res.data[index].listProductRequested ,o.listProductRequested);
-                      const i = _.findIndex(res.data, {'idOrder': o.idOrder});
-                      res.data.splice(i, 1);
+                      res.data.result[index].listProductRequested = _.concat(res.data.result[index].listProductRequested ,o.listProductRequested);
+                      const i = _.findIndex(res.data.result, {'idOrder': o.idOrder});
+                      res.data.result.splice(i, 1);
                     }
                   });
-                  res.data[index].patients = patients;
+                  res.data.result[index].patients = patients;
                 }
-              })
+              });
             }
           }
 
 
-          this.listOrders = res.data;
-          this.listOrdersAux = res.data;
+          this.listOrders = res.data.result;
+          this.listOrdersAux = res.data.result;
           _.each(this.listOrders, function (order) {
               order.generate = false;
             _.each(order.listProductRequested, function (listDetails) {
@@ -152,34 +163,35 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
         this.spinner.hide();
       });
     } else if (this.user.role.idRole === 1) {
-      this.orderService.allOrderWithStatus$(this.status).subscribe(res => {
+      this.orderService.allOrderWithStatus$(this.status, this.paginateParams).subscribe(res => {
         if (res.code === CodeHttp.ok) {
+          this.meta = res.data.meta;
           let invoiceSupplierIds = [];
-          if (res.data.length && (this.status == 2 || this.status == 3)) {
-            invoiceSupplierIds = res.data[0].invoiceSupplierIds;
+          if (res.data.result.length && (this.status === 2 || this.status === 3)) {
+            invoiceSupplierIds = res.data.result[0].invoiceSupplierIds;
             if (invoiceSupplierIds.length) {
               _.each(invoiceSupplierIds, function(id) {
-                const orders: any[] = _.filter(res.data, { 'invoiceSupplierId': id });
+                const orders: any[] = _.filter(res.data.result, { 'invoiceSupplierId': id });
                 if (orders.length) {
-                  const index = _.findIndex(res.data, {'idOrder': orders[0].idOrder});
-                  res.data[index].listOrderGroups = orders;
+                  const index = _.findIndex(res.data.result, {'idOrder': orders[0].idOrder});
+                  res.data.result[index].listOrderGroups = orders;
                   const patients = [];
                   _.each(orders, function(o, j) {
                     patients.push(_.uniq(_.map(o.listProductRequested, 'productRequested.patient')));
                     if (j !== 0) {
-                      res.data[index].listProductRequested = _.concat(res.data[index].listProductRequested ,o.listProductRequested);
-                      const i = _.findIndex(res.data, {'idOrder': o.idOrder});
-                      res.data.splice(i, 1);
+                      res.data.result[index].listProductRequested = _.concat(res.data.result[index].listProductRequested ,o.listProductRequested);
+                      const i = _.findIndex(res.data.result, {'idOrder': o.idOrder});
+                      res.data.result.splice(i, 1);
                     }
                   });
-                  res.data[index].patients = patients;
+                  res.data.result[index].patients = patients;
                 }
-              })
+              });
             }
           }
           this.mostrarStatus = true;
-          this.listOrders = res.data;
-          this.listOrdersAux = res.data;
+          this.listOrders = res.data.result;
+          this.listOrdersAux = res.data.result;
           _.each(this.listOrders, function (order) {
               if (order.status !== 0 ) {
                 order.generate = false;
@@ -1348,4 +1360,25 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     }, (reason) => {//dismiss or cancel
     });
    }
+
+   // Paging methods
+  onPrev(): void {
+    this.paginateParams.page--;
+    this.getListOrders();
+  }
+
+  onNext(): void {
+    this.paginateParams.page++;
+    this.getListOrders();
+  }
+
+  onFirst(): void {
+    this.paginateParams.page = 1;
+    this.getListOrders();
+  }
+
+  onLast(): void {
+    this.paginateParams.page = this.meta.pages;
+    this.getListOrders();
+  }
 }

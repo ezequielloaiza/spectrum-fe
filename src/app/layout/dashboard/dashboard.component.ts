@@ -51,6 +51,10 @@ export class DashboardComponent implements OnInit {
   locale: any;
   listSupplierUser: Array<any> = new Array;
   disabledNew = false;
+  paginateParams = {
+    page: 1,
+    perPage: 10
+  };
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -310,21 +314,21 @@ export class DashboardComponent implements OnInit {
 
   getOrdersPending() {
     if (this.user.role.idRole === 3) {
-      this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0).subscribe(res => {
+      this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 0, this.paginateParams).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.orders = res.data.length;
+          this.orders = res.data.result.length;
         }
       });
     } else if (this.user.role.idRole === 2) {
-      this.orderService.findOrdersClientBySeller$(0).subscribe(res => {
+      this.orderService.findOrdersClientBySeller$(0, {}).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.orders = res.data.length;
+          this.orders = res.data.result.length;
         }
       });
     } else if (this.user.role.idRole === 1) {
-      this.orderService.allOrderWithStatus$(0).subscribe(res => {
+      this.orderService.allOrderWithStatus$(0, this.paginateParams).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.orders = res.data.length;
+          this.orders = res.data.result.length;
         }
       });
     }
@@ -333,23 +337,23 @@ export class DashboardComponent implements OnInit {
   getOrdersToBill() {
     //Admin Role
     if (this.user.role.idRole === 1) {
-      this.orderService.allOrderWithStatus$(2).subscribe(res => {
+      this.orderService.allOrderWithStatus$(2, this.paginateParams).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.ordersToBill = res.data.length;
+          this.ordersToBill = res.data.result.length;
         }
       });
     //Seller Role
     } else if (this.user.role.idRole === 2) {
-      this.orderService.findOrdersClientBySeller$(2).subscribe(res => {
+      this.orderService.findOrdersClientBySeller$(2, {}).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.ordersToBill = res.data.length;
         }
       });
     // Client Role
     } else if (this.user.role.idRole === 3) {
-      this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 2).subscribe(res => {
+      this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, 2, this.paginateParams).subscribe(res => {
         if (res.code === CodeHttp.ok) {
-          this.ordersToBill = res.data.length;
+          this.ordersToBill = res.data.result.length;
         }
       });
     }

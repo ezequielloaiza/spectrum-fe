@@ -36,7 +36,16 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   navigationSubscription;
   today: Date = new Date();
   valorClient: String;
-  valorProduct: String
+  valorProduct: String;
+  paginateParams = {
+    page: 1,
+    perPage: 5
+  };
+
+  meta = {
+    pages: 0,
+    total: 0
+  };
 
   constructor(private orderService: OrderService,
               private userService: UserStorageService,
@@ -74,10 +83,11 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   getListOrders(): void {
     this.spinner.show();
-    this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, this.status).subscribe(res => {
+    this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, this.status, this.paginateParams).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        this.listOrders = res.data;
-        this.listOrdersAux = res.data;
+        this.meta = res.data.meta;
+        this.listOrders = res.data.result;
+        this.listOrdersAux = res.data.result;
         _.each(this.listOrders, function (order) {
            _.each(order.listProductRequested, function(listDetails) {
             if (listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0) {
@@ -753,5 +763,26 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     }, error => {
       console.log('error', error);
     });
+  }
+
+    // Paging methods
+    onPrev(): void {
+    this.paginateParams.page--;
+    this.getListOrders();
+  }
+
+  onNext(): void {
+    this.paginateParams.page++;
+    this.getListOrders();
+  }
+
+  onFirst(): void {
+    this.paginateParams.page = 1;
+    this.getListOrders();
+  }
+
+  onLast(): void {
+    //this.paginateParams.page = this.meta.pages;
+    this.getListOrders();
   }
 }
