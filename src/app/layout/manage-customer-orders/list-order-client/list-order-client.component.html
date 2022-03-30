@@ -33,7 +33,7 @@
             <div class="col-xl-5 filter">
               <div class="row search">
                 <div class="col col-xl-12 col-lg-12">
-                  <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorClient"
+                  <input class="form-control" (keyup)="filterGeneral($event)" [(ngModel)]="valorClient"
                     placeholder="{{'Enter order, client, patient o supplier' | translate }}">
                   <i class="fa fa-search"></i>
                 </div>
@@ -42,7 +42,7 @@
             <div class="col-xl-5 filter">
               <div class="row search">
                 <div class="col col-xl-12 col-lg-12">
-                  <input class="form-control" (keyup)="getItemsProduct($event)" [(ngModel)]="valorProduct"
+                  <input class="form-control" (keyup)="filterByProduct($event)" [(ngModel)]="valorProduct"
                     placeholder="{{'Enter product name' | translate }}">
                   <i class="fa fa-search"></i>
                 </div>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-xl-5 filter">
               <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus"
-                (change)="filter()">
+                (change)="filterByPaymentStatus()">
                 <option value="" disabled [selected]="true" translate>Select payment status</option>
                 <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
               </select>
@@ -59,7 +59,7 @@
               <div>
                 <div class="input-group">
                   <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOrd" [(ngModel)]="fechaSelecOrd"
-                    ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOrd)">
+                    ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterByDate(fechaSelecOrd)">
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                       <i class="fa fa-calendar"></i>

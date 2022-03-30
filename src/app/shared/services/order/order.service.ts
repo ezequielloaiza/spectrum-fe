@@ -26,9 +26,10 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/findId/' + id);
   }
 
-  public findOrdersClientBySeller$(status, params: any): Observable<any> {
+  public findOrdersClientBySeller$(status, params: any, filter: any): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/findOrdersClientBySeller/' + status + '?page=' +
-    params.page + '&perPage=' + params.perPage);
+    params.page + '&perPage=' + params.perPage + '&paymentStatus=' + filter.paymentStatus +
+    '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date);
   }
 
   public allOrdersUsersBySellerAndStatusNot$(status): Observable<any> {
@@ -43,9 +44,10 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/allOrder');
   }
 
-  public allOrderWithStatus$(idStatus, params: any): Observable<any> {
+  public allOrderWithStatus$(idStatus, params: any, filter: any): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/allOrderWithStatus/' + idStatus +
-                          '?page=' + params.page + '&perPage=' + params.perPage);
+                          '?page=' + params.page + '&perPage=' + params.perPage + '&paymentStatus=' + filter.paymentStatus +
+                          '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date);
   }
 
   public allOrderWithStatusNot$(idStatus): Observable<any> {
@@ -80,9 +82,10 @@ export class OrderService {
     return this.http.put(environment.apiUrl + 'order/generateInvoiceSupplierAndCopy/' + idsOrder + '/' + send, invoices);
   }
 
-  public allOrderByUserIdAndStatus$(idUser, IdStatus, params: any): Observable<any> {
+  public allOrderByUserIdAndStatus$(idUser, IdStatus, params: any, filter: any): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/allOrderByUserIdAndStatus/' + idUser + '/' + IdStatus +
-                          '?page=' + params.page + '&perPage=' + params.perPage);
+                          '?page=' + params.page + '&perPage=' + params.perPage + '&paymentStatus=' + filter.paymentStatus +
+                          '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date);
   }
 
   public downloadOrder$(name): Observable<any> {
