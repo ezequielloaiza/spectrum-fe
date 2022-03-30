@@ -53,6 +53,14 @@ export class ModalResendOrdersComponent implements OnInit {
     return this.order.typeResend === 'notSame' && this.form.invalid;
  }
 
+ textEmails() {
+   let text = this.order.supplier.email;
+   if (this.order.supplier.email2) {
+     text = text + " | " + this.order.supplier.email2;
+   }
+   return text;
+ }
+
   resend() {
     let emailTo = this.order.supplier.email;
     if (this.order.typeResend === "notSame") {
