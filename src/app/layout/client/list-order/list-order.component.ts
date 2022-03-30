@@ -47,6 +47,15 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     total: 0
   };
 
+  filterOrder = {
+    date: '',
+    general: '',
+    nameProduct: '',
+    paymentStatus: -1
+  };
+
+  typingTimer: any;
+
   constructor(private orderService: OrderService,
               private userService: UserStorageService,
               private route: ActivatedRoute,
@@ -83,7 +92,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   getListOrders(): void {
     this.spinner.show();
-    this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, this.status, this.paginateParams).subscribe(res => {
+    this.orderService.allOrderByUserIdAndStatus$(this.user.userResponse.idUser, this.status, this.paginateParams, this.filterOrder).subscribe(res => {
       if (res.code === CodeHttp.ok) {
         this.meta = res.data.meta;
         this.listOrders = res.data.result;
@@ -116,194 +125,46 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         pR.productRequested.additionalInformation.description.toLowerCase().indexOf(value.toLowerCase()) > -1;
   }
 
-  getItems(ev: any) {
-    this.listOrders = this.listOrdersAux;
-    const val = ev.target.value;
-    this.valorClient = val;
-    const valorStatus = this.selectedStatus;
-    const lista = [];
-    //*
-    this.listOrders = this.list;
-    this.listOrdersAux  = this.list;
-    //*
-    if (val && val.trim() !== '') {
-      const client = val;
-      if (_.toString(valorStatus) === '' && this.tamano.length === 9
-        && _.toString(this.valorProduct) === '') { // Si no ha seleccionado status y fecha
-        this.listOrders = this.listOrders.filter((item) => {
-          return ((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.listProductRequested.find((pR) => {
-              if (pR.productRequested.patient !== null) {
-                return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
-              }
-            }))) ;
-        });
-         //*
-         this.listOrdersAux = this.listOrders;
-         this.advancedPagination = 1;
-         this.pageChange(this.advancedPagination);
-         //*
-      } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
-        && _.toString(this.valorProduct) !== '') {// si selecciono status y no fecha ni cliente
-        this.listOrders = this.listOrders.filter((item) => {
-          return (((item.nameUser.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.number && item.number.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.supplier.companyName.toLowerCase().indexOf(client.toLowerCase()) > -1) ||
-            (item.listProductRequested.find((pR) => {
-                if (pR.productRequested.patient !== null) {
-                  return (pR.productRequested.patient.toLowerCase().indexOf(client.toLowerCase()) > -1);
-                }
-              })))
-            && (item.listProductRequested.find((pR) => {
-              return (this.findByProductInOrdersManual(pR, this.valorProduct) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(this.valorProduct.toLowerCase()) > -1));
-            })));
-        });
-         //*
-         this.listOrdersAux = this.listOrders;
-         this.advancedPagination = 1;
-         this.pageChange(this.advancedPagination);
-         //*
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorProduct) === '') {// si selecciono status y no fecha ni producto
-        this.filterStatusNombre(client, valorStatus);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorProduct) !== '') {// si selecciono status y producto y no fecha
-        this.filterStatusClienteProducto(client, this.valorProduct, valorStatus);
-      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
-        && _.toString(this.valorProduct) === '') { // si no selecciono status ni producto y fecha si
-        this.filterDateNombre(client);
-      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
-        && _.toString(this.valorProduct) !== '') { // si no selecciono status y producto y fecha si
-        this.filterDateClienteProducto(client, this.valorProduct);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
-        && _.toString(this.valorProduct) === '') { // si selecciono status y fecha y producto no
-        this.filterDateStatusCliente(valorStatus, client);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
-        && _.toString(this.valorProduct) !== '') { // si escibio nombre y selecciono fecha
-        this.fullFilter(client, this.valorProduct, valorStatus);
-      }
-    } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
-      this.filter();
-    } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
-      if (this.tamano.length === 15) {
-        this.valid = true;
-        let fecha: String;
-        // FechaFiltro
-        fecha = this.getFecha();
-        _.filter(this.listOrdersAux, function (orders) {
-          let fechaList: String;
-          // Fecha Listado
-          fechaList = _.toString(orders.date.slice(0, 10));
-          if (_.isEqual(fecha, fechaList)) {
-            lista.push(orders);
-          }
-        });
-        this.listOrders = lista;
-        this.listOrdersAux = this.listOrders;
-        this.advancedPagination = 1;
-        this.pageChange(this.advancedPagination);
-      }
-    }
-     //*
-     if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9 && this.valorProduct === '') {
-      this.listOrdersAux = this.listOrders;
-      this.advancedPagination = 1;
-      this.pageChange(this.advancedPagination);
-    }
-    //*
+  filterByPaymentStatus() {
+    this.filterOrder.paymentStatus = this.selectedStatus;
+    this.meta.pages = 0;
+    this.getListOrders();
   }
 
-  getItemsProduct(ev: any) {
-    this.listOrders = this.listOrdersAux;
-    const val = ev.target.value;
-    this.valorProduct = val;
-    const valorStatus = this.selectedStatus;
-    const lista = [];
-     //*
-     this.listOrders = this.list;
-     this.listOrdersAux  = this.list;
-     //*
-    if (val && val.trim() !== '') {
-      const product = val;
-      if (_.toString(valorStatus) === '' && this.tamano.length === 9 &&
-        _.toString(this.valorClient) === '') { // Si no ha seleccionado cliente, status y fecha
-        this.listOrders = this.listOrders.filter((item) => {
-          return item.listProductRequested.find((pR) => {
-            return (this.findByProductInOrdersManual(pR, product) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1));
-          });
-        });
-        //*
-        this.listOrdersAux = this.listOrders;
-        this.advancedPagination = 1;
-        this.pageChange(this.advancedPagination);
-        //*
-      } else if (_.toString(valorStatus) === '' && this.tamano.length === 9
-        && _.toString(this.valorClient) !== '') {// si selecciono status y no fecha ni cliente
-        this.listOrders = this.listOrders.filter((item) => {
-          return item.listProductRequested.find((pR) => {
-            return (((item.nameUser.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
-            (item.supplier.companyName.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1) ||
-            (pR.productRequested.patient ? pR.productRequested.patient.toLowerCase().indexOf(this.valorClient.toLowerCase()) > -1 : false))
-            && (this.findByProductInOrdersManual(pR, product) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(product.toLowerCase()) > -1)));
-          });
-        });
-        //*
-        this.listOrdersAux = this.listOrders;
-        this.advancedPagination = 1;
-        this.pageChange(this.advancedPagination);
-        //*
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorClient) === '') {// si selecciono status y no fecha ni cliente
-        this.filterStatusProducto(product, valorStatus);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9
-        && _.toString(this.valorClient) !== '') {// si selecciono status y cliente y no fecha
-        this.filterStatusClienteProducto(this.valorClient, product, valorStatus);
-      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
-        && _.toString(this.valorClient) === '') { // si no selecciono status ni cliente y fecha si
-        this.filterDateProducto(product);
-      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15
-        && _.toString(this.valorClient) !== '') { // si no selecciono status y cliente y fecha si
-        this.filterDateClienteProducto(this.valorClient, product);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
-        && _.toString(this.valorClient) === '') { // si selecciono status y fecha y cliente no
-        this.filterDateStatusProducto(valorStatus, product);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15
-        && _.toString(this.valorClient) !== '') { // si escribio nombre, producto y selecciono fecha
-        this.fullFilter(this.valorClient, product, valorStatus);
-      }
-    } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
-      this.filter();
-    } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
-      if (this.tamano.length === 15) {
-        this.valid = true;
-        let fecha: String;
-        // FechaFiltro
-        fecha = this.getFecha();
-        _.filter(this.listOrdersAux, function (orders) {
-          let fechaList: String;
-          // Fecha Listado
-          fechaList = _.toString(orders.date.slice(0, 10));
-          if (_.isEqual(fecha, fechaList)) {
-            lista.push(orders);
-          }
-        });
-        //*
-        this.listOrders = lista;
-        this.listOrdersAux = this.listOrders;
-        this.advancedPagination = 1;
-        this.pageChange(this.advancedPagination);
-      }
+  filterByDate(date) {
+    this.filterOrder.date = date.year + '-' + (date.month < 10 ?  '0' + date.month : date.month) + '-' + date.day;
+    this.meta.pages = 0;
+    this.getListOrders();
+  }
+
+  filterGeneral(event) {
+    clearTimeout(this.typingTimer);
+    if (event.target.value !== '') {
+      this.typingTimer = setTimeout(() => {
+        this.filterOrder.general = event.target.value;
+        this.meta.pages = 0;
+        this.getListOrders();
+      }, 500);
+    } else {
+      this.filterOrder.general = '';
+      this.meta.pages = 0;
+      this.getListOrders();
     }
-     //*
-     if (val === '' && _.toString(valorStatus) === '' &&  this.tamano.length === 9 && this.valorProduct === '') {
-      this.listOrdersAux = this.listOrders;
-      this.advancedPagination = 1;
-      this.pageChange(this.advancedPagination);
+  }
+
+  filterByProduct(event) {
+    clearTimeout(this.typingTimer);
+    if (event.target.value !== '') {
+      this.typingTimer = setTimeout(() => {
+        this.filterOrder.nameProduct = event.target.value;
+        this.meta.pages = 0;
+        this.getListOrders();
+      }, 500);
+    } else {
+      this.filterOrder.nameProduct = '';
+      this.meta.pages = 0;
+      this.getListOrders();
     }
-    //*
   }
 
 
@@ -571,69 +432,6 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.advancedPagination = 1;
     this.pageChange(this.advancedPagination);
     //*
-  }
-
-  filter(): void {
-    //*
-    this.listOrdersAux = this.list;
-    //*
-    if (this.selectedStatus !== '') {
-      this.valid = true;
-      if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        // tslint:disable-next-line:radix
-        this.listOrders = _.filter(this.listOrdersAux, { 'paymentStatus': parseInt(this.selectedStatus) });
-        this.listOrdersAux = this.listOrders;
-        this.advancedPagination = 1;
-        this.pageChange(this.advancedPagination);
-        //*
-      } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.filterStatusDate(this.selectedStatus);
-      } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
-        const nombre = this.valorClient;
-        this.filterStatusNombre(nombre, this.selectedStatus);
-      } else if (this.tamano.length === 15 && (this.valorClient.trim() !== '')) {
-        const client = this.valorClient;
-        this.filterDateStatusCliente(this.selectedStatus, client);
-      }
-    }
-  }
-
-  filter1(value): void {
-    this.model = value;
-    const valorStatus = this.selectedStatus;
-    this.tamano = this.valueDate(this.model);
-    const lista = [];
-    //*
-    this.listOrdersAux = this.list;
-    //*
-    if (this.tamano.length === 15) {
-      this.valid = true;
-      if ((_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        // FechaFiltro
-        let fecha: String;
-        fecha = this.getFecha();
-        _.filter(this.listOrdersAux, function (orders) {
-          let fechaList: String;
-          // Fecha Listado
-          fechaList = _.toString(orders.date.slice(0, 10));
-          if (_.isEqual(fecha, fechaList)) {
-            lista.push(orders);
-          }
-        });
-        //*
-        this.listOrders = lista;
-        this.listOrdersAux = this.listOrders;
-        this.advancedPagination = 1;
-        this.pageChange(this.advancedPagination);
-        //*
-      } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.filterStatusDate(valorStatus);
-      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
-        this.filterDateNombre(this.valorClient);
-      } else if (_.toString(valorStatus) !== ''  && (this.valorClient.trim() !== '')) {
-        this.filterDateStatusCliente(valorStatus, this.valorClient);
-      }
-    }
   }
 
   getFecha(): String {
