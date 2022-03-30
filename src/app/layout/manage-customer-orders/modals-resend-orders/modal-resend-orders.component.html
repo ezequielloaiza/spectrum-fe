@@ -11,7 +11,7 @@
         <div class="custom-control custom-radio">
           <input type="radio" id="radioGroup1" name="radioGroup" [ngModelOptions]="{standalone: true}"
                   class="custom-control-input" [(ngModel)]="order.typeResend" [value]="'sameEmail'">
-          <label class="custom-control-label" for="radioGroup1">{{ 'Resend to:' | translate }} {{order.supplier.email}}</label>
+          <label class="custom-control-label" for="radioGroup1">{{ 'Resend to:' | translate }} {{ textEmails() }}</label>
         </div>
       </div>
       <div class="col-xl-12" >
