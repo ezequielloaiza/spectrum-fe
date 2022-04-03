@@ -42,6 +42,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   tamano: String;
   user: any;
   valorClient: string;
+  valorCodeClient: string;
   valorProduct: string;
   mostrarStatus = false;
   fechaSelecOrd: NgbDatepicker;
@@ -71,7 +72,8 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     date: '',
     general: '',
     nameProduct: '',
-    paymentStatus: -1
+    paymentStatus: -1,
+    codeClient: ''
   };
 
   typingTimer: any;
@@ -104,6 +106,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.selectedStatus = '';
     this.valorClient = '';
     this.valorProduct = '';
+    this.valorCodeClient = '';
     this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
     this.listAux = [];
@@ -251,6 +254,21 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     if (event.target.value !== '') {
       this.typingTimer = setTimeout(() => {
         this.filterOrder.general = event.target.value;
+        this.meta.pages = 0;
+        this.getListOrders();
+      }, 500);
+    } else {
+      this.filterOrder.general = '';
+      this.meta.pages = 0;
+      this.getListOrders();
+    }
+  }
+
+  filterCodeClient(event) {
+    clearTimeout(this.typingTimer);
+    if (event.target.value !== '') {
+      this.typingTimer = setTimeout(() => {
+        this.filterOrder.codeClient = event.target.value;
         this.meta.pages = 0;
         this.getListOrders();
       }, 500);
@@ -591,6 +609,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.fechaSelecOrd = null;
     this.valorClient = '';
     this.valorProduct = '';
+    this.valorCodeClient = '';
   }
 
   valueDate(valor): String {

@@ -27,7 +27,7 @@
           </div>-->
         </div>
         <div class="row">
-          <div class="col-xl-3 filter">
+          <div class="col-xl-5 filter">
             <div class="row search">
               <div class="col col-xl-12 col-lg-12">
                 <input class="form-control" (keyup)="filterGeneral($event)" [(ngModel)]="valorClient"
@@ -36,7 +36,16 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 filter">
+          <!--<div class="col-xl-5 filter">
+            <div class="row search">
+              <div class="col col-xl-12 col-lg-12">
+                <input class="form-control" (keyup)="filterCodeClient($event)" [(ngModel)]="valorCodeClient"
+                  placeholder="{{'Enter code customer' | translate }}">
+                <i class="fa fa-search"></i>
+              </div>
+            </div>
+          </div>-->
+          <div class="col-xl-5 filter">
             <div class="row search">
               <div class="col col-xl-12 col-lg-12">
                 <input class="form-control" (keyup)="filterByProduct($event)" [(ngModel)]="valorProduct"
@@ -45,16 +54,16 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 filter">
+          <div class="col-xl-5 filter">
             <select class="form-control" name="selectedStatus" id="selectedStatus" [(ngModel)]="selectedStatus" (change)="filterByPaymentStatus()">
               <option value="" disabled [selected]="true" translate>Select payment status</option>
               <option *ngFor="let status of filterStatus" value="{{status.id}}">{{ status.name | translate }}</option>
             </select>
           </div>
-          <div class="col-xl-3 filter">
+          <div class="col-xl-5 filter">
             <div>
               <div class="input-group">
-                <input placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterByDate(fechaSelec)">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelec" [(ngModel)]="fechaSelec" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterByDate(fechaSelec)">
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                     <i class="fa fa-calendar"></i>

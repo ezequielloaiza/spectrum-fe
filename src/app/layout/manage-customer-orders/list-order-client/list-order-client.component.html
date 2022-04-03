@@ -34,7 +34,16 @@
               <div class="row search">
                 <div class="col col-xl-12 col-lg-12">
                   <input class="form-control" (keyup)="filterGeneral($event)" [(ngModel)]="valorClient"
-                    placeholder="{{'Enter order, client, patient o supplier' | translate }}">
+                    placeholder="{{'Enter order, customer, patient o supplier' | translate }}">
+                  <i class="fa fa-search"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-5 filter">
+              <div class="row search">
+                <div class="col col-xl-12 col-lg-12">
+                  <input class="form-control" (keyup)="filterCodeClient($event)" [(ngModel)]="valorCodeClient"
+                    placeholder="{{'Enter code customer' | translate }}">
                   <i class="fa fa-search"></i>
                 </div>
               </div>
@@ -157,7 +166,7 @@
                       <span>{{'Customer'| translate }}</span>
                     </div>
                     <div>
-                      <span>{{order ? order.nameUser :''}}</span>
+                      <span>{{order ? order.user.accSpct :''}} {{ order && order.user.accSpct ? ' - ' : ''}} {{order ? order.nameUser :''}}</span>
                     </div>
                     <br>
                     <div *ngIf="order.listProductRequested.length > 0">

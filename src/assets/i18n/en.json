@@ -825,7 +825,7 @@
     "Diameter 18.0-20.0":"Diameter 18.0-20.0",
     "OS Documents | Attach Consultation Form": "OS Documents | Attach Consultation Form",
     "OD Documents | Attach Consultation Form": "OD Documents | Attach Consultation Form",
-    "Enter order, client, patient o supplier" : "Enter order, client, patient o supplier",
+    "Enter order, customer, patient o supplier" : "Enter order, customer, patient o supplier",
     "Amount Shipping" : "Amount Shipping",
     "Attached files" : "Attached files",
     "Bulk Payments":"Bulk Payments",
@@ -1290,5 +1290,6 @@
     "Hidrogel, Filcon IV I 55%": "Hydrogel, Filcon IV I 55%",
     "and maximum 1000 boxes": "and maximum 1000 boxes",
     "The current membership does not have prices for this product.": "The current membership does not have prices for this product.",
-    "The user already exists, check the username":"The user already exists, check the username"
+    "The user already exists, check the username":"The user already exists, check the username",
+    "Enter code customer": "Enter code customer"
 }
