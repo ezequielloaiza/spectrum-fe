@@ -36,6 +36,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   navigationSubscription;
   today: Date = new Date();
   valorClient: String;
+  valorCodeClient: String;
   valorProduct: String;
   paginateParams = {
     page: 1,
@@ -51,7 +52,8 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     date: '',
     general: '',
     nameProduct: '',
-    paymentStatus: -1
+    paymentStatus: -1,
+    codeClient: ''
   };
 
   typingTimer: any;
@@ -80,6 +82,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.advancedPagination = 1;
     this.model = { year: 0, month: 0, day: 0 };
     this.valorClient = '';
+    this.valorCodeClient = '';
     this.selectedStatus = '';
     this.tamano = 'undefined';
   }
@@ -167,6 +170,20 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     }
   }
 
+  filterCodeClient(event) {
+    clearTimeout(this.typingTimer);
+    if (event.target.value !== '') {
+      this.typingTimer = setTimeout(() => {
+        this.filterOrder.codeClient = event.target.value;
+        this.meta.pages = 0;
+        this.getListOrders();
+      }, 500);
+    } else {
+      this.filterOrder.general = '';
+      this.meta.pages = 0;
+      this.getListOrders();
+    }
+  }
 
   fullFilter(nombreCliente, producto, status): void {
     // FechaFiltro
@@ -460,6 +477,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     this.selectedStatus = '';
     this.fechaSelec = null;
     this.valorClient = '';
+    this.valorCodeClient = '';
     this.valorProduct = '';
   }
 
