@@ -2526,7 +2526,7 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.findOrdersClientBySeller$ = function (status, params, filter) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/findOrdersClientBySeller/' + status + '?page=' +
             params.page + '&perPage=' + params.perPage + '&paymentStatus=' + filter.paymentStatus +
-            '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date);
+            '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date + '&codeClient=' + filter.codeClient);
     };
     OrderService.prototype.allOrdersUsersBySellerAndStatusNot$ = function (status) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrdersUsersBySellerAndStatusNot/' + status);
@@ -2540,7 +2540,8 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.allOrderWithStatus$ = function (idStatus, params, filter) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrderWithStatus/' + idStatus +
             '?page=' + params.page + '&perPage=' + params.perPage + '&paymentStatus=' + filter.paymentStatus +
-            '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date);
+            '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date +
+            '&codeClient=' + filter.codeClient);
     };
     OrderService.prototype.allOrderWithStatusNot$ = function (idStatus) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrderWithStatusNot/' + idStatus);
@@ -2569,7 +2570,8 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.allOrderByUserIdAndStatus$ = function (idUser, IdStatus, params, filter) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/allOrderByUserIdAndStatus/' + idUser + '/' + IdStatus +
             '?page=' + params.page + '&perPage=' + params.perPage + '&paymentStatus=' + filter.paymentStatus +
-            '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date);
+            '&nameProduct=' + filter.nameProduct + '&general=' + filter.general + '&date=' + filter.date +
+            '&codeClient=' + filter.codeClient);
     };
     OrderService.prototype.downloadOrder$ = function (name) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/downloadOrder/' + name, {
