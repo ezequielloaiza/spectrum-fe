@@ -199,6 +199,7 @@ export class ListUserComponent implements OnInit {
   send() {
     this.userService.sendPassword$(this.listUserId).subscribe(res => {
       this.notification.success('', this.translate.instant('Email send Successfully'));
+      this.listUserId = [];
     }, error => {
       console.log(error);
     });
