@@ -112,4 +112,8 @@ export class UserService {
     });
   }
 
+  public sendPassword$(listUserId): Observable<any> {
+    return this.http.post(environment.apiUrl + 'user/send-password', listUserId);
+  }
+
 }
