@@ -30,6 +30,7 @@ export class ListUserComponent implements OnInit {
   typeSort = 0;
   today: Date = new Date();
   connected = false;
+  listUserId: any = [];
 
   constructor(private userService: UserService,
     private alertify: AlertifyService,
@@ -99,17 +100,17 @@ export class ListUserComponent implements OnInit {
 	}
 
   getItems(ev: any) {
-    this.listUsers = this.listUsersAux;
-
     const val = ev.target.value;
 
     if (val && val.trim() !== '') {
-      this.listUsers = this.listUsers.filter((item) => {
+      this.listUsers = this.listUsersAux.filter((item) => {
         return ((item.name !== null && item.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
         (item.email !== null && item.email.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
         (item.company.country.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
         (item.company.companyName.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
+    } else {
+      this.listUsers = this.listUsersAux.slice(0, this.itemPerPage);
     }
   }
 
@@ -163,6 +164,44 @@ export class ListUserComponent implements OnInit {
       this.translate.get('The file could not be generated', { value: 'The file could not be generated' }).subscribe((res: string) => {
         this.notification.error('', res);
       });
+    });
+  }
+
+  selectedUser(id) {
+    if (!this.listUserId.find(o => o === id)) {
+      this.listUserId.push(id);
+    } else {
+      this.listUserId = _.filter(this.listUserId, function (idSelected) {
+        return idSelected !== id;
+      });
+    }
+  }
+
+  selectedUserAll() {
+    if (this.listUserId.length !== this.listUsersAux.length) {
+      this.listUserId = [];
+      this.listUsersAux.forEach(user => {
+        this.listUserId.push(user.idUser);
+      });
+    } else {
+      this.listUserId = [];
+    }
+  }
+
+  checked(id) {
+    return !!this.listUserId.find(o => o === id);
+  }
+
+  checkedAl() {
+    return !!(this.listUserId.length === this.listUsersAux.length);
+  }
+
+  send() {
+    this.userService.sendPassword$(this.listUserId).subscribe(res => {
+      this.notification.success('', this.translate.instant('Email send Successfully'));
+      this.listUserId = [];
+    }, error => {
+      console.log(error);
     });
   }
 
