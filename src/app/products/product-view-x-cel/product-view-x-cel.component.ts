@@ -346,8 +346,9 @@ export class ProductViewXCelComponent implements OnInit {
     let productsSelected = this.productsSelected;
     this.setSelectedParams();
 
-    _.each(productsSelected, function (p, index) {
+    _.each(productsSelected, function (p) {
       let eye = p.eye.toLowerCase();
+      let index = _.findIndex(self.selectedProduct.params, function(param) { return param.eye === p.eye;});
       p.patient = self.product.patient;
       p.name = self.product.name;
       p.id = self.product.idProduct;

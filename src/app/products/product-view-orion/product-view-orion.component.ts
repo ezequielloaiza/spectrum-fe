@@ -385,7 +385,7 @@ export class ProductViewOrionComponent implements OnInit {
         min = 7.70;
         break;
       case 'Axis':
-        min = 1.00;
+        min = 0.00;
         break;
     }
     return min;
