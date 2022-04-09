@@ -2879,6 +2879,9 @@ var UserService = /** @class */ (function () {
             responseType: 'blob'
         });
     };
+    UserService.prototype.sendPassword$ = function (listUserId) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'user/send-password', listUserId);
+    };
     UserService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'

@@ -1881,8 +1881,9 @@ var ProductViewXCelComponent = /** @class */ (function () {
         this.setEyeSelected();
         var productsSelected = this.productsSelected;
         this.setSelectedParams();
-        lodash__WEBPACK_IMPORTED_MODULE_5__["each"](productsSelected, function (p, index) {
+        lodash__WEBPACK_IMPORTED_MODULE_5__["each"](productsSelected, function (p) {
             var eye = p.eye.toLowerCase();
+            var index = lodash__WEBPACK_IMPORTED_MODULE_5__["findIndex"](self.selectedProduct.params, function (param) { return param.eye === p.eye; });
             p.patient = self.product.patient;
             p.name = self.product.name;
             p.id = self.product.idProduct;
