@@ -33,7 +33,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   list: Array<any> = new Array;
   listOrdersPending: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage = 100;
+  itemPerPage = 50;
   filterStatus = [{ id: 0, name: "Pending" },
   { id: 1, name: "Paid" }
   ];
@@ -113,7 +113,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.selectedAll = false;
     this.paginateParams = {
       page: 1,
-      perPage: 100
+      perPage: 50
     };
   }
 

@@ -22,7 +22,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   listOrdersAux: Array<any> = new Array;
   list: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage = 100;
+  itemPerPage = 50;
   filterStatus = [{ id: 0, name: "Pending" },
                   { id: 1, name: "Paid" }
                 ];
@@ -40,7 +40,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   valorProduct: String;
   paginateParams = {
     page: 1,
-    perPage: 100
+    perPage: 50
   };
 
   meta = {
