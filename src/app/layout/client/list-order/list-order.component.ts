@@ -22,7 +22,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   listOrdersAux: Array<any> = new Array;
   list: Array<any> = new Array;
   advancedPagination: number;
-  itemPerPage = 5;
+  itemPerPage = 20;
   filterStatus = [{ id: 0, name: "Pending" },
                   { id: 1, name: "Paid" }
                 ];
