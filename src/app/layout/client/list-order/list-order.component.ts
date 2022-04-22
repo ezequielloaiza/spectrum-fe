@@ -40,7 +40,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   valorProduct: String;
   paginateParams = {
     page: 1,
-    perPage: 20
+    perPage: 50
   };
 
   meta = {
