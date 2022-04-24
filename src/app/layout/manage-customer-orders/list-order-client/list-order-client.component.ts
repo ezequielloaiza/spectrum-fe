@@ -538,6 +538,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.reloadingAll();
         } else {
           this.spinner.hide();
+          this.notification.error('', this.translate.instant('An error occurred when generating the invoice'));
           console.log(res.code);
         }
       },
@@ -648,6 +649,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 3 } });
         } else {
           this.spinner.hide();
+          this.notification.error('', this.translate.instant('An error occurred when generating the invoice'));
           console.log(res.code);
         }
       },
