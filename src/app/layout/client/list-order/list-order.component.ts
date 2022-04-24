@@ -19,7 +19,6 @@ import { ToastrService } from 'ngx-toastr';
 export class ListOrderComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
-  listOrdersAux: Array<any> = new Array;
   list: Array<any> = new Array;
   advancedPagination: number;
   itemPerPage = 5;
@@ -27,7 +26,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
                   { id: 1, name: "Paid" }
                 ];
   model: NgbDateStruct;
-  valid = false;
+  valid = true;
   tamano: String;
   selectedStatus: any;
   fechaSelec: NgbDatepicker;
@@ -99,7 +98,6 @@ export class ListOrderComponent implements OnInit, OnDestroy {
       if (res.code === CodeHttp.ok) {
         this.meta = res.data.meta;
         this.listOrders = res.data.result;
-        this.listOrdersAux = res.data.result;
         _.each(this.listOrders, function (order) {
            _.each(order.listProductRequested, function(listDetails) {
             if (listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0) {
@@ -108,18 +106,9 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           });
         });
         this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
-        this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
-        this.list = this.listOrdersAux;
         this.spinner.hide();
       }
-      this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
     });
-  }
-
-  pageChange(event) {
-    const startItem = (event - 1) * this.itemPerPage;
-    const endItem = event * this.itemPerPage;
-    this.listOrders = this.listOrdersAux.slice(startItem, endItem);
   }
 
   findByProductInOrdersManual(pR: any, value: any) {
@@ -130,13 +119,13 @@ export class ListOrderComponent implements OnInit, OnDestroy {
 
   filterByPaymentStatus() {
     this.filterOrder.paymentStatus = this.selectedStatus;
-    this.meta.pages = 0;
+    this.paginateParams.page = 1;
     this.getListOrders();
   }
 
   filterByDate(date) {
     this.filterOrder.date = date.year + '-' + (date.month < 10 ?  '0' + date.month : date.month) + '-' + date.day;
-    this.meta.pages = 0;
+    this.paginateParams.page = 1;
     this.getListOrders();
   }
 
@@ -145,12 +134,12 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     if (event.target.value !== '') {
       this.typingTimer = setTimeout(() => {
         this.filterOrder.general = event.target.value;
-        this.meta.pages = 0;
+        this.paginateParams.page = 1;
         this.getListOrders();
       }, 500);
     } else {
       this.filterOrder.general = '';
-      this.meta.pages = 0;
+      this.paginateParams.page = 1;
       this.getListOrders();
     }
   }
@@ -160,12 +149,12 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     if (event.target.value !== '') {
       this.typingTimer = setTimeout(() => {
         this.filterOrder.nameProduct = event.target.value;
-        this.meta.pages = 0;
+        this.paginateParams.page = 1;
         this.getListOrders();
       }, 500);
     } else {
       this.filterOrder.nameProduct = '';
-      this.meta.pages = 0;
+      this.paginateParams.page = 1;
       this.getListOrders();
     }
   }
@@ -175,302 +164,19 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     if (event.target.value !== '') {
       this.typingTimer = setTimeout(() => {
         this.filterOrder.codeClient = event.target.value;
-        this.meta.pages = 0;
+        this.paginateParams.page = 1;
         this.getListOrders();
       }, 500);
     } else {
       this.filterOrder.general = '';
-      this.meta.pages = 0;
+      this.paginateParams.page = 1;
       this.getListOrders();
     }
-  }
-
-  fullFilter(nombreCliente, producto, status): void {
-    // FechaFiltro
-    let fecha: String;
-    fecha = this.getFecha();
-    const lista = [];
-    // Lista actual
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase()))  ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) || (orders.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) &&
-        (orders.listProductRequested.find((pR) => {
-          return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1));
-        }))) &&
-        // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateStatusProducto(status, producto): void {
-    // FechaFiltro
-    let fecha: String;
-    fecha = this.getFecha();
-    const lista = [];
-    // Lista actual
-      this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((orders.listProductRequested.find((pR) => {
-        return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
-        // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateClienteProducto(nombreCliente, producto): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (orders.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) &&
-        (orders.listProductRequested.find((pR) => {
-          return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
-        ((_.isEqual(fecha, fechaList)))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateProducto(producto): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((orders.listProductRequested.find((pR) => {
-        return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
-        (_.isEqual(fecha, fechaList))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusProducto(producto, status): void {
-    const lista = [];
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      if (((orders.listProductRequested.find((pR) => {
-        return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); }))) &&
-        // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusClienteProducto(nombreCliente, producto, status): void {
-    const lista = [];
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-         (orders.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) &&
-        (orders.listProductRequested.find((pR) => {
-          return (this.findByProductInOrdersManual(pR, producto) || (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1)); })) &&
-        // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusNombre(nombreCliente, status): void {
-    const lista = [];
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (orders.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) &&
-        // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateNombre(nombreCliente): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-         (orders.listProductRequested.find((pR) => {
-           if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-           }
-        }))) &&
-        ((_.isEqual(fecha, fechaList)))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateStatusCliente(status, nombreCliente): void {
-    // FechaFiltro
-    let fecha: String;
-    fecha = this.getFecha();
-    const lista = [];
-    // Lista actual
-     this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
-        (orders.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        })) ) &&
-        // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusDate(status): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
-      let fechaList: String;
-      // Fecha Listado
-      fechaList = _.toString(orders.date.slice(0, 10));
-      // tslint:disable-next-line:radix
-      if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  getFecha(): String {
-    let ano;
-    let mes;
-    let dia;
-    let fecha: String;
-    // Ano
-    ano = this.model.year;
-    // Mes
-    this.model.month < 10 ? mes = '0' + this.model.month : mes = this.model.month;
-    // Dia
-    this.model.day < 10 ? dia = '0' + this.model.day : dia = this.model.day;
-    // FechaFiltro
-    fecha = ano + '-' + mes + '-' + dia;
-    return fecha;
   }
 
   clean() {
     this.getListOrders();
     this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
     this.router.navigate(['/order-list-client'], { queryParams: { status: this.status } });
     this.valid = false;
     this.tamano = 'undefined';
@@ -533,25 +239,25 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     let sendDate = new Date(order.dateSend);
 
     switch (order.supplier.idSupplier) {
-      case 1: //Markennovy
+      case 1: // Markennovy
         return true; // free for client conversation.
 
-      case 2: //Europa
+      case 2: // Europa
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
 
-      case 3: //Elipsys
+      case 3: // Elipsys
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
 
-      case 4: //Euclid
+      case 4: // Euclid
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
 
-      case 6: //Lentes blandos de vendaje
+      case 6: // Lentes blandos de vendaje
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
 
-      case 9: //SynergEyes
+      case 9: // SynergEyes
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 100;
 
-      case 10: //Orion Vision Group
+      case 10: // Orion Vision Group
         return currentDate > sendDate && this.dateDiffInDays(sendDate, currentDate) <= 70;
 
       default:
@@ -581,8 +287,8 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     });
   }
 
-    // Paging methods
-    onPrev(): void {
+  // Paging methods
+  onPrev(): void {
     this.paginateParams.page--;
     this.getListOrders();
   }
@@ -598,7 +304,13 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   }
 
   onLast(): void {
-    //this.paginateParams.page = this.meta.pages;
+    this.paginateParams.page = this.meta.pages;
+    this.getListOrders();
+  }
+
+  onPerPage(perPage: number): void {
+    this.paginateParams.page = 1;
+    this.paginateParams.perPage = perPage;
     this.getListOrders();
   }
 }
