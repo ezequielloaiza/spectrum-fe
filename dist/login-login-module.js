@@ -122,10 +122,10 @@ var LoginComponent = /** @class */ (function () {
         this.message = '';
     }
     LoginComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route.queryParams.subscribe(function (params) {
-            _this.testing = params.testing;
-        });
+        // this.route.queryParams.subscribe(params => {
+        //   this.testing = params.testing;
+        // });
+        this.testing = true;
         this.initializeForm();
     };
     LoginComponent.prototype.signIn = function (user) {
