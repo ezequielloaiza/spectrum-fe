@@ -40,9 +40,10 @@ export class LoginComponent implements OnInit {
   message: String = '';
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.testing = params.testing;
-    });
+    // this.route.queryParams.subscribe(params => {
+    //   this.testing = params.testing;
+    // });
+    this.testing = true;
     this.initializeForm();
   }
 
