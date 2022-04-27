@@ -29,7 +29,6 @@ import { ModalResendOrdersComponent } from '../modals-resend-orders/modal-resend
 export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
-  listOrdersAux: Array<any> = new Array;
   listOrdersPending: Array<any> = new Array;
   listOrdersSelected: Array<any> = new Array;
   filterStatus = [{ id: 0, name: 'Pending' },
@@ -96,10 +95,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.connected = this.userService.getIsIntegratedQBO();
+    this.listOrdersSelected = [];
+    this.listOrdersSelected.length > 1 ? this.valid = true : this.valid = false;
     this.route.queryParams.subscribe(params => {
       this.status = params.status;
-      this.listOrdersSelected = [];
-      this.listOrdersSelected.length > 1 ? this.valid = true : this.valid = false;
     });
     this.selectedStatus = '';
     this.valorClient = '';
@@ -156,7 +155,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
 
           this.listOrders = res.data.result;
-          this.listOrdersAux = res.data.result;
           _.each(this.listOrders, function (order) {
               order.generate = false;
             _.each(order.listProductRequested, function (listDetails) {
@@ -166,7 +164,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             });
           });
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
-          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
         }
         this.spinner.hide();
       });
@@ -199,7 +196,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           }
           this.mostrarStatus = true;
           this.listOrders = res.data.result;
-          this.listOrdersAux = res.data.result;
           this.listOrders.forEach(order => {
               if (order.status !== 0 ) {
                 order.generate = false;
@@ -222,7 +218,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
           this.pendingOrdersGenerate();
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
-          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
           this.spinner.hide();
         }
       });
@@ -344,7 +339,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   showFilter() {
-    debugger
     if (this.selectedStatus !== '' || (this.fechaSelecOrd !== null && this.fechaSelecOrd !== undefined) ||
         this.valorClient !== '' || this.valorProduct !== '' || this.valorCodeClient !== '') {
           this.valid1 = true;
@@ -444,7 +438,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelection(id, checked, order) {
+  onSelection(checked, order) {
     const index = this.listOrdersSelected.findIndex(o => o.idOrder === order.idOrder);
     if (index !== -1) {
       if (checked) {
@@ -486,7 +480,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.checkClient();
     if (this.valido) {
       this.verifyInvoice();
-      debugger
       if (this.listInvoiceClient.length > 0) {
         const modalRef = this.modalService.open(ModalsInvoiceComponent,
           { size: 'lg', windowClass: 'modal-content-border', backdrop  : 'static', keyboard  : false });
@@ -733,53 +726,30 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   processMultipleOrders() {
-    let self = this;
-  _.each(this.listAux, function(item, index) {
-    let order = _.find(self.listOrdersAux, { 'idOrder': item });
-        self.generateOrder(order);
+    this.listOrdersSelected.forEach(order => {
+      this.generateOrder(order);
     });
-  }
-
-  onSelectionPending(id, checked) {
-    let existe: boolean;
-    existe = _.includes(this.listAux,  id);
-    if (existe) {
-      if (!checked) {
-        _.remove(this.listAux,  function (n)  {
-          return  n  ===  id;
-        });
-      }
-    } else {
-      this.listAux = _.concat(this.listAux, id);
-    }
-    this.selectedAll = false;
-    this.listAux.length === this.listOrdersPending.length ? this.selectedAll = true : this.selectedAll = false;
   }
 
   onSelectionAllPending(event) {
-    let arrayAux = this.listAux;
-    const check = event.target.checked;
-    _.each(this.listOrdersPending, function(item) {
-      item.checked = check;
-      let existe: boolean;
-      const id = item.idOrder;
-      existe = _.includes(arrayAux, id);
-      if (existe) {
-        if (!check) {
-          _.remove(arrayAux,  function (n)  {
-            return n === id;
-          });
-        }
-      } else {
-        arrayAux = _.concat(arrayAux, id);
-      }
-    });
-    this.selectedAll = check;
-    this.listAux = arrayAux;
+    if (event.target.checked) {
+      this.selectedAll = event.target.checked;
+      this.listOrdersSelected = [];
+      this.listOrders.forEach(order => {
+        order.checked = event.target.checked;
+        this.listOrdersSelected.push(order);
+      });
+    } else {
+      this.selectedAll = event.target.checked;
+      this.listOrdersSelected = [];
+      this.listOrders.forEach(order => {
+        order.checked = event.target.checked;
+      });
+    }
   }
 
   pendingOrdersGenerate() {
-    this.listOrdersPending =_.filter(this.listOrders, {'generate': true});
+    this.listOrdersPending = _.filter(this.listOrders, {'generate': true});
   }
 
   getReferenceCopy(order) {
