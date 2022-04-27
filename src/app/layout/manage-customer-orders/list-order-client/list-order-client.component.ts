@@ -109,7 +109,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.selectedAll = false;
     this.paginateParams = {
       page: 1,
-      perPage: 50
+      perPage: 5
     };
   }
 
