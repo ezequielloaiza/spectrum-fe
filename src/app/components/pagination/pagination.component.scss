@@ -1,27 +1,31 @@
-.ng-select.page {
-  .ng-clear-wrapper .ng-clear {
-    display: none;
-  }
-
-  .ng-select-container {
-    min-height: 28px;
-
-    .ng-value-container {
-      width: 100%;
-      justify-content: center;
+.ng-select {
+  width: 62px;
+  &.page {
+    .ng-clear-wrapper .ng-clear {
+      display: none;
     }
-  }
-
-  &.ng-select-single .ng-select-container {
-    height: 28px;
-    width: 55px;
-
-    .ng-value-container {
-      overflow: initial;
-      font-weight: 600;
+  
+    .ng-select-container {
+      min-height: 28px;
+  
+      .ng-value-container {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  
+    &.ng-select-single .ng-select-container {
+      height: 28px;
+      width: 55px;
+  
+      .ng-value-container {
+        overflow: initial;
+        font-weight: 600;
+      }
     }
   }
 }
+
 
 .icon-grey {
   color: gray;

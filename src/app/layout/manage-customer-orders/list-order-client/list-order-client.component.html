@@ -90,14 +90,14 @@
             <div>
               <div class="custom-control custom-checkbox selection-all"
                 *ngIf="(user.role.idRole === 1 || user.role.idRole === 2) && status !== '0' && status !== '4'">
-                <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
+                <!--<input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
                   (click)="onSelectionAll($event)" [checked]="selectedAll" class="custom-control-input">
-                <label class="custom-control-label select-all" for="checkboxAll"></label>
+                <label class="custom-control-label select-all" for="checkboxAll"></label>-->
                 <div class="margin" *ngIf="status === '2'">
                   <div class="col-xl-12 btn-clean">
-                    <button class="btn btn-outline-secondary mr-1" translate [hidden]="!valid" (click)="billCustomers()"
+                    <button class="btn btn-outline-secondary mr-1 mt-1" translate [hidden]="!valid" (click)="billCustomers()"
                       *ngIf="connected">Bill To Customer</button>
-                      <button type="button" class="btn btn-outline-secondary disabled mr-1" [hidden]="!valid"
+                      <button type="button" class="btn btn-outline-secondary disabled mr-1 mt-1" [hidden]="!valid"
                       placement="top"
                       ngbTooltip="{{ 'To create a invoice you must authorize to Quickbooks to complete the integration' | translate }}"
                       container="body" *ngIf="!connected">{{ 'Bill To Customer' | translate }}
@@ -106,18 +106,18 @@
                 </div>
                 <div class="margin" *ngIf="status === '1'">
                   <div class="col-xl-12 btn-clean">
-                    <button class="btn btn-outline-secondary" translate [hidden]="!valid" (click)="billProviders()">Generate Proforma</button>
+                    <button class="btn btn-outline-secondary mt-1" translate [hidden]="!valid" (click)="billProviders()">Generate Proforma</button>
                   </div>
                 </div>
               </div>
               <div class="custom-control custom-checkbox selection-all"
-                *ngIf="user.role.idRole === 1 && status === '0' && listOrdersPending.length > 0">
+                *ngIf="user.role.idRole === 1 && status === '0' && listOrdersSelected.length > 0">
                 <input id="checkboxAll" type="checkbox" name="checkboxGroupAll" [(ngModel)]="selectedAll"
                   (click)="onSelectionAllPending($event)" [checked]="selectedAll" class="custom-control-input">
                 <label class="custom-control-label select-all" for="checkboxAll"></label>
                 <div class="margin">
                   <div class="col-xl-12 btn-clean">
-                    <button class="btn btn-outline-secondary" translate [hidden]="listAux.length === 0"
+                    <button class="btn btn-outline-secondary" translate *ngIf="listOrdersSelected.length > 1"
                       (click)="processMultipleOrders()">Generate Order</button>&nbsp;
                   </div>
                 </div>
@@ -130,12 +130,12 @@
                         <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup"
                           *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"
                           [value]="order.idOrder" [(ngModel)]="order.checked"
-                          (change)="onSelection(order.idOrder,order.checked)" class="custom-control-input">
+                          (click)="onSelection(order.checked, order)" class="custom-control-input">
                         <label class="custom-control-label" for="checkbox{{i}}"
                           *ngIf="user.role.idRole === 1 && (order.status !== 0 && order.status !== 4)"></label>
                         <!--Pending-->
                         <input type="checkbox" id="checkbox{{i}}" name="checkboxGroup" [value]="order.idOrder"
-                          [(ngModel)]="order.checked" (change)="onSelectionPending(order.idOrder,order.checked)"
+                          [(ngModel)]="order.checked" (click)="onSelection(order.checked, order)"
                           class="custom-control-input" [hidden]="!order.generate && order.status === 0">
                         <label class="custom-control-label" for="checkbox{{i}}"
                           *ngIf="user.role.idRole === 1 && (order.status !== 4)"
@@ -430,8 +430,8 @@
             </div>
             <!-- paginator -->
             <div [hidden]="listOrders.length === 0">
-              <app-pagination [pages]="meta.pages" [currentPage]="paginateParams.page" [perPage]="10"
-                (goNext)="onNext()" (goPrev)="onPrev()" (goFirst)="onFirst()" (goLast)="onLast()">
+              <app-pagination [pages]="meta.pages" [currentPage]="paginateParams.page" [perPage]="paginateParams.perPage"
+                (goNext)="onNext()" (goPrev)="onPrev()" (goFirst)="onFirst()" (goLast)="onLast()" (goPerPage)="onPerPage($event)">
               </app-pagination>
             </div>
           </div>
