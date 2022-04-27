@@ -29,17 +29,13 @@ import { ModalResendOrdersComponent } from '../modals-resend-orders/modal-resend
 export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   listOrders: Array<any> = new Array;
-  listOrdersAux: Array<any> = new Array;
-  list: Array<any> = new Array;
   listOrdersPending: Array<any> = new Array;
-  advancedPagination: number;
-  itemPerPage = 5;
-  filterStatus = [{ id: 0, name: "Pending" },
-  { id: 1, name: "Paid" }
+  listOrdersSelected: Array<any> = new Array;
+  filterStatus = [{ id: 0, name: 'Pending' },
+  { id: 1, name: 'Paid' }
   ];
   model: NgbDateStruct;
   valid1 = false;
-  tamano: String;
   user: any;
   valorClient: string;
   valorCodeClient: string;
@@ -99,15 +95,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.connected = this.userService.getIsIntegratedQBO();
+    this.listOrdersSelected = [];
+    this.listOrdersSelected.length > 1 ? this.valid = true : this.valid = false;
     this.route.queryParams.subscribe(params => {
       this.status = params.status;
     });
-    this.advancedPagination = 1;
     this.selectedStatus = '';
     this.valorClient = '';
     this.valorProduct = '';
     this.valorCodeClient = '';
-    this.tamano = 'undefined';
     this.model = { year: 0, month: 0, day: 0 };
     this.listAux = [];
     this.selectedAll = false;
@@ -127,6 +123,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     if (this.status === undefined) {
       this.status = this.auxStatus;
     }
+    this.showFilter();
     this.spinner.show();
     if (this.user.role.idRole === 2) {
       this.orderService.findOrdersClientBySeller$(this.status, this.paginateParams, this.filterOrder).subscribe(res => {
@@ -158,7 +155,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
 
           this.listOrders = res.data.result;
-          this.listOrdersAux = res.data.result;
           _.each(this.listOrders, function (order) {
               order.generate = false;
             _.each(order.listProductRequested, function (listDetails) {
@@ -168,9 +164,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
             });
           });
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
-          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
-          this.list = this.listOrdersAux;
-          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
         }
         this.spinner.hide();
       });
@@ -203,8 +196,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           }
           this.mostrarStatus = true;
           this.listOrders = res.data.result;
-          this.listOrdersAux = res.data.result;
-          _.each(this.listOrders, function (order) {
+          this.listOrders.forEach(order => {
               if (order.status !== 0 ) {
                 order.generate = false;
               } else {
@@ -214,6 +206,10 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
                   order.generate = true;
                 }
               }
+              const include = this.listOrdersSelected.find(o => o.idOrder === order.idOrder);
+              if (include) {
+                order.checked = true;
+              }
             _.each(order.listProductRequested, function (listDetails) {
               if (listDetails.productRequested.detail && listDetails.productRequested.detail.length > 0) {
                 listDetails.productRequested.detail = JSON.parse(listDetails.productRequested.detail);
@@ -222,30 +218,21 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           });
           this.pendingOrdersGenerate();
           this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
-          this.listOrdersAux = _.orderBy(this.listOrdersAux, ['date'], ['desc']);
-          this.list = this.listOrdersAux;
-          this.listOrders = this.listOrdersAux.slice(0, this.itemPerPage);
           this.spinner.hide();
         }
       });
     }
   }
 
-  pageChange(event) {
-    const startItem = (event - 1) * this.itemPerPage;
-    const endItem = event * this.itemPerPage;
-    this.listOrders = this.listOrdersAux.slice(startItem, endItem);
-  }
-
   filterByPaymentStatus() {
     this.filterOrder.paymentStatus = this.selectedStatus;
-    this.meta.pages = 0;
+    this.paginateParams.page = 1;
     this.getListOrders();
   }
 
   filterByDate(date) {
     this.filterOrder.date = date.year + '-' + (date.month < 10 ?  '0' + date.month : date.month) + '-' + date.day;
-    this.meta.pages = 0;
+    this.paginateParams.page = 1;
     this.getListOrders();
   }
 
@@ -254,12 +241,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     if (event.target.value !== '') {
       this.typingTimer = setTimeout(() => {
         this.filterOrder.general = event.target.value;
-        this.meta.pages = 0;
+        this.paginateParams.page = 1;
         this.getListOrders();
       }, 500);
     } else {
       this.filterOrder.general = '';
-      this.meta.pages = 0;
+      this.paginateParams.page = 1;
       this.getListOrders();
     }
   }
@@ -269,12 +256,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     if (event.target.value !== '') {
       this.typingTimer = setTimeout(() => {
         this.filterOrder.codeClient = event.target.value;
-        this.meta.pages = 0;
+        this.paginateParams.page = 1;
         this.getListOrders();
       }, 500);
     } else {
       this.filterOrder.general = '';
-      this.meta.pages = 0;
+      this.paginateParams.page = 1;
       this.getListOrders();
     }
   }
@@ -284,12 +271,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     if (event.target.value !== '') {
       this.typingTimer = setTimeout(() => {
         this.filterOrder.nameProduct = event.target.value;
-        this.meta.pages = 0;
+        this.paginateParams.page = 1;
         this.getListOrders();
       }, 500);
     } else {
       this.filterOrder.nameProduct = '';
-      this.meta.pages = 0;
+      this.paginateParams.page = 1;
       this.getListOrders();
     }
   }
@@ -316,271 +303,6 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     }));
   }
 
-  fullFilter(nombreCliente, producto, status): void {
-    // FechaFiltro
-    let fecha: String;
-    fecha = this.getFecha();
-    const lista = [];
-    // Lista actual
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (order) {
-      // Fecha Listado
-      const fechaList = _.toString(order.date.slice(0, 10));
-      if ((((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase()))  ||
-        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) || (order.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) &&
-        (this.findByOrdersGroupedOrManualByProduct(order, producto) || order.listProductRequested.find((pR) => {
-          return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1);
-        }))) &&
-        // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), order.paymentStatus))) {
-        lista.push(order);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateStatusProducto(status, producto): void {
-    // FechaFiltro
-    let fecha: String;
-    fecha = this.getFecha();
-    const lista = [];
-    // Lista actual
-      this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (order) {
-      // Fecha Listado
-      const fechaList = _.toString(order.date.slice(0, 10));
-      if ((this.findByOrdersGroupedOrManualByProduct(order, producto) || order.listProductRequested.find((pR) => {
-        return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); }) &&
-        // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList)))) && (_.isEqual(parseInt(status), order.paymentStatus))) {
-        lista.push(order);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateStatusCliente(status, nombreCliente): void {
-    // FechaFiltro
-    let fecha: String;
-    fecha = this.getFecha();
-    const lista = [];
-    // Lista actual
-     this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if ((((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase()))) ||
-        (orders.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        })) ) &&
-        // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusClienteProducto(nombreCliente, producto, status): void {
-    const lista = [];
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (order) {
-      if (((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-         (order.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) && (this.findByOrdersGroupedOrManualByProduct(order, producto) || order.listProductRequested.find((pR) => {
-          return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
-        // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), order.paymentStatus))) {
-        lista.push(order);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusNombre(nombreCliente, status): void {
-    const lista = [];
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (order) {
-      if (((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (order.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) &&
-        // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), order.paymentStatus))) {
-        lista.push(order);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusProducto(producto, status): void {
-    const lista = [];
-    this.listOrdersAux = this.list;
-    _.filter(this.listOrdersAux, function (order) {
-      if ((this.findByOrdersGroupedOrManualByProduct(order, producto) || order.listProductRequested.find((pR) => {
-        return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
-        // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), order.paymentStatus))) {
-        lista.push(order);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateClienteProducto(nombreCliente, producto): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (order) {
-      // Fecha Listado
-      const fechaList = _.toString(order.date.slice(0, 10));
-      if (((_.includes(order.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(order.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(order.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (order.listProductRequested.find((pR) => {
-          if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-          }
-        }))) &&
-        (this.findByOrdersGroupedOrManualByProduct(order, producto) || order.listProductRequested.find((pR) => {
-          return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
-        ((_.isEqual(fecha, fechaList)))) {
-        lista.push(order);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateNombre(nombreCliente): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
-      // Fecha Listado
-      const fechaList = _.toString(orders.date.slice(0, 10));
-      if (((_.includes(orders.nameUser.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.number.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (_.includes(orders.supplier.companyName.toLowerCase(), nombreCliente.toLowerCase())) ||
-         (orders.listProductRequested.find((pR) => {
-           if (pR.productRequested.patient !== null) {
-            return (pR.productRequested.patient.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1);
-           }
-        }))) &&
-        ((_.isEqual(fecha, fechaList)))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterDateProducto(producto): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (order) {
-      // Fecha Listado
-      const fechaList = _.toString(order.date.slice(0, 10));
-      if ((this.findByOrdersGroupedOrManualByProduct(order, producto) || order.listProductRequested.find((pR) => {
-        return (pR.productRequested.product && pR.productRequested.product.name.toLowerCase().indexOf(producto.toLowerCase()) > -1); })) &&
-        (_.isEqual(fecha, fechaList))) {
-        lista.push(order);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
-  filterStatusDate(status): void {
-    const lista = [];
-    let fecha: String;
-    this.listOrdersAux = this.list;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listOrdersAux, function (orders) {
-      let fechaList: String;
-      // Fecha Listado
-      fechaList = _.toString(orders.date.slice(0, 10));
-      // tslint:disable-next-line:radix
-      if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), orders.paymentStatus))) {
-        lista.push(orders);
-      }
-    });
-    //*
-    this.listOrders = lista;
-    this.listOrdersAux = this.listOrders;
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-    //*
-  }
-
   getFecha(): String {
     let ano;
     let mes;
@@ -599,17 +321,28 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   clean() {
     this.auxStatus = this.status;
-    this.getListOrders();
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
     this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: this.status } });
     this.valid1 = false;
     this.selectedStatus = '';
-    this.tamano = 'undefined';
     this.fechaSelecOrd = null;
     this.valorClient = '';
     this.valorProduct = '';
     this.valorCodeClient = '';
+    this.filterOrder = {
+      date: '',
+      general: '',
+      nameProduct: '',
+      paymentStatus: -1,
+      codeClient: ''
+    };
+    this.getListOrders();
+  }
+
+  showFilter() {
+    if (this.selectedStatus !== '' || (this.fechaSelecOrd !== null && this.fechaSelecOrd !== undefined) ||
+        this.valorClient !== '' || this.valorProduct !== '' || this.valorCodeClient !== '') {
+          this.valid1 = true;
+        }
   }
 
   valueDate(valor): String {
@@ -644,12 +377,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   generateInvoice(order) {
-    let pilot = order.invoiceSupplier === null ? false : true;
+    const pilot = order.invoiceSupplier === null ? false : true;
     const modalRef = this.modalService.open(GenerateInvoiceComponent,
       { windowClass: 'modal-content-border modal-dialog-invoice', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.order = order;
     modalRef.componentInstance.pilot = pilot;
-    if (pilot == true) {
+    if (pilot === true) {
       modalRef.componentInstance.invoice = order.invoiceSupplier;
       modalRef.componentInstance.original = order.invoiceSupplier;
     }
@@ -705,20 +438,17 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelection(id, checked) {
-    let existe: boolean;
-    existe = _.includes(this.listAux,  id);
-    if (existe) {
-      if (!checked) {
-        _.remove(this.listAux,  function (n)  {
-          return  n  ===  id;
-        });
+  onSelection(checked, order) {
+    const index = this.listOrdersSelected.findIndex(o => o.idOrder === order.idOrder);
+    if (index !== -1) {
+      if (checked) {
+        this.listOrdersSelected = this.listOrdersSelected.filter(o => o.idOrder !== order.idOrder);
       }
     } else {
-      this.listAux = _.concat(this.listAux, id);
+      this.listOrdersSelected.push(order);
     }
-    this.selectedAll = false;
-    this.listAux.length > 1 ? this.valid = true : this.valid = false;
+
+    this.listOrdersSelected.length > 1 ? this.valid = true : this.valid = false;
     this.listAux.length === this.listOrders.length ? this.selectedAll = true : this.selectedAll = false;
   }
 
@@ -766,8 +496,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.alertify.confirm(title, msg, () => {
             const self = this;
             let orders = new Array;
-            _.each(this.listAux, function(item) {
-               const order = _.find(self.listOrdersAux, { 'idOrder': item});
+            _.each(this.listOrdersSelected, function(order) {
                if (order) {
                 order.listOrderGroups ? orders = _.concat(orders, order.listOrderGroups) : orders.push(order);
                }
@@ -802,6 +531,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.reloadingAll();
         } else {
           this.spinner.hide();
+          this.notification.error('', this.translate.instant('An error occurred when generating the invoice'));
           console.log(res.code);
         }
       },
@@ -844,20 +574,19 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   generateInvoiceSupplier() {
-    const self = this;
-    const order = JSON.parse(JSON.stringify(_.find(this.listOrdersAux, { 'idOrder':  this.listAux[0] })));
-    _.each(this.listAux, function(id) {
-     if(order.idOrder !== id) {
-      const _order: any =_.find(self.listOrdersAux, { 'idOrder':  id });
-      _.each(_order.listProductRequested, function(productRequested) {
-        order.listProductRequested.push(productRequested);
-      });
-      order.total += _order.total;
-      order.subtotal += _order.subtotal;
-      order.shipping += _order.shipping;
-     }
+    const order = this.listOrdersSelected[0];
+    this.listOrdersSelected.forEach(o => {
+      if (order.idOrder !== o.idOrder) {
+        o.listProductRequested.forEach(productRequested => {
+          order.listProductRequested.push(productRequested);
+        });
+        order.total += o.total;
+        order.subtotal += o.subtotal;
+        order.shipping += o.shipping;
+      }
     });
-    order.ids = this.listAux;
+
+    order.ids = this.listOrdersSelected.map(o => o.idOrder);
     this.generateInvoice(order);
   }
 
@@ -913,6 +642,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
           this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 3 } });
         } else {
           this.spinner.hide();
+          this.notification.error('', this.translate.instant('An error occurred when generating the invoice'));
           console.log(res.code);
         }
       },
@@ -933,61 +663,53 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   verifyInvoice() {
     let listInvoiceClient = [];
-    let listInvoiceSupplier = [];
-    let orders = this.listOrdersAux;
-    _.each(this.listAux, function(item) {
-       let order = _.find(orders, { 'idOrder': item});
-       if ( order.invoiceClient != null ) {
-        order.listOrderGroups ? listInvoiceClient =_.concat(listInvoiceClient, order.listOrderGroups) : listInvoiceClient.push(order);
+    const listInvoiceSupplier = [];
+
+    this.listOrdersSelected.forEach(o => {
+      if ( o.invoiceSupplier != null ) {
+        listInvoiceSupplier.push(o);
        }
-       if ( order.invoiceSupplier != null ) {
-        listInvoiceSupplier.push(order);
+
+       if ( o.invoiceClient != null ) {
+        o.listOrderGroups ? listInvoiceClient = _.concat(listInvoiceClient, o.listOrderGroups) : listInvoiceClient.push(o);
        }
     });
+
     this.listInvoiceClient = listInvoiceClient;
     this.listInvoiceSupplier = listInvoiceSupplier;
+
   }
 
 
   checkClient() {
     let valido = true;
-    let listAux = this.listAux;
-    let orders = this.listOrdersAux;
-    let order;
-    let orderAux;
-    let aux;
-    _.each(listAux, function(item, index) {
-       aux = index + 1;
-       order = _.find(orders, { 'idOrder': item});
-       orderAux = _.find(orders, { 'idOrder': listAux[aux]});
-       if (aux < listAux.length) {
-        if (order.user.idUser !== orderAux.user.idUser) {
-          valido = false;
-          return valido;
-        }
-       }
+    const keys = {};
+    this.listOrdersSelected.forEach(o => {
+      keys[o.user.idUser] = o.idOrder;
     });
+
+    if (Object.keys(keys).length > 1) {
+      valido = false;
+    }
     this.valido = valido;
   }
 
   checkProvider() {
     let validoProvider = true;
-    let listAux = this.listAux;
-    let orders = this.listOrdersAux;
-    let order;
-    let orderAux;
-    let aux;
-    _.each(listAux, function(item, index) {
-       aux = index + 1;
-       order = _.find(orders, { 'idOrder': item});
-       orderAux = _.find(orders, { 'idOrder': listAux[aux]});
-       if (aux < listAux.length) {
-        if (order.supplier.idSupplier !== orderAux.supplier.idSupplier && (!order.supplier.spectrum || !orderAux.supplier.spectrum)) {
+    const keys = {};
+    this.listOrdersSelected.forEach(o => {
+      keys[o.supplier.idSupplier] = o.supplier.spectrum;
+    });
+
+    if (Object.keys(keys).length > 1) {
+      Object.keys(keys).forEach((k) => {
+        if (!keys[k]) {
           validoProvider = false;
           return validoProvider;
         }
-       }
-    });
+      });
+    }
+
     this.validoProvider = validoProvider;
   }
 
@@ -1004,53 +726,30 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   processMultipleOrders() {
-    let self = this;
-  _.each(this.listAux, function(item, index) {
-    let order = _.find(self.listOrdersAux, { 'idOrder': item });
-        self.generateOrder(order);
+    this.listOrdersSelected.forEach(order => {
+      this.generateOrder(order);
     });
-  }
-
-  onSelectionPending(id, checked) {
-    let existe: boolean;
-    existe = _.includes(this.listAux,  id);
-    if (existe) {
-      if (!checked) {
-        _.remove(this.listAux,  function (n)  {
-          return  n  ===  id;
-        });
-      }
-    } else {
-      this.listAux = _.concat(this.listAux, id);
-    }
-    this.selectedAll = false;
-    this.listAux.length === this.listOrdersPending.length ? this.selectedAll = true : this.selectedAll = false;
   }
 
   onSelectionAllPending(event) {
-    let arrayAux = this.listAux;
-    const check = event.target.checked;
-    _.each(this.listOrdersPending, function(item) {
-      item.checked = check;
-      let existe: boolean;
-      const id = item.idOrder;
-      existe = _.includes(arrayAux, id);
-      if (existe) {
-        if (!check) {
-          _.remove(arrayAux,  function (n)  {
-            return n === id;
-          });
-        }
-      } else {
-        arrayAux = _.concat(arrayAux, id);
-      }
-    });
-    this.selectedAll = check;
-    this.listAux = arrayAux;
+    if (event.target.checked) {
+      this.selectedAll = event.target.checked;
+      this.listOrdersSelected = [];
+      this.listOrders.forEach(order => {
+        order.checked = event.target.checked;
+        this.listOrdersSelected.push(order);
+      });
+    } else {
+      this.selectedAll = event.target.checked;
+      this.listOrdersSelected = [];
+      this.listOrders.forEach(order => {
+        order.checked = event.target.checked;
+      });
+    }
   }
 
   pendingOrdersGenerate() {
-    this.listOrdersPending =_.filter(this.listOrders, {'generate': true});
+    this.listOrdersPending = _.filter(this.listOrders, {'generate': true});
   }
 
   getReferenceCopy(order) {
@@ -1110,7 +809,7 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.orderService.generateCopyOrder$(order.idOrder, type).subscribe(res => {
       if (res.code === CodeHttp.ok) {
-        var message = type === 'duplicate' ? "Order duplicate successfully" : "Order warranty generated successfully"
+        var message = type === 'duplicate' ? 'Order duplicate successfully' : 'Order warranty generated successfully'
         this.translate.get(message, {value: message}).subscribe(( res: string) => {
           this.notification.success('', res);
         });
@@ -1160,6 +859,12 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
 
   onLast(): void {
     this.paginateParams.page = this.meta.pages;
+    this.getListOrders();
+  }
+
+  onPerPage(perPage: number): void {
+    this.paginateParams.page = 1;
+    this.paginateParams.perPage = perPage;
     this.getListOrders();
   }
 }
