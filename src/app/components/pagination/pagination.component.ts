@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PaginationComponent implements OnInit {
 
-  itemPerPage: Array<any> = [10, 20, 50, 100];
+  itemPerPage: Array<any> = [5, 10, 20, 50, 100];
 
   @Input() currentPage: number;
   @Input() pages: number;
@@ -15,7 +15,7 @@ export class PaginationComponent implements OnInit {
 
   @Output() goPrev = new EventEmitter<boolean>();
   @Output() goNext = new EventEmitter<boolean>();
-  // @Output() goPerPage = new EventEmitter<number>();
+  @Output() goPerPage = new EventEmitter<number>();
   @Output() goFirst = new EventEmitter<boolean>();
   @Output() goLast = new EventEmitter<boolean>();
 
@@ -40,7 +40,7 @@ export class PaginationComponent implements OnInit {
   }
 
   onPerPage(): void {
-    // this.goPerPage.emit(this.perPage);
+    this.goPerPage.emit(this.perPage);
   }
 
   isDisabled(event: string): boolean {
