@@ -88,10 +88,10 @@
                       <span>{{'#'}}{{order.number}}</span>
                       <p class="font-weight-bold" *ngIf="!!getReferenceCopy(order)">{{ getReferenceCopy(order) }}</p>
                     </div>
-                    <div class="title text-start mt-2" *ngIf="order.listProductRequested.length == 1">
+                    <div class="title text-start mt-2" >
                       <span *ngIf="order.listProductRequested[0].productRequested.patient != '' && order.listProductRequested[0].productRequested.patient != null">{{'Patient'| translate }}</span>
                     </div>
-                    <div *ngIf="order.listProductRequested.length == 1">
+                    <div>
                       <span>{{order.listProductRequested[0].productRequested.patient ? order.listProductRequested[0].productRequested.patient:''}}</span>
                     </div>
                   </div>
