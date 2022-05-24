@@ -19,6 +19,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
 import { CommonsModule } from './commons.module';
+import { CustomDateModule } from './shared/pipes/custom-date.module';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -52,7 +53,8 @@ export const createTranslateLoader = (http: HttpClient) => {
         PageHeaderModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
-        CommonsModule
+        CommonsModule,
+        CustomDateModule
     ],
     declarations: [AppComponent, RecoveryPasswordComponent],
     providers: [AuthGuard, UserStorageService],

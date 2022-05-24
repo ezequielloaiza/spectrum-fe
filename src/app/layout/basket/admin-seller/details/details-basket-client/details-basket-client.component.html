@@ -72,7 +72,7 @@
                       </div>
                     </div>
                     <div class="col-lg-4">
-                      <span>{{ basket.date | date:'yyyy-MM-dd' }}</span>
+                      <span>{{ basket.date | customDate }}</span>
                     </div>
                     <div class="col-lg-6 actions">
                       <i class="fa fa-eye" (click)="openParams(basket)" placement="top" ngbTooltip="{{ 'View' | translate }}"></i>

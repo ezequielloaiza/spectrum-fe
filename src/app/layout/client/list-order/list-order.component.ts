@@ -106,6 +106,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
           });
         });
         this.listOrders = _.orderBy(this.listOrders, ['date'], ['desc']);
+        debugger
         this.spinner.hide();
       }
     });

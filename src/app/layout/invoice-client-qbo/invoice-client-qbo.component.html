@@ -126,8 +126,8 @@
                 <tr *ngFor="let invoice of listInvoices; let i = index">
                   <td class="table-tr td-table">{{invoice.number}}</td>
                   <td class="table-tr td-table">{{invoice.docNumber}}</td>
-                  <td class="table-tr td-table">{{invoice.date  | date:'yyyy-MM-dd'}}</td>
-                  <td class="table-tr td-table">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr td-table">{{invoice.date  | customDate}}</td>
+                  <td class="table-tr td-table">{{invoice.dueDate  | customDate}}</td>
                   <td class="table-tr">{{invoice.qboTotalAmt | currency : "USD $"}}</td>
                   <td class="table-tr">
                     <div class="d-flex flex-row justify-content-around">
