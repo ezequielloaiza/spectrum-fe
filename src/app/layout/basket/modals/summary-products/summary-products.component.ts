@@ -68,7 +68,6 @@ export class SummaryProductsComponent implements OnInit {
       });
     } else {
       this.spinner.show();
-      debugger
       this.orderService.saveOrder$(this.buyBasket).subscribe(res => {
         if (res.code === CodeHttp.ok) {
           this.close();
