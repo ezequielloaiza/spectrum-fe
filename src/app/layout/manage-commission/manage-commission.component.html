@@ -112,7 +112,7 @@
                     <div>{{'Paid' | translate }}</div>
                   </td>
                   <td class="table-tr td-table">{{commission.invoiceClient?.number}}</td>
-                  <td class="table-tr td-table">{{commission.date  | date:'yyyy-MM-dd'}}</td>
+                  <td class="table-tr td-table">{{commission.date  | customDate}}</td>
                   <td class="table-tr">{{commission.seller?.name}}</td>
                   <td class="table-tr">{{commission.total | currency : "USD $"}}</td>
                   <td [hidden]="user.role.idRole != 1" class="table-tr">

@@ -41,7 +41,7 @@
               <div class="row row-height align-row">
                 <div class="col-xl-4">
                   <label class="label">{{ 'Invoice Date' | translate }}</label>
-                  <label *ngIf="pilot" class="label-value">{{ (invoice.date ? invoice.date : today) | date:'yyyy-MM-dd'}}</label>
+                  <label *ngIf="pilot" class="label-value">{{ (invoice.date ? invoice.date : today) | customDate}}</label>
                   <div *ngIf="!pilot" class="input-group">
                     <input class="form-control input-date" [(ngModel)]="invDate" ngbDatepicker formControlName="invDate"
                     #d="ngbDatepicker" required>
@@ -64,7 +64,7 @@
               <div class="row row-height align-row">
                 <div class="col-xl-4">
                   <label class="label">{{ 'Due Date' | translate }}</label>
-                  <label *ngIf="pilot" class="label-value">{{ (invoice.dueDate ? invoice.dueDate : dueDate) | date:'yyyy-MM-dd'}}</label>
+                  <label *ngIf="pilot" class="label-value">{{ (invoice.dueDate ? invoice.dueDate : dueDate) | customDate}}</label>
                   <div *ngIf="!pilot" class="input-group">
                     <input class="form-control input-date" [(ngModel)]="invDueDate" ngbDatepicker formControlName="invDueDate"
                     #d1="ngbDatepicker" required>
