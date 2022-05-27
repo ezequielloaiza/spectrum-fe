@@ -40,10 +40,10 @@
               <span>{{ invoice ? invoice.number : '' }}</span>
               <br>
               <span class="font-weight-bold">{{'Date' | translate }}:</span>&nbsp;
-              <span>{{ (invoice ? invoice.date : '') | date:'yyyy-MM-dd'}}</span>
+              <span>{{ (invoice ? invoice.date : '') | customDate}}</span>
               <br>
               <span class="font-weight-bold">{{'Due Date' | translate }}:</span>&nbsp;
-              <span>{{ (invoice ? invoice.dueDate : '') | date:'yyyy-MM-dd'}}</span>
+              <span>{{ (invoice ? invoice.dueDate : '') | customDate}}</span>
             </div>
             <!--Customer data-->
             <div class="col-md-5">
@@ -167,7 +167,7 @@
                 <td *ngIf="payment.status === 1" class="table-tr" class="verified">
                   <div>{{'Verified' | translate }}</div>
                 </td>
-                <td class="table-tr td-table">{{payment.date | date:'yyyy-MM-dd'}}</td>
+                <td class="table-tr td-table">{{payment.date | customDate}}</td>
                 <td *ngIf="payment.typePayment === 0" class="table-tr">
                   <div>{{'Transfer' | translate}}</div>
                 </td>

@@ -53,6 +53,7 @@ import { ProductViewSmartlensComponent } from './product-view-smartlens/product-
 import { ConfirmationSmartlensComponent } from './modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component';
 import { ProductsViewXCelModule } from './product-view-x-cel/product-view-x-cel.module';
 import { PurchaseConfirmationComponent } from './components/confirm-purchase/confirmation-component.component';
+import { CustomDateModule } from '../shared/pipes/custom-date.module';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { PurchaseConfirmationComponent } from './components/confirm-purchase/con
     NgxSpinnerModule,
     CurrencyMaskModule,
     CommonsModule,
-    ProductsViewXCelModule
+    ProductsViewXCelModule,
+    CustomDateModule
   ],
   declarations: [
     ProductsComponent,

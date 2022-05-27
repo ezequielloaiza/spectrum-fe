@@ -31,7 +31,7 @@
                       <td>
                         <strong>{{ invoice?.number }}</strong>
                       </td>
-                      <td nowrap>{{ invoice?.date | date:'yyyy-MM-dd' }}</td>
+                      <td nowrap>{{ invoice?.date | customDate }}</td>
                       <td nowrap>{{ invoice?.due | currency : "USD $" }}</td>
                       <td nowrap>{{ invoice?.total | currency : "USD $" }}</td>
                     </tr>
@@ -57,7 +57,7 @@
           <fieldset class="form-group">
             <label [ngClass]="{'title-view': action == 'view', title: action!='view'}" >{{ 'Date' | translate }}</label>
             <div>
-              <span *ngIf="action == 'view'">{{ invoicePayment.date | date:'yyyy-MM-dd' }}</span>
+              <span *ngIf="action == 'view'">{{ invoicePayment.date | customDate }}</span>
               <div *ngIf="action != 'view'" class="input-group">
                 <input class="form-control" placeholder="yyyy-mm-dd" name="date" formControlName="date" ngbDatepicker
                   #d="ngbDatepicker" required>
