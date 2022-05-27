@@ -17669,6 +17669,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_confirmation_buy_confirmation_smartlens_confirmation_smartlens_component__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component */ "./src/app/products/modals/confirmation-buy/confirmation-smartlens/confirmation-smartlens.component.ts");
 /* harmony import */ var _product_view_x_cel_product_view_x_cel_module__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./product-view-x-cel/product-view-x-cel.module */ "./src/app/products/product-view-x-cel/product-view-x-cel.module.ts");
 /* harmony import */ var _components_confirm_purchase_confirmation_component_component__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./components/confirm-purchase/confirmation-component.component */ "./src/app/products/components/confirm-purchase/confirmation-component.component.ts");
+/* harmony import */ var _shared_pipes_custom_date_module__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ../shared/pipes/custom-date.module */ "./src/app/shared/pipes/custom-date.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -17730,6 +17731,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var ProductsModule = /** @class */ (function () {
     function ProductsModule() {
     }
@@ -17749,7 +17751,8 @@ var ProductsModule = /** @class */ (function () {
                 ngx_spinner__WEBPACK_IMPORTED_MODULE_21__["NgxSpinnerModule"],
                 ng2_currency_mask__WEBPACK_IMPORTED_MODULE_39__["CurrencyMaskModule"],
                 _commons_module__WEBPACK_IMPORTED_MODULE_44__["CommonsModule"],
-                _product_view_x_cel_product_view_x_cel_module__WEBPACK_IMPORTED_MODULE_52__["ProductsViewXCelModule"]
+                _product_view_x_cel_product_view_x_cel_module__WEBPACK_IMPORTED_MODULE_52__["ProductsViewXCelModule"],
+                _shared_pipes_custom_date_module__WEBPACK_IMPORTED_MODULE_54__["CustomDateModule"]
             ],
             declarations: [
                 _products_component__WEBPACK_IMPORTED_MODULE_3__["ProductsComponent"],

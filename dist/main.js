@@ -252,12 +252,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var angularfire2_database__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(angularfire2_database__WEBPACK_IMPORTED_MODULE_17__);
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _commons_module__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./commons.module */ "./src/app/commons.module.ts");
+/* harmony import */ var _shared_pipes_custom_date_module__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./shared/pipes/custom-date.module */ "./src/app/shared/pipes/custom-date.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -313,7 +315,8 @@ var AppModule = /** @class */ (function () {
                 _shared__WEBPACK_IMPORTED_MODULE_9__["PageHeaderModule"],
                 angularfire2__WEBPACK_IMPORTED_MODULE_16__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_18__["environment"].firebase),
                 angularfire2_database__WEBPACK_IMPORTED_MODULE_17__["AngularFireDatabaseModule"],
-                _commons_module__WEBPACK_IMPORTED_MODULE_19__["CommonsModule"]
+                _commons_module__WEBPACK_IMPORTED_MODULE_19__["CommonsModule"],
+                _shared_pipes_custom_date_module__WEBPACK_IMPORTED_MODULE_20__["CustomDateModule"]
             ],
             declarations: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"], _login_recovery_password_recovery_password_component__WEBPACK_IMPORTED_MODULE_11__["RecoveryPasswordComponent"]],
             providers: [_shared__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"], _http_user_storage_service__WEBPACK_IMPORTED_MODULE_10__["UserStorageService"]],
@@ -1790,6 +1793,88 @@ var StatModule = /** @class */ (function () {
         })
     ], StatModule);
     return StatModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/custom-date.module.ts":
+/*!****************************************************!*\
+  !*** ./src/app/shared/pipes/custom-date.module.ts ***!
+  \****************************************************/
+/*! exports provided: CustomDateModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CustomDateModule", function() { return CustomDateModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _custom_date_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./custom-date.pipe */ "./src/app/shared/pipes/custom-date.pipe.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var CustomDateModule = /** @class */ (function () {
+    function CustomDateModule() {
+    }
+    CustomDateModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_custom_date_pipe__WEBPACK_IMPORTED_MODULE_2__["CustomDatePipe"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
+            ],
+            exports: [_custom_date_pipe__WEBPACK_IMPORTED_MODULE_2__["CustomDatePipe"]]
+        })
+    ], CustomDateModule);
+    return CustomDateModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/pipes/custom-date.pipe.ts":
+/*!**************************************************!*\
+  !*** ./src/app/shared/pipes/custom-date.pipe.ts ***!
+  \**************************************************/
+/*! exports provided: CustomDatePipe */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CustomDatePipe", function() { return CustomDatePipe; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var CustomDatePipe = /** @class */ (function () {
+    function CustomDatePipe() {
+    }
+    CustomDatePipe.prototype.transform = function (object) {
+        var date = new Date(object);
+        var dateParse = new Date(date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000));
+        var months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+        var day = dateParse.getDate();
+        var dayParse = day < 10 ? ('0' + day) : day;
+        return dateParse.getFullYear() + '-' + months[dateParse.getMonth()] + '-' + dayParse;
+    };
+    CustomDatePipe = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Pipe"])({
+            name: 'customDate'
+        })
+    ], CustomDatePipe);
+    return CustomDatePipe;
 }());
 
 
