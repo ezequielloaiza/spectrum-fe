@@ -29,8 +29,8 @@
           <fieldset class="form-group">
             <label class="title">{{ 'Created at' | translate }}</label>
             <div>
-              <span *ngIf="action == 'view'">{{ warranty.createdAt | date:'yyyy-MM-dd' }}</span>
-              <span *ngIf="action != 'view'" name="createdAt" formControlName="createdAt" ngDefaultControl>{{ today | date:'yyyy-MM-dd' }}</span>
+              <span *ngIf="action == 'view'">{{ warranty.createdAt | customDate }}</span>
+              <span *ngIf="action != 'view'" name="createdAt" formControlName="createdAt" ngDefaultControl>{{ today | customDate }}</span>
             </div>
           </fieldset>
         </div>

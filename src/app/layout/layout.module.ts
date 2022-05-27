@@ -121,6 +121,7 @@ import { SupplierXcelComponent } from './details-order-supplier/supplier-xcel/su
 import { DetailXcelComponent } from './basket/modals/detail-product/detail-xcel/detail-xcel.component';
 import { XcelComponent } from './edit-order/xcel/xcel.component';
 import { PaginationModule } from '../components/pagination/pagination.module';
+import { CustomDateModule } from '../shared/pipes/custom-date.module';
 
 @NgModule({
     imports: [
@@ -139,7 +140,8 @@ import { PaginationModule } from '../components/pagination/pagination.module';
         NgxSpinnerModule,
         CurrencyMaskModule,
         CommonsModule,
-        PaginationModule
+        PaginationModule,
+        CustomDateModule
     ],
     declarations: [
         LayoutComponent,
