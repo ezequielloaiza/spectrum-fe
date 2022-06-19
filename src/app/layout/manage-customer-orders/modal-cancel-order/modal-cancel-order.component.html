@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'Cancel Order' | translate }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="modalReference.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row txt">
+    <div class="col-xl-12">
+      <div>
+        <label translate>{{ 'Are you sure you want to cancel the order? You must notify the provider this change.'}}</label>
+        <br>
+        &nbsp;
+        <label translate>{{ order.number}} <span>{{'to the supplier'| translate}}{{' '}}{{order.supplier.companyName}}</span></label>
+        <br><br>
+        <!-- <label translate>{{ 'You must enter the reason for cancellation'}}</label> -->
+        <input type="text" class="form-control" [(ngModel)]="reasonCancel" [placeholder]="'You must enter the reason for cancellation' | translate">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main" [disabled]="!reasonCancel" (click)="cancelOrder()">{{ 'Cancel Order' | translate }}&nbsp;
+    <i class="fa fa-save"></i>
+  </button>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.description}}
+</ng-template>

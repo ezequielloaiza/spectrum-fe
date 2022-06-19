@@ -59,6 +59,10 @@ export class OrderService {
     return this.http.get(environment.apiUrl + 'order/changeStatus/' + idOrder + '/' + IdStatus);
   }
 
+  public cancelOrder$(idOrder, cancelReason): Observable<any> {
+    return this.http.put(environment.apiUrl + 'order/cancelOrder/' + idOrder, {cancelReason});
+  }
+
   public generateOrder$(idOrder): Observable<any> {
     return this.http.get(environment.apiUrl + 'order/generateOrder/' + idOrder);
   }

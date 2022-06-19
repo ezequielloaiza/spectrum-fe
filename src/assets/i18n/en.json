@@ -1293,5 +1293,8 @@
     "The user already exists, check the username":"The user already exists, check the username",
     "Enter code customer": "Enter code customer",
     "Email send Successfully": "Email send Successfully",
-    "Send email": "Send email"
+    "Send email": "Send email",
+    "Are you sure you want to generate a warranty on the selected order?": "Are you sure you want to generate a warranty on the selected order?",
+    "Are you sure you want to generate a duplicate on the selected order?": "Are you sure you want to generate a duplicate on the selected order?",
+    "You must enter the reason for cancellation": "You must enter the reason for cancellation"
 }
