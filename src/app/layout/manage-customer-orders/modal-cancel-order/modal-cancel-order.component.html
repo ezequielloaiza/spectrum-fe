@@ -14,7 +14,9 @@
         <label translate>{{ order.number}} <span>{{'to the supplier'| translate}}{{' '}}{{order.supplier.companyName}}</span></label>
         <br><br>
         <!-- <label translate>{{ 'You must enter the reason for cancellation'}}</label> -->
-        <input type="text" class="form-control" [(ngModel)]="reasonCancel" [placeholder]="'You must enter the reason for cancellation' | translate">
+        <input type="text" class="form-control" maxlength="150"
+               [(ngModel)]="reasonCancel"
+               [placeholder]="'You must enter the reason for cancellation' | translate">
       </div>
     </div>
   </div>
@@ -23,7 +25,7 @@
   <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()">{{ 'Close' | translate }}&nbsp;
     <i class="fa fa-times"></i>
   </button>
-  <button type="button" class="btn btn-main" [disabled]="!reasonCancel" (click)="cancelOrder()">{{ 'Cancel Order' | translate }}&nbsp;
+  <button type="button" class="btn btn-main" [disabled]="!isValid()" (click)="cancelOrder()">{{ 'Cancel Order' | translate }}&nbsp;
     <i class="fa fa-save"></i>
   </button>
 </div>

@@ -112,6 +112,17 @@
                       <span *ngIf='order.status === 3' class="div-shipped">
                         <div translate>Shipped</div>
                       </span>
+                      <span *ngIf='order.status === 4' class="div-canceled">
+                        <div translate>Canceled</div>
+                      </span>
+                    </div>
+
+                    <div class="cancel-reason" *ngIf="order.status === 4">
+                      <br><br>
+                      <div class="title-status"><span>{{ 'Cancel Reason' | translate }}</span></div>
+                      <div>
+                        <span>{{order.cancelReason}}</span>
+                      </div>
                     </div>
                   </div>
                   <div class="col-lg-3">
