@@ -1472,5 +1472,9 @@
     "The user already exists, check the username":"El usuario ya existe, verifica el nombre de usuario",
     "Enter code customer": "Ingrese código cliente",
     "Email send Successfully": "Envío de email con éxito",
-    "Send email": "Enviar email"
+    "Send email": "Enviar email",
+    "Are you sure you want to generate a warranty on the selected order?": "¿Está seguro de que desea generar una garantía sobre el pedido seleccionado?",
+    "Are you sure you want to generate a duplicate on the selected order?": "¿Está seguro de que desea generar un duplicado sobre el pedido seleccionado?",
+    "You must enter the reason for cancellation": "Debe ingresar el motivo de cancelación",
+    "Cancel Reason": "Motivo de Cancelación"
 }

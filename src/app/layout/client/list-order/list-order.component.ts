@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { saveAs } from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { AlertifyService } from '../../../shared/services/alertify/alertify.service';
 
 @Component({
   selector: 'app-list-order',
@@ -63,7 +64,8 @@ export class ListOrderComponent implements OnInit, OnDestroy {
               private router: Router,
               private notification: ToastrService,
               private translate: TranslateService,
-              private spinner: NgxSpinnerService) {
+              private spinner: NgxSpinnerService,
+              private alertify: AlertifyService) {
     this.user = JSON.parse(userService.getCurrentUser());
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -263,6 +265,31 @@ export class ListOrderComponent implements OnInit, OnDestroy {
       default:
         return true;
     }
+  }
+
+  confirmGenerateCopyOrder(order, type) {
+    let header = '';
+    let message = '';
+
+    if (type === 'warranty') {
+      header = 'Generate Warranty';
+      message = 'Are you sure you want to generate a warranty on the selected order?';
+    } else if (type === 'duplicate') {
+      header = 'Generate Duplicate';
+      message = 'Are you sure you want to generate a duplicate on the selected order?';;
+    } else {
+      return;
+    }
+
+    this.translate.get(header, { value: header }).subscribe((title: string) => {
+      this.translate.get(message,
+        { value: message }).subscribe((msg: string) => {
+          this.alertify.confirm(title, msg, () => {
+            this.generateCopyOrder(order, type);
+          }, () => {
+          });
+        });
+    });
   }
 
   generateCopyOrder(order, type) {
