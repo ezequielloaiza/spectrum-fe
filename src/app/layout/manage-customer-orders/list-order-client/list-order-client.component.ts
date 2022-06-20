@@ -19,6 +19,7 @@ import { ModalsInvoiceComponent } from '../modals-invoice/modals-invoice.compone
 import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confirmation.component';
 import { ModalsShippingComponent } from '../modals-shipping/modals-shipping.component';
 import { ModalResendOrdersComponent } from '../modals-resend-orders/modal-resend-orders.component';
+import { ModalCancelOrderComponent } from '../modal-cancel-order/modal-cancel-order.component';
 
 
 @Component({
@@ -393,26 +394,15 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   cancel(order): void {
-    this.translate.get('Cancel Order', { value: 'Cancel Order' }).subscribe((title: string) => {
-      this.translate.get('Are you sure you want to cancel the order? You must notify the provider this change.',
-        { value: 'Are you sure you want to cancel the order? You must notify the provider this change.' }).subscribe((msg: string) => {
-          this.alertify.confirm(title, msg, () => {
-            this.orderService.changeStatus$(order.idOrder, 4).subscribe(res => {
-              if (res.code === CodeHttp.ok) {
-                this.getListOrders();
-                this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res1: string) => {
-                  this.notification.success('', res1);
-                });
-              } else {
-                console.log(res.errors[0].detail);
-              }
-            }, error => {
-              console.log('error', error);
-            });
-          }, () => {
-          });
+    const modalRef = this.modalService.open(ModalCancelOrderComponent , {backdrop  : 'static', keyboard  : false});
+      modalRef.componentInstance.order = order;
+      modalRef.result.then((result) => {
+        this.getListOrders();
+        this.translate.get('Successfully Updated', { value: 'Successfully Updated' }).subscribe((res1: string) => {
+          this.notification.success('', res1);
         });
-    });
+        }, (reason) => {
+      });
   }
 
   downloadOrder() {
@@ -803,6 +793,31 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
       default:
         return true;
     }
+  }
+
+  confirmGenerateCopyOrder(order, type) {
+    let header = '';
+    let message = '';
+
+    if (type === 'warranty') {
+      header = 'Generate Warranty';
+      message = 'Are you sure you want to generate a warranty on the selected order?';
+    } else if (type === 'duplicate') {
+      header = 'Generate Duplicate';
+      message = 'Are you sure you want to generate a duplicate on the selected order?';;
+    } else {
+      return;
+    }
+
+    this.translate.get(header, { value: header }).subscribe((title: string) => {
+      this.translate.get(message,
+        { value: message }).subscribe((msg: string) => {
+          this.alertify.confirm(title, msg, () => {
+            this.generateCopyOrder(order, type);
+          }, () => {
+          });
+        });
+    });
   }
 
   generateCopyOrder(order, type) {
