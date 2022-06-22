@@ -2634,6 +2634,9 @@ var OrderService = /** @class */ (function () {
     OrderService.prototype.changeStatus$ = function (idOrder, IdStatus) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/changeStatus/' + idOrder + '/' + IdStatus);
     };
+    OrderService.prototype.cancelOrder$ = function (idOrder, cancelReason) {
+        return this.http.put(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/cancelOrder/' + idOrder, { cancelReason: cancelReason });
+    };
     OrderService.prototype.generateOrder$ = function (idOrder) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'order/generateOrder/' + idOrder);
     };
