@@ -112,6 +112,17 @@
                       <span *ngIf='order.status === 3' class="div-shipped">
                         <div translate>Shipped</div>
                       </span>
+                      <span *ngIf='order.status === 4' class="div-canceled">
+                        <div translate>Canceled</div>
+                      </span>
+                    </div>
+
+                    <div class="cancel-reason" *ngIf="order.status === 4">
+                      <br><br>
+                      <div class="title-status"><span>{{ 'Cancel Reason' | translate }}</span></div>
+                      <div>
+                        <span>{{order.cancelReason}}</span>
+                      </div>
                     </div>
                   </div>
                   <div class="col-lg-3">
@@ -153,9 +164,9 @@
                         <div ngbDropdownMenu class="dropdown-menu-actions">
                           <button class="dropdown-item" routerLink="/details-order/{{order.idOrder}}/view">
                             {{ 'View Details' | translate }}</button>
-                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty'">
+                          <button class="dropdown-item" (click)="confirmGenerateCopyOrder(order, 'duplicate')" *ngIf="order.type !== 'warranty'">
                             {{ 'Generate Duplicate' | translate }}</button>
-                          <button class="dropdown-item" (click)="generateCopyOrder(order, 'warranty')" *ngIf="isValidDate(order)">
+                          <button class="dropdown-item" (click)="confirmGenerateCopyOrder(order, 'warranty')" *ngIf="isValidDate(order)">
                             {{ 'Generate Warranty' | translate }}</button>
                         </div>
                       </div>
