@@ -91,6 +91,10 @@ export class ProductViewXCelComponent implements OnInit {
 
       this.product.header = JSON.parse(this.product.types)[0].header;
 
+
+      this.setParamsAtlantis("", {eye: "right"});
+      this.setParamsAtlantis("", {eye: "left"});
+
       this.initFooterButtons();
       this.initialViewParams();
 
@@ -547,6 +551,19 @@ export class ProductViewXCelComponent implements OnInit {
     }
   }
 
+  setDiameterSelected(baseCurveValue: any, eye:any) {
+    let diameter = this.getParams('body', eye).find(p => p.name === 'Diameter (mm)');
+
+    if (baseCurveValue.includes('X'))
+      diameter.selected = '15.50';
+
+    if (baseCurveValue.includes('C'))
+      diameter.selected = '14.50';
+
+    if (baseCurveValue.includes('L'))
+      diameter.selected = '16.50';
+  }
+
   changeParamsAndPrice(value) {
     const self = this;
     let paramsBody = [];
@@ -555,57 +572,25 @@ export class ProductViewXCelComponent implements OnInit {
     //--------------------------------------------------------
 
     if (this.product.name.includes('Atlantis')) { //Atlantis Case
+      let design = paramsHeader.find(p => p.name === 'Design');
+      let diameter = this.getParams('body', value.eye).find(p => p.name === 'Diameter (mm)');
 
       if (value.param.name === 'Design') {
-
         const selectedDesign = value.param.selected;
         this.setPriceByDesign(value.eye, selectedDesign);
         this.showImg[value.eye] = false;
-
-        paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
-          switch (selectedDesign) {
-            case 'Atlantis SPH':
-            case 'Atlantis FT':
-              self.lzRequired(param,0);
-              if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
-                param.selected = (param.type === 'radio') ? 'No' : null;
-              }
-              return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
-            case 'Atlantis TPC':
-            case 'Atlantis MF':
-              self.lzRequired(param,0);
-              if (param.name === 'LZ 3D Vault / 2.0') {
-                param.selected = (param.type === 'radio') ? 'No' : null;
-              }
-              return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
-            case 'Atlantis 3D':
-              self.lzRequired(param,1);
-              if (param.name === 'TPC') {
-                param.selected = (param.type === 'radio') ? 'No' : null;
-              }
-              return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
-            case 'Atlantis 2.0':
-              self.lzRequired(param,1);
-              self.paramsAtlantisImages[value.eye].parameters = _.filter(self.originalParameters[value.eye], function (param) {
-                return selectedDesign === 'Atlantis 2.0' && self.checkAtlantisParams(param, 0);
-              });
-              self.getClock(value.eye);
-              self.showImg[value.eye] = true;
-              if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
-                param.selected = (param.type === 'radio') ? 'No' : null;
-              }
-              return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
-            case 'Atlantis LD':
-              self.lzRequired(param,0);
-              return !param.header && !self.checkAtlantisParams(param, 0);
-            default:
-              self.lzRequired(param,0);
-              return param && !self.checkAtlantisParams(param, 0) && !param.header;
-          }
-        });
-
-        this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
+        this.setParamsAtlantis(selectedDesign, value)
         this.setRequiredParams(value);
+
+        diameter.disabled = false;
+      }
+
+      if (design.selected === 'Atlantis 2.0') {
+        diameter.disabled = true;
+
+        if (value.param.name === 'Base Curve (mm)') {
+          this.setDiameterSelected(value.param.selected, value.eye);
+        }
       }
     } else if (this.product.name.includes('RGP')) { // RGP CASE
 
@@ -683,6 +668,76 @@ export class ProductViewXCelComponent implements OnInit {
 
     }
 
+  }
+
+  setParamsAtlantis(selectedDesign, value: any) {
+    const self = this;
+    let paramsBody = [];
+    let paramsHeader = this.getParams('header', value.eye);
+
+    if (this.product.name.includes('Atlantis')) { //Atlantis Case
+      paramsBody = _.filter(this.originalParameters[value.eye], function (param) {
+        switch (selectedDesign) {
+          case 'Atlantis SPH':
+          case 'Atlantis FT':
+            self.lzRequired(param,0);
+            if (_.includes(['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
+              param.selected = (param.type === 'radio') ? 'No' : null;
+            }
+            if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+              return false;
+            }
+            return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
+          case 'Atlantis TPC':
+          case 'Atlantis MF':
+            self.lzRequired(param,0);
+            if (param.name === 'LZ 3D Vault / 2.0') {
+              param.selected = (param.type === 'radio') ? 'No' : null;
+            }
+            if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+              return false;
+            }
+            return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
+          case 'Atlantis 3D':
+            self.lzRequired(param,1);
+            if (param.name === 'TPC') {
+              param.selected = (param.type === 'radio') ? 'No' : null;
+            }
+            if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+              return false;
+            }
+            return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
+          case 'Atlantis 2.0':
+            self.lzRequired(param,1);
+            self.paramsAtlantisImages[value.eye].parameters = _.filter(self.originalParameters[value.eye], function (param) {
+              return selectedDesign === 'Atlantis 2.0' && self.checkAtlantisParams(param, 0);
+            });
+            self.getClock(value.eye);
+            self.showImg[value.eye] = true;
+            if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
+              param.selected = (param.type === 'radio') ? 'No' : null;
+            }
+            if (param.name === 'Base Curve (mm)' && param.type === "input-number") {
+              return false;
+            }
+            return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
+          case 'Atlantis LD':
+            self.lzRequired(param,0);
+            if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+              return false;
+            }
+            return !param.header && !self.checkAtlantisParams(param, 0);
+          default:
+            self.lzRequired(param,0);
+            if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+              return false;
+            }
+            return param && !self.checkAtlantisParams(param, 0) && !param.header;
+        }
+      });
+
+      this.product[this.parametersByEye(value.eye)] = _.concat(paramsHeader, paramsBody);
+    }
   }
 
   lzRequired(param, required) {
