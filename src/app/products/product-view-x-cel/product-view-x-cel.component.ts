@@ -551,6 +551,19 @@ export class ProductViewXCelComponent implements OnInit {
     }
   }
 
+  setDiameterSelected(baseCurveValue: any, eye:any) {
+    let diameter = this.getParams('body', eye).find(p => p.name === 'Diameter (mm)');
+
+    if (baseCurveValue.includes('X'))
+      diameter.selected = '15.50';
+
+    if (baseCurveValue.includes('C'))
+      diameter.selected = '14.50';
+
+    if (baseCurveValue.includes('L'))
+      diameter.selected = '16.50';
+  }
+
   changeParamsAndPrice(value) {
     const self = this;
     let paramsBody = [];
@@ -559,14 +572,25 @@ export class ProductViewXCelComponent implements OnInit {
     //--------------------------------------------------------
 
     if (this.product.name.includes('Atlantis')) { //Atlantis Case
+      let design = paramsHeader.find(p => p.name === 'Design');
+      let diameter = this.getParams('body', value.eye).find(p => p.name === 'Diameter (mm)');
 
       if (value.param.name === 'Design') {
-
         const selectedDesign = value.param.selected;
         this.setPriceByDesign(value.eye, selectedDesign);
         this.showImg[value.eye] = false;
         this.setParamsAtlantis(selectedDesign, value)
         this.setRequiredParams(value);
+
+        diameter.disabled = false;
+      }
+
+      if (design.selected === 'Atlantis 2.0') {
+        diameter.disabled = true;
+
+        if (value.param.name === 'Base Curve (mm)') {
+          this.setDiameterSelected(value.param.selected, value.eye);
+        }
       }
     } else if (this.product.name.includes('RGP')) { // RGP CASE
 
