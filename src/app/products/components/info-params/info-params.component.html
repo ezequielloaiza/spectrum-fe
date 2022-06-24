@@ -29,18 +29,18 @@
           </div>
 
           <div *ngSwitchCase="'input-text'" class="col-sm-12 pl-0">
-            <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams" maxlength="25"
+            <input type="text" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || parameter.disabled" maxlength="25"
               [required]="!parameter.noRequired" (change)="changeParamsAndPriceValue(parameter)" id="text-{{eye}}-{{parameter.name}}"/>
           </div>
           <!-- this input number is for only positive numbers -->
           <div *ngIf="parameter.type === 'input-number' && checkParamName(parameter)" class="col-sm-12 pl-0">
-            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter)"
+            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter) || parameter.disabled"
               [required]="!parameter.noRequired" max="100" oninput="validity.valid||(value='');" [min]="setMinimum(parameter)"
               (change)="changeParamsAndPriceValue(parameter)" id="number-{{eye}}-{{parameter.name}}" step="0.01"/>
           </div>
           <!-- this input number is for negative numbers -->
           <div *ngIf="parameter.type === 'input-number' && !checkParamName(parameter) && parameter.name !== 'Axis'" class="col-sm-12 pl-0">
-            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter)"
+            <input type="number" class="form-control" [(ngModel)]="parameter.selected" [disabled]="!enableParams || qtyDisabled(parameter) || parameter.disabled"
               [required]="!parameter.noRequired" max="100" [min]="setMinimum(parameter)"
               (change)="changeParamsAndPriceValue(parameter)" id="number-{{eye}}-{{parameter.name}}" step="0.01"/>
           </div>

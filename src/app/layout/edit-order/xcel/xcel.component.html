@@ -140,19 +140,20 @@
                   <!-- INPUT TYPE TEXT-->
                   <div *ngIf="parameter.type === 'input-text'" class="select-values col-sm-12">
                     <input class="form-control" type="text" placeholder="{{ (parameter.placeholder || 'Introduce value') | translate }}"
-                      [required]="!parameter.noRequired" maxlength="25" [(ngModel)]="parameter.selected" id="text-{{eye}}-{{parameter.name}}">
+                      [required]="!parameter.noRequired" maxlength="25" [(ngModel)]="parameter.selected"
+                      [disabled]="parameter.disabled" id="text-{{eye}}-{{parameter.name}}">
                   </div>
 
                   <!-- INPUT TYPE NUMBER-->
                   <div *ngIf="parameter.type === 'input-number' && !getNamesForMin(parameter) && parameter.name !== 'Axis'" class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
                        [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}"
-                       max="100"  step="0.01">
+                       [disabled]="parameter.disabled" max="100"  step="0.01">
                   </div>
                   <div *ngIf="parameter.type === 'input-number' && getNamesForMin(parameter)" class="select-values col-sm-12">
                     <input class="form-control" type="number" placeholder="{{ parameter.placeholder || 'Introduce value' | translate }}"
                        [(ngModel)]="parameter.selected" [required]="!parameter.noRequired" id="number-{{eye}}-{{parameter.name}}"
-                       max="100" oninput="validity.valid||(value='');" min="0"  step="0.01">
+                       [disabled]="parameter.disabled" max="100" oninput="validity.valid||(value='');" min="0"  step="0.01">
                   </div>
                 </dt>
               </dl>
