@@ -964,7 +964,7 @@ var InfoClientComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row header-params\">\n  <div class=\"col-lg-12 custom-control custom-checkbox\">\n    <!--Eye-->\n    <div *ngIf=\"typeParams === 'header'\">\n      <input id=\"{{eye}}\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"selectEye(); cleanEye()\" class=\"custom-control-input\">\n      <label class=\"custom-control-label\" for=\"{{eye}}\">{{ getLabelEye() }}</label>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-2 margin-col padding-col pb-3\" *ngFor=\"let parameter of getParams()\">\n        <div class=\"row\">\n          <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n        </div>\n        <div class=\"row\" [ngSwitch]=\"parameter.type\">\n          <div *ngSwitchCase=\"'selected'\" class=\"col-sm-12 pl-0\">\n            <ng-select [items]=\"parameter.values\" (change)=\"changeParamsAndPriceValue(parameter)\" [(ngModel)]=\"parameter.selected\"\n            [required]=\"!parameter.noRequired || changeRequired(parameter.name)\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n            [clearable]=\"parameter.noRequired\" [disabled]=\"!enableParams || parameter.values.length === 1\">\n                <ng-template ng-label-tmp let-item=\"item\">\n                  <div>\n                    <span>{{ item | translate }}</span>\n                  </div>\n                </ng-template>\n                <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                  <div>\n                    <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                  </div>\n                </ng-template>\n              </ng-select>\n          </div>\n\n          <div *ngSwitchCase=\"'input-text'\" class=\"col-sm-12 pl-0\">\n            <input type=\"text\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams\" maxlength=\"25\"\n              [required]=\"!parameter.noRequired\" (change)=\"changeParamsAndPriceValue(parameter)\" id=\"text-{{eye}}-{{parameter.name}}\"/>\n          </div>\n          <!-- this input number is for only positive numbers -->\n          <div *ngIf=\"parameter.type === 'input-number' && checkParamName(parameter)\" class=\"col-sm-12 pl-0\">\n            <input type=\"number\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || qtyDisabled(parameter)\"\n              [required]=\"!parameter.noRequired\" max=\"100\" oninput=\"validity.valid||(value='');\" [min]=\"setMinimum(parameter)\"\n              (change)=\"changeParamsAndPriceValue(parameter)\" id=\"number-{{eye}}-{{parameter.name}}\" step=\"0.01\"/>\n          </div>\n          <!-- this input number is for negative numbers -->\n          <div *ngIf=\"parameter.type === 'input-number' && !checkParamName(parameter) && parameter.name !== 'Axis'\" class=\"col-sm-12 pl-0\">\n            <input type=\"number\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || qtyDisabled(parameter)\"\n              [required]=\"!parameter.noRequired\" max=\"100\" [min]=\"setMinimum(parameter)\"\n              (change)=\"changeParamsAndPriceValue(parameter)\" id=\"number-{{eye}}-{{parameter.name}}\" step=\"0.01\"/>\n          </div>\n\n          <div *ngSwitchCase=\"'radio'\" class=\"radio-b\">\n            <div *ngFor=\"let value of parameter.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-{{eye}}-{{parameter.name}}-{{i}}\" name=\"radio-{{eye}}-{{parameter.name}}\"\n                       [value]=\"value\" [required]=\"!parameter.noRequired\" [disabled]=\"!enableParams\"\n                       (click)=\"setRadioButtonValue(parameter,eye,value)\"\n                       class=\" custom-control-input form-control\" [checked]=\"parameter.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-{{eye}}-{{parameter.name}}-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row header-params\">\n  <div class=\"col-lg-12 custom-control custom-checkbox\">\n    <!--Eye-->\n    <div *ngIf=\"typeParams === 'header'\">\n      <input id=\"{{eye}}\" type=\"checkbox\" name=\"checkboxGroupAll\" (click)=\"selectEye(); cleanEye()\" class=\"custom-control-input\">\n      <label class=\"custom-control-label\" for=\"{{eye}}\">{{ getLabelEye() }}</label>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-2 margin-col padding-col pb-3\" *ngFor=\"let parameter of getParams()\">\n        <div class=\"row\">\n          <label class=\"form-check-label\">{{ parameter.name | translate }}</label>&nbsp;&nbsp;\n        </div>\n        <div class=\"row\" [ngSwitch]=\"parameter.type\">\n          <div *ngSwitchCase=\"'selected'\" class=\"col-sm-12 pl-0\">\n            <ng-select [items]=\"parameter.values\" (change)=\"changeParamsAndPriceValue(parameter)\" [(ngModel)]=\"parameter.selected\"\n            [required]=\"!parameter.noRequired || changeRequired(parameter.name)\" bindValue=\"item\" placeholder=\"{{ 'Select value' | translate }}\"\n            [clearable]=\"parameter.noRequired\" [disabled]=\"!enableParams || parameter.values.length === 1\">\n                <ng-template ng-label-tmp let-item=\"item\">\n                  <div>\n                    <span>{{ item | translate }}</span>\n                  </div>\n                </ng-template>\n                <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\" let-search=\"searchTerm\">\n                  <div>\n                    <h6 [ngOptionHighlight]=\"search\">{{ item | translate }}</h6>\n                  </div>\n                </ng-template>\n              </ng-select>\n          </div>\n\n          <div *ngSwitchCase=\"'input-text'\" class=\"col-sm-12 pl-0\">\n            <input type=\"text\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || parameter.disabled\" maxlength=\"25\"\n              [required]=\"!parameter.noRequired\" (change)=\"changeParamsAndPriceValue(parameter)\" id=\"text-{{eye}}-{{parameter.name}}\"/>\n          </div>\n          <!-- this input number is for only positive numbers -->\n          <div *ngIf=\"parameter.type === 'input-number' && checkParamName(parameter)\" class=\"col-sm-12 pl-0\">\n            <input type=\"number\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || qtyDisabled(parameter) || parameter.disabled\"\n              [required]=\"!parameter.noRequired\" max=\"100\" oninput=\"validity.valid||(value='');\" [min]=\"setMinimum(parameter)\"\n              (change)=\"changeParamsAndPriceValue(parameter)\" id=\"number-{{eye}}-{{parameter.name}}\" step=\"0.01\"/>\n          </div>\n          <!-- this input number is for negative numbers -->\n          <div *ngIf=\"parameter.type === 'input-number' && !checkParamName(parameter) && parameter.name !== 'Axis'\" class=\"col-sm-12 pl-0\">\n            <input type=\"number\" class=\"form-control\" [(ngModel)]=\"parameter.selected\" [disabled]=\"!enableParams || qtyDisabled(parameter) || parameter.disabled\"\n              [required]=\"!parameter.noRequired\" max=\"100\" [min]=\"setMinimum(parameter)\"\n              (change)=\"changeParamsAndPriceValue(parameter)\" id=\"number-{{eye}}-{{parameter.name}}\" step=\"0.01\"/>\n          </div>\n\n          <div *ngSwitchCase=\"'radio'\" class=\"radio-b\">\n            <div *ngFor=\"let value of parameter.values; let i = index\">\n              <div class=\"custom-control custom-radio\">\n                <input type=\"radio\" id=\"radio-{{eye}}-{{parameter.name}}-{{i}}\" name=\"radio-{{eye}}-{{parameter.name}}\"\n                       [value]=\"value\" [required]=\"!parameter.noRequired\" [disabled]=\"!enableParams\"\n                       (click)=\"setRadioButtonValue(parameter,eye,value)\"\n                       class=\" custom-control-input form-control\" [checked]=\"parameter.selected === value\">\n                <label class=\"custom-control-label\" for=\"radio-{{eye}}-{{parameter.name}}-{{i}}\">{{ value | translate }}</label>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -1649,6 +1649,8 @@ var ProductViewXCelComponent = /** @class */ (function () {
             _this.product.parametersRight = JSON.parse(_this.product.types)[0].parameters;
             _this.product.parametersLeft = JSON.parse(_this.product.types)[0].parameters;
             _this.product.header = JSON.parse(_this.product.types)[0].header;
+            _this.setParamsAtlantis("", { eye: "right" });
+            _this.setParamsAtlantis("", { eye: "left" });
             _this.initFooterButtons();
             _this.initialViewParams();
             _this.spinner.hide();
@@ -2052,59 +2054,36 @@ var ProductViewXCelComponent = /** @class */ (function () {
                 });
         }
     };
+    ProductViewXCelComponent.prototype.setDiameterSelected = function (baseCurveValue, eye) {
+        var diameter = this.getParams('body', eye).find(function (p) { return p.name === 'Diameter (mm)'; });
+        if (baseCurveValue.includes('X'))
+            diameter.selected = '15.50';
+        if (baseCurveValue.includes('C'))
+            diameter.selected = '14.50';
+        if (baseCurveValue.includes('L'))
+            diameter.selected = '16.50';
+    };
     ProductViewXCelComponent.prototype.changeParamsAndPrice = function (value) {
         var self = this;
         var paramsBody = [];
         var paramsHeader = this.getParams('header', value.eye);
         //--------------------------------------------------------
         if (this.product.name.includes('Atlantis')) {
+            var design = paramsHeader.find(function (p) { return p.name === 'Design'; });
+            var diameter = this.getParams('body', value.eye).find(function (p) { return p.name === 'Diameter (mm)'; });
             if (value.param.name === 'Design') {
-                var selectedDesign_1 = value.param.selected;
-                this.setPriceByDesign(value.eye, selectedDesign_1);
+                var selectedDesign = value.param.selected;
+                this.setPriceByDesign(value.eye, selectedDesign);
                 this.showImg[value.eye] = false;
-                paramsBody = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.originalParameters[value.eye], function (param) {
-                    switch (selectedDesign_1) {
-                        case 'Atlantis SPH':
-                        case 'Atlantis FT':
-                            self.lzRequired(param, 0);
-                            if (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
-                                param.selected = (param.type === 'radio') ? 'No' : null;
-                            }
-                            return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
-                        case 'Atlantis TPC':
-                        case 'Atlantis MF':
-                            self.lzRequired(param, 0);
-                            if (param.name === 'LZ 3D Vault / 2.0') {
-                                param.selected = (param.type === 'radio') ? 'No' : null;
-                            }
-                            return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
-                        case 'Atlantis 3D':
-                            self.lzRequired(param, 1);
-                            if (param.name === 'TPC') {
-                                param.selected = (param.type === 'radio') ? 'No' : null;
-                            }
-                            return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
-                        case 'Atlantis 2.0':
-                            self.lzRequired(param, 1);
-                            self.paramsAtlantisImages[value.eye].parameters = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](self.originalParameters[value.eye], function (param) {
-                                return selectedDesign_1 === 'Atlantis 2.0' && self.checkAtlantisParams(param, 0);
-                            });
-                            self.getClock(value.eye);
-                            self.showImg[value.eye] = true;
-                            if (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
-                                param.selected = (param.type === 'radio') ? 'No' : null;
-                            }
-                            return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
-                        case 'Atlantis LD':
-                            self.lzRequired(param, 0);
-                            return !param.header && !self.checkAtlantisParams(param, 0);
-                        default:
-                            self.lzRequired(param, 0);
-                            return param && !self.checkAtlantisParams(param, 0) && !param.header;
-                    }
-                });
-                this.product[this.parametersByEye(value.eye)] = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](paramsHeader, paramsBody);
+                this.setParamsAtlantis(selectedDesign, value);
                 this.setRequiredParams(value);
+                diameter.disabled = false;
+            }
+            if (design.selected === 'Atlantis 2.0') {
+                diameter.disabled = true;
+                if (value.param.name === 'Base Curve (mm)') {
+                    this.setDiameterSelected(value.param.selected, value.eye);
+                }
             }
         }
         else if (this.product.name.includes('RGP')) {
@@ -2119,20 +2098,20 @@ var ProductViewXCelComponent = /** @class */ (function () {
                 this.setPriceByDesign(value.eye, value.param.selected);
             }
             if (value.param.name === 'Design') {
-                var selectedDesign_2 = value.param.selected;
-                this.presentationAndDesign[value.eye.toLowerCase()].design = selectedDesign_2;
-                this.setPriceByDesign(value.eye, selectedDesign_2);
+                var selectedDesign_1 = value.param.selected;
+                this.presentationAndDesign[value.eye.toLowerCase()].design = selectedDesign_1;
+                this.setPriceByDesign(value.eye, selectedDesign_1);
                 var material_1 = paramsHeader.find(function (p) { return p.name === 'Materials'; });
                 paramsBody = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.originalParameters[value.eye], function (param) {
-                    switch (selectedDesign_2) {
+                    switch (selectedDesign_1) {
                         case 'X-Cel Multifocal'://addition, dom eye, distance zone
                             if (param.name === 'C.T / E.C') {
-                                self.ctRequired(param, selectedDesign_2, 0);
+                                self.ctRequired(param, selectedDesign_1, 0);
                             }
                             return !param.header;
                         case 'Flexlens ARC':
                             if (param.name === 'C.T / E.C') {
-                                self.ctRequired(param, selectedDesign_2, 1);
+                                self.ctRequired(param, selectedDesign_1, 1);
                             }
                             material_1.values = [];
                             material_1.values = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](material_1.values, "45%", "49%", "55%", "59%", "Definitive 74%");
@@ -2141,7 +2120,7 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
                         case 'Flexlens Large Diameter':
                             if (param.name === 'C.T / E.C') {
-                                self.ctRequired(param, selectedDesign_2, 0);
+                                self.ctRequired(param, selectedDesign_1, 0);
                             }
                             material_1.values = [];
                             material_1.values = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](material_1.values, "45%", "49%", "55%", "59%", "Definitive 74%");
@@ -2155,14 +2134,14 @@ var ProductViewXCelComponent = /** @class */ (function () {
                             return !param.header && param.name !== 'Addition' && param.name !== 'Distance Zone' && param.name !== 'Dom. Eye';
                         case 'Flexlens Tricurve':
                             if (param.name === 'C.T / E.C') {
-                                self.ctRequired(param, selectedDesign_2, 1);
+                                self.ctRequired(param, selectedDesign_1, 1);
                             }
                         default:
-                            if (param.name === 'C.T / E.C' && selectedDesign_2 === 'Flexlens Tricurve') {
-                                self.ctRequired(param, selectedDesign_2, 1);
+                            if (param.name === 'C.T / E.C' && selectedDesign_1 === 'Flexlens Tricurve') {
+                                self.ctRequired(param, selectedDesign_1, 1);
                             }
                             else if (param.name === 'C.T / E.C') {
-                                self.ctRequired(param, selectedDesign_2, 0);
+                                self.ctRequired(param, selectedDesign_1, 0);
                             }
                             if (material_1.values.length <= 2) {
                                 material_1.values = [];
@@ -2176,6 +2155,73 @@ var ProductViewXCelComponent = /** @class */ (function () {
                 });
                 this.product[this.parametersByEye(value.eye)] = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](paramsHeader, paramsBody);
             }
+        }
+    };
+    ProductViewXCelComponent.prototype.setParamsAtlantis = function (selectedDesign, value) {
+        var self = this;
+        var paramsBody = [];
+        var paramsHeader = this.getParams('header', value.eye);
+        if (this.product.name.includes('Atlantis')) {
+            paramsBody = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](this.originalParameters[value.eye], function (param) {
+                switch (selectedDesign) {
+                    case 'Atlantis SPH':
+                    case 'Atlantis FT':
+                        self.lzRequired(param, 0);
+                        if (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
+                            param.selected = (param.type === 'radio') ? 'No' : null;
+                        }
+                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                            return false;
+                        }
+                        return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
+                    case 'Atlantis TPC':
+                    case 'Atlantis MF':
+                        self.lzRequired(param, 0);
+                        if (param.name === 'LZ 3D Vault / 2.0') {
+                            param.selected = (param.type === 'radio') ? 'No' : null;
+                        }
+                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                            return false;
+                        }
+                        return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
+                    case 'Atlantis 3D':
+                        self.lzRequired(param, 1);
+                        if (param.name === 'TPC') {
+                            param.selected = (param.type === 'radio') ? 'No' : null;
+                        }
+                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                            return false;
+                        }
+                        return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
+                    case 'Atlantis 2.0':
+                        self.lzRequired(param, 1);
+                        self.paramsAtlantisImages[value.eye].parameters = lodash__WEBPACK_IMPORTED_MODULE_5__["filter"](self.originalParameters[value.eye], function (param) {
+                            return selectedDesign === 'Atlantis 2.0' && self.checkAtlantisParams(param, 0);
+                        });
+                        self.getClock(value.eye);
+                        self.showImg[value.eye] = true;
+                        if (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
+                            param.selected = (param.type === 'radio') ? 'No' : null;
+                        }
+                        if (param.name === 'Base Curve (mm)' && param.type === "input-number") {
+                            return false;
+                        }
+                        return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
+                    case 'Atlantis LD':
+                        self.lzRequired(param, 0);
+                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                            return false;
+                        }
+                        return !param.header && !self.checkAtlantisParams(param, 0);
+                    default:
+                        self.lzRequired(param, 0);
+                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                            return false;
+                        }
+                        return param && !self.checkAtlantisParams(param, 0) && !param.header;
+                }
+            });
+            this.product[this.parametersByEye(value.eye)] = lodash__WEBPACK_IMPORTED_MODULE_5__["concat"](paramsHeader, paramsBody);
         }
     };
     ProductViewXCelComponent.prototype.lzRequired = function (param, required) {
