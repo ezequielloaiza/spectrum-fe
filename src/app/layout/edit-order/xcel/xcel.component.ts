@@ -1865,12 +1865,29 @@ export class XcelComponent implements OnInit {
     });
   }
 
+  setDiameterSelected(baseCurveValue: any, eye:any) {
+    let diameter = this.productParams.find(p => p.name === 'Diameter (mm)');
+
+    if (baseCurveValue.includes('X'))
+      diameter.selected = '15.50';
+
+    if (baseCurveValue.includes('C'))
+      diameter.selected = '14.50';
+
+    if (baseCurveValue.includes('L'))
+      diameter.selected = '16.50';
+  }
+
 
   changeParams(parameter,value) {
     const self = this;
     //--------------------------------------------------------
 
     if (this.product.name.includes('Atlantis')) { //Atlantis Case
+      let design = this.productParams.find(p => p.name === 'Design');
+      let diameter = this.productParams.find(p => p.name === 'Diameter (mm)');
+      let BC1 = this.productParams.find(p => p.name === 'Base Curve (mm)' && p.type === 'input-number');
+      let BC2 = this.productParams.find(p => p.name === 'Base Curve (mm)' && p.type === 'selected');
 
       if (parameter.name === 'Design') {
 
@@ -1886,6 +1903,9 @@ export class XcelComponent implements OnInit {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               self.cleanAtlantisParam(param);
+              if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                return false;
+              }
               return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis TPC':
             case 'Atlantis MF':
@@ -1894,6 +1914,9 @@ export class XcelComponent implements OnInit {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               self.cleanAtlantisParam(param);
+              if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                return false;
+              }
               return param.name !== 'LZ 3D Vault / 2.0' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 3D':
               self.lzRequired(param,1);
@@ -1901,6 +1924,10 @@ export class XcelComponent implements OnInit {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
               self.cleanAtlantisParam(param);
+
+              if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                return false;
+              }
               return param.name !== 'TPC' && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             case 'Atlantis 2.0':
               self.lzRequired(param,1);
@@ -1911,19 +1938,42 @@ export class XcelComponent implements OnInit {
               if (_.includes(['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
                 param.selected = (param.type === 'radio') ? 'No' : null;
               }
+
+              if (param.name === 'Base Curve (mm)' && param.type === "input-number") {
+                return false;
+              }
               return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && param.name !== 'Quantity' && param.name !== 'Hydrapeg'&& !self.checkAtlantisParams(param, 1);
             case 'Atlantis LD':
               self.lzRequired(param,0);
               self.cleanAtlantisParam(param);
+              if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                return false;
+              }
               return  !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
             default:
               self.lzRequired(param,0);
               self.cleanAtlantisParam(param);
+              if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                return false;
+              }
               return param && !self.checkAtlantisParams(param, 0) && param.name !== 'Quantity' && param.name !== 'Hydrapeg';
           }
 
         });
         this.setRequiredParams(parameter, value);
+
+        diameter.disabled = false;
+      }
+
+      if (design.selected === 'Atlantis 2.0') {
+        diameter.disabled = true;
+        BC1.selected = null;
+
+        if (parameter.name === 'Base Curve (mm)') {
+          this.setDiameterSelected(parameter.selected, value.eye);
+        }
+      } else {
+        BC2.selected = null;
       }
     } else if (this.product.name.includes('RGP')) { // RGP CASE
 
