@@ -289,7 +289,7 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
   clean(type) {
-    this.getListInvoicesOriginal();
+    this.paginateParams.page = 1;
     if (type === 'original') {
       this.validOriginal = false;
       this.selectedStatusOriginal = '';
@@ -368,25 +368,6 @@ export class ManageInvoiceComponent implements OnInit {
   }
 
     beforeChange(event) {
-      this.paginateParams.page = 1;
-      if (event.activeId === 'original') {
-        this.filterOriginal = {
-          date: '',
-          general: '',
-          status: -1,
-          original: true,
-          order: ''
-        };
-        this.getListInvoicesOriginal();
-      } else {
-        this.filterCopy = {
-          date: '',
-          general: '',
-          status: -1,
-          original: false,
-          order: ''
-        };
-        this.getListInvoicesCopy();
-      }
+      this.clean(event.activeId);
     }
 }
