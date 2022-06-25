@@ -90,6 +90,29 @@
   }
 }
 
+.div-canceled {
+  >div {
+    text-align: center;
+    background:$cancel-status;
+    color: $bg-white;
+    border-radius: 12px;
+    width: 65%;
+    font-size: 13px;
+  }
+}
+
+.cancel-reason {
+  > div {
+    text-align: center !important;
+  }
+
+  > div:last-child {
+    > span {
+      font-weight: 300 !important;
+    }
+  }
+}
+
 .h5-filter {
   padding-top: 20px;
 }

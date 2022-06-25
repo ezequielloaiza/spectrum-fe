@@ -512,7 +512,7 @@
                         <div>{{'Overdue' | translate }}</div>
                       </td>
                       <td>{{ invoice.number }}</td>
-                      <td class="table-tr td-table">{{invoice.dueDate  | date:'yyyy-MM-dd'}}</td>
+                      <td class="table-tr td-table">{{invoice.dueDate | customDate}}</td>
                       <td>{{ invoice.user.name }}</td>
                       <td class="table-tr">{{invoice.due | currency : "USD $"}}</td>
                     </tr>

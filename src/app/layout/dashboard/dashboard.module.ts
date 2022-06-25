@@ -12,6 +12,7 @@ import {
 import { StatModule, PageHeaderModule } from '../../shared';
 import { ChartsModule as Ng2Charts } from 'ng2-charts';
 import { TranslateModule } from '@ngx-translate/core';
+import { CustomDateModule } from '../../shared/pipes/custom-date.module';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import { TranslateModule } from '@ngx-translate/core';
         StatModule,
         Ng2Charts,
         PageHeaderModule,
-        TranslateModule
+        TranslateModule,
+        CustomDateModule
     ],
     declarations: [
         DashboardComponent,
