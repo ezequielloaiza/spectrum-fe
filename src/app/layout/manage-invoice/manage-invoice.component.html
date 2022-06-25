@@ -21,8 +21,8 @@
             {{ 'All Pro Forma Invoices' | translate }}
           </div>
         </div>
-        <ngb-tabset>
-          <ngb-tab title="{{'Copy'| translate}}">
+        <ngb-tabset  (tabChange)="beforeChange($event)">
+          <ngb-tab title="{{'Copy'| translate}}" id="original">
             <ng-template ngbTabContent>
               <div class="row filters">
                 <div class="col-xl-3 filter">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-xl-3 filter">
                     <div class="input-group filter-date">
-                      <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecCopy" [(ngModel)]="fechaSelecCopy" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecCopy, 'copy')">
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecCopy" [(ngModel)]="fechaSelecCopy" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterByDate(fechaSelecCopy, 'copy')">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                           <i class="fa fa-calendar"></i>
@@ -59,47 +59,47 @@
                       <tr>
                         <th class="table-tr header-column">
                           <span title="{{ 'Status' | translate }}">{{ 'Status' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('status', 'asc', 1, 'copy')"></i>
                           </span>
                           <span [hidden]="orderByField != 'status' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('status', 'desc', 2, 'copy')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'copy')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Invoice No' | translate }}">{{ 'Invoice No' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('number', 'asc', 1, 'copy')"></i>
                           </span>
                           <span [hidden]="orderByField != 'number' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('number', 'desc', 2, 'copy')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'copy')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Invoice Date' | translate }}">{{ 'Invoice Date' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date', 'asc', 1, 'copy')"></i>
                           </span>
                           <span [hidden]="orderByField != 'date' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('date', 'desc', 2, 'copy')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'copy')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Customer' | translate }}">{{ 'Customer' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('customer', 'asc', 1, 'copy')"></i>
                           </span>
-                          <span [hidden]="orderByField != 'client' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                          <span [hidden]="orderByField != 'customer' || typeSort === 0">
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('customer', 'desc', 2, 'copy')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'copy')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Total' | translate }}">{{ 'Total' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('total', 'asc', 1, 'copy')"></i>
                           </span>
                           <span [hidden]="orderByField != 'total' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('total', 'desc', 2, 'copy')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'copy')"></i>
                           </span>
                         </th>
                         <th class="table-tr"></th>
@@ -142,18 +142,16 @@
                       {{ 'No records have been added yet' | translate }}
                     </p>
                   </div>
-                  <div class="pagination-list" [hidden]="listInvoicesCopy.length === 0">
-                    <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChangeCopy($event)" [collectionSize]="listInvoicesAuxCopy.length"
-                      [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
-                    </ngb-pagination>
-                    <span class="count-elements">{{ listInvoicesCopy.length + ' ' + ('of' | translate) + ' ' + listInvoicesAuxCopy.length + ' ' + ('register(s)' | translate)
-                      }}
-                    </span>
+                   <!-- paginator -->
+                  <div [hidden]="listInvoicesCopy.length === 0">
+                    <app-pagination [pages]="metaCopy.pages" [currentPage]="paginateParams.page" [perPage]="paginateParams.perPage"
+                      (goNext)="onNext('copy')" (goPrev)="onPrev('copy')" (goFirst)="onFirst('copy')" (goLast)="onLast('copy')" (goPerPage)="onPerPage($event, 'copy')">
+                    </app-pagination>
                   </div>
               </div>
             </ng-template>
           </ngb-tab>
-          <ngb-tab title="{{'Original'| translate}}">
+          <ngb-tab title="{{'Original'| translate}}" id="copy">
             <ng-template ngbTabContent>
               <div class="row filters">
                 <div class="col-xl-3 filter">
@@ -172,7 +170,7 @@
                 </div>
                 <div class="col-xl-3 filter">
                     <div class="input-group filter-date">
-                      <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOriginal" [(ngModel)]="fechaSelecOriginal" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filter1(fechaSelecOriginal, 'original')">
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="fechaSelecOriginal" [(ngModel)]="fechaSelecOriginal" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterByDate(fechaSelecOriginal, 'original')">
                       <div class="input-group-append">
                         <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                           <i class="fa fa-calendar"></i>
@@ -191,47 +189,47 @@
                       <tr>
                         <th class="table-tr header-column">
                           <span title="{{ 'Status' | translate }}">{{ 'Status' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('status', 'asc', 1, 'original')"></i>
                           </span>
                           <span [hidden]="orderByField != 'status' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('status')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('status', 'desc', 2, 'original')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'original')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Invoice No' | translate }}">{{ 'Invoice No' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('number', 'asc', 1, 'original')"></i>
                           </span>
                           <span [hidden]="orderByField != 'number' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('number')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('number', 'desc', 2, 'original')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'original')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Invoice Date' | translate }}">{{ 'Invoice Date' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('date', 'asc', 1, 'original')"></i>
                           </span>
                           <span [hidden]="orderByField != 'date' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('date')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('date', 'desc', 2, 'original')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'original')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Customer' | translate }}">{{ 'Customer' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('customer', 'asc', 1, 'original')"></i>
                           </span>
-                          <span [hidden]="orderByField != 'client' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('client')"></i>
+                          <span [hidden]="orderByField != 'customer' || typeSort === 0">
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('customer', 'desc', 2, 'original')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'original')"></i>
                           </span>
                         </th>
                         <th class="table-tr header-column">
                           <span title="{{ 'Total' | translate }}">{{ 'Total' | translate }}
-                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
+                            <i title="Sort" [hidden]="typeSort !== 0" class="fa fa-sort" (click)="reverseSort = !reverseSort; sortInvoice('total', 'asc', 1, 'original')"></i>
                           </span>
                           <span [hidden]="orderByField != 'total' || typeSort === 0">
-                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
-                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('total')"></i>
+                            <i title="Ascendente" [hidden]="typeSort !== 1" class="fa fa-sort-down" (click)="reverseSort = !reverseSort; sortInvoice('total', 'desc', 2, 'original')"></i>
+                            <i title="Descendente" [hidden]="typeSort !== 2" class="fa fa-sort-up" (click)="reverseSort = !reverseSort; sortInvoice('', '', 0, 'original')"></i>
                           </span>
                         </th>
                         <th class="table-tr"></th>
@@ -274,13 +272,11 @@
                       {{ 'No records have been added yet' | translate }}
                     </p>
                   </div>
-                  <div class="pagination-list" [hidden]="listInvoicesOriginal.length === 0">
-                    <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChangeOriginal($event)" [collectionSize]="listInvoicesAuxOriginal.length"
-                      [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
-                    </ngb-pagination>
-                    <span class="count-elements">{{ listInvoicesOriginal.length + ' ' + ('of' | translate) + ' ' + listInvoicesAuxOriginal.length + ' ' + ('register(s)' | translate)
-                      }}
-                    </span>
+                  <!-- paginator -->
+                  <div [hidden]="listInvoicesOriginal.length === 0">
+                    <app-pagination [pages]="metaOriginal.pages" [currentPage]="paginateParams.page" [perPage]="paginateParams.perPage"
+                      (goNext)="onNext('original')" (goPrev)="onPrev('original')" (goFirst)="onFirst('original')" (goLast)="onLast('original')" (goPerPage)="onPerPage($event, 'original')">
+                    </app-pagination>
                   </div>
               </div>
             </ng-template>
