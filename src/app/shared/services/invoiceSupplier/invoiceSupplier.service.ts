@@ -15,11 +15,14 @@ export class InvoiceSupplierService {
   }
 
   public allInvoiceByStatus$(status): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoiceByStatus/' + status);
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoiceByStatus/' + status
+    );
   }
 
-  public allInvoice$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoice');
+  public allInvoice$(params: any, filter: any): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesSupplier/allInvoice?page=' + params.page + '&perPage=' + params.perPage
+    + '&date=' + filter.date + '&general=' + filter.general + '&status=' + filter.status + '&original=' + filter.original
+    + '&order=' + filter.order);
   }
 
   public delete$(id): Observable<any> {
