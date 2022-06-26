@@ -2534,8 +2534,10 @@ var InvoiceSupplierService = /** @class */ (function () {
     InvoiceSupplierService.prototype.allInvoiceByStatus$ = function (status) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesSupplier/allInvoiceByStatus/' + status);
     };
-    InvoiceSupplierService.prototype.allInvoice$ = function () {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesSupplier/allInvoice');
+    InvoiceSupplierService.prototype.allInvoice$ = function (params, filter) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesSupplier/allInvoice?page=' + params.page + '&perPage=' + params.perPage
+            + '&date=' + filter.date + '&general=' + filter.general + '&status=' + filter.status + '&original=' + filter.original
+            + '&order=' + filter.order);
     };
     InvoiceSupplierService.prototype.delete$ = function (id) {
         return this.http.delete(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesSupplier/delete/' + id);
