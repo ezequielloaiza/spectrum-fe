@@ -806,7 +806,7 @@ export class SmartlensComponent implements OnInit {
 
     this.productRequested.detail = '[' + JSON.stringify({ name: '', eye: this.detail.eye,
                                   parameters: this.detail.parameters, typeLens: this.detail.typeLens,
-                                  dmv: this.product.dmv,
+                                  dmv: this.product.dmv, codeSpectrum: this.product.code,
                                   design: this.detail.design, materials: this.detail.materials, hydrapeg: this.detail.hydrapeg,
                                   productsAdditional: self.getProductsAdditional(this.productRequested, 'detail')}) + ']';
     this.productRequested.observations = this.observations;
