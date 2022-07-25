@@ -269,6 +269,9 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.parametersRight = JSON.parse(this.product.types)[0].parameters;
     this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
     this.typeStepsRight = JSON.parse(this.product.types)[0].typeSteps;
+    // case 599
+    this.typeStepsRight.selected = null;
+
     this.changeTypeLens('right', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersRight, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
@@ -278,6 +281,9 @@ export class ProductViewEuropaComponent implements OnInit {
     this.product.parametersLeft = JSON.parse(this.product.types)[0].parameters;
     this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
     this.typeStepsLeft = JSON.parse(this.product.types)[0].typeSteps;
+    // case 599
+    this.typeStepsLeft.selected = null;
+
     this.changeTypeLens('left', 'Please design my lens');
     orderCylinder = _.find(this.product.parametersLeft, { name: 'Cylinder (D)' });
     if (orderCylinder != null) {
@@ -1241,7 +1247,7 @@ export class ProductViewEuropaComponent implements OnInit {
           isValid = false;
         }
       });
-      if (!this.typeCurveRight || !this.signPowerRight || !this.product.quantityRight) {
+      if (!this.typeCurveRight || !this.signPowerRight || !this.product.quantityRight || !this.typeStepsRight.selected) {
         isValid = false;
       }
     }
@@ -1279,7 +1285,7 @@ export class ProductViewEuropaComponent implements OnInit {
           isValid = false;
         }
       });
-      if (!this.typeCurveLeft || !this.signPowerLeft || !this.product.quantityLeft) {
+      if (!this.typeCurveLeft || !this.signPowerLeft || !this.product.quantityLeft || !this.typeStepsLeft.selected) {
         isValid = false;
       }
     }
@@ -1619,6 +1625,9 @@ export class ProductViewEuropaComponent implements OnInit {
       this.product.parametersRight = parameters;
       this.typeLensRight = JSON.parse(this.product.types)[0].typeLens;
       this.typeStepsRight = JSON.parse(this.product.types)[0].typeSteps;
+      // case 599
+      this.typeStepsRight.selected = null;
+
       this.changeTypeLens('right', 'Please design my lens');
       this.product.pasosRight = pasos;
       this.typeCurveRight = null;
@@ -1631,6 +1640,9 @@ export class ProductViewEuropaComponent implements OnInit {
       this.product.parametersLeft = parameters;
       this.typeLensLeft = JSON.parse(this.product.types)[0].typeLens;
       this.typeStepsLeft = JSON.parse(this.product.types)[0].typeSteps;
+      // case 599
+      this.typeStepsLeft.selected = null;
+
       this.changeTypeLens('left', 'Please design my lens');
       this.product.pasosLeft = pasos;
       this.typeCurveLeft = null;

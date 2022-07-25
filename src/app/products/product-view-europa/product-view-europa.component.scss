@@ -163,6 +163,15 @@
       font-size: 14px;
     }
   }
+
+  .radio-empty::before {
+    background-color: #e9ecef;
+  }
+
+  .select-option {
+    color: rgb(192, 31, 31);
+    font-size: 11px;
+  }
 }
 
 .product-info {
