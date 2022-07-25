@@ -383,9 +383,14 @@
             <span class="title">{{ 'Steps' | translate }}:</span>
             <div *ngFor="let value of typeStepsRight.values; let i = index">
               <div class="custom-control custom-radio">
-                <input type="radio" id="radio-steps-{{i}}" name="radioTypeStepsRight" [value]="value" [disabled]="!product.eyeRight" (change)="changeTypeSteps('right', value)" class="custom-control-input" [checked]="typeStepsRight.selected === value">
-                <label class="custom-control-label" for="radio-steps-{{i}}">{{ value | translate }}</label>
+                <input type="radio" id="radio-steps-{{i}}" name="radioTypeStepsRight" [value]="value"
+                       [disabled]="!product.eyeRight" (change)="changeTypeSteps('right', value)" class="custom-control-input"
+                       [checked]="typeStepsRight.selected === value" required>
+                <label class="custom-control-label" for="radio-steps-{{i}}" [ngClass]="{ 'radio-empty': !typeStepsRight.selected }">{{ value | translate }}</label>
               </div>
+            </div>
+            <div class="select-option" [hidden]="!!typeStepsRight.selected">
+              {{ 'Please select an option' | translate }}
             </div>
           </div>
           <div class="row content-steps">
@@ -697,9 +702,14 @@
             <span class="title">{{ 'Steps' | translate }}:</span>
             <div *ngFor="let value of typeStepsLeft.values; let i = index">
               <div class="custom-control custom-radio">
-                <input type="radio" id="radio-steps-left-{{i}}" name="radioTypeStepsLeft"  [disabled]="!product.eyeLeft" [value]="value" (change)="changeTypeSteps('left', value)" class="custom-control-input" [checked]="typeStepsLeft.selected === value">
-                <label class="custom-control-label" for="radio-steps-left-{{i}}">{{ value | translate }}</label>
+                <input type="radio" id="radio-steps-left-{{i}}" name="radioTypeStepsLeft"
+                       [disabled]="!product.eyeLeft" [value]="value" (change)="changeTypeSteps('left', value)"
+                       class="custom-control-input" [checked]="typeStepsLeft.selected === value" required>
+                <label class="custom-control-label" [ngClass]="{ 'radio-empty': !typeStepsLeft.selected }" for="radio-steps-left-{{i}}">{{ value | translate }}</label>
               </div>
+            </div>
+            <div class="select-option" [hidden]="!!typeStepsLeft.selected">
+              {{ 'Please select an option' | translate }}
             </div>
           </div>
           <div class="row content-steps">
