@@ -2054,36 +2054,18 @@ var ProductViewXCelComponent = /** @class */ (function () {
                 });
         }
     };
-    ProductViewXCelComponent.prototype.setDiameterSelected = function (baseCurveValue, eye) {
-        var diameter = this.getParams('body', eye).find(function (p) { return p.name === 'Diameter (mm)'; });
-        if (baseCurveValue.includes('X'))
-            diameter.selected = '15.50';
-        if (baseCurveValue.includes('C'))
-            diameter.selected = '14.50';
-        if (baseCurveValue.includes('L'))
-            diameter.selected = '16.50';
-    };
     ProductViewXCelComponent.prototype.changeParamsAndPrice = function (value) {
         var self = this;
         var paramsBody = [];
         var paramsHeader = this.getParams('header', value.eye);
         //--------------------------------------------------------
         if (this.product.name.includes('Atlantis')) {
-            var design = paramsHeader.find(function (p) { return p.name === 'Design'; });
-            var diameter = this.getParams('body', value.eye).find(function (p) { return p.name === 'Diameter (mm)'; });
             if (value.param.name === 'Design') {
                 var selectedDesign = value.param.selected;
                 this.setPriceByDesign(value.eye, selectedDesign);
                 this.showImg[value.eye] = false;
                 this.setParamsAtlantis(selectedDesign, value);
                 this.setRequiredParams(value);
-                diameter.disabled = false;
-            }
-            if (design.selected === 'Atlantis 2.0') {
-                diameter.disabled = true;
-                if (value.param.name === 'Base Curve (mm)') {
-                    this.setDiameterSelected(value.param.selected, value.eye);
-                }
             }
         }
         else if (this.product.name.includes('RGP')) {
@@ -2170,7 +2152,8 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         if (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](['LZ 3D Vault / 2.0', 'TPC'], param.name)) {
                             param.selected = (param.type === 'radio') ? 'No' : null;
                         }
-                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                        if ((param.name === 'Base Curve (mm)' && param.type === "selected") ||
+                            (param.name === "Diameter (mm)" && param.type === "selected")) {
                             return false;
                         }
                         return param.name !== 'LZ 3D Vault / 2.0' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
@@ -2180,7 +2163,8 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         if (param.name === 'LZ 3D Vault / 2.0') {
                             param.selected = (param.type === 'radio') ? 'No' : null;
                         }
-                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                        if ((param.name === 'Base Curve (mm)' && param.type === "selected") ||
+                            (param.name === "Diameter (mm)" && param.type === "selected")) {
                             return false;
                         }
                         return param.name !== 'LZ 3D Vault / 2.0' && !param.header && !self.checkAtlantisParams(param, 0);
@@ -2189,7 +2173,8 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         if (param.name === 'TPC') {
                             param.selected = (param.type === 'radio') ? 'No' : null;
                         }
-                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                        if ((param.name === 'Base Curve (mm)' && param.type === "selected") ||
+                            (param.name === "Diameter (mm)" && param.type === "selected")) {
                             return false;
                         }
                         return param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 0);
@@ -2203,19 +2188,22 @@ var ProductViewXCelComponent = /** @class */ (function () {
                         if (lodash__WEBPACK_IMPORTED_MODULE_5__["includes"](['Limbal Zone', 'Scleral Zone', 'TPC'], param.name)) {
                             param.selected = (param.type === 'radio') ? 'No' : null;
                         }
-                        if (param.name === 'Base Curve (mm)' && param.type === "input-number") {
+                        if ((param.name === 'Base Curve (mm)' && param.type === "input-number") ||
+                            (param.name === "Diameter (mm)" && param.type === "input-number")) {
                             return false;
                         }
                         return param.name !== 'Limbal Zone' && param.name !== 'Scleral Zone' && param.name !== 'TPC' && !param.header && !self.checkAtlantisParams(param, 1);
                     case 'Atlantis LD':
                         self.lzRequired(param, 0);
-                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                        if ((param.name === 'Base Curve (mm)' && param.type === "selected") ||
+                            (param.name === "Diameter (mm)" && param.type === "selected")) {
                             return false;
                         }
                         return !param.header && !self.checkAtlantisParams(param, 0);
                     default:
                         self.lzRequired(param, 0);
-                        if (param.name === 'Base Curve (mm)' && param.type === "selected") {
+                        if ((param.name === 'Base Curve (mm)' && param.type === "selected") ||
+                            (param.name === "Diameter (mm)" && param.type === "selected")) {
                             return false;
                         }
                         return param && !self.checkAtlantisParams(param, 0) && !param.header;
