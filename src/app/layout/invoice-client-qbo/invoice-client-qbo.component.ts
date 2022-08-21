@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as _ from 'lodash';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -19,9 +20,30 @@ export class InvoiceClientQBOComponent implements OnInit {
   filterDateRange: Array<any> = new Array;
   selectedRange: any;
   itemPerPage = 5;
-  advancedPagination: number;
 
-  constructor(private invoiceClientService: InvoiceClientService, private spinner: NgxSpinnerService) { }
+  paginateParams = {
+    page: 1,
+    perPage: 5
+  };
+
+  meta = {
+    pages: 0,
+    total: 0
+  };
+
+  filter = {
+    dueDate: '',
+    general: '',
+    rangeDate: -1,
+    beginningDate: '',
+    finishDate: ''
+  };
+
+  typingTimer: any;
+  valorGeneral: any;
+  fechaFilter: any;
+
+  constructor(private invoiceClientService: InvoiceClientService, private spinner: NgxSpinnerService, private datepipe: DatePipe) { }
 
   ngOnInit() {
     this.getInvoiceClientQBO();
@@ -37,9 +59,10 @@ export class InvoiceClientQBOComponent implements OnInit {
 
   getInvoiceClientQBO() {
     this.spinner.show();
-    this.invoiceClientService.allInvoiceQBO$().subscribe(res => {
-      this.listInvoices = res.data;
-      this.listInvoicesAux = res.data;
+    this.invoiceClientService.allInvoiceQBO$(this.paginateParams, this.filter).subscribe(res => {
+      this.meta = res.data.meta;
+      this.listInvoices = res.data.result;
+      this.listInvoicesAux = res.data.result;
       this.spinner.hide();
     }, error => {
       this.spinner.hide();
@@ -68,24 +91,36 @@ export class InvoiceClientQBOComponent implements OnInit {
   }
 
   clean(type) {
-    this.listInvoices = this.listInvoicesAux;
+    this.meta = {
+      pages: 0,
+      total: 0
+    };
 
-    if (type === 'allFilters') {
-      this.selectedRange = '';
-    }
+    this.filter = {
+      dueDate: '',
+      general: '',
+      rangeDate: -1,
+      finishDate: '',
+      beginningDate: ''
+    };
+    this.valorGeneral = '';
+    this.fechaFilter = null;
+    this.selectedRange = '';
+    this.getInvoiceClientQBO();
   }
 
   getItems(ev: any) {
-    this.listInvoices = this.listInvoicesAux;
-
-    const val = ev.target.value;
-
-    if (val && val.trim() !== '') {
-      this.listInvoices = this.listInvoices.filter((item) => {
-        return ((_.toString(item.number).toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (_.toString(item.docNumber).toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-          (_.toString(item.qboTotalAmt).toLowerCase().indexOf(val.toLowerCase()) > -1));
-      });
+    clearTimeout(this.typingTimer);
+    if (ev.target.value !== '') {
+      this.typingTimer = setTimeout(() => {
+        this.filter.general = ev.target.value;
+        this.paginateParams.page = 1;
+        this.getInvoiceClientQBO();
+      }, 500);
+    } else {
+      this.filter.general = '';
+      this.paginateParams.page = 1;
+      this.getInvoiceClientQBO();
     }
   }
 
@@ -105,26 +140,16 @@ export class InvoiceClientQBOComponent implements OnInit {
     return fecha;
   }
 
-  filterDate(value): void {
-    const lista = [];
-    let filterDate: String;
-    filterDate = this.getFecha(value);
-
-    this.listInvoices = this.listInvoices.filter((item) => {
-      let dateList: String;
-      let dueDateList: String;
-      dateList = _.toString(item.date.slice(0, 10));
-      dueDateList = _.toString(item.dueDate.slice(0, 10));
-
-      // tslint:disable-next-line:radix
-      return _.isEqual(filterDate, dateList) || _.isEqual(filterDate, dueDateList);
-    });
+  filterByDate(date) {
+    this.filter.dueDate = date.year + '-' + (date.month < 10 ?  '0' + date.month : date.month) + '-' + date.day;
+    this.paginateParams.page = 1;
+    this.getInvoiceClientQBO();
   }
 
   filterByRangeDate(): void {
+    this.filter.finishDate = '';
+    this.filter.beginningDate = '';
     let finishDate = null;
-    this.clean('forRange');
-
     let currentDate = new Date();
     const selected = this.selectedRange.split(',');
     let finish = selected[1];
@@ -144,9 +169,7 @@ export class InvoiceClientQBOComponent implements OnInit {
     }
 
     const beginningDate = new Date(currentDate.setDate(currentDate.getDate() - beginning));
-    beginningDate.setHours(0);
-    beginningDate.setMinutes(0);
-    beginningDate.setSeconds(0);
+    this.filter.beginningDate = this.datepipe.transform(beginningDate, 'yyyy-MM-dd');
 
     // Set finishDate
     if (finish !== '>') {
@@ -164,21 +187,11 @@ export class InvoiceClientQBOComponent implements OnInit {
 
       currentDate = new Date();
       finishDate = new Date(currentDate.setDate(currentDate.getDate() - finish));
-      finishDate.setHours(0);
-      finishDate.setMinutes(0);
-      finishDate.setSeconds(0);
+      this.filter.finishDate = this.datepipe.transform(finishDate, 'yyyy-MM-dd');
     }
 
-    this.listInvoices = this.listInvoices.filter((item) => {
-      const dueDate = new Date(item.dueDate);
-
-      if (finishDate) {
-        return beginningDate <= dueDate && dueDate <= finishDate;
-      }
-
-      // > 90 días.
-      return dueDate < beginningDate;
-    });
+    this.paginateParams.page = 1;
+    this.getInvoiceClientQBO();
   }
 
   getRangeLabel() {
@@ -201,9 +214,30 @@ export class InvoiceClientQBOComponent implements OnInit {
     return _.round(_.sumBy(this.listInvoices, 'due'), 2);
   }
 
-  pageChange(event) {
-    const startItem = (event - 1) * this.itemPerPage;
-    const endItem = event * this.itemPerPage;
-    this.listInvoicesAux = this.listInvoicesAux.slice(startItem, endItem);
+   // Paging methods
+   onPrev(): void {
+    this.paginateParams.page--;
+    this.getInvoiceClientQBO();
+  }
+
+  onNext(): void {
+    this.paginateParams.page++;
+    this.getInvoiceClientQBO();
+  }
+
+  onFirst(): void {
+    this.paginateParams.page = 1;
+    this.getInvoiceClientQBO();
+  }
+
+  onLast(): void {
+    this.paginateParams.page = this.meta.pages;
+    this.getInvoiceClientQBO();
+  }
+
+  onPerPage(perPage: number): void {
+    this.paginateParams.page = 1;
+    this.paginateParams.perPage = perPage;
+    this.getInvoiceClientQBO();
   }
 }
