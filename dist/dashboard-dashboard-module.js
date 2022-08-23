@@ -39163,6 +39163,14 @@ var DashboardComponent = /** @class */ (function () {
             nameProduct: '',
             paymentStatus: -1
         };
+        this.filterP = {
+            dueDate: '',
+            general: '',
+            status: -1,
+            beginningDate: '',
+            finishDate: '',
+            order: ''
+        };
         this.barChartOptions = {
             scaleShowVerticalLines: false,
             responsive: true
@@ -39508,10 +39516,10 @@ var DashboardComponent = /** @class */ (function () {
     DashboardComponent.prototype.getPendingPayments = function () {
         var _this = this;
         var status = [_shared_enum_status_invoice_client_enum__WEBPACK_IMPORTED_MODULE_13__["StatusInvoiceClient"].Pending, _shared_enum_status_invoice_client_enum__WEBPACK_IMPORTED_MODULE_13__["StatusInvoiceClient"].Part_Paid, _shared_enum_status_invoice_client_enum__WEBPACK_IMPORTED_MODULE_13__["StatusInvoiceClient"].Overdue];
-        this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(function (res) {
+        this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status, this.paginateParams, this.filterP).subscribe(function (res) {
             if (res.code === _shared_enum_code_http_enum__WEBPACK_IMPORTED_MODULE_4__["CodeHttp"].ok) {
                 var today_1 = new Date().toISOString();
-                _this.invoicesList = res.data;
+                _this.invoicesList = res.data.result;
                 for (var i = 0, len = _this.invoicesList.length; i < len; i++) {
                     _this.getListPayments(_this.invoicesList[i].idInvoice);
                 }

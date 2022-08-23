@@ -2366,8 +2366,11 @@ var InvoiceClientService = /** @class */ (function () {
     InvoiceClientService.prototype.allInvoiceByStatusInByRole$ = function (idUser, status) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/allInvoiceByStatusInByRole/' + idUser + '/' + status);
     };
-    InvoiceClientService.prototype.allInvoiceByStatusIn$ = function (idUser, status) {
-        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/allInvoiceByStatusIn/' + idUser, status);
+    InvoiceClientService.prototype.allInvoiceByStatusIn$ = function (idUser, status, params, filter) {
+        return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/allInvoiceByStatusIn/' + idUser + '?page=' +
+            params.page + '&perPage=' + params.perPage +
+            '&statusParam=' + filter.status + '&general=' + filter.general + '&dueDate=' + filter.dueDate +
+            '&beginningDate=' + filter.beginningDate + '&finishDate=' + filter.finishDate, status);
     };
     InvoiceClientService.prototype.allInvoice$ = function () {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/allInvoice');
@@ -2407,8 +2410,10 @@ var InvoiceClientService = /** @class */ (function () {
             responseType: 'blob'
         });
     };
-    InvoiceClientService.prototype.allInvoiceQBO$ = function () {
-        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/allInvoiceQBO');
+    InvoiceClientService.prototype.allInvoiceQBO$ = function (params, filter) {
+        return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/allInvoiceQBO?page=' + params.page + '&perPage=' + params.perPage
+            + '&rangeDate=' + filter.rangeDate + '&general=' + filter.general + '&dueDate=' + filter.dueDate +
+            '&beginningDate=' + filter.beginningDate + '&finishDate=' + filter.finishDate);
     };
     InvoiceClientService.prototype.downloadInvoiceQBO$ = function (id) {
         return this.http.get(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + 'invoicesClient/downloadInvoiceQBO/' + id, {
