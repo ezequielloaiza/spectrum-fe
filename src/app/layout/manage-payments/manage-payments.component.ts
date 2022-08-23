@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { InvoiceClientService } from '../../shared/services/invoiceClient/invoiceclient.service';
 import { AddPaymentModalComponent } from './payments-made/modals/add-payment-modal/add-payment-modal.component';
 import { StatusInvoiceClient } from '../../shared/enum/status-invoice-client.enum';
-
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-manage-payments',
@@ -30,13 +30,12 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   statusRoute: any;
   listInvoices: Array<any> = new Array;
   listInvoicesAux: Array<any> = new Array;
-  advancedPagination: number;
   itemPerPage: number = 8;
   order: any;
-  filterStatus = [{ id: 0, name: "Pending" },
-  // { id: 1, name: "Part Paid" },
-  { id: 2, name: "Paid" },
-  { id: 3, name: "Overdue" }
+  filterStatus = [{ id: 0, name: 'Pending' },
+  // { id: 1, name: 'Part Paid' },
+  { id: 2, name: 'Paid' },
+  { id: 3, name: 'Overdue' }
   ];
   listAux = [];
   valid = false;
@@ -44,8 +43,6 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   valorClient: string;
   selectedStatus: any;
   status: any;
-  tamano: String;
-  model: NgbDateStruct;
   valid1 = false;
   fechaSelec: NgbDatepicker;
   search: String;
@@ -55,6 +52,26 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   connected: boolean;
   filterDateRange: Array<any> = new Array;
   selectedRange: any;
+
+  paginateParams = {
+    page: 1,
+    perPage: 5
+  };
+
+  meta = {
+    pages: 0,
+    total: 0
+  };
+
+  filterP = {
+    dueDate: '',
+    general: '',
+    status: -1,
+    beginningDate: '',
+    finishDate: '',
+    order: ''
+  };
+  typingTimer: any;
 
   constructor(private orderService: OrderService,
     private modalService: NgbModal,
@@ -66,11 +83,12 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     private spinner: NgxSpinnerService,
     public router: Router,
     private route: ActivatedRoute,
-    private invoicePaymentService: InvoicePaymentService) {
+    private invoicePaymentService: InvoicePaymentService,
+    private datepipe: DatePipe) {
     this.user = JSON.parse(userStorageService.getCurrentUser());
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
-        this.ngOnInit();
+        //this.ngOnInit();
       }
     });
   }
@@ -81,19 +99,16 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
       this.statusRoute = params.status;
     });
     this.getListInvoices();
-    this.advancedPagination = 1;
     this.listAux = [];
     this.selectedStatus = '';
     this.selectedAll = false;
     this.valid = false;
-    this.tamano = 'undefined';
-    this.model = { year: 0, month: 0, day: 0 };
 
     this.filterDateRange = [
-      { key: "30,0", label: "Up to 30 days" },
-      { key: "60,31", label: "31-60 days" },
-      { key: "90,61", label: "61-90 days" },
-      { key: "90,>", label: "More than 90 days" }
+      { key: '30,0', label: 'Up to 30 days' },
+      { key: '60,31', label: '31-60 days' },
+      { key: '90,61', label: '61-90 days' },
+      { key: '90,>', label: 'More than 90 days' }
     ];
     this.selectedRange = '';
   }
@@ -104,28 +119,23 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     }
   }
 
-  pageChange(event) {
-    const startItem = (event - 1) * this.itemPerPage;
-    const endItem = event * this.itemPerPage;
-    this.listInvoices = this.listInvoicesAux.slice(startItem, endItem);
-  }
-
   getListInvoices(): void {
     this.spinner.show();
     const status: Array<any> = new Array;
-    if (this.statusRoute == 0) {
+    if (Number(this.statusRoute) === 0) {
       status.push(StatusInvoiceClient.Pending);
       status.push(StatusInvoiceClient.Part_Paid);
       status.push(StatusInvoiceClient.Overdue);
-    } else if (this.statusRoute == 1) {
+    } else if (Number(this.statusRoute) === 1) {
       status.push(StatusInvoiceClient.Part_Paid);
       status.push(StatusInvoiceClient.Paid);
     }
-    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
+    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status, this.paginateParams, this.filterP).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
-          this.listInvoices = res.data;
-          this.listInvoicesAux = res.data;
+          this.meta = res.data.meta;
+          this.listInvoices = res.data.result;
+          this.listInvoicesAux = res.data.result;
           _.each(this.listInvoices, function (invoice) {
             invoice.pay = false;
             _.each(invoice.invoiceClientInvoicePayments, function (payment) {
@@ -134,14 +144,8 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
               }
             });
           });
-          this.listInvoices = _.orderBy(this.listInvoices, ['date'], ['desc']);
-          this.listInvoicesAux = _.orderBy(this.listInvoicesAux, ['date'], ['desc']);
-          this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
-          this.spinner.hide();
-        } else {
-          console.log(res.code);
-          this.spinner.hide();
         }
+        this.spinner.hide();
       },
       error => {
         console.log('error', error);
@@ -174,13 +178,6 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
     if (this.reverseSort) {
       this.listInvoicesAux = invoicesSort.reverse();
     }
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
-  }
-
-  moveFirstPage() {
-    this.advancedPagination = 1;
-    this.pageChange(this.advancedPagination);
   }
 
   getOrder(idOrder) {
@@ -235,198 +232,53 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   getItems(ev: any) {
-    this.listInvoices = this.listInvoicesAux;
-    const val = ev.target.value;
-    this.valorClient = val;
-    const valorStatus = this.selectedStatus;
-    const lista = [];
-    this.valid1 = true;
-    if (val && val.trim() !== '') {
-      const client = val;
-      if (_.toString(valorStatus) === '' && this.tamano.length === 9) { // Si no ha seleccionado status y fecha
-        this.listInvoices = this.listInvoices.filter((item) => {
-          return ((item.user.name.toLowerCase().indexOf(val.toLowerCase()) > -1) ||
-            (item.number.toLowerCase().indexOf(val.toLowerCase()) > -1));
-        });
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 9) {// si selecciono status y no fecha
-        this.filterStatusNombre(client, valorStatus);
-      } else if (_.toString(valorStatus) === '' && this.tamano.length === 15) { // si no selecciono status y fecha si
-        this.filterDateNombre(client);
-      } else if (_.toString(valorStatus) !== '' && this.tamano.length === 15) { // si escribio nombre y selecciono fecha
-        this.fullFilter(client, valorStatus);
-      }
-    } else if (_.toString(valorStatus) !== '') { // si borro el nombre y selecciono status
-      this.filter();
-    } else if (_.toString(valorStatus) === '') { // si borro el nombre y no selecciono status pero fecha si
-      if (this.tamano.length === 15) {
-        this.valid1 = true;
-        let fecha: String;
-        // FechaFiltro
-        fecha = this.getFecha();
-        _.filter(this.listInvoicesAux, function (orders) {
-          let fechaList: String;
-          // Fecha Listado
-          fechaList = _.toString(orders.date.slice(0, 10));
-          if (_.isEqual(fecha, fechaList)) {
-            lista.push(orders);
-          }
-        });
-        this.listInvoices = lista;
-      }
+    clearTimeout(this.typingTimer);
+    if (ev.target.value !== '') {
+      this.typingTimer = setTimeout(() => {
+        this.filterP.general = ev.target.value;
+        this.paginateParams.page = 1;
+        this.getListInvoices();
+      }, 500);
+    } else {
+      this.filterP.general = '';
+      this.paginateParams.page = 1;
+      this.getListInvoices();
     }
   }
 
-  filter(): void {
-    if (this.selectedStatus !== '') {
-      this.valid1 = true;
-      if (this.tamano.length === 9 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.listInvoices = _.filter(this.listInvoicesAux, { 'status': parseInt(this.selectedStatus) });
-      } else if (this.tamano.length === 15 && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.filterStatusDate(this.selectedStatus);
-      } else if (this.tamano.length === 9 && (this.valorClient.trim() !== '')) {
-        const nombre = this.valorClient;
-        this.filterStatusNombre(nombre, this.selectedStatus);
-      } else if ((this.tamano.length === 15) && (this.valorClient.trim() !== '')) {
-        const nombre = this.valorClient;
-        this.fullFilter(nombre, this.selectedStatus);
-      }
-    }
+  filterPaymentStatus() {
+    this.filterP.status = Number(this.selectedStatus);
+    this.paginateParams.page = 1;
+    this.getListInvoices();
   }
 
-  filter1(value): void {
-    this.model = value;
-    const valorStatus = this.selectedStatus;
-    this.tamano = this.valueDate(this.model);
-    const lista = [];
-    if (this.tamano.length === 15) {
-      this.valid1 = true;
-      if ((_.toString(valorStatus) === '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        // FechaFiltro
-        let fecha: String;
-        fecha = this.getFecha();
-        _.filter(this.listInvoicesAux, function (invoices) {
-          let fechaList: String;
-          // Fecha Listado
-          fechaList = _.toString(invoices.date.slice(0, 10));
-          if (_.isEqual(fecha, fechaList)) {
-            lista.push(invoices);
-          }
-        });
-        this.listInvoices = lista;
-      } else if ((_.toString(valorStatus) !== '') && (_.toString(this.valorClient).length === 0 || this.valorClient.trim() === '')) {
-        this.filterStatusDate(valorStatus);
-      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) === '')) {
-        this.filterDateNombre(this.valorClient);
-      } else if ((this.valorClient.trim() !== '') && (_.toString(valorStatus) !== '')) {
-        this.fullFilter(this.valorClient, valorStatus);
-      }
-    }
-  }
-
-  filterStatusNombre(nombreCliente, status): void {
-    const lista = [];
-    _.filter(this.listInvoicesAux, function (invoices) {
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-        // tslint:disable-next-line:radix
-        (_.isEqual(parseInt(status), invoices.status))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
-  }
-
-  filterDateNombre(nombreCliente): void {
-    const lista = [];
-    let fecha: String;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listInvoicesAux, function (invoices) {
-      // Fecha Listado
-      const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-        ((_.isEqual(fecha, fechaList)))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
-  }
-
-  filterStatusDate(status): void {
-    const lista = [];
-    let fecha: String;
-    // FechaFiltro
-    fecha = this.getFecha();
-    _.filter(this.listInvoicesAux, function (invoices) {
-      let fechaList: String;
-      // Fecha Listado
-      fechaList = _.toString(invoices.date.slice(0, 10));
-      // tslint:disable-next-line:radix
-      if ((_.isEqual(fecha, fechaList)) && (_.isEqual(parseInt(status), invoices.status))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
-  }
-
-  getFecha(): String {
-    let ano;
-    let mes;
-    let dia;
-    let fecha: String;
-    // Ano
-    ano = this.model.year;
-    // Mes
-    this.model.month < 10 ? mes = '0' + this.model.month : mes = this.model.month;
-    // Dia
-    this.model.day < 10 ? dia = '0' + this.model.day : dia = this.model.day;
-    // FechaFiltro
-    fecha = ano + '-' + mes + '-' + dia;
-    return fecha;
-  }
-
-  fullFilter(nombreCliente, status): void {
-    // FechaFiltro
-    let fecha: String;
-    fecha = this.getFecha();
-    const lista = [];
-    // Lista actual
-    _.filter(this.listInvoicesAux, function (invoices) {
-      // Fecha Listado
-      const fechaList = _.toString(invoices.date.slice(0, 10));
-      if (((_.includes(invoices.user.name.toLowerCase(), nombreCliente.toLowerCase())) ||
-        (invoices.number.toLowerCase().indexOf(nombreCliente.toLowerCase()) > -1)) &&
-        // tslint:disable-next-line:radix
-        ((_.isEqual(fecha, fechaList))) && (_.isEqual(parseInt(status), invoices.status))) {
-        lista.push(invoices);
-      }
-    });
-    this.listInvoices = lista;
-  }
-
-  valueDate(valor): String {
-    let str: String;
-    const o = [];
-    o.push(valor);
-    str = _.toString(o);
-    return str;
+  filterByDate(date) {
+    this.filterP.dueDate = date.year + '-' + (date.month < 10 ?  '0' + date.month : date.month) + '-' + date.day;
+    this.paginateParams.page = 1;
+    this.getListInvoices();
   }
 
   clean(type) {
-    if (type === 'allFilters') {
-      this.getListInvoices();
-      this.selectedRange = '';
-    } else {
-      this.listInvoices = this.listInvoicesAux.slice(0, this.itemPerPage);
-    }
-
-    this.valid1 = false;
     this.selectedStatus = '';
-    this.tamano = 'undefined';
-    this.fechaSelec = null;
-    this.search = '';
+    this.meta = {
+      pages: 0,
+      total: 0
+    };
+
+    this.filterP = {
+      dueDate: '',
+      general: '',
+      status: -1,
+      finishDate: '',
+      beginningDate: '',
+      order: ''
+    };
+
+    this.search = null;
     this.valorClient = null;
+    this.fechaSelec = null;
+    this.selectedRange = '';
+    this.getListInvoices();
   }
 
   open(invoice) {
@@ -539,40 +391,39 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   filterByRangeDate(): void {
+    this.filterP.finishDate = '';
+    this.filterP.beginningDate = '';
     let finishDate = null;
-    this.clean('forRange');
     this.valid1 = true;
 
     let currentDate = new Date();
-    const selected = this.selectedRange.split(",");
+    const selected = this.selectedRange.split(',');
     let finish = selected[1];
 
     // Set beginningDate
     let beginning = selected[0];
     switch (beginning) {
-      case "30":
+      case '30':
         beginning = 30;
         break;
-      case "60":
+      case '60':
         beginning = 61;
         break;
-      case "90":
+      case '90':
         beginning = 91;
         break;
     }
 
     const beginningDate = new Date(currentDate.setDate(currentDate.getDate() - beginning));
-    beginningDate.setHours(0);
-    beginningDate.setMinutes(0);
-    beginningDate.setSeconds(0);
+    this.filterP.beginningDate = this.datepipe.transform(beginningDate, 'yyyy-MM-dd');
 
     // Set finishDate
-    if (finish !== ">") {
+    if (finish !== '>') {
       switch (finish) {
-        case "31":
+        case '31':
           finish = 31;
           break;
-        case "61":
+        case '61':
           finish = 62;
           break;
         default:
@@ -582,12 +433,13 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
 
       currentDate = new Date();
       finishDate = new Date(currentDate.setDate(currentDate.getDate() - finish));
-      finishDate.setHours(0);
-      finishDate.setMinutes(0);
-      finishDate.setSeconds(0);
+      this.filterP.finishDate = this.datepipe.transform(finishDate, 'yyyy-MM-dd');
     }
 
-    this.listInvoices = this.listInvoices.filter((item) => {
+    this.paginateParams.page = 1;
+    this.getListInvoices();
+
+    /*this.listInvoices = this.listInvoices.filter((item) => {
       const dueDate = new Date(item.dueDate);
 
       if (finishDate) {
@@ -596,7 +448,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
 
       // > 90 días.
       return dueDate < beginningDate;
-    });
+    });*/
   }
 
   getRangeLabel() {
@@ -604,7 +456,7 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   getBalance() {
-    return _.round(_.sumBy(this.listInvoicesAux, 'due'),2);
+    return _.round(_.sumBy(this.listInvoicesAux, 'due'), 2);
   }
 
   getDue() {
@@ -616,7 +468,34 @@ export class ManagePaymentsComponent implements OnInit, OnDestroy {
   }
 
   getDueByRange() {
-    return _.round(_.sumBy(this.listInvoices, 'due'),2);
+    return _.round(_.sumBy(this.listInvoices, 'due'), 2);
+  }
+
+  // Paging methods
+  onPrev(): void {
+    this.paginateParams.page--;
+    this.getListInvoices();
+  }
+
+  onNext(): void {
+    this.paginateParams.page++;
+    this.getListInvoices();
+  }
+
+  onFirst(): void {
+    this.paginateParams.page = 1;
+    this.getListInvoices();
+  }
+
+  onLast(): void {
+    this.paginateParams.page = this.meta.pages;
+    this.getListInvoices();
+  }
+
+  onPerPage(perPage: number): void {
+    this.paginateParams.page = 1;
+    this.paginateParams.perPage = perPage;
+    this.getListInvoices();
   }
 
 }

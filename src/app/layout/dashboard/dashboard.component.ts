@@ -61,6 +61,16 @@ export class DashboardComponent implements OnInit {
     nameProduct: '',
     paymentStatus: -1
   };
+
+  filterP = {
+    dueDate: '',
+    general: '',
+    status: -1,
+    beginningDate: '',
+    finishDate: '',
+    order: ''
+  };
+
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -447,11 +457,11 @@ export class DashboardComponent implements OnInit {
 
   getPendingPayments(): void {
     const status = [StatusInvoiceClient.Pending, StatusInvoiceClient.Part_Paid, StatusInvoiceClient.Overdue];
-    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status).subscribe(
+    this.invoiceService.allInvoiceByStatusIn$(this.user.userResponse.idUser, status, this.paginateParams, this.filterP).subscribe(
       res => {
         if (res.code === CodeHttp.ok) {
           const today = new Date().toISOString();
-          this.invoicesList = res.data;
+          this.invoicesList = res.data.result;
           for (let i = 0, len = this.invoicesList.length; i < len; i++) {
             this.getListPayments(this.invoicesList[i].idInvoice);
           }

@@ -24,12 +24,12 @@
 
         <div class="row search-filter">
           <div class="col col-xl-3 col-lg-3">
-            <input class="form-control" (keyup)="getItems($event)" placeholder="{{ 'Enter Invoice No, Invoice No QBO or Total' | translate }}">
+            <input class="form-control" (keyup)="getItems($event)" [(ngModel)]="valorGeneral" placeholder="{{ 'Enter Invoice No, Invoice No QBO or Total' | translate }}">
             <i class="fa fa-search"></i>
           </div>
           <div class="col-xl-3 input-group">
             <input class="form-control" placeholder="{{ 'Enter Date or Due Date' | translate }}" name="fechaFilter" [(ngModel)]="fechaFilter"
-              ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterDate(fechaFilter)">
+              ngbDatepicker #d="ngbDatepicker" (ngModelChange)="filterByDate(fechaFilter)">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                 <i class="fa fa-calendar"></i>
@@ -150,13 +150,11 @@
                 {{ 'No records have been added yet' | translate }}
               </p>
             </div>
-            <div class="pagination-list" [hidden]="listInvoices.length === 0">
-              <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="listInvoicesAux.length"
-                [(page)]="advancedPagination" [maxSize]="5" [pageSize]="itemPerPage" [boundaryLinks]="true">
-              </ngb-pagination>
-              <span class="count-elements">{{ listInvoices.length + ' ' + ('of' | translate) + ' ' + listInvoicesAux.length + ' ' + ('register(s)' | translate)
-                }}
-              </span>
+            <!-- paginator -->
+            <div [hidden]="listInvoices.length === 0">
+              <app-pagination [pages]="meta.pages" [currentPage]="paginateParams.page" [perPage]="paginateParams.perPage"
+                (goNext)="onNext()" (goPrev)="onPrev()" (goFirst)="onFirst()" (goLast)="onLast()" (goPerPage)="onPerPage($event)">
+              </app-pagination>
             </div>
           </div>
       </div>
