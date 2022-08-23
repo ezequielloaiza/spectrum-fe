@@ -26,8 +26,11 @@ export class InvoiceClientService {
     return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceByStatusInByRole/' + idUser+ '/' + status);
   }
 
-  public allInvoiceByStatusIn$(idUser,  status: Array<any>): Observable<any> {
-    return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByStatusIn/' + idUser, status);
+  public allInvoiceByStatusIn$(idUser,  status: Array<any>, params: any, filter: any): Observable<any> {
+    return this.http.post(environment.apiUrl + 'invoicesClient/allInvoiceByStatusIn/' + idUser + '?page=' +
+     params.page + '&perPage=' + params.perPage  +
+     '&statusParam=' + filter.status + '&general=' + filter.general + '&dueDate=' + filter.dueDate +
+     '&beginningDate=' + filter.beginningDate + '&finishDate=' + filter.finishDate, status);
   }
 
   public allInvoice$(): Observable<any> {
@@ -78,8 +81,10 @@ export class InvoiceClientService {
     });
   }
 
-  public allInvoiceQBO$(): Observable<any> {
-    return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceQBO');
+  public allInvoiceQBO$(params: any, filter: any): Observable<any> {
+    return this.http.get(environment.apiUrl + 'invoicesClient/allInvoiceQBO?page=' + params.page + '&perPage=' + params.perPage
+    + '&rangeDate=' + filter.rangeDate + '&general=' + filter.general + '&dueDate=' + filter.dueDate +
+    '&beginningDate=' + filter.beginningDate + '&finishDate=' + filter.finishDate);
   }
 
   public downloadInvoiceQBO$(id): Observable<any> {
