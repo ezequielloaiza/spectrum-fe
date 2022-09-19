@@ -140,65 +140,71 @@ export class ProductViewMoldedLensesComponent implements OnInit {
     if (this.product.name === 'Claria SiHy Aspheric 6pk') {
       if (totalQuantity < 501) {
         this.product.codeSpectrum = '216A';
-        this.product.priceSale = 14.0;
-        if (this.membership === 6) {
-          this.product.priceSale = 29.0;
+        this.product.priceSale = 16.25;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 14.0;
+        }
+        if (this.membership === 8) {
+          this.product.priceSale = 12.5;
         }
       } else if (totalQuantity < 2001) {
         this.product.codeSpectrum = '216B';
-        this.product.priceSale = 13.5;
-        if (this.membership === 6) {
-          this.product.priceSale = 28.5;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 13.5;
         }
       } else if (totalQuantity < 3501) {
         this.product.codeSpectrum = '216C';
-        this.product.priceSale = 13.2;
-        if (this.membership === 6) {
-          this.product.priceSale = 28.0;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 13.2;
         }
       } else if (totalQuantity < 5001) {
         this.product.codeSpectrum = '216D';
-        this.product.priceSale = 12.75;
-        if (this.membership === 6) {
-          this.product.priceSale = 27.5;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 12.75;
         }
       } else {
         this.product.codeSpectrum = '216E';
-        this.product.priceSale = 12.5;
-        if (this.membership === 6) {
-          this.product.priceSale = 27.0;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 12.5;
         }
       }
     } else if (this.product.name === 'Claria SiHy Toric 6pk') {
       if (totalQuantity < 501) {
         this.product.codeSpectrum = '217A';
-        this.product.priceSale = 18.25;
-        if (this.membership === 6) {
-          this.product.priceSale = 35.0;
+        this.product.priceSale = 21.00;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 18.25;
+        }
+        if (this.membership === 8) {
+          this.product.priceSale = 17.0;
         }
       } else if (totalQuantity < 2001) {
         this.product.codeSpectrum = '217B';
-        this.product.priceSale = 18.0;
-        if (this.membership === 6) {
-          this.product.priceSale = 34.5;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 18.0;
         }
       } else if (totalQuantity < 3501) {
         this.product.codeSpectrum = '217C';
-        this.product.priceSale = 17.75;
-        if (this.membership === 6) {
-          this.product.priceSale = 34.0;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 17.75;
         }
       } else if (totalQuantity < 5001) {
         this.product.codeSpectrum = '217D';
-        this.product.priceSale = 17.5;
-        if (this.membership === 6) {
-          this.product.priceSale = 33.5;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 17.5;
         }
       } else {
         this.product.codeSpectrum = '217E';
-        this.product.priceSale = 17.25;
-        if (this.membership === 6) {
-          this.product.priceSale = 33.0;
+        this.product.priceSale = 0;
+        if (this.membership === 3 || this.membership === 6) {
+          this.product.priceSale = 17.25;
         }
       }
     }
@@ -265,6 +271,9 @@ export class ProductViewMoldedLensesComponent implements OnInit {
         break;
       case 7:
         this.product.priceSale = this.product.price7;
+        break;
+      case 8:
+        this.product.priceSale = this.product.price8;
         break;
     }
 

@@ -270,6 +270,7 @@ export class ProductViewOrionComponent implements OnInit {
       this.product.price5 = this.product[eye].productCode.price5;
       this.product.price6 = this.product[eye].productCode.price6;
       this.product.price7 = this.product[eye].productCode.price7;
+      this.product.price8 = this.product[eye].productCode.price8;
     }
     this.setPrice();
     this.updatePriceSale();
@@ -309,6 +310,9 @@ export class ProductViewOrionComponent implements OnInit {
         break;
       case 7:
         product.priceSale = product.price7;
+        break;
+      case 8:
+        product.priceSale = product.price8;
         break;
     }
 

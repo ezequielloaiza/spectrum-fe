@@ -754,6 +754,10 @@ export class ProductViewEuropaComponent implements OnInit {
         this.priceA = productNew ? productNew.price7 : this.product.price7;
         this.priceB = productNew ? productNew.price7 : this.product.price7;
         break;
+      case 8:
+        this.priceA = productNew ? productNew.price8 : this.product.price8;
+        this.priceB = productNew ? productNew.price8 : this.product.price8;
+        break;
     }
 
     this.membershipNotAllowed(this.priceA);
@@ -792,6 +796,9 @@ export class ProductViewEuropaComponent implements OnInit {
       case 7:
         this.hidrapeg = 30;
         break;
+      case 8:
+        this.hidrapeg = 30;
+        break;
     }
   }
 
@@ -818,6 +825,9 @@ export class ProductViewEuropaComponent implements OnInit {
         this.inserts = 11;
         break;
       case 7:
+        this.inserts = 5.15;
+        break;
+      case 8:
         this.inserts = 5.15;
         break;
     }
@@ -847,6 +857,9 @@ export class ProductViewEuropaComponent implements OnInit {
         this.notch = 50;
         break;
       case 7:
+        this.notch = 40;
+        break;
+      case 8:
         this.notch = 40;
         break;
     }

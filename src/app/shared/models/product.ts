@@ -9,6 +9,7 @@ export class Product {
   public price5: number;
   public price6: number;
   public price7: number;
+  public price8: number;
   public priceType: Number;
   public minimum: number;
   public maximum: number;

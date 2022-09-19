@@ -238,6 +238,9 @@ export class ProductViewSpectrumSalineComponent implements OnInit {
       case 7:
         this.productCode.priceSale = this.productCode.price7;
         break;
+      case 8:
+        this.productCode.priceSale = this.productCode.price8;
+        break;
     }
 
     this.membershipAllowed = this.productCode.priceSale > 0;
