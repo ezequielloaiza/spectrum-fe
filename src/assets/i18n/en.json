@@ -1298,5 +1298,6 @@
     "Are you sure you want to generate a duplicate on the selected order?": "Are you sure you want to generate a duplicate on the selected order?",
     "You must enter the reason for cancellation": "You must enter the reason for cancellation",
     "Cancel Reason": "Cancel Reason",
-    "Please select an option": "Please select an option"
+    "Please select an option": "Please select an option",
+    "Error generating order": "Error generating order"
 }

@@ -518,7 +518,10 @@ export class ProductViewComponent implements OnInit {
         this.product.priceSale = this.product.price6;
         break;
       case 7:
-        this.product.priceSale = 0;
+        this.product.priceSale = 0; // TODO: check why zero?
+        break;
+      case 8:
+        this.product.priceSale = this.product.price8;
         break;
     }
 

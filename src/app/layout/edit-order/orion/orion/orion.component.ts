@@ -173,6 +173,7 @@ export class OrionComponent implements OnInit {
       this.product.price5 = this.productCode.price5;
       this.product.price6 = this.productCode.price6;
       this.product.price7 = this.productCode.price7;
+      this.product.price8 = this.productCode.price8;
     }
 
   }
@@ -400,6 +401,10 @@ export class OrionComponent implements OnInit {
       case 7:
         this.product.priceSale = this.product.price7;
         this.price = this.product.price7;
+        break;
+      case 8:
+        this.product.priceSale = this.product.price8;
+        this.price = this.product.price8;
         break;
     }
   }

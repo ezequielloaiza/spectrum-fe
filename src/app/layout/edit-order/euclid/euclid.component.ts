@@ -227,6 +227,10 @@ export class EuclidComponent implements OnInit {
         this.price = this.product.price7 + additional;
         this.additional = 20;
         break;
+      case 8:
+        this.price = this.product.price8 + additional;
+        this.additional = 20;
+        break;
     }
   }
 
