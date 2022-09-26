@@ -318,6 +318,14 @@ export class ProductViewMagicComponent implements OnInit {
               this.priceUp = parseFloat(info[7].values[0].price);
             }
             break;
+          case 8:
+            if (totalQuantity >= 250) {
+              this.product.priceSale = parseFloat(info[8].values[pos].price);
+            } else {
+              this.priceFrom = parseFloat(info[8].values[2].price);
+              this.priceUp = parseFloat(info[8].values[0].price);
+            }
+            break;
         }
   }
 
@@ -507,6 +515,9 @@ export class ProductViewMagicComponent implements OnInit {
             break;
           case 7:
             this.product.priceSale = parseFloat(info[7].values[pos].price);
+            break;
+          case 8:
+            this.product.priceSale = parseFloat(info[8].values[pos].price);
             break;
         }
       } else {

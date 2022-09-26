@@ -340,7 +340,7 @@ export class ProductViewEuropaComponent implements OnInit {
     return prCode;
   }
 
-  changeSelect(eye, parameter, value, value2) {
+  changeSelect(eye, parameter, value, value2, validation: null) {
     parameter.selected = value;
     if (parameter.name === 'Hidrapeg' || parameter.name === 'Inserts (DMV)') {
       parameter.selected = parameter.selected === 'Yes' ? true : false;
@@ -349,7 +349,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
     this.definePriceInserts(this.membership);
-    if (parameter.name === 'Diameter (mm)') {
+    if (parameter.name === 'Diameter (mm)' && validation === 'onlyDiameterValidation') {
       if (this.membership !== 0) {
         this.valueDiameter(value, eye);
       }
@@ -754,6 +754,10 @@ export class ProductViewEuropaComponent implements OnInit {
         this.priceA = productNew ? productNew.price7 : this.product.price7;
         this.priceB = productNew ? productNew.price7 : this.product.price7;
         break;
+      case 8:
+        this.priceA = productNew ? productNew.price8 : this.product.price8;
+        this.priceB = productNew ? productNew.price8 : this.product.price8;
+        break;
     }
 
     this.membershipNotAllowed(this.priceA);
@@ -792,6 +796,9 @@ export class ProductViewEuropaComponent implements OnInit {
       case 7:
         this.hidrapeg = 30;
         break;
+      case 8:
+        this.hidrapeg = 30;
+        break;
     }
   }
 
@@ -818,6 +825,9 @@ export class ProductViewEuropaComponent implements OnInit {
         this.inserts = 11;
         break;
       case 7:
+        this.inserts = 5.15;
+        break;
+      case 8:
         this.inserts = 5.15;
         break;
     }
@@ -847,6 +857,9 @@ export class ProductViewEuropaComponent implements OnInit {
         this.notch = 50;
         break;
       case 7:
+        this.notch = 40;
+        break;
+      case 8:
         this.notch = 40;
         break;
     }

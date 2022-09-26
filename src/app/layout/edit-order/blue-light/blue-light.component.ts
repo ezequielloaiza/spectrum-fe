@@ -129,6 +129,8 @@ export class BlueLightComponent implements OnInit {
         return product.price6;
       case 7:
         return product.price7;
+      case 8:
+        return product.price8;
     }
   }
 

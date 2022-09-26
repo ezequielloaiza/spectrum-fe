@@ -188,6 +188,9 @@ export class MagicLookComponent implements OnInit {
         case 7:
           this.price = parseFloat(info[7].values[pos].price);
           break;
+        case 8:
+          this.price = parseFloat(info[8].values[pos].price);
+          break;
       }
     } else {
       this.price = '';
