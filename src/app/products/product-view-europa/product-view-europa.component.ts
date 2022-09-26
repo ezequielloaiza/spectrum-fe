@@ -340,7 +340,7 @@ export class ProductViewEuropaComponent implements OnInit {
     return prCode;
   }
 
-  changeSelect(eye, parameter, value, value2) {
+  changeSelect(eye, parameter, value, value2, validation: null) {
     parameter.selected = value;
     if (parameter.name === 'Hidrapeg' || parameter.name === 'Inserts (DMV)') {
       parameter.selected = parameter.selected === 'Yes' ? true : false;
@@ -349,7 +349,7 @@ export class ProductViewEuropaComponent implements OnInit {
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
     this.definePriceInserts(this.membership);
-    if (parameter.name === 'Diameter (mm)') {
+    if (parameter.name === 'Diameter (mm)' && validation === 'onlyDiameterValidation') {
       if (this.membership !== 0) {
         this.valueDiameter(value, eye);
       }

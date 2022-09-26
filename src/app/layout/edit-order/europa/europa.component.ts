@@ -422,7 +422,7 @@ export class EuropaComponent implements OnInit {
     this.selectedNotch = selectedNotch;
   }
 
-  changeSelect(parameter, value, value2) {
+  changeSelect(parameter, value, value2, validation: null) {
     parameter.selected = value;
     if (parameter.name === 'Base Curve') {
       parameter.selected = this.format(value);
@@ -432,7 +432,7 @@ export class EuropaComponent implements OnInit {
     this.definePriceNotch(this.membership);
     // this.definePriceTickness(this.membership);
     this.definePriceInserts(this.membership);
-    if (parameter.name === 'Diameter (mm)') {
+    if (parameter.name === 'Diameter (mm)'  && validation === 'onlyDiameterValidation') {
       this.checkAdditional();
       if (value === '17.0' ||
           value === '17.5' ||
