@@ -168,7 +168,7 @@
                       <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'">
                         <ng-select class="display-row" [items]="parameter.values" [(ngModel)]="parameter.selected"
                                     bindValue="item" placeholder="{{ 'Select value' | translate }}"
-                                    (change)="changeSelect(parameter, parameter.selected,0)"
+                                    (change)="changeSelect(parameter, parameter.selected, 0, 'onlyDiameterValidation')"
                                     [clearable]="parameter.noRequired" [required]="!parameter.noRequired">
                           <ng-template ng-label-tmp let-item="item">
                             <div class="supplier-body">

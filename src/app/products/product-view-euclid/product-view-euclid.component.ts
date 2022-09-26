@@ -487,6 +487,10 @@ export class ProductViewEuclidComponent implements OnInit {
         this.product.priceSale = this.product.price7;
         this.product.additional = 20;
         break;
+      case 8:
+        this.product.priceSale = this.product.price8;
+        this.product.additional = 20;
+        break;
     }
 
     this.membershipNotAllowed(this.product.priceSale);

@@ -279,7 +279,7 @@
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('right', parameter, $event,0)"
+                    <ng-select (change)="changeSelect('right', parameter, $event, 0, 'onlyDiameterValidation')"
                                [disabled]="!product.eyeRight" [required]="product.eyeRight && !parameter.noRequired" [(ngModel)]="parameter.sel"
                                bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
                               <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of parameter.values">{{ item  | translate }}</ng-option>
@@ -601,7 +601,7 @@
                 <!--param values-->
                 <div class="row">
                   <div *ngIf="parameter.type === 'selected' && parameter.name !== 'Axes (º)'" class="select-values col-sm-12">
-                    <ng-select (change)="changeSelect('left', parameter, $event,0)" [disabled]="!product.eyeLeft" [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.sel"
+                    <ng-select (change)="changeSelect('left', parameter, $event, 0, 'onlyDiameterValidation')" [disabled]="!product.eyeLeft" [required]="product.eyeLeft && !parameter.noRequired" [(ngModel)]="parameter.sel"
                                 bindLabel="item" bindValue="item" placeholder="{{ 'Select value' | translate }}" [clearable]="parameter.noRequired">
                       <ng-option [value]="item" [disabled]="disabledOption(item)" *ngFor="let item of parameter.values">{{ item  | translate }}</ng-option>
                     </ng-select>

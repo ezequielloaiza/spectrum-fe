@@ -233,7 +233,8 @@ export class XcelComponent implements OnInit {
             "bronze": 0,
             "diamondSaudi": 0,
             "centralAmerica": 0,
-            "diamondPO": 0
+            "diamondPO": 0,
+            "platinumCol": 0
           },
           "dmv insertion and removal set": {
             "gold": 0,
@@ -242,7 +243,8 @@ export class XcelComponent implements OnInit {
             "bronze": 0,
             "diamondSaudi": 0,
             "centralAmerica": 0,
-            "diamondPO": 0
+            "diamondPO": 0,
+            "platinumCol": 0
           }
         }
     }
@@ -257,7 +259,8 @@ export class XcelComponent implements OnInit {
         "bronze": product.price4,
         "diamondSaudi": product.price5,
         "centralAmerica": product.price6,
-        "diamondPO": product.price7
+        "diamondPO": product.price7,
+        "platinumCOL": product.price8
       };
     });
   }
@@ -297,6 +300,10 @@ export class XcelComponent implements OnInit {
       case 7:
         this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.diamondPO;
         this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondPO;
+        break;
+      case 8:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.platinumCOL;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].platinumCOL;
         break;
     }
   }
@@ -338,13 +345,13 @@ export class XcelComponent implements OnInit {
               price = 95;
               break;
             case 2://Diamond
-              price = 95;
+              price = 0;
               break;
             case 3://Preffered
               price = 95;
               break;
             case 4://Bronze
-              price = 175;
+              price = 180;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -355,6 +362,9 @@ export class XcelComponent implements OnInit {
             case 7://Diamond P&O
               price = 0;
               break;
+            case 8://Platinum COL
+              price = 95;
+              break;
           }
         break;
         case 'Atlantis TPC':
@@ -364,13 +374,13 @@ export class XcelComponent implements OnInit {
               price = 140;
               break;
             case 2://Diamond
-              price = 140;
+              price = 0;
               break;
             case 3://Preffered
               price = 140;
               break;
             case 4://Bronze
-              price = 175;
+              price = 180;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -380,6 +390,9 @@ export class XcelComponent implements OnInit {
               break;
             case 7://Diamond P&O
               price = 0;
+              break;
+            case 8://Platinum COL
+              price = 140;
               break;
           }
         break;
@@ -390,13 +403,13 @@ export class XcelComponent implements OnInit {
               price = 140;
               break;
             case 2://Diamond
-              price = 140;
+              price = 0;
               break;
             case 3://Preffered
               price = 140;
               break;
             case 4://Bronze
-              price = 175;
+              price = 180;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -406,6 +419,9 @@ export class XcelComponent implements OnInit {
               break;
             case 7://Diamond P&O
               price = 0;
+              break;
+            case 8://Platinum COL
+              price = 140;
               break;
           }
         break;
@@ -416,13 +432,13 @@ export class XcelComponent implements OnInit {
               price = 140;
               break;
             case 2://Diamond
-              price = 140;
+              price = 0;
               break;
             case 3://Preffered
               price = 140;
               break;
             case 4://Bronze
-              price = 175;
+              price = 180;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -432,6 +448,9 @@ export class XcelComponent implements OnInit {
               break;
             case 7://Diamond P&O
               price = 0;
+              break;
+            case 8://Platinum COL
+              price = 140;
               break;
           }
         break;
@@ -442,13 +461,13 @@ export class XcelComponent implements OnInit {
               price = 140;
               break;
             case 2://Diamond
-              price = 140;
+              price = 0;
               break;
             case 3://Preffered
               price = 140;
               break;
             case 4://Bronze
-              price = 175;
+              price = 180;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -458,6 +477,9 @@ export class XcelComponent implements OnInit {
               break;
             case 7://Diamond P&O
               price = 0;
+              break;
+            case 8://Platinum COL
+              price = 140;
               break;
           }
         break;
@@ -468,13 +490,13 @@ export class XcelComponent implements OnInit {
               price = 140;
               break;
             case 2://Diamond
-              price = 140;
+              price = 0;
               break;
             case 3://Preffered
               price = 140;
               break;
             case 4://Bronze
-              price = 175;
+              price = 180;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -484,6 +506,9 @@ export class XcelComponent implements OnInit {
               break;
             case 7://Diamond P&O
               price = 0;
+              break;
+            case 8://Platinum COL
+              price = 140;
               break;
           }
         break;
@@ -494,13 +519,13 @@ export class XcelComponent implements OnInit {
               price = 140;
               break;
             case 2://Diamond
-              price = 140;
+              price = 0;
               break;
             case 3://Preffered
               price = 140;
               break;
             case 4://Bronze
-              price = 175;
+              price = 180;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -510,6 +535,9 @@ export class XcelComponent implements OnInit {
               break;
             case 7://Diamond P&O
               price = 0;
+              break;
+            case 8://Platinum COL
+              price = 140;
               break;
           }
         break;
@@ -523,13 +551,13 @@ export class XcelComponent implements OnInit {
               price = 65;
               break;
             case 2://Diamond
-              price = 65;
+              price = 0;
               break;
             case 3://Preffered
               price = 65;
               break;
             case 4://Bronze
-              price = 94.3;
+              price = 103.75;
               break;
             case 5://Diamond Saudi
               price = 0;
@@ -540,6 +568,9 @@ export class XcelComponent implements OnInit {
             case 7://Diamond P&O
               price = 0;
               break;
+            case 8://Platinum COL
+              price = 65;
+              break;
           }
           break;
           case 'Bitoric':
@@ -549,13 +580,13 @@ export class XcelComponent implements OnInit {
                 price = 32;
                 break;
               case 2://Diamond
-                price = 32;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 32;
                 break;
               case 4://Bronze
-                price = 55.3;
+                price = 60.85;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -566,6 +597,9 @@ export class XcelComponent implements OnInit {
               case 7://Diamond P&O
                 price = 0;
                 break;
+              case 8://Platinum COL
+                price = 32;
+                break;
             }
           break;
           case 'CV-4 Multifocal':
@@ -575,13 +609,13 @@ export class XcelComponent implements OnInit {
                 price = 66;
                 break;
               case 2://Diamond
-                price = 66;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 66;
                 break;
               case 4://Bronze
-                price = 111.75;
+                price = 122.95;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -592,6 +626,9 @@ export class XcelComponent implements OnInit {
               case 7://Diamond P&O
                 price = 0;
                 break;
+              case 8://Platinum COL
+                price = 66;
+                break;
             }
           break;
           case 'Pinnacle':
@@ -601,13 +638,13 @@ export class XcelComponent implements OnInit {
                 price = 21;
                 break;
               case 2://Diamond
-                price = 21;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 21;
                 break;
               case 4://Bronze
-                price = 42.15;
+                price = 46.35;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -617,6 +654,9 @@ export class XcelComponent implements OnInit {
                 break;
               case 7://Diamond P&O
                 price = 0;
+                break;
+              case 8://Platinum COL
+                price = 21;
                 break;
             }
           break;
@@ -627,13 +667,13 @@ export class XcelComponent implements OnInit {
                 price = 55;
                 break;
               case 2://Diamond
-                price = 55;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 55;
                 break;
               case 4://Bronze
-                price = 94.3;
+                price = 103.75;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -644,6 +684,9 @@ export class XcelComponent implements OnInit {
               case 7://Diamond P&O
                 price = 0;
                 break;
+              case 8://Platinum COL
+                price = 55;
+                break;
             }
           break;
           case 'Pinnacle LD':
@@ -653,13 +696,13 @@ export class XcelComponent implements OnInit {
                 price = 31;
                 break;
               case 2://Diamond
-                price = 31;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 31;
                 break;
               case 4://Bronze
-                price = 42.45;
+                price = 79.70;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -670,6 +713,9 @@ export class XcelComponent implements OnInit {
               case 7://Diamond P&O
                 price = 0;
                 break;
+              case 8://Platinum COL
+                price = 31;
+                break;
             }
           break;
           case 'Proplus':
@@ -679,13 +725,13 @@ export class XcelComponent implements OnInit {
                 price = 47;
                 break;
               case 2://Diamond
-                price = 47;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 47;
                 break;
               case 4://Bronze
-                price = 95.4;
+                price = 104.95;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -696,6 +742,9 @@ export class XcelComponent implements OnInit {
               case 7://Diamond P&O
                 price = 0;
                 break;
+              case 8://Platinum COL
+                price = 47;
+                break;
             }
           break;
           case 'Sphere':
@@ -705,7 +754,7 @@ export class XcelComponent implements OnInit {
                 price = 21;
                 break;
               case 2://Diamond
-                price = 21;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 21;
@@ -721,6 +770,9 @@ export class XcelComponent implements OnInit {
                 break;
               case 7://Diamond P&O
                 price = 0;
+                break;
+              case 8://Platinum COL
+                price = 21;
                 break;
             }
           break;
@@ -731,13 +783,13 @@ export class XcelComponent implements OnInit {
                 price = 21;
                 break;
               case 2://Diamond
-                price = 21;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 21;
                 break;
               case 4://Bronze
-                price = 33.45;
+                price = 36.8;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -747,6 +799,9 @@ export class XcelComponent implements OnInit {
                 break;
               case 7://Diamond P&O
                 price = 0;
+                break;
+              case 8://Platinum COL
+                price = 21;
                 break;
             }
           break;
@@ -757,13 +812,13 @@ export class XcelComponent implements OnInit {
                 price = 65;
                 break;
               case 2://Diamond
-                price = 65;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 65;
                 break;
               case 4://Bronze
-                price = 94.3;
+                price = 103.75;
                 break;
               case 5://Diamond Saudi
                 price = 0;
@@ -774,6 +829,9 @@ export class XcelComponent implements OnInit {
               case 7://Diamond P&O
                 price = 0;
                 break;
+              case 8://Platinum COL
+                price = 65;
+                break;
             }
           break;
           case 'X-Cel Thin':
@@ -783,22 +841,25 @@ export class XcelComponent implements OnInit {
                 price = 21;
                 break;
               case 2://Diamond
-                price = 21;
+                price = 0;
                 break;
               case 3://Preffered
                 price = 21;
                 break;
               case 4://Bronze
-                price = 33.45;
+                price = 36.8;
                 break;
               case 5://Diamond Saudi
                 price = 0;
                 break;
               case 6://Central America
-                price = 260;
+                price = 31;
                 break;
               case 7://Diamond P&O
-                price = 31;
+                price = 0;
+                break;
+              case 8://Platinum COL
+                price = 21;
                 break;
             }
           break;
@@ -816,13 +877,13 @@ export class XcelComponent implements OnInit {
                     price = 60.00;
                     break;
                   case 2://Diamond
-                    price = 60.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 60.00;
                     break;
                   case 4://Bronze
-                    price = 50.00;
+                    price = 60.00;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -833,6 +894,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 60.00;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -842,13 +906,13 @@ export class XcelComponent implements OnInit {
                     price = 30.00;
                     break;
                   case 2://Diamond
-                    price = 30.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 30.00;
                     break;
                   case 4://Bronze
-                    price = 20.00;
+                    price = 30.00;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -859,6 +923,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 30.00;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -868,13 +935,13 @@ export class XcelComponent implements OnInit {
                     price = 93.00;
                     break;
                   case 2://Diamond
-                    price = 93.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 93.00;
                     break;
                   case 4://Bronze
-                    price = 60.00;
+                    price = 93.00;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -884,6 +951,9 @@ export class XcelComponent implements OnInit {
                     break;
                   case 7://Diamond P&O
                     price = 0;
+                    break;
+                  case 8://Platinum COL
+                    price = 93.00;
                     break;
                 }
               break;
@@ -915,6 +985,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 69.00;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -924,13 +997,13 @@ export class XcelComponent implements OnInit {
                     price = 36.50;
                     break;
                   case 2://Diamond
-                    price = 36.50;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 36.50;
                     break;
                   case 4://Bronze
-                    price = 30.00;
+                    price = 36.50;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -941,6 +1014,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 36.50;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -950,13 +1026,13 @@ export class XcelComponent implements OnInit {
                     price = 103.50;
                     break;
                   case 2://Diamond
-                    price = 103.50;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 103.50;
                     break;
                   case 4://Bronze
-                    price = 90.00;
+                    price = 103.50;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -966,6 +1042,9 @@ export class XcelComponent implements OnInit {
                     break;
                   case 7://Diamond P&O
                     price = 0;
+                    break;
+                  case 8://Platinum COL
+                    price = 103.50;
                     break;
                 }
               break;
@@ -980,7 +1059,7 @@ export class XcelComponent implements OnInit {
                     price = 79.00;
                     break;
                   case 2://Diamond
-                    price = 79.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 79.00;
@@ -997,6 +1076,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 79.00;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -1006,13 +1088,13 @@ export class XcelComponent implements OnInit {
                     price = 45.00;
                     break;
                   case 2://Diamond
-                    price = 45.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 45.00;
                     break;
                   case 4://Bronze
-                    price = 30.00;
+                    price = 45.00;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -1023,6 +1105,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 45.00;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -1032,13 +1117,13 @@ export class XcelComponent implements OnInit {
                     price = 99.00;
                     break;
                   case 2://Diamond
-                    price = 99.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 99.00;
                     break;
                   case 4://Bronze
-                    price = 90.00;
+                    price = 99.00;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -1049,7 +1134,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
-
+                  case 8://Platinum COL
+                    price = 99.00;
+                    break;
                 }
               break;
             }
@@ -1063,13 +1150,13 @@ export class XcelComponent implements OnInit {
                     price = 60.00;
                     break;
                   case 2://Diamond
-                    price = 60.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 60.00;
                     break;
                   case 4://Bronze
-                    price = 50.00;
+                    price = 60.00;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -1080,6 +1167,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 60.00;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
@@ -1089,13 +1179,13 @@ export class XcelComponent implements OnInit {
                     price = 37.50;
                     break;
                   case 2://Diamond
-                    price = 37.50;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 37.50;
                     break;
                   case 4://Bronze
-                    price = 20.00;
+                    price = 37.50;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -1106,6 +1196,9 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 37.50;
+                    break;
                 }
               break;
               case '3 Pack':
@@ -1115,13 +1208,13 @@ export class XcelComponent implements OnInit {
                     price = 110.00;
                     break;
                   case 2://Diamond
-                    price = 110.00;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 110.00;
                     break;
                   case 4://Bronze
-                    price = 60.00;
+                    price = 110.00;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -1131,6 +1224,9 @@ export class XcelComponent implements OnInit {
                     break;
                   case 7://Diamond P&O
                     price = 0;
+                    break;
+                  case 8://Platinum COL
+                    price = 110.00;
                     break;
                 }
               break;
@@ -1145,13 +1241,13 @@ export class XcelComponent implements OnInit {
                     price = 51.75;
                     break;
                   case 2://Diamond
-                    price = 51.75;
+                    price = 0;
                     break;
                   case 3://Preffered
                     price = 51.75;
                     break;
                   case 4://Bronze
-                    price = 50.00;
+                    price = 51.75;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -1162,22 +1258,25 @@ export class XcelComponent implements OnInit {
                   case 7://Diamond P&O
                     price = 0;
                     break;
+                  case 8://Platinum COL
+                    price = 51.75;
+                    break;
                 }
               break;
               case 'Spare (Blister)':
                 this.detail.codeSpectrum = '108C (NW)';
                 switch (this.membership) {
                   case 1://Gold
-                    price = 32.30;
+                    price = 32.20;
                     break;
                   case 2://Diamond
-                    price = 32.30;
+                    price = 0;
                     break;
                   case 3://Preffered
-                    price = 32.30;
+                    price = 32.20;
                     break;
                   case 4://Bronze
-                    price = 20.00;
+                    price = 32.20;
                     break;
                   case 5://Diamond Saudi
                     price = 0;
@@ -1187,6 +1286,9 @@ export class XcelComponent implements OnInit {
                     break;
                   case 7://Diamond P&O
                     price = 0;
+                    break;
+                  case 8://Platinum COL
+                    price = 32.20;
                     break;
                 }
               break;
@@ -1201,7 +1303,7 @@ export class XcelComponent implements OnInit {
                       price = 70.00;
                       break;
                     case 2://Diamond
-                      price = 70.00;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 70.00;
@@ -1218,6 +1320,9 @@ export class XcelComponent implements OnInit {
                     case 7://Diamond P&O
                       price = 0;
                       break;
+                    case 8://Platinum COL
+                      price = 70.00;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1227,13 +1332,13 @@ export class XcelComponent implements OnInit {
                       price = 37.50;
                       break;
                     case 2://Diamond
-                      price = 37.50;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 37.50;
                       break;
                     case 4://Bronze
-                      price = 30.00;
+                      price = 37.50;
                       break;
                     case 5://Diamond Saudi
                       price = 0;
@@ -1244,6 +1349,9 @@ export class XcelComponent implements OnInit {
                     case 7://Diamond P&O
                       price = 0;
                       break;
+                    case 8://Platinum COL
+                      price = 37.50;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1253,7 +1361,7 @@ export class XcelComponent implements OnInit {
                       price = 80.00;
                       break;
                     case 2://Diamond
-                      price = 80.00;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 80.00;
@@ -1269,6 +1377,9 @@ export class XcelComponent implements OnInit {
                       break;
                     case 7://Diamond P&O
                       price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 80.00;
                       break;
                   }
                 break;
@@ -1283,7 +1394,7 @@ export class XcelComponent implements OnInit {
                       price = 26.00;
                       break;
                     case 2://Diamond
-                      price = 26.00;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 26.00;
@@ -1300,6 +1411,9 @@ export class XcelComponent implements OnInit {
                     case 7://Diamond P&O
                       price = 0;
                       break;
+                    case 8://Platinum COL
+                      price = 26.00;
+                      break;
                   }
                 break;
                 case 'Spare (Blister)':
@@ -1309,7 +1423,7 @@ export class XcelComponent implements OnInit {
                       price = 14.00;
                       break;
                     case 2://Diamond
-                      price = 14.00;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 14.00;
@@ -1326,6 +1440,9 @@ export class XcelComponent implements OnInit {
                     case 7://Diamond P&O
                       price = 0;
                       break;
+                    case 8://Platinum COL
+                      price = 14.00;
+                      break;
                   }
                 break;
                 case '3 Pack':
@@ -1335,7 +1452,7 @@ export class XcelComponent implements OnInit {
                       price = 42.00;
                       break;
                     case 2://Diamond
-                      price = 42.00;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 42.00;
@@ -1351,6 +1468,9 @@ export class XcelComponent implements OnInit {
                       break;
                     case 7://Diamond P&O
                       price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 42.00;
                       break;
                   }
                 break;
@@ -1365,7 +1485,7 @@ export class XcelComponent implements OnInit {
                       price = 40.00;
                       break;
                     case 2://Diamond
-                      price = 40.00;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 40.00;
@@ -1381,6 +1501,9 @@ export class XcelComponent implements OnInit {
                       break;
                     case 7://Diamond P&O
                       price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 40.00;
                       break;
                   }
                 break;
@@ -1391,253 +1514,7 @@ export class XcelComponent implements OnInit {
                       price = 18.00;
                       break;
                     case 2://Diamond
-                      price = 18.00;
-                      break;
-                    case 3://Preffered
-                      price = 18.00;
-                      break;
-                    case 4://Bronze
-                      price = 20.00;
-                      break;
-                    case 5://Diamond Saudi
                       price = 0;
-                      break;
-                    case 6://Central America
-                      price =33.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-                case '3 Pack':
-                  this.detail.codeSpectrum = '106C (3PK)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 54.00;
-                      break;
-                    case 2://Diamond
-                      price = 54.00;
-                      break;
-                    case 3://Preffered
-                      price = 54.00;
-                      break;
-                    case 4://Bronze
-                      price = 60.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 99.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-              }
-            break;
-            case 'Flexlens Tricurve':
-              switch (this.presentation) {
-                case 'Single (Vial)':
-                  this.detail.codeSpectrum = '101A (W)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 70.00;
-                      break;
-                    case 2://Diamond
-                      price = 70.00;
-                      break;
-                    case 3://Preffered
-                      price = 70.00;
-                      break;
-                    case 4://Bronze
-                      price = 80.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 110.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-                case 'Spare (Blister)':
-                  this.detail.codeSpectrum = '101B (NW)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 37.50;
-                      break;
-                    case 2://Diamond
-                      price = 37.50;
-                      break;
-                    case 3://Preffered
-                      price = 37.50;
-                      break;
-                    case 4://Bronze
-                      price = 30.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 58.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-                case '3 Pack':
-                  this.detail.codeSpectrum = '101C (3PK)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 80.00;
-                      break;
-                    case 2://Diamond
-                      price = 80.00;
-                      break;
-                    case 3://Preffered
-                      price = 80.00;
-                      break;
-                    case 4://Bronze
-                      price = 90.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 125.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-              }
-            break;
-            case 'Horizon Sphere':
-              switch (this.presentation) {
-                case 'Single (Vial)':
-                  this.detail.codeSpectrum = '111A (W)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 26.00;
-                      break;
-                    case 2://Diamond
-                      price = 26.00;
-                      break;
-                    case 3://Preffered
-                      price = 26.00;
-                      break;
-                    case 4://Bronze
-                      price = 50.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 39.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-                case 'Spare (Blister)':
-                  this.detail.codeSpectrum = '111B (NW)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 14.00;
-                      break;
-                    case 2://Diamond
-                      price = 14.00;
-                      break;
-                    case 3://Preffered
-                      price = 14.00;
-                      break;
-                    case 4://Bronze
-                      price = 20.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 27.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-                case '3 Pack':
-                  this.detail.codeSpectrum = '111C (3PK)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 42.00;
-                      break;
-                    case 2://Diamond
-                      price = 42.00;
-                      break;
-                    case 3://Preffered
-                      price = 42.00;
-                      break;
-                    case 4://Bronze
-                      price = 60.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 81.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-              }
-            break;
-            case 'Horizon Toric':
-              switch (this.presentation) {
-                case 'Single (Vial)':
-                  this.detail.codeSpectrum = '112A (W)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 40.00;
-                      break;
-                    case 2://Diamond
-                      price = 40.00;
-                      break;
-                    case 3://Preffered
-                      price = 40.00;
-                      break;
-                    case 4://Bronze
-                      price = 50.00;
-                      break;
-                    case 5://Diamond Saudi
-                      price = 0;
-                      break;
-                    case 6://Central America
-                      price = 60.00;
-                      break;
-                    case 7://Diamond P&O
-                      price = 0;
-                      break;
-                  }
-                break;
-                case 'Spare (Blister)':
-                  this.detail.codeSpectrum = '112B (NW)';
-                  switch (this.membership) {
-                    case 1://Gold
-                      price = 18.00;
-                      break;
-                    case 2://Diamond
-                      price = 18.00;
                       break;
                     case 3://Preffered
                       price = 18.00;
@@ -1654,16 +1531,19 @@ export class XcelComponent implements OnInit {
                     case 7://Diamond P&O
                       price = 0;
                       break;
+                    case 8://Platinum COL
+                      price = 18.00;
+                      break;
                   }
                 break;
                 case '3 Pack':
-                  this.detail.codeSpectrum = '112C (3PK)';
+                  this.detail.codeSpectrum = '106C (3PK)';
                   switch (this.membership) {
                     case 1://Gold
                       price = 54.00;
                       break;
                     case 2://Diamond
-                      price = 54.00;
+                      price = 0;
                       break;
                     case 3://Preffered
                       price = 54.00;
@@ -1679,6 +1559,282 @@ export class XcelComponent implements OnInit {
                       break;
                     case 7://Diamond P&O
                       price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 54.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Flexlens Tricurve':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '101A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 70.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 70.00;
+                      break;
+                    case 4://Bronze
+                      price = 80.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 110.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 70.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '101B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 37.50;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 37.50;
+                      break;
+                    case 4://Bronze
+                      price = 37.50;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 58.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 37.50;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '101C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 80.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 80.00;
+                      break;
+                    case 4://Bronze
+                      price = 90.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 125.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 80.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Horizon Sphere':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '111A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 26.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 26.00;
+                      break;
+                    case 4://Bronze
+                      price = 50.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 39.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 26.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '111B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 14.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 14.00;
+                      break;
+                    case 4://Bronze
+                      price = 20.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 27.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 14.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '111C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 42.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 42.00;
+                      break;
+                    case 4://Bronze
+                      price = 60.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 81.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 42.00;
+                      break;
+                  }
+                break;
+              }
+            break;
+            case 'Horizon Toric':
+              switch (this.presentation) {
+                case 'Single (Vial)':
+                  this.detail.codeSpectrum = '112A (W)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 40.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 40.00;
+                      break;
+                    case 4://Bronze
+                      price = 50.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 60.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 40.00;
+                      break;
+                  }
+                break;
+                case 'Spare (Blister)':
+                  this.detail.codeSpectrum = '112B (NW)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 18.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 18.00;
+                      break;
+                    case 4://Bronze
+                      price = 20.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 33.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 18.00;
+                      break;
+                  }
+                break;
+                case '3 Pack':
+                  this.detail.codeSpectrum = '112C (3PK)';
+                  switch (this.membership) {
+                    case 1://Gold
+                      price = 54.00;
+                      break;
+                    case 2://Diamond
+                      price = 0;
+                      break;
+                    case 3://Preffered
+                      price = 54.00;
+                      break;
+                    case 4://Bronze
+                      price = 60.00;
+                      break;
+                    case 5://Diamond Saudi
+                      price = 0;
+                      break;
+                    case 6://Central America
+                      price = 99.00;
+                      break;
+                    case 7://Diamond P&O
+                      price = 0;
+                      break;
+                    case 8://Platinum COL
+                      price = 54.00;
                       break;
                   }
                 break;
