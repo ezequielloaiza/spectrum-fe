@@ -288,6 +288,9 @@ export class ProductsListInternalComponent implements OnInit {
             case 7:
               product.priceSale = product.price7;
               break;
+            case 8:
+              product.priceSale = product.price8;
+              break;
           }
         } else {
           let info = JSON.parse(product.infoAditional);
@@ -319,6 +322,10 @@ export class ProductsListInternalComponent implements OnInit {
             case 7:
               priceFrom = parseFloat(info[7].values[2].price);
               priceUp = parseFloat(info[7].values[0].price);
+              break;
+            case 8:
+              priceFrom = parseFloat(info[8].values[2].price);
+              priceUp = parseFloat(info[8].values[0].price);
               break;
           }
         }

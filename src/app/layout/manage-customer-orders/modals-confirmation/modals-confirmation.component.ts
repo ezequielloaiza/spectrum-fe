@@ -79,6 +79,9 @@ export class ModalsConfirmationComponent implements OnInit {
             });
           }
         }, error => {
+          this.close();
+          this.spinner.hide();
+          this.notification.error('', this.translate.instant('Error generating order'));
           console.log('error', error);
         });
     }

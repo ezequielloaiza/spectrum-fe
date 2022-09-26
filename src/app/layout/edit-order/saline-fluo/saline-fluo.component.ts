@@ -144,6 +144,9 @@ export class SalineFluoComponent implements OnInit {
       case 7:
         this.price = this.productCode.price7;
         break;
+      case 8:
+        this.price = this.productCode.price8;
+        break;
     }
   }
 

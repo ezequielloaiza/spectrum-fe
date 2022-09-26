@@ -268,38 +268,42 @@ export class SmartlensComponent implements OnInit {
       if (_.includes(["15.00"], param.selected)) {
         switch (membership) {
           case 1:
-            return 110;
+            return 122;
           case 2:
-            return 100;
+            return 0;
           case 3:
-            return 100;
-          case 4:
             return 110;
+          case 4:
+            return 122;
           case 5:
             return 0;
           case 6:
-            return 220;
+            return 230;
           case 7:
             return 0;
+          case 8:
+            return 100;
         }
       }
 
       if (_.includes(["15.50", "16.50"], param.selected)) {
         switch (membership) {
           case 1:
-            return 135;
+            return 149;
           case 2:
-            return 125;
+            return 0;
           case 3:
-            return 125;
+            return 138;
           case 4:
-            return 135;
+            return 149;
           case 5:
             return 0;
           case 6:
-            return 265;
+            return 258;
           case 7:
             return 0;
+          case 8:
+            return 125;
         }
       }
     }
@@ -318,7 +322,8 @@ export class SmartlensComponent implements OnInit {
             "bronze": 0,
             "diamondSaudi": 0,
             "centralAmerica": 0,
-            "diamondPO": 0
+            "diamondPO": 0,
+            "platinumCOL": 0
           },
           "notch" : {
             "gold": 0,
@@ -327,7 +332,8 @@ export class SmartlensComponent implements OnInit {
             "bronze": 0,
             "diamondSaudi": 0,
             "centralAmerica": 0,
-            "diamondPO": 0
+            "diamondPO": 0,
+            "platinumCOL": 0
           },
           "dmv insertion and removal set": {
             "gold": 0,
@@ -336,7 +342,8 @@ export class SmartlensComponent implements OnInit {
             "bronze": 0,
             "diamondSaudi": 0,
             "centralAmerica": 0,
-            "diamondPO": 0
+            "diamondPO": 0,
+            "platinumCOL": 0
           },
           "multimeridian" :{
             "gold": 0,
@@ -345,7 +352,8 @@ export class SmartlensComponent implements OnInit {
             "bronze": 0,
             "diamondSaudi": 0,
             "centralAmerica": 0,
-            "diamondPO": 0
+            "diamondPO": 0,
+            "platinumCOL": 0
           }
         }
     }
@@ -360,7 +368,8 @@ export class SmartlensComponent implements OnInit {
         "bronze": product.price4,
         "diamondSaudi": product.price5,
         "centralAmerica": product.price6,
-        "diamondPO": product.price7
+        "diamondPO": product.price7,
+        "platinumCOL": product.price8
       };
     });
   }
@@ -414,6 +423,12 @@ export class SmartlensComponent implements OnInit {
         this.priceNotch = this.product.infoAdditionalPrices.values.notch.diamondPO;
         this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].diamondPO;
         this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.diamondPO;
+        break;
+      case 8:
+        this.priceHydrapeg = this.product.infoAdditionalPrices.values.hydrapeg.platinumCOL;
+        this.priceNotch = this.product.infoAdditionalPrices.values.notch.platinumCOL;
+        this.priceDMV = this.product.infoAdditionalPrices.values["dmv insertion and removal set"].platinumCOL;
+        this.priceMultimeridian = this.product.infoAdditionalPrices.values.multimeridian.platinumCOL;
         break;
     }
   }

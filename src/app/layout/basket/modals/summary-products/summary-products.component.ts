@@ -81,6 +81,8 @@ export class SummaryProductsComponent implements OnInit {
           this.spinner.hide();
         }
       }, error => {
+        this.notification.error('', this.translate.instant('Error generating order'));
+        this.close();
         console.log('error', error);
       });
     }
