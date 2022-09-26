@@ -271,6 +271,9 @@ export class ProductViewBlueComponent implements OnInit {
       case 7:
         price = product.price7;
         break;
+      case 8:
+        price = product.price8;
+        break;
     }
 
     this.membershipAllowed = price > 0;

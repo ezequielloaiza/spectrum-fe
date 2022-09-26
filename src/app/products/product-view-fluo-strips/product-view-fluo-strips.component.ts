@@ -224,6 +224,9 @@ export class ProductViewFluoStripsComponent implements OnInit {
       case 7:
         this.product.priceSale = this.product.price7;
         break;
+      case 8:
+        this.product.priceSale = this.product.price8;
+        break;
     }
 
     this.membershipAllowed = this.product.priceSale > 0;
