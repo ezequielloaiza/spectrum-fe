@@ -148,3 +148,12 @@
 .padding-params {
   padding:  5px 0 2em;
 }
+
+.warranty-warning {
+  position: absolute;
+
+  span {
+    color: red;
+    font-size: 10px;
+  }
+}
