@@ -1478,5 +1478,7 @@
     "You must enter the reason for cancellation": "Debe ingresar el motivo de cancelación",
     "Cancel Reason": "Motivo de Cancelación",
     "Please select an option": "Por favor seleccione una opción",
-    "Error generating order": "Error generando la orden"
+    "Error generating order": "Error generando la orden",
+    "Select to verify prices and generate": "Seleccione para verificar precios y generar",
+    "Subject to modification by warranty": "Sujeto a modificación por garantía"
 }
