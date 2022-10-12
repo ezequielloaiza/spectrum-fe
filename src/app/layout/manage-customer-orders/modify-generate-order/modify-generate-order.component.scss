@@ -1,6 +1,11 @@
 @import '../../../../styles/spectrum/spectrum';
 @include tr-sizes((20%,10%,9%,13%,14%,14%,12%));
 
+.auto-height {
+  height: 330px;
+  overflow-y: auto;
+}
+
 .label-value {
   width: 50%;
   display: inline-flex;

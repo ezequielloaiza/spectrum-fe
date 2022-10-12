@@ -742,7 +742,17 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   processMultipleOrders() {
-    this.listOrdersSelected.forEach(order => {
+    let orders = [];
+    // showing warranties orders first
+    _.each(this.listOrdersSelected, function (order) {
+      if (order.type == 'warranty') {
+        orders.push(order);
+      } else {
+        orders.unshift(order);
+      }
+    });
+
+    orders.forEach(order => {
       this.verifyOrder(order);
     });
   }
