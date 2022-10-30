@@ -20,6 +20,7 @@ import { ViewChild } from '@angular/core';
 import { SupplierEuclidComponent } from '../../details-order-supplier/supplier-euclid/supplier-euclid.component';
 import { SalineFluoComponent } from '../../edit-order/saline-fluo/saline-fluo.component';
 import { ProductService } from '../../../shared/services/products/product.service';
+import { ModifyGenerateOrderComponent } from '../modify-generate-order/modify-generate-order.component';
 
 @Component({
   selector: 'app-details-order-client',
@@ -33,8 +34,8 @@ export class DetailsOrderClientComponent implements OnInit {
   listAux: Array<ProductRequested> = new Array<ProductRequested>();
   advancedPagination: number;
   itemPerPage = 2;
-  generar = false;
-  download = false;
+  generar: any;
+  download: any;
   user: any;
   company: any;
   prueba: any;
@@ -61,6 +62,8 @@ export class DetailsOrderClientComponent implements OnInit {
       this.status = params.status;
     });
     this.advancedPagination = 1;
+    this.generar = false;
+    this.download = false;
     this.getOrder(this.id);
   }
 
@@ -216,13 +219,30 @@ export class DetailsOrderClientComponent implements OnInit {
     return exist;
   }
 
-  generateOrder(order): void {
-  const modalRef = this.modalService.open(ModalsConfirmationComponent ,
-  {backdrop  : 'static', keyboard  : false});
+  verifyOrder(order): void {
+    if (order.type === 'warranty') {
+      this.modifyAndGenerateOrder(order);
+    } else {
+      this.generateOrder(order);
+    }
+  }
+
+  modifyAndGenerateOrder(order): void {
+    let self = this;
+    const modalRef = this.modalService.open(ModifyGenerateOrderComponent,
+      { windowClass: 'modal-content-border modal-dialog-modify-generate-invoice', backdrop: 'static', keyboard: false });
     modalRef.componentInstance.order = order;
     modalRef.result.then((result) => {
-      } , (reason) => {
-        this.ngOnInit();
+      this.ngOnInit();
+    }, (reason) => {
+    });
+  }
+
+  generateOrder(order): void {
+    const modalRef = this.modalService.open(ModalsConfirmationComponent, {backdrop  : 'static', keyboard  : false});
+    modalRef.componentInstance.order = order;
+    modalRef.result.then((result) => {} , (reason) => {
+      this.ngOnInit();
     });
   }
 

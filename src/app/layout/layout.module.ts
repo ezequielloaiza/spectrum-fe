@@ -123,6 +123,7 @@ import { XcelComponent } from './edit-order/xcel/xcel.component';
 import { PaginationModule } from '../components/pagination/pagination.module';
 import { CustomDateModule } from '../shared/pipes/custom-date.module';
 import { ModalCancelOrderComponent } from './manage-customer-orders/modal-cancel-order/modal-cancel-order.component';
+import { ModifyGenerateOrderComponent } from './manage-customer-orders/modify-generate-order/modify-generate-order.component';
 
 @NgModule({
     imports: [
@@ -253,7 +254,8 @@ import { ModalCancelOrderComponent } from './manage-customer-orders/modal-cancel
         XcelComponent,
         SupplierSmartlensComponent,
         SupplierXcelComponent,
-        ModalCancelOrderComponent
+        ModalCancelOrderComponent,
+        ModifyGenerateOrderComponent
     ],
     entryComponents: [
       ShippingAddressModalComponent,
@@ -312,7 +314,8 @@ import { ModalCancelOrderComponent } from './manage-customer-orders/modal-cancel
       XcelComponent,
       DetailSmartlensComponent,
       DetailXcelComponent,
-      ModalCancelOrderComponent
+      ModalCancelOrderComponent,
+      ModifyGenerateOrderComponent
     ],
     providers: [
       BusinessTypeService,

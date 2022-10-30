@@ -606,3 +606,18 @@
   border-color: gray;
   opacity: .5;
 }
+
+.warranty-warning {
+  color: red;
+}
+
+.btn-generate-order-warranty {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+
+  .update-warranty {
+    color: gray;
+    font-size: 10px !important;
+  }
+}
