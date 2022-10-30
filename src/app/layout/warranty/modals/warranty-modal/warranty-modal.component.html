@@ -69,7 +69,7 @@
           <fieldset class="form-group">
             <label class="title">{{ 'Product' | translate }}</label>
             <div>
-              <span *ngIf="action == 'view'">{{ warranty.orderProductRequest.productRequested.product.name }}</span>
+              <span *ngIf="action == 'view'">{{ warranty.orderProductRequest.productRequested.product ? warranty.orderProductRequest.productRequested.product.name : ('Product from manual order' | translate) }}</span>
               <select *ngIf="action != 'view'" class="form-control" name="orderClientProductRequestId" id="orderClientProductRequestId"
                 (change)=assignPatient(orderClientProductRequestId) formControlName="orderClientProductRequestId" required>
                 <option value="" disabled [selected]="true" translate>Select value</option>
