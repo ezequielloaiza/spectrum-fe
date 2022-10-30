@@ -144,6 +144,10 @@
                     </div>
                     <div>
                       <span>{{order.total | currency : "USD $" }}</span>
+                      <i class="warranty-warning fa fa-exclamation-triangle" placement="top"
+                         [hidden]="order.status !== 0 || order.type !== 'warranty'"
+                         ngbTooltip="{{ 'Subject to modification by warranty' | translate }}">
+                      </i>
                     </div>
                     <br>
                     <div class="title-status">
