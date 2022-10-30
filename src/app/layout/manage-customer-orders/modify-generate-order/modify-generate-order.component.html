@@ -1,0 +1,92 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ titleModal }}</h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="modalReference.dismiss()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="content">
+  <div class="modal-body">
+    <div class="col col-xl-12 col-lg-12">
+      <div class="row">
+          <div class="col col-xl-12 col-lg-12">
+            <div class="row ">
+              <div class="col-xl-4">
+                <h3 class="title">{{ 'Order' | translate }}</h3>
+              </div>
+              <div class="col-xl-3">
+              </div>
+              <div class="col-xl-5">
+                <img src="assets/images/spectrumLogoBlue.png" width="300px" class="" />
+              </div>
+            </div>
+            <div class="row row-height align-row" [ngStyle]="{'margin-bottom': '2%'}">
+              <div class="col-xl-8">
+                <label class="label-title">{{ 'Order No' | translate }}</label>
+                <label class="label-value">{{ order.number +  ' (' + (order.type | translate) + ': ' +  '#' + order.originReference + ')'}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="col col-xl-12  col-lg-12 table-responsive auto-height">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="table-tr bold">{{ 'Name' | translate }}</th>
+                  <th class="table-tr bold">{{ 'Patient' | translate }}</th>
+                  <th class="table-tr bold">{{ 'Code' | translate }}</th>
+                  <th class="table-tr bold">{{ 'Qty' | translate }}</th>
+                  <th class="table-tr bold">{{ 'Price in USD' | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let lpr of order.listDetailsAll; let i = index">
+                  <tr>
+                    <td class="table-tr td-table">{{ lpr.productRequested.product ? (lpr.productRequested.product?.name + ' - ' + lpr.productRequested.detail[0].eye)  : 'Product from manual order'}}</td>
+                    <td class="table-tr td-table less-pad">{{ lpr.productRequested.patient !== '' ? lpr.productRequested.patient : ''}}</td>
+                    <td class="table-tr td-table" >{{ lpr.productRequested.detail ? lpr.productRequested.detail[0].codeSpectrum : lpr.productRequested.product?.codeSpectrum || lpr.productRequested.additionalInformation.codeSpectrum }}</td>
+                    <td class="table-tr td-table" >{{ lpr.productRequested.quantity }}</td>
+                    <td class="table-tr td-table less-pad">
+                      <div class="amount-div">
+                        <div class="input-group-append">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" min="0" id="unitPrice{{i}}" class="form-control"
+                               [(ngModel)]="lpr.productRequested.priceBase"
+                               placeholder="{{ 'Enter unit price' | translate }}" required>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+          <div class="col col-xl-12 col-lg-12 labels-totals">
+            <label>{{ 'Total' | translate }}</label>
+            <label>{{ total() | currency }}</label>
+          </div>
+      </div>
+    </div>
+    <div class="txt confirmation">
+      <div class="col-xl-12">
+        <div>
+          <label translate>{{ 'Are you sure you want to generate the order?'}}</label>
+          &nbsp;
+          <label translate>{{ order.number}} <span>{{'to the supplier'| translate}}{{' '}}{{order.supplier.companyName}}</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modalReference.dismiss()" >
+    {{ "Cancel" | translate }}&nbsp;
+    <i class="fa fa-times"></i>
+  </button>
+  <button type="button" class="btn btn-main" (click)="modifyGenerateOrder()">
+    {{ "Save and Generate" | translate }}&nbsp;
+  </button>
+</div>

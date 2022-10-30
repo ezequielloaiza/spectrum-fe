@@ -20,6 +20,7 @@ import { ModalsConfirmationComponent } from '../modals-confirmation/modals-confi
 import { ModalsShippingComponent } from '../modals-shipping/modals-shipping.component';
 import { ModalResendOrdersComponent } from '../modals-resend-orders/modal-resend-orders.component';
 import { ModalCancelOrderComponent } from '../modal-cancel-order/modal-cancel-order.component';
+import { ModifyGenerateOrderComponent } from '../modify-generate-order/modify-generate-order.component';
 
 
 @Component({
@@ -703,6 +704,31 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
     this.validoProvider = validoProvider;
   }
 
+  verifyOrder(order): void {
+    if (order.type === 'warranty') {
+      this.modifyAndGenerateOrder(order);
+    } else {
+      this.generateOrder(order);
+    }
+  }
+
+  modifyAndGenerateOrder(order): void {
+    let self = this;
+    const modalRef = this.modalService.open(ModifyGenerateOrderComponent,
+      { windowClass: 'modal-content-border modal-dialog-modify-generate-invoice', backdrop: 'static', keyboard: false });
+    modalRef.componentInstance.order = order;
+    modalRef.result.then((result) => {
+      self.translate.get('Order generated', { value: 'Order generated' }).subscribe((res: string) => {
+        self.notification.success('', res);
+      });
+      this.router.navigate(['/order-list-client-byseller'], { queryParams: { status: 1 } });
+      this.ngOnInit();
+      this.selectedAll = false;
+      this.initialize();
+    }, (reason) => {
+    });
+  }
+
   generateOrder(order): void {
     const modalRef = this.modalService.open(ModalsConfirmationComponent ,
     {backdrop  : 'static', keyboard  : false});
@@ -716,8 +742,18 @@ export class ListOrderClientComponent implements OnInit, OnDestroy {
   }
 
   processMultipleOrders() {
-    this.listOrdersSelected.forEach(order => {
-      this.generateOrder(order);
+    let orders = [];
+    // showing warranties orders first
+    _.each(this.listOrdersSelected, function (order) {
+      if (order.type == 'warranty') {
+        orders.push(order);
+      } else {
+        orders.unshift(order);
+      }
+    });
+
+    orders.forEach(order => {
+      this.verifyOrder(order);
     });
   }
 

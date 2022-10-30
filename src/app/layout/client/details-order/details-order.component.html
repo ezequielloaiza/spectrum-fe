@@ -64,6 +64,9 @@
               <p *ngIf="order && order.handling" class="font-weight-normal">{{'Handling Cost' | translate }}</p>
               <p *ngIf="order && order.shippingPrice" class="font-weight-normal" translate>{{'Shipping' | translate}}</p>
               <p class="font-weight-bold" translate>{{'Total'}}</p>
+              <div class="warranty-warning" [hidden]="order && (order.status !== 0 || order.type !== 'warranty')">
+                <span>{{ 'Subject to modification by warranty' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-2">
               <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
