@@ -45,9 +45,9 @@
               <tbody>
                 <ng-container *ngFor="let lpr of order.listDetailsAll; let i = index">
                   <tr>
-                    <td class="table-tr td-table">{{ lpr.productRequested.product.name }}</td>
+                    <td class="table-tr td-table">{{ lpr.productRequested.product ? (lpr.productRequested.product?.name + ' - ' + lpr.productRequested.detail[0].eye)  : 'Product from manual order'}}</td>
                     <td class="table-tr td-table less-pad">{{ lpr.productRequested.patient !== '' ? lpr.productRequested.patient : ''}}</td>
-                    <td class="table-tr td-table" >{{ lpr.productRequested.detail[0].codeSpectrum || lpr.productRequested.product.codeSpectrum }}</td>
+                    <td class="table-tr td-table" >{{ lpr.productRequested.detail ? lpr.productRequested.detail[0].codeSpectrum : lpr.productRequested.product?.codeSpectrum || lpr.productRequested.additionalInformation.codeSpectrum }}</td>
                     <td class="table-tr td-table" >{{ lpr.productRequested.quantity }}</td>
                     <td class="table-tr td-table less-pad">
                       <div class="amount-div">

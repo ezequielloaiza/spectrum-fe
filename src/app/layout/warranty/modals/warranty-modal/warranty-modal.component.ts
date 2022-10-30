@@ -146,9 +146,14 @@ export class WarrantyModalComponent implements OnInit {
     if (this.order != null) {
       this.assignOrderNumer(this.order);
       this.listProducts = this.order.listProductRequested;
-      _.each(this.listProducts, function(product) {
-        const eye = JSON.parse(product.productRequested.detail)[0].eye;
-        product.label = product.productRequested.product.name + ' - ' + eye;
+      _.each(this.listProducts, function(opr) {
+        const product = opr.productRequested.product;
+        if (product) {
+          const eye = JSON.parse(opr.productRequested.detail)[0].eye;
+          opr.label = product.name + ' - ' + eye;
+        } else {
+          opr.label = 'Product from manual order'
+        }
       });
       if (this.action !== 'create') {
         this.assignPatient(this.form.get('orderClientProductRequestId'));
