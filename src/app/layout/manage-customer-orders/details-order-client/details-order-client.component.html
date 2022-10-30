@@ -26,9 +26,12 @@
             <div class="card-header">{{ 'Order Details' | translate }}</div>
           </div>
           <div class="align-btn-detail">
-            <button [hidden]="!generar" type="button" (click)="generateOrder(order)" class="btn btn-outline-primary">
+            <button [hidden]="!generar" type="button" (click)="verifyOrder(order)" class="btn btn-outline-primary">
               {{ 'Generate Order' | translate }}
             </button>
+            <div class="update-warranty" [hidden]="order && (!generar || order.type !== 'warranty')">
+              <span>{{ 'Select to verify prices and generate' |  translate }}</span>
+            </div>
             <span> </span>
             <button *ngIf="order.orderType && order.orderType !== 'GENERIC'" [hidden]="!download" type="button" class="btn btn-success btn-xs" (click)="order.supplier.idSupplier === 12 ? downloadMergeOrder(order) : downloadOrder(order)" translate>
               <span class="fa fa-download"></span> Download Order
@@ -71,6 +74,9 @@
               <p *ngIf="order && order.handling" class="font-weight-normal">{{'Handling Cost' | translate }}</p>
               <p *ngIf="order && order.shippingPrice" class="font-weight-normal" translate>{{'Shipping' | translate}}</p>
               <p class="font-weight-bold" translate>{{'Total'}}</p>
+              <div class="warranty-warning" [hidden]="order && (order.status !== 0 || order.type !== 'warranty')">
+                <span>{{ 'Subject to modification by warranty' | translate }}</span>
+              </div>
             </div>
             <div class="col-md-2">
               <p class="font-weight-bold text-left" translate>{{'Totals'}}</p>
